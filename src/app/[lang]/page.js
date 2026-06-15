@@ -25,7 +25,7 @@ import TourBookingForm from '../../components/TourBookingForm';
 import TrustAndReviews from '../../components/TrustAndReviews';
 import ExperienceSelector from '../../components/ExperienceSelector';
 import SpecialServices from '../../components/SpecialServices';
-import { FAQSection } from '../../components/FaqBloque'; // Asegúrate de la ruta
+import { FAQSection } from '../../components/FAQSection'; // Asegúrate de la ruta
 import { dict } from '../../locales/dict';
 
 export default function Home() {
