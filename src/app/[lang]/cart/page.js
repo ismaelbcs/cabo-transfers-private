@@ -16,7 +16,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 // IMPORTACIONES DE FIREBASE
 import { doc, setDoc, collection, addDoc } from "firebase/firestore";
-import { db } from '../../../firebase'; 
+import { db } from '../../../../firebase';
 
 // =========================================================
 // 1. GENERADOR DE PLANTILLA HTML PARA ADMIN (EMPRESA)

@@ -232,7 +232,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-full lg:w-5/12 h-72 md:h-[450px] rounded-[2rem] overflow-hidden shadow-lg shrink-0 relative group bg-slate-100">
-                  <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <Image src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                 </div>
               </div>
             </div>
@@ -255,7 +255,7 @@ export default function Home() {
               {/* Tarjeta 1: Vans / Shuttles */}
               <div className="bg-white rounded-[2rem] border border-slate-200/60 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col group">
                 <div className="h-72 overflow-hidden relative bg-slate-100">
-                  <img src="/private-airport-transfer-sjd-pueblo-bonito-sunset-cabo.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <Image src="/private-airport-transfer-sjd-pueblo-bonito-sunset-cabo.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                 </div>
                 <div className="p-8 md:p-10 flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Cabo Shuttle Services</h3>
@@ -276,7 +276,7 @@ export default function Home() {
               {/* Tarjeta 2: Luxury SUV */}
               <div className="bg-white rounded-[2rem] border border-slate-200/60 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col group">
                 <div className="h-72 overflow-hidden relative bg-slate-100">
-                  <img src="/private-transportation-nobu-hotel-los-cabos.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <Image src="/private-transportation-nobu-hotel-los-cabos.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                 </div>
                 <div className="p-8 md:p-10 flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Private VIP Transportation</h3>
@@ -322,7 +322,7 @@ export default function Home() {
 
                 <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col justify-center">
                   <div className="w-full h-48 bg-slate-200 rounded-xl mb-8 overflow-hidden">
-                    <img src="/Cabo-San-Lucas-Snorkel-Tour-3.webp" alt="Cabo Tours and Activities" className="w-full h-full object-cover" />
+                    <Image src="/Cabo-San-Lucas-Snorkel-Tour-3.webp" alt="Cabo Tours and Activities" className="w-full h-full object-cover" />
                   </div>
                   <h4 className="font-bold text-xl text-slate-900 mb-3 tracking-tight">{lang === 'es' ? 'Aprovecha al máximo tu visita' : 'Make the most of your visit'}</h4>
                   <p className="text-slate-500 font-medium mb-8 leading-relaxed">
@@ -505,7 +505,7 @@ export default function Home() {
 
           {/* LOGOS DE PAGO Y TEXTO BILINGÜE AL FINAL */}
           <div className="w-full flex flex-col items-center pt-8 px-4 max-w-4xl mx-auto text-center animate-fade-in">
-            <img src="/pago-tarjetas.png" alt="Métodos de Pago" className="h-10 md:h-12 object-contain mb-8" />
+            <Image src="/pago-tarjetas.png" alt="Métodos de Pago" className="h-10 md:h-12 object-contain mb-8" />
             <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 tracking-tight">
               {lang === 'es' ? 'Reserva Fácil y Opciones Flexibles.' : 'Easy Booking & Flexible Payment.'}
             </h3>
