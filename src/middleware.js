@@ -1,27 +1,34 @@
-// src/middleware.js
 import { NextResponse } from 'next/server';
 
-const locales = ['en', 'es']; // Idiomas soportados
-const defaultLocale = 'en'; // El idioma por defecto siempre será Inglés
+// Define los idiomas que soporta tu app
+const locales = ['en', 'es'];
+// El idioma por defecto si entran a la raíz
+const defaultLocale = 'es';
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Revisamos si la URL ya tiene el idioma (ej: /es/tours o /en/about)
+  // 1. Si alguien entra directamente a la raíz ("/"), mándalo a "/es"
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url));
+  }
+
+  // 2. Comprueba si la URL actual ya tiene un idioma (ej. /es/tours o /en/cart)
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return; // Si ya tiene idioma, lo dejamos pasar
-
-  // Si no tiene idioma (entró a la raíz "/"), lo redirigimos a Inglés por defecto
-  request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  // 3. Si no tiene idioma, redirígelo agregando el idioma por defecto
+  if (!pathnameHasLocale) {
+    return NextResponse.redirect(
+      new URL(`/${defaultLocale}${pathname}`, request.url)
+    );
+  }
 }
 
-// Configuración para que el middleware ignore imágenes, CSS y archivos internos
 export const config = {
+  // Evita que el middleware bloquee tus imágenes, iconos, y archivos de la carpeta public
   matcher: [
-    '/((?!_next|favicon.ico|.*\\..*).*)',
+    '/((?!_next|api|favicon.ico|manifest.json|robots.txt|sitemap.xml|.*\\..*).*)',
   ],
 };
