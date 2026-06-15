@@ -5,7 +5,7 @@ import React, { useState, use } from 'react';
 import { Phone, MessageCircle, Send, User, BookOpen, CheckCircle, Mail, Car, ArrowRight } from 'lucide-react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../../firebase';
-import { FAQSection } from '../../../components/FAQSection'; 
+import { FAQSection } from '../../../components/FaqBloque'; 
 
 export default function ContactPage({ params }) {
   const resolvedParams = use(params);

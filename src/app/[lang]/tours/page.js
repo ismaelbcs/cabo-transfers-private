@@ -18,7 +18,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 // Ajusta la ruta a tu componente FAQ según tu estructura de carpetas
-import { FAQSection } from '../../../components/FAQSection';
+import { FAQSection } from '../../../components/FaqBloque';
 
 export default function ToursPage({ params }) {
   // Desenvolvemos los params para Next.js 15

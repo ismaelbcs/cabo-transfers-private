@@ -16,7 +16,7 @@ import {
     ArrowRight
 } from 'lucide-react';
 // Ruta exacta basada en tu imagen:
-import { FAQSection } from '../../../components/FAQSection';
+import { FAQSection } from '../../../components/FaqBloque';
 
 export default function FleetPage({ params }) {
     // 1. Desenvolvemos los parámetros para Next.js 15
