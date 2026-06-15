@@ -4,11 +4,11 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/es', // Redirige el dominio principal a la versión en español
+        destination: '/es',
         permanent: true,
       },
     ];
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
