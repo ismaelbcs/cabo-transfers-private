@@ -33,7 +33,7 @@ export default function TrustAndReviews({ lang = 'es' }) {
           
           <div className="w-full lg:w-1/4 text-center lg:text-left border-b lg:border-b-0 lg:border-r border-blue-200 pb-4 lg:pb-0 lg:pr-6">
             <h3 className="text-2xl font-black text-blue-900">
-              {lang === 'es' ? '¿Por qué elegir Ballard Tours?' : 'Key Takeaways for Cabo Travel'}
+              {lang === 'es' ? '¿Por qué elegir Ballard Tours?' : 'Key Takeaways for Ballard Tours'}
             </h3>
           </div>
           
