@@ -71,6 +71,35 @@ export default function PrivateCaboTransfersPage({ params }) {
                                 ? 'Nuestras SUV de lujo son la opción perfecta para familias, ejecutivos o pequeños grupos de amigos que llevan equipaje extra, palos de golf o simplemente desean viajar con el mayor nivel de confort en Los Cabos. Además, te recibimos con bebidas frías de cortesía en el interior.'
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
+                        
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+                            {lang === 'es'
+                                ? 'La Mejor Experiencia en Private Cabo Transfers'
+                                : 'The Ultimate Experience in Private Cabo Transfers'}
+                        </h2>
+                        <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Cuando planeas tus vacaciones perfectas en Baja California Sur, asegurar unos confiables <strong>private Cabo transfers</strong> debe ser tu principal prioridad. Navegar por un nuevo destino es mucho más fácil cuando reservas tu transporte con anticipación. Ya sea que te dirijas a un resort de lujo o a una villa privada, nuestros <strong>private transfers Los Cabos</strong> te brindan la máxima tranquilidad, seguridad y confort.</>
+                                ) : (
+                                    <>When planning your perfect vacation to Baja California Sur, securing reliable <strong>private Cabo transfers</strong> should be your top priority. Navigating a new destination is much easier when you pre-book your transportation. Whether you are heading to a luxury resort or a downtown private villa, our <strong>private transfers Los Cabos</strong> provide the ultimate peace of mind, safety, and comfort.</>
+                                )}
+                            </p>
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Si te hospedas cerca del icónico Arco, nuestros <strong>private transfers Cabo San Lucas</strong> garantizan un viaje suave y cómodo directamente a la puerta de tu destino. También nos especializamos en <strong>San Jose del Cabo private transfers</strong>, asegurando que desde el momento en que aterrizas y recoges tu equipaje, seas tratado con un servicio de primera clase.</>
+                                ) : (
+                                    <>If you are staying near the iconic Arch, our <strong>private transfers Cabo San Lucas</strong> guarantee a smooth and comfortable ride directly to the doors of your destination. We also specialize in <strong>San Jose del Cabo private transfers</strong>, ensuring that from the moment you land and collect your luggage, you are treated to premium, world-class service.</>
+                                )}
+                            </p>
+                            <p>
+                                {lang === 'es' ? (
+                                    <>Para aquellos que necesitan recogidas confiables y sin estrés, nuestro servicio exclusivo de <strong>San Jose del Cabo private transfers airport</strong> significa que tu chofer profesional bilingüe te estará esperando justo afuera de la terminal. No dejes tus vacaciones al azar; elige nuestros <strong>Cabo San Lucas private transfers</strong> para experimentar un viaje seguro, puntual y lujoso por toda la península.</>
+                                ) : (
+                                    <>For those needing reliable and stress-free pickups, our exclusive <strong>San Jose del Cabo private transfers airport</strong> service means your bilingual professional driver will be waiting for you right outside the terminal. Do not leave your vacation to chance; choose our <strong>Cabo San Lucas private transfers</strong> to experience a safe, punctual, and luxurious journey across the beautiful Baja peninsula.</>
+                                )}
+                            </p>
+                        </div>
                     </div>
                 </section>
 
@@ -256,38 +285,6 @@ export default function PrivateCaboTransfersPage({ params }) {
                             ? 'Paga de forma segura con tarjeta de crédito en línea, optar por pagar en efectivo a la llegada, o usar PayPal.'
                             : 'Pay securely online with a credit card, opt for cash on arrival, or use PayPal to secure your booking.'}
                     </p>
-                </section>
-
-                {/* TEXTO SEO LARGO: PRIVATE CABO TRANSFERS */}
-                <section className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
-                        {lang === 'es'
-                            ? 'La Mejor Experiencia en Private Cabo Transfers'
-                            : 'The Ultimate Experience in Private Cabo Transfers'}
-                    </h2>
-                    <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
-                        <p className="mb-6">
-                            {lang === 'es' ? (
-                                <>Cuando planeas tus vacaciones perfectas en Baja California Sur, asegurar unos confiables <strong>private Cabo transfers</strong> debe ser tu principal prioridad. Navegar por un nuevo destino es mucho más fácil cuando reservas tu transporte con anticipación. Ya sea que te dirijas a un resort de lujo o a una villa privada, nuestros <strong>private transfers Los Cabos</strong> te brindan la máxima tranquilidad, seguridad y confort.</>
-                            ) : (
-                                <>When planning your perfect vacation to Baja California Sur, securing reliable <strong>private Cabo transfers</strong> should be your top priority. Navigating a new destination is much easier when you pre-book your transportation. Whether you are heading to a luxury resort or a downtown private villa, our <strong>private transfers Los Cabos</strong> provide the ultimate peace of mind, safety, and comfort.</>
-                            )}
-                        </p>
-                        <p className="mb-6">
-                            {lang === 'es' ? (
-                                <>Si te hospedas cerca del icónico Arco, nuestros <strong>private transfers Cabo San Lucas</strong> garantizan un viaje suave y cómodo directamente a la puerta de tu destino. También nos especializamos en <strong>San Jose del Cabo private transfers</strong>, asegurando que desde el momento en que aterrizas y recoges tu equipaje, seas tratado con un servicio de primera clase.</>
-                            ) : (
-                                <>If you are staying near the iconic Arch, our <strong>private transfers Cabo San Lucas</strong> guarantee a smooth and comfortable ride directly to the doors of your destination. We also specialize in <strong>San Jose del Cabo private transfers</strong>, ensuring that from the moment you land and collect your luggage, you are treated to premium, world-class service.</>
-                            )}
-                        </p>
-                        <p>
-                            {lang === 'es' ? (
-                                <>Para aquellos que necesitan recogidas confiables y sin estrés, nuestro servicio exclusivo de <strong>San Jose del Cabo private transfers airport</strong> significa que tu chofer profesional bilingüe te estará esperando justo afuera de la terminal. No dejes tus vacaciones al azar; elige nuestros <strong>Cabo San Lucas private transfers</strong> para experimentar un viaje seguro, puntual y lujoso por toda la península.</>
-                            ) : (
-                                <>For those needing reliable and stress-free pickups, our exclusive <strong>San Jose del Cabo private transfers airport</strong> service means your bilingual professional driver will be waiting for you right outside the terminal. Do not leave your vacation to chance; choose our <strong>Cabo San Lucas private transfers</strong> to experience a safe, punctual, and luxurious journey across the beautiful Baja peninsula.</>
-                            )}
-                        </p>
-                    </div>
                 </section>
 
             </main>
