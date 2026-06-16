@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Star, ArrowRight, Home, Map, ChevronRight, Ticket } from 'lucide-react';
 
 // Custom stylesheet for specific cubic-bezier easings 
-// and the rule of "never animate from scale(0), use scale(0.95)".
 const customStyles = `
   @keyframes elegant-enter {
     from {
@@ -26,7 +25,6 @@ const customStyles = `
     animation: elegant-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* Emil Kowalski signature spring interaction */
   .emil-interactive {
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1), 
                 box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
@@ -38,7 +36,6 @@ const customStyles = `
     transition: transform 0.1s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
-  /* Linear/Vercel style inner rings and micro-shadows */
   .emil-inner-ring {
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0,0,0,0.02);
   }
@@ -53,7 +50,6 @@ const customStyles = `
     box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.06), 0 20px 40px -8px rgba(0, 0, 0, 0.05);
   }
 
-  /* Shimmer effect for primary button */
   @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(200%); }
@@ -62,7 +58,6 @@ const customStyles = `
     animation: shimmer 2.5s infinite;
   }
 
-  /* Faster staggered delays for smoother chain reaction */
   .delay-100 { animation-delay: 50ms; }
   .delay-200 { animation-delay: 150ms; }
   .delay-300 { animation-delay: 250ms; }
@@ -107,173 +102,147 @@ export default function LinkInBioPage({ params }) {
     generateCode: isEs ? 'Generar Código de Descuento' : 'Generate Discount Code',
   };
 
+  // ==========================================================
+  // BLOQUES DE INTERFAZ (Se separan para acomodarlos fácil)
+  // ==========================================================
+
+  const promoBanner = (
+    <div className="w-full bg-gradient-to-b from-zinc-800 to-zinc-900 rounded-[28px] p-5 animate-tasteful delay-100 relative emil-inner-ring-dark flex flex-col text-center overflow-hidden shadow-2xl shadow-zinc-900/10">
+      <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-full h-24 bg-amber-500/15 blur-[40px] rounded-full pointer-events-none"></div>
+      <div className="flex justify-center mb-3">
+        <div className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 text-amber-300 text-[10px] font-bold uppercase tracking-widest py-1 px-3 rounded-full backdrop-blur-md">
+          <Star size={10} className="fill-amber-300" />
+          {t.groupDiscount}
+        </div>
+      </div>
+      <h2 className="text-[18px] font-semibold mb-1.5 text-white tracking-tight">{t.titlePromo}</h2>
+      <p className="text-zinc-300 text-[13px] mb-4 leading-relaxed">
+        {t.descPromo}<span className="text-white font-semibold">{t.descPromoHighlight}</span>{t.descPromoEnd}
+      </p>
+      <div className="w-full bg-black/30 rounded-2xl p-3 mb-3 emil-inner-ring-dark backdrop-blur-sm">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px] text-zinc-300">
+          <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg"><span>1 {t.review}</span><span className="text-amber-400 font-semibold">10%</span></div>
+          <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg"><span>2 {t.reviews}</span><span className="text-amber-400 font-semibold">20%</span></div>
+          <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg"><span>3 {t.reviews}</span><span className="text-amber-400 font-semibold">30%</span></div>
+          <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg"><span>4 {t.reviews}</span><span className="text-amber-400 font-semibold">40%</span></div>
+        </div>
+      </div>
+      <p className="text-[10px] text-zinc-400 uppercase tracking-wider font-medium">{t.validFuture}</p>
+    </div>
+  );
+
+  const googleReview = (
+    <a href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank" rel="noopener noreferrer" className="group relative w-full bg-white rounded-[32px] p-7 flex flex-col items-center text-center emil-shadow emil-inner-ring animate-tasteful delay-200 emil-interactive hover:-translate-y-1 hover:emil-shadow-hover">
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-50 rounded-t-[32px]"></div>
+      <div className="absolute top-4 right-4 bg-zinc-50 text-zinc-300 p-2.5 rounded-full emil-interactive group-hover:bg-zinc-100 group-hover:text-zinc-900 group-hover:translate-x-1 group-hover:-translate-y-1">
+        <ArrowRight size={18} />
+      </div>
+      <div className="bg-zinc-50 p-4 rounded-2xl mb-5 emil-interactive group-hover:scale-110 group-hover:bg-white emil-inner-ring"><GoogleIcon /></div>
+      <h3 className="text-xl font-semibold tracking-tight mb-2 text-zinc-900">{t.rateTitle}</h3>
+      <p className="text-[15px] text-zinc-500 mb-6 leading-relaxed max-w-[90%]">{t.rateDesc}</p>
+      <div className="flex gap-1.5 emil-interactive group-hover:scale-105">
+        {[1, 2, 3, 4, 5].map((star, i) => (
+          <Star key={star} size={28} className="fill-[#FBBC05] text-[#FBBC05]" style={{ transitionDelay: `${i * 50}ms` }} />
+        ))}
+      </div>
+    </a>
+  );
+
+  const generateCode = (
+    <Link href={`/${lang}/claim-discount`} className="group relative w-full bg-zinc-900 text-white rounded-[24px] p-5 flex items-center justify-center gap-2 emil-shadow emil-interactive hover:-translate-y-1 hover:bg-zinc-800 overflow-hidden animate-tasteful delay-300">
+      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer pointer-events-none"></div>
+      <Ticket size={20} className="text-amber-400 emil-interactive group-hover:rotate-12 group-hover:scale-110" />
+      <span className="font-semibold tracking-tight text-[16px]">{t.generateCode}</span>
+      <div className="absolute inset-0 rounded-[24px] emil-inner-ring-dark pointer-events-none"></div>
+    </Link>
+  );
+
+  const testimonialImage = (
+    <div className="relative w-full rounded-[32px] overflow-hidden emil-shadow emil-inner-ring bg-white aspect-[4/5] flex items-center justify-center p-2 animate-tasteful delay-400">
+      <div className="w-full h-full rounded-[24px] overflow-hidden relative">
+        <img src="/cabo-private-transportation-airport-cabo-reviewes.webp" alt="Guest Testimonials and Discounts" className="w-full h-full object-cover transition-transform duration-[2s] ease-out hover:scale-[1.02]" />
+        <div className="absolute inset-0 emil-inner-ring pointer-events-none rounded-[24px]"></div>
+      </div>
+    </div>
+  );
+
+  const exploreCabo = (
+    <Link href={`/${lang}/tours`} className="group relative w-full h-40 rounded-[28px] overflow-hidden animate-tasteful delay-500 emil-shadow emil-inner-ring block emil-interactive hover:-translate-y-1 hover:emil-shadow-hover">
+      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-110" style={{ backgroundImage: 'url("/cabo-airport-transfers-boton-qr.webp")' }} />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/5 transition-opacity duration-500 group-hover:opacity-90" />
+      <div className="absolute inset-0 p-6 flex flex-col justify-end">
+        <div className="flex items-center gap-2 mb-1.5 opacity-90 transform transition-transform duration-500 group-hover:-translate-y-1">
+          <Map size={14} className="text-white" />
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-white">Ballard Tours</span>
+        </div>
+        <div className="flex items-end justify-between transform transition-transform duration-500 group-hover:-translate-y-1">
+          <div><h3 className="text-xl font-semibold text-white tracking-tight">{t.exploreTitle}</h3></div>
+          <div className="bg-white/20 backdrop-blur-md text-white p-2.5 rounded-full emil-interactive group-hover:bg-white group-hover:text-zinc-900 group-hover:scale-110">
+            <ChevronRight size={18} />
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+
+  const homeLink = (
+    <Link href={`/${lang}`} className="group w-full bg-white rounded-[24px] p-4 flex items-center justify-between emil-inner-ring emil-shadow animate-tasteful delay-500 emil-interactive hover:-translate-y-1 hover:emil-shadow-hover">
+      <div className="flex items-center gap-4">
+        <div className="bg-[#F9F8F6] p-3 rounded-2xl text-zinc-500 emil-interactive group-hover:text-zinc-900 group-hover:bg-zinc-100 group-hover:scale-105">
+          <Home size={18} />
+        </div>
+        <div><h3 className="text-[15px] font-semibold tracking-tight text-zinc-900">{t.homeTitle}</h3></div>
+      </div>
+      <div className="text-zinc-300 emil-interactive group-hover:text-zinc-900 group-hover:translate-x-1 pr-2">
+        <ChevronRight size={18} />
+      </div>
+    </Link>
+  );
+
+  const footerNode = (
+    <footer className="mt-8 text-center animate-tasteful delay-500 pb-8">
+      <p className="text-[11px] uppercase tracking-widest font-medium text-zinc-400">
+        © {new Date().getFullYear()} Ballard Tours Los Cabos
+      </p>
+    </footer>
+  );
+
   return (
-    <div className="min-h-screen bg-[#F9F8F6] text-zinc-900 font-sans selection:bg-zinc-200 flex justify-center pb-12 pt-24 md:pt-32">
+    <div className="min-h-screen bg-[#F9F8F6] text-zinc-900 font-sans selection:bg-zinc-200 flex justify-center pt-24 md:pt-32">
       <style>{customStyles}</style>
 
-      {/* Main Container */}
       <div className="w-full max-w-4xl px-5 flex flex-col md:flex-row gap-8 items-start justify-center">
         
-        {/* LEFT COLUMN: Actions & Links */}
-        <div className="w-full md:w-[55%] flex flex-col items-center">
-          
-          {/* COMPACT PROMO BANNER */}
-          <div className="w-full bg-gradient-to-b from-zinc-800 to-zinc-900 rounded-[28px] p-5 animate-tasteful delay-100 mb-6 relative emil-inner-ring-dark flex flex-col text-center overflow-hidden shadow-2xl shadow-zinc-900/10">
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-full h-24 bg-amber-500/15 blur-[40px] rounded-full pointer-events-none"></div>
-            
-            <div className="flex justify-center mb-3">
-              <div className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 text-amber-300 text-[10px] font-bold uppercase tracking-widest py-1 px-3 rounded-full backdrop-blur-md">
-                <Star size={10} className="fill-amber-300" />
-                {t.groupDiscount}
-              </div>
-            </div>
-            
-            <h2 className="text-[18px] font-semibold mb-1.5 text-white tracking-tight">
-              {t.titlePromo}
-            </h2>
-            
-            <p className="text-zinc-300 text-[13px] mb-4 leading-relaxed">
-              {t.descPromo}<span className="text-white font-semibold">{t.descPromoHighlight}</span>{t.descPromoEnd}
-            </p>
-
-            <div className="w-full bg-black/30 rounded-2xl p-3 mb-3 emil-inner-ring-dark backdrop-blur-sm">
-              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px] text-zinc-300">
-                <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg">
-                  <span>1 {t.review}</span>
-                  <span className="text-amber-400 font-semibold">10%</span>
-                </div>
-                <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg">
-                  <span>2 {t.reviews}</span>
-                  <span className="text-amber-400 font-semibold">20%</span>
-                </div>
-                <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg">
-                  <span>3 {t.reviews}</span>
-                  <span className="text-amber-400 font-semibold">30%</span>
-                </div>
-                <div className="flex justify-between items-center bg-white/5 px-2.5 py-1.5 rounded-lg">
-                  <span>4 {t.reviews}</span>
-                  <span className="text-amber-400 font-semibold">40%</span>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider font-medium">
-              {t.validFuture}
-            </p>
-          </div>
-
-          <main className="w-full flex flex-col gap-4">
-            
-            {/* OPTION 3: Google Review */}
-            <a 
-              href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative w-full bg-white rounded-[32px] p-7 flex flex-col items-center text-center emil-shadow emil-inner-ring animate-tasteful delay-200 emil-interactive hover:-translate-y-1 hover:emil-shadow-hover"
-            >
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-50 rounded-t-[32px]"></div>
-
-              <div className="absolute top-4 right-4 bg-zinc-50 text-zinc-300 p-2.5 rounded-full emil-interactive group-hover:bg-zinc-100 group-hover:text-zinc-900 group-hover:translate-x-1 group-hover:-translate-y-1">
-                <ArrowRight size={18} />
-              </div>
-              
-              <div className="bg-zinc-50 p-4 rounded-2xl mb-5 emil-interactive group-hover:scale-110 group-hover:bg-white emil-inner-ring">
-                <GoogleIcon />
-              </div>
-              
-              <h3 className="text-xl font-semibold tracking-tight mb-2 text-zinc-900">
-                {t.rateTitle}
-              </h3>
-              <p className="text-[15px] text-zinc-500 mb-6 leading-relaxed max-w-[90%]">
-                {t.rateDesc}
-              </p>
-              
-              <div className="flex gap-1.5 emil-interactive group-hover:scale-105">
-                {[1, 2, 3, 4, 5].map((star, i) => (
-                  <Star key={star} size={28} className="fill-[#FBBC05] text-[#FBBC05]" style={{ transitionDelay: `${i * 50}ms` }} />
-                ))}
-              </div>
-            </a>
-
-            {/* OPTION 2: View Tours (Con tu imagen) */}
-            <Link 
-              href={`/${lang}/tours`} 
-              className="group relative w-full h-40 rounded-[28px] overflow-hidden animate-tasteful delay-300 emil-shadow emil-inner-ring block emil-interactive hover:-translate-y-1 hover:emil-shadow-hover"
-            >
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-110"
-                style={{ backgroundImage: 'url("/cabo-airport-transfers-boton-qr.webp")' }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/5 transition-opacity duration-500 group-hover:opacity-90" />
-              
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <div className="flex items-center gap-2 mb-1.5 opacity-90 transform transition-transform duration-500 group-hover:-translate-y-1">
-                  <Map size={14} className="text-white" />
-                  <span className="text-[11px] font-semibold uppercase tracking-wider text-white">Ballard Tours</span>
-                </div>
-                <div className="flex items-end justify-between transform transition-transform duration-500 group-hover:-translate-y-1">
-                  <div>
-                    <h3 className="text-xl font-semibold text-white tracking-tight">
-                      {t.exploreTitle}
-                    </h3>
-                  </div>
-                  <div className="bg-white/20 backdrop-blur-md text-white p-2.5 rounded-full emil-interactive group-hover:bg-white group-hover:text-zinc-900 group-hover:scale-110">
-                    <ChevronRight size={18} />
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            {/* OPTION 1: Home Page */}
-            <Link 
-              href={`/${lang}`} 
-              className="group w-full bg-white rounded-[24px] p-4 flex items-center justify-between emil-inner-ring emil-shadow animate-tasteful delay-400 emil-interactive hover:-translate-y-1 hover:emil-shadow-hover"
-            >
-              <div className="flex items-center gap-4">
-                <div className="bg-[#F9F8F6] p-3 rounded-2xl text-zinc-500 emil-interactive group-hover:text-zinc-900 group-hover:bg-zinc-100 group-hover:scale-105">
-                  <Home size={18} />
-                </div>
-                <div>
-                  <h3 className="text-[15px] font-semibold tracking-tight text-zinc-900">
-                    {t.homeTitle}
-                  </h3>
-                </div>
-              </div>
-              <div className="text-zinc-300 emil-interactive group-hover:text-zinc-900 group-hover:translate-x-1 pr-2">
-                <ChevronRight size={18} />
-              </div>
-            </Link>
-          </main>
-
-          <footer className="mt-8 text-center animate-tasteful delay-400">
-            <p className="text-[11px] uppercase tracking-widest font-medium text-zinc-400">
-              © {new Date().getFullYear()} Ballard Tours Los Cabos
-            </p>
-          </footer>
+        {/* ======================================= */}
+        {/* VISTA PARA CELULAR (Orden exacto pedido) */}
+        {/* ======================================= */}
+        <div className="w-full flex flex-col gap-4 md:hidden">
+          {promoBanner}
+          {googleReview}
+          {generateCode}
+          {testimonialImage}
+          {exploreCabo}
+          {homeLink}
+          {footerNode}
         </div>
 
-        {/* RIGHT COLUMN: Image & Generation Button */}
-        <div className="w-full md:w-[45%] flex flex-col gap-4 animate-tasteful delay-500 md:sticky md:top-28">
-          
-          {/* Uploaded Testimonial Image (Con tu imagen) */}
-          <div className="relative w-full rounded-[32px] overflow-hidden emil-shadow emil-inner-ring bg-white aspect-[4/5] flex items-center justify-center p-2">
-            <div className="w-full h-full rounded-[24px] overflow-hidden relative">
-              <img 
-                src="/cabo-private-transportation-airport-cabo-reviewes.webp" 
-                alt="Guest Testimonials and Discounts" 
-                className="w-full h-full object-cover transition-transform duration-[2s] ease-out hover:scale-[1.02]"
-              />
-              <div className="absolute inset-0 emil-inner-ring pointer-events-none rounded-[24px]"></div>
-            </div>
-          </div>
+        {/* ======================================= */}
+        {/* VISTA PARA COMPUTADORA (Dos columnas) */}
+        {/* ======================================= */}
+        
+        {/* Columna Izquierda Computadora */}
+        <div className="hidden md:flex w-[55%] flex-col gap-4">
+          {promoBanner}
+          {googleReview}
+          {exploreCabo}
+          {homeLink}
+          {footerNode}
+        </div>
 
-          {/* Generate Discount Code Button (AHORA ES UN LINK) */}
-          <Link href={`/${lang}/claim-discount`} className="group relative w-full bg-zinc-900 text-white rounded-[24px] p-5 flex items-center justify-center gap-2 emil-shadow emil-interactive hover:-translate-y-1 hover:bg-zinc-800 overflow-hidden">
-            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer pointer-events-none"></div>
-            <Ticket size={20} className="text-amber-400 emil-interactive group-hover:rotate-12 group-hover:scale-110" />
-            <span className="font-semibold tracking-tight text-[16px]">{t.generateCode}</span>
-            <div className="absolute inset-0 rounded-[24px] emil-inner-ring-dark pointer-events-none"></div>
-          </Link>
+        {/* Columna Derecha Computadora */}
+        <div className="hidden md:flex w-[45%] flex-col gap-4 sticky top-28">
+          {testimonialImage}
+          {generateCode}
         </div>
 
       </div>
