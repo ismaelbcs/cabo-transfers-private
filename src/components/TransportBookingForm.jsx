@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // <-- AQUÍ ESTÁ LA IMPORTACIÓN
+import { useRouter } from 'next/navigation';
 import { MapPin, Car, Users, Baby, ShoppingBag, CheckCircle, ChevronLeft, Plus } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
 import { useCart } from '../context/CartContext';
@@ -14,7 +14,7 @@ const VEHICULOS = [
 ];
 
 export default function TransportBookingForm({ lang = 'es' }) {
-  const router = useRouter(); // <-- AQUÍ INICIALIZAMOS EL ROUTER
+  const router = useRouter(); 
   const { reserva, setReserva, servicioSeleccionado, setServicioSeleccionado, setPaso } = useBooking();
   const { agregarAlCombo } = useCart();
   
@@ -59,8 +59,8 @@ export default function TransportBookingForm({ lang = 'es' }) {
       config: reserva
     });
     
-    // 👇 AHORA SÍ TE LLEVARÁ AL CARRITO CORRECTAMENTE
-    router.push(`/${lang}/cart`);
+    // 👇 ESTA LÍNEA REDIRIGE AL USUARIO A LA PANTALLA DE PAGO
+    router.push(`/${lang}/checkout`);
   };
 
   return (
@@ -94,7 +94,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
           
           <div className="space-y-8">
             <div className="w-full flex justify-between items-center gap-4">
-              <button onClick={() => { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0,0); }} className="text-slate-500 font-bold text-sm flex items-center hover:text-slate-900 transition-colors group">
+              <button onClick={() => { setServicioSeleccionado(''); setPaso(1); router.push(`/${lang}`); }} className="text-slate-500 font-bold text-sm flex items-center hover:text-slate-900 transition-colors group">
                 <span className="mr-2 text-lg leading-none group-hover:-translate-x-1 transition-transform">&larr;</span> 
                 {lang === 'es' ? 'Volver a las opciones' : 'Back to options'}
               </button>
@@ -257,7 +257,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
             </div>
 
             <div className="flex gap-3 mt-8">
-              <button onClick={() => { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0,0); }} className="px-5 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors flex items-center font-bold gap-1 active:scale-95 text-sm">
+              <button onClick={() => { setServicioSeleccionado(''); setPaso(1); router.push(`/${lang}`); }} className="px-5 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-colors flex items-center font-bold gap-1 active:scale-95 text-sm">
                 <ChevronLeft size={18} /> {lang === 'es' ? 'Atrás' : 'Back'}
               </button>
               <button 

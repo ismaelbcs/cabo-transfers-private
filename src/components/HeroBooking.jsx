@@ -95,29 +95,26 @@ export default function HeroBooking({ lang = 'es' }) {
   // =========================================================
   const avanzarPaso = (servicio) => {
 
-    // 1. Si el cliente quiere ir a Tours & Especiales, lo enviamos a la URL /tours
     if (servicio === 'experiencias') {
       setServicioSeleccionado('experiencias');
       router.push(`/${lang}/tours`);
       return;
     }
 
-    // 2. Validación de campos obligatorios para transporte de Aeropuerto
     if (!reserva.hotelId || !reserva.vehiculo || !reserva.fechaLlegada || !reserva.pasajeros) {
       toast.error(
         lang === 'es'
-          ? 'Por favor completa los datos de arriba (Hotel, Vehículo, Fecha y Pasajeros) antes de continuar.'
-          : 'Please complete all details above (Hotel, Vehicle, Date and Passengers) before continuing.'
+          ? 'Por favor completa los datos de arriba antes de continuar.'
+          : 'Please complete all details above before continuing.'
       );
       return;
     }
 
-    // 3. Guardar el servicio y REDIRIGIR a la página de Checkout
     setServicioSeleccionado(servicio);
-    setPaso(2); // Mantenemos el estado interno para referencias en el Contexto
+    setPaso(2); 
     
-    // REDIRECCIÓN CLAVE
-    router.push(`/${lang}/checkout`);
+    // REDIRECCIÓN CORREGIDA: Vamos a la página de cotización, no al checkout final
+    router.push(`/${lang}/booking`);
   };
 
   // =========================================================

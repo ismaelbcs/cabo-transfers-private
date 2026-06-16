@@ -6,10 +6,10 @@ import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-rea
 export async function generateMetadata({ params }) {
   const lang = params?.lang || 'en';
   if (lang === 'es') return {
-      title: 'Cabo Airport Shuttle Transportation | Traslados Económicos y VIP',
-      description: 'Reserva tu Cabo Airport Shuttle Transportation. Servicio privado, seguro y puntual desde el Aeropuerto SJD a todos los hoteles de Los Cabos.',
-      keywords: 'Cabo Airport Shuttle Transportation, shuttle aeropuerto cabo, SJD shuttle service, transporte a hoteles los cabos',
-    };
+    title: 'Cabo Airport Shuttle Transportation | Traslados Económicos y VIP',
+    description: 'Reserva tu Cabo Airport Shuttle Transportation. Servicio privado, seguro y puntual desde el Aeropuerto SJD a todos los hoteles de Los Cabos.',
+    keywords: 'Cabo Airport Shuttle Transportation, shuttle aeropuerto cabo, SJD shuttle service, transporte a hoteles los cabos',
+  };
   return {
     title: 'Cabo Airport Shuttle Transportation | Best SJD Transfers',
     description: 'Book your Cabo Airport Shuttle Transportation today. Private, safe, and punctual service from SJD Airport to all Los Cabos resorts.',
@@ -22,7 +22,7 @@ export default function CaboSuvServicePage({ params }) {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">
-      
+
       {/* 1. HEADER SECTION */}
       <header className="px-6 py-24 mx-auto max-w-5xl text-center md:py-32">
         <div className="inline-flex items-center px-3 py-1 mb-8 text-xs font-medium rounded-full text-neutral-600 bg-neutral-100 border border-neutral-200">
@@ -34,11 +34,11 @@ export default function CaboSuvServicePage({ params }) {
           </span>
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-neutral-600 max-w-2xl mx-auto">
-          {lang === 'es' 
+          {lang === 'es'
             ? 'Llega a Los Cabos con la elegancia y el espacio que mereces. Nuestro exclusivo Cabo Airport SUV Service garantiza un viaje seguro, lujoso y sin estrés desde el Aeropuerto (SJD) directamente a tu resort.'
             : "Arrive in Los Cabos with the elegance and space you deserve. Our exclusive Cabo Airport SUV Service guarantees a seamless, luxurious, and completely stress-free journey from SJD Airport directly to your resort."}
         </p>
-        
+
         {/* ACTION BUTTONS */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href={`/${lang}/`} className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-white transition-all duration-300 bg-neutral-900 rounded-full hover:bg-neutral-800 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] active:scale-[0.98] w-full sm:w-auto">
@@ -54,7 +54,7 @@ export default function CaboSuvServicePage({ params }) {
       </header>
 
       <main className="px-6 mx-auto max-w-4xl pb-24">
-        
+
         {/* TEXTO SEO ADAPTADO A SUV */}
         <section className="mb-20">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
@@ -62,7 +62,7 @@ export default function CaboSuvServicePage({ params }) {
           </h2>
           <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
             <p className="mb-6">
-              {lang === 'es' 
+              {lang === 'es'
                 ? 'Cuando aterrizas en Baja California Sur, la comodidad de tu transporte marca la pauta de tus vacaciones. Nuestro Cabo Airport SUV Service está diseñado para aquellos que no se conforman con un transporte ordinario. Evita las filas de taxis y disfruta del espacio, la privacidad y el aire acondicionado de nuestras Chevrolet Suburbans y Ford Expeditions.'
                 : 'When you land in Baja California Sur, the comfort of your transportation sets the tone for your vacation. Our Cabo Airport SUV Service is designed for those who do not settle for ordinary rides. Skip the taxi lines and enjoy the space, privacy, and pristine air conditioning of our modern Chevrolet Suburbans and Ford Expeditions.'}
             </p>
@@ -71,14 +71,42 @@ export default function CaboSuvServicePage({ params }) {
                 ? 'Nuestras SUV de lujo son la opción perfecta para familias, ejecutivos o pequeños grupos de amigos que llevan equipaje extra, palos de golf o simplemente desean viajar con el mayor nivel de confort en Los Cabos. Además, te recibimos con bebidas frías de cortesía en el interior.'
                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
             </p>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+              {lang === 'es'
+                ? 'Tu Mejor Opción de Traslado en Los Cabos'
+                : 'Your Best Transfer Option in Los Cabos'}
+            </h2>
+            <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+              <p className="mb-6">
+                {lang === 'es' ? (
+                  <>Cuando buscas la manera más eficiente de llegar a tu destino, elegir el correcto <strong>cabo airport shuttle transportation</strong> marca la diferencia. A diferencia de los autobuses compartidos que hacen paradas en cada hotel, nuestro servicio privado te lleva directo a tu puerta.</>
+                ) : (
+                  <>When looking for the most efficient way to reach your destination, choosing the right <strong>cabo airport shuttle transportation</strong> makes all the difference. Unlike shared buses that stop at every single hotel, our private service takes you straight to your door.</>
+                )}
+              </p>
+              <p className="mb-6">
+                {lang === 'es' ? (
+                  <>Viajar en grupo o con familia requiere espacio y comodidad. Nuestro exclusivo <strong>cabo airport shuttle transportation</strong> en modernas SUV te asegura que no tendrás que viajar apretado ni esperar a que otros pasajeros aborden el vehículo para poder salir del aeropuerto.</>
+                ) : (
+                  <>Traveling with a group or family requires space and comfort. Our exclusive <strong>cabo airport shuttle transportation</strong> in modern SUVs ensures you will not have to travel cramped or wait for other passengers to board before leaving the airport.</>
+                )}
+              </p>
+              <p>
+                {lang === 'es' ? (
+                  <>Ahorra tiempo valioso de tus vacaciones. Con nuestro servicio premium de <strong>cabo airport shuttle transportation</strong>, disfrutarás de tarifas fijas, bebidas frías de cortesía y la exclusividad que mereces en tu viaje por la península.</>
+                ) : (
+                  <>Save valuable vacation time. With our premium <strong>cabo airport shuttle transportation</strong> service, you will enjoy flat rates, complimentary cold drinks, and the exclusivity you deserve on your journey across the peninsula.</>
+                )}
+              </p>
+            </div>
           </div>
         </section>
 
         {/* IMAGEN 1: SUBURBAN BALLARD SJD */}
         <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] mb-24 rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
-          <Image 
-            src="/suburban-airport-los-cabos-ballard-sjd.webp" 
-            alt="Chevrolet Suburban waiting at SJD Airport for Los Cabos Transportation" 
+          <Image
+            src="/suburban-airport-los-cabos-ballard-sjd.webp"
+            alt="Chevrolet Suburban waiting at SJD Airport for Los Cabos Transportation"
             fill
             sizes="(max-width: 768px) 100vw, 1000px"
             style={{ objectFit: 'cover' }}
@@ -98,7 +126,7 @@ export default function CaboSuvServicePage({ params }) {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-300 text-base md:text-lg leading-relaxed">
               <p>
-                {lang === 'es' 
+                {lang === 'es'
                   ? 'Si bien hay taxis disponibles en el aeropuerto, la mayoría son vehículos compactos sin suficiente espacio para grupos o equipaje voluminoso. Nuestro servicio de SUV te asegura un vehículo de tamaño completo solo para ti.'
                   : 'While regular taxis are available, most are compact vehicles lacking the space needed for groups or bulky luggage. Our SUV service ensures a full-size, premium vehicle dedicated entirely to your party.'}
               </p>
@@ -119,7 +147,7 @@ export default function CaboSuvServicePage({ params }) {
               {lang === 'es' ? 'Rutas Populares en SUV' : 'Popular SUV Transfer Routes'}
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-10 shadow-sm">
             {/* Columna Izquierda */}
             <ul className="space-y-4">
@@ -141,7 +169,7 @@ export default function CaboSuvServicePage({ params }) {
                 </li>
               ))}
             </ul>
-            
+
             {/* Columna Derecha */}
             <ul className="space-y-4">
               {[
@@ -166,9 +194,9 @@ export default function CaboSuvServicePage({ params }) {
 
         {/* IMAGEN 2: EXPEDITION AT NOBU */}
         <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] mb-24 rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
-          <Image 
-            src="/private-transportation-nobu-hotel-los-cabos.webp" 
-            alt="Private SUV Transportation at Nobu Hotel Los Cabos" 
+          <Image
+            src="/private-transportation-nobu-hotel-los-cabos.webp"
+            alt="Private SUV Transportation at Nobu Hotel Los Cabos"
             fill
             sizes="(max-width: 768px) 100vw, 1000px"
             style={{ objectFit: 'cover' }}
@@ -240,13 +268,13 @@ export default function CaboSuvServicePage({ params }) {
         {/* EASY BOOKING & FLEXIBLE PAYMENT (DISCRETO Y PEQUEÑO) */}
         <section className="mb-24 text-center max-w-xl mx-auto py-6 opacity-70 hover:opacity-100 transition-opacity duration-300">
           <div className="flex justify-center items-center mb-4">
-             <Image 
-               src="/pago-tarjetas.png" 
-               alt="Visa, MasterCard, American Express, PayPal" 
-               width={160} 
-               height={40} 
-               className="object-contain"
-             />
+            <Image
+              src="/pago-tarjetas.png"
+              alt="Visa, MasterCard, American Express, PayPal"
+              width={160}
+              height={40}
+              className="object-contain"
+            />
           </div>
           <h3 className="text-lg md:text-xl font-bold text-slate-700 mb-2 tracking-tight">
             {lang === 'es' ? 'Reserva Fácil y Pago Flexible.' : 'Easy Booking & Flexible Payment.'}
@@ -259,7 +287,7 @@ export default function CaboSuvServicePage({ params }) {
         </section>
 
       </main>
-      
+
       {/* FINAL CTA FOOTER */}
       <footer className="bg-neutral-900 py-20 px-6 border-t border-neutral-800 text-center text-white">
         <h2 className="text-3xl font-semibold tracking-tight mb-8">
