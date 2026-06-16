@@ -10,14 +10,14 @@ export async function generateMetadata({ params }) {
     return {
       title: 'Transporte Premium en Aeropuerto de Los Cabos | Cabo Shuttle',
       description: 'Reserva tu transporte privado y shuttle en el Aeropuerto de Los Cabos (SJD). Traslados seguros, sin filas de taxi, a hoteles como Hyatt Ziva, Nobu y Hard Rock.',
-      keywords: 'Transporte Aeropuerto Los Cabos, Shuttle Los Cabos, Taxi Aeropuerto SJD, Transporte privado Cabo San Lucas, Traslados SJD a hotel',
+      keywords: 'Transporte Aeropuerto Los Cabos, Shuttle Los Cabos, Taxi Aeropuerto SJD, Transporte privado Cabo San Lucas, Traslados SJD a hotel, Camionetas Los Cabos',
     };
   }
 
   return {
     title: 'Premium Cabo Airport Transportation & Shuttle Services',
     description: 'Experience seamless Cabo Airport Transportation and Cabo Airport Shuttle services. Book your private transportation from SJD Airport to Hyatt Ziva, Paradisus, Nobu, and more.',
-    keywords: 'Cabo Airport Transportation, Cabo Airport Shuttle, SJD Airport Taxi, Private Transportation Cabo, Cabo San Lucas Airport Transfers',
+    keywords: 'Cabo Airport Transportation, Cabo Airport Shuttle, SJD Airport Taxi, Private Transportation Cabo, Cabo San Lucas Airport Transfers, VIP Cabo Transportation',
   };
 }
 
@@ -60,7 +60,7 @@ export default function CaboTransportationPage({ params }) {
 
       <main className="px-6 mx-auto max-w-4xl pb-24">
         
-        {/* TEXTO SEO EXTENSO */}
+        {/* TEXTO SEO SÚPER EXTENSO PARA DOMINAR GOOGLE */}
         <section className="mb-20">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
             {lang === 'es' ? 'El Mejor Shuttle y Transporte Privado de Cabo' : 'The Ultimate Cabo Airport Shuttle & Private Transport'}
@@ -68,7 +68,7 @@ export default function CaboTransportationPage({ params }) {
           <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
             <p className="mb-6">
               {lang === 'es' 
-                ? 'Cuando aterrizas en Baja California Sur, lo último de lo que quieres preocuparte es de navegar por redes de transporte local. Ya sea que viajes para una escapada romántica, un retiro corporativo o unas vacaciones familiares, nuestras soluciones de Shuttle y traslados privados están hechas a tu medida. Evitamos las caóticas filas de taxis afuera del aeropuerto SJD, ofreciéndote una experiencia de bienvenida personalizada.'
+                ? 'Cuando aterrizas en Baja California Sur, lo último de lo que quieres preocuparte es de navegar por redes de transporte local. Ya sea que viajes para una escapada romántica, un retiro corporativo o unas vacaciones familiares, nuestras soluciones de Shuttle y traslados privados están hechas a tu medida. Evitamos las caóticas filas de taxis afuera del aeropuerto SJD, ofreciéndote una experiencia de bienvenida personalizada (Meet and Greet) en la terminal.'
                 : 'When you land in Baja California Sur, the last thing you want to worry about is navigating complex local transportation networks. Whether you are traveling for a romantic getaway, a corporate retreat, or a family vacation, our highly rated Cabo Airport Shuttle and private transfer solutions are tailored exactly to your needs. We bypass the chaotic taxi lines outside SJD airport, offering you a personalized meet-and-greet experience.'}
             </p>
             <p className="mb-6">
@@ -78,8 +78,23 @@ export default function CaboTransportationPage({ params }) {
             </p>
             <p className="mb-6">
               {lang === 'es'
-                ? 'Nuestros servicios exclusivos aseguran que puedas comenzar a relajarte en el momento en que sales de la terminal. Con bebidas bien frías esperándote en el vehículo, aire acondicionado ajustado a tu temperatura preferida e interiores de cuero inmaculados, redefinimos cómo debería sentirse un Cabo Airport Shuttle.'
-                : 'Our exclusive services ensure you can start relaxing the moment you step out of the terminal. With icy cold beverages waiting in the vehicle, air conditioning set to your preferred temperature, and immaculate leather interiors, we redefine what a Cabo Airport Shuttle should feel like.'}
+                ? '¿Te preguntas cómo ir del Aeropuerto SJD a tu hotel de forma segura? Ya sea que te alojes en el lujoso Corredor Turístico, en la vibrante zona de Medano Beach en el centro de Cabo San Lucas, o en la tranquila San José del Cabo, moverte por la península es muy sencillo con nuestros traslados privados al aeropuerto. Entendemos que encontrar un transporte VIP confiable en Cabo San Lucas puede ser abrumador. Por eso, nuestro personal te ayuda a esquivar las distracciones de los tiempos compartidos y te guía directo a tu vehículo.'
+                : 'Are you wondering how to safely get from SJD Airport to your hotel? Whether you are staying at the luxurious Tourist Corridor, the vibrant Medano Beach in downtown Cabo San Lucas, or the peaceful San Jose del Cabo, navigating the peninsula is effortless with our dedicated private airport transfers. We understand that finding reliable VIP transportation in Cabo San Lucas can be overwhelming. That’s why our staff helps you dodge timeshare distractions and guides you straight to your vehicle.'}
+            </p>
+            <p className="mb-6">
+              {lang === 'es'
+                ? 'Si viajas con un grupo grande, nuestras espaciosas camionetas (Vans) en el aeropuerto de Cabo brindan suficiente espacio para todos tus acompañantes, equipaje y equipo de golf. Para aquellos que buscan la máxima elegancia, nuestras camionetas de lujo tipo SUV (como Suburbans y Escalades) garantizan un viaje suave, privado y con mucho estilo.'
+                : 'If you are traveling with a larger group, our spacious Van rentals at the Cabo airport provide enough room for all your companions, luggage, and golf clubs. For those seeking maximum elegance, our luxury SUVs in Cabo (such as Suburbans and Escalades) guarantee a smooth, private, and highly stylish ride.'}
+            </p>
+            <p className="mb-6">
+              {lang === 'es'
+                ? 'Nuestros servicios exclusivos aseguran que puedas comenzar a relajarte en el momento en que sales de la terminal. Con bebidas bien frías esperándote en el vehículo, aire acondicionado ajustado a tu temperatura preferida e interiores de cuero inmaculados, redefinimos cómo debería sentirse un Cabo Airport Shuttle. La seguridad es nuestra principal prioridad; todos nuestros vehículos se someten a rigurosas inspecciones mecánicas diarias.'
+                : 'Our exclusive services ensure you can start relaxing the moment you step out of the terminal. With icy cold beverages waiting in the vehicle, air conditioning set to your preferred temperature, and immaculate leather interiors, we redefine what a Cabo Airport Shuttle should feel like. Safety is our absolute top priority; all our vehicles undergo rigorous daily mechanical inspections.'}
+            </p>
+            <p>
+              {lang === 'es'
+                ? 'Ya sea que necesites transporte privado a Cabo San Lucas, San José del Cabo, La Paz, o Todos Santos, en Ballard Tours estamos comprometidos a brindar el mejor servicio de transporte en el aeropuerto de Los Cabos con tarifas altamente competitivas, facturación disponible y vehículos impecables que representan el verdadero servicio de primera clase en Baja California Sur.'
+                : 'Whether you need private transportation to Cabo San Lucas, San Jose del Cabo, La Paz, or Todos Santos, at Ballard Tours we are committed to providing the absolute best SJD airport transportation service with highly competitive rates, available invoicing, and pristine vehicles that represent true first-class service in Baja California Sur.'}
             </p>
           </div>
         </section>
@@ -121,7 +136,7 @@ export default function CaboTransportationPage({ params }) {
           </div>
         </section>
 
-        {/* POPULAR ROUTES (Con URLs Exactas de tus Destinos) */}
+        {/* POPULAR ROUTES */}
         <section className="mb-24">
           <div className="flex items-center mb-8">
             <MapPin className="w-8 h-8 text-slate-700 mr-3" />
@@ -214,7 +229,7 @@ export default function CaboTransportationPage({ params }) {
               <div>
                 <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Asistencia de Itinerario' : 'Itinerary Assistance'}</h4>
                 <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === 'es' ? 'Si necesitas mover un horario o realizar una cancelación, nuestro equipo te asistirá.' : 'If you need to move a schedule or make a cancellation, our team will assist you.'}
+                  {lang === 'es' ? 'Si necesitas mover un horario o realizar una cancelación, nuestro equipo te asistirá sin complicaciones.' : 'If you need to move a schedule or make a cancellation, our team will assist you.'}
                 </p>
               </div>
             </div>
@@ -225,9 +240,9 @@ export default function CaboTransportationPage({ params }) {
                 <Baby className="w-6 h-6 text-slate-800" />
               </div>
               <div>
-                <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Asientos de Seguridad para Niños' : 'Child Safety Seats'}</h4>
+                <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Asientos para Niños (Sillas)' : 'Child Safety Seats'}</h4>
                 <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === 'es' ? 'Proporcionamos asientos infantiles y elevados completamente gratis previa solicitud.' : 'We provide infant car seats and booster seats completely free of charge upon request.'}
+                  {lang === 'es' ? 'Proporcionamos asientos infantiles y elevados completamente gratis para viajes familiares seguros.' : 'We provide infant car seats and booster seats completely free of charge upon request.'}
                 </p>
               </div>
             </div>
@@ -238,33 +253,33 @@ export default function CaboTransportationPage({ params }) {
                 <Banknote className="w-6 h-6 text-slate-800" />
               </div>
               <div>
-                <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Tarifas Accesibles' : 'Affordable Rates'}</h4>
+                <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Tarifas Accesibles y Fijas' : 'Affordable Rates'}</h4>
                 <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === 'es' ? 'Ofrecemos precios fijos transparentes sin tarifas inesperadas ni cargos ocultos.' : 'We offer transparent flat-rate pricing without any unexpected fees or hidden charges.'}
+                  {lang === 'es' ? 'Ofrecemos precios fijos transparentes sin tarifas inesperadas ni cargos ocultos de último minuto.' : 'We offer transparent flat-rate pricing without any unexpected fees or hidden charges.'}
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* EASY BOOKING & FLEXIBLE PAYMENT (CON IMAGEN DE TARJETAS) */}
-        <section className="mb-24 text-center max-w-2xl mx-auto py-10">
-          <div className="flex justify-center items-center mb-6">
+        {/* EASY BOOKING & FLEXIBLE PAYMENT (DISCRETO Y PEQUEÑO) */}
+        <section className="mb-24 text-center max-w-xl mx-auto py-6 opacity-70 hover:opacity-100 transition-opacity duration-300">
+          <div className="flex justify-center items-center mb-4">
              <Image 
                src="/pago-tarjetas.png" 
                alt="Visa, MasterCard, American Express, PayPal" 
-               width={350} 
-               height={80} 
+               width={160} 
+               height={40} 
                className="object-contain"
              />
           </div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-6 tracking-tight">
+          <h3 className="text-lg md:text-xl font-bold text-slate-700 mb-2 tracking-tight">
             {lang === 'es' ? 'Reserva Fácil y Pago Flexible.' : 'Easy Booking & Flexible Payment.'}
-          </h2>
-          <p className="text-slate-500 text-base md:text-lg leading-relaxed">
+          </h3>
+          <p className="text-slate-500 text-xs md:text-sm leading-relaxed">
             {lang === 'es'
-              ? 'Sitio web de reservas fácil de tres clics. Ingresa tu destino, elige tu tipo de shuttle y haz clic en enviar. Puedes elegir entre pagar de forma segura con tarjeta de crédito, optar por pagar a la llegada, o usar PayPal.'
-              : 'Three-click easy reservation website. Enter your destination, choose your shuttle type, and click submit. You can select from paying securely with a credit card, opting for payment on arrival, or using PayPal.'}
+              ? 'Paga de forma segura con tarjeta de crédito en línea, optar por pagar en efectivo a la llegada, o usar PayPal.'
+              : 'Pay securely online with a credit card, opt for cash on arrival, or use PayPal to secure your booking.'}
           </p>
         </section>
 
@@ -273,10 +288,10 @@ export default function CaboTransportationPage({ params }) {
       {/* FINAL CTA FOOTER */}
       <footer className="bg-neutral-900 py-20 px-6 border-t border-neutral-800 text-center text-white">
         <h2 className="text-3xl font-semibold tracking-tight mb-8">
-          {lang === 'es' ? 'Comienza tu Aventura en Cabo' : 'Begin Your Cabo Adventure'}
+          {lang === 'es' ? 'Comienza tu Viaje en Cabo San Lucas' : 'Begin Your Cabo Adventure'}
         </h2>
         <Link href={`/${lang}/`} className="group relative inline-flex items-center justify-center px-10 py-4 text-sm font-bold text-neutral-900 transition-all duration-300 bg-white rounded-full hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98]">
-          {lang === 'es' ? 'Obtener Precio Inmediato' : 'Get Instant Pricing'}
+          {lang === 'es' ? 'Obtener Precio y Reservar' : 'Get Instant Pricing & Book'}
         </Link>
       </footer>
     </div>
