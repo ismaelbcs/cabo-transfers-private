@@ -8,19 +8,11 @@ import { ShoppingCart, Globe, Menu, X, Users, LogOut, Ticket } from 'lucide-reac
 
 export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState(null);
 
   const pathname = usePathname();
   const router = useRouter();
   const isEs = lang === 'es';
-
-  // Efecto elegante de cristal al hacer scroll
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Detector de sesión del cliente
   useEffect(() => {
@@ -46,16 +38,13 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
     else router.push(newPath);
   };
 
-  // 🔥 NAVEGACIÓN INTELIGENTE Y NATIVA CORREGIDA 🔥
+  // 🔥 NAVEGACIÓN INTELIGENTE Y NATIVA
   const handleNavClick = (e, targetId) => {
-    // Siempre cerramos el menú móvil si está abierto
     setIsMenuOpen(false);
 
-    // Verificamos si estamos exactamente en la raíz (Home)
     const isHomePage = pathname === `/${lang}` || pathname === `/${lang}/`;
 
     if (isHomePage) {
-      // SI ESTAMOS EN HOME: Prevenimos la recarga y hacemos scroll suave
       if (targetId === 'home') {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -63,14 +52,12 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
         e.preventDefault();
         const element = document.getElementById('zonas');
         if (element) {
-          const yOffset = -100; // Ajuste para que el Navbar no tape el título
+          const yOffset = -100;
           const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
       }
     }
-    // SI NO ESTAMOS EN HOME: No hacemos e.preventDefault()
-    // Dejamos que Next.js siga el href="/es#zonas" de forma natural y cambie de página.
   };
 
   const renderAuthButton = (isMobile = false) => {
@@ -78,7 +65,7 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
       return (
         <button
           onClick={handleLogout}
-          className={`flex items-center gap-1.5 transition-all focus:outline-none group ${isMobile ? 'hover:text-red-500 text-left' : scrolled ? 'hover:text-red-500' : 'hover:text-red-300'}`}
+          className={`flex items-center gap-1.5 transition-all focus:outline-none group ${isMobile ? 'hover:text-red-500 text-left' : 'hover:text-red-500 text-slate-500'}`}
           title={isEs ? "Cerrar Sesión" : "Logout"}
         >
           <div className="flex items-center gap-1.5 group-hover:hidden">
@@ -99,7 +86,7 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
           if (isMobile) setIsMenuOpen(false);
           window.dispatchEvent(new CustomEvent('openLoginModal'));
         }}
-        className={`flex items-center gap-1.5 transition-colors focus:outline-none ${isMobile ? 'hover:text-slate-900 text-left' : scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}
+        className={`flex items-center gap-1.5 transition-colors focus:outline-none hover:text-slate-900 ${isMobile ? 'text-left' : 'text-slate-500'}`}
       >
         <Users size={isMobile ? 18 : 16} className={isMobile ? "text-slate-400" : ""} />
         {t?.nav?.login || (isEs ? 'Iniciar Sesión' : 'Login')}
@@ -108,14 +95,14 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
   };
 
   return (
+    // NAVBAR SIEMPRE BLANCO Y SÓLIDO
     <nav className="fixed top-0 w-full z-50 bg-white border-b border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
 
-          {/* LOGO -> Apunta a Home */}
+          {/* LOGO */}
           <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className="flex items-center gap-3 group">
             <img src="/logo-cabo-airport-shuttle.png" alt="Cabo Airport Shuttle Logo" className="h-38 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
-            {/* Reemplaza la sección del texto de tu logo con esto */}
             <div className="flex flex-col justify-center min-w-0">
               <span className="text-[13px] sm:text-base md:text-xl font-black text-slate-900 leading-tight">
                 Cabo <span className="font-bold text-slate-500">Private Transportation</span>
@@ -126,21 +113,18 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
             </div>
           </Link>
 
-          {/* MENÚ ESCRITORIO */}
-          <div className={`hidden md:flex items-center space-x-8 text-sm font-bold tracking-tight transition-colors ${scrolled ? 'text-slate-500' : 'text-slate-200'}`}>
-            <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.home || 'Home'}</Link>
+          {/* MENÚ ESCRITORIO (TEXTOS SIEMPRE GRISES OSCUROS) */}
+          <div className="hidden md:flex items-center space-x-8 text-sm font-bold tracking-tight text-slate-500">
+            <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className="hover:text-slate-900 transition-colors">{t?.nav?.home || 'Home'}</Link>
+            <Link href={`/${lang}#zonas`} onClick={(e) => handleNavClick(e, 'zonas')} className="hover:text-slate-900 transition-colors">{t?.nav?.rates || 'Rates & Zones'}</Link>
+            <Link href={`/${lang}/fleet`} className="hover:text-slate-900 transition-colors">{t?.nav?.fleet || 'Fleet'}</Link>
+            <Link href={`/${lang}/tours`} className="hover:text-slate-900 transition-colors">{t?.nav?.experiences || 'Experiences'}</Link>
 
-            {/* ENLACE ZONAS CORREGIDO */}
-            <Link href={`/${lang}#zonas`} onClick={(e) => handleNavClick(e, 'zonas')} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.rates || 'Rates & Zones'}</Link>
-
-            <Link href={`/${lang}/fleet`} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.fleet || 'Fleet'}</Link>
-            <Link href={`/${lang}/tours`} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.experiences || 'Experiences'}</Link>
-
-            <div className={`h-5 w-px ${scrolled ? 'bg-slate-200' : 'bg-slate-600'}`}></div>
+            <div className="h-5 w-px bg-slate-200"></div>
 
             {renderAuthButton(false)}
 
-            <Link href={`/${lang}/cart`} className={`relative p-2 transition-colors group ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>
+            <Link href={`/${lang}/cart`} className="relative p-2 hover:text-slate-900 transition-colors group">
               <ShoppingCart size={20} className="group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
                 <span className="absolute top-0.5 right-0.5 bg-slate-900 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center ring-2 ring-white">
@@ -149,14 +133,12 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
               )}
             </Link>
 
-            <button onClick={toggleLanguage} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest active:scale-95 transition-all ${scrolled ? 'bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900' : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'}`}>
+            <button onClick={toggleLanguage} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest active:scale-95 transition-all bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900">
               <Globe size={14} /> {lang === 'en' ? 'EN' : 'ES'}
             </button>
-            {/* BOTÓN PON TU CÓDIGO (Link in Navbar) */}
-            <Link
-              href={`/${lang}/apply-code`}
-              className="flex flex-col items-center justify-center group ml-2 sm:ml-4"
-            >
+            
+            {/* BOTÓN CUPÓN ESCRITORIO */}
+            <Link href={`/${lang}/apply-code`} className="flex flex-col items-center justify-center group ml-2">
               <div className="flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1.5 rounded-full hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
                 <Ticket size={14} className="text-amber-400 group-hover:rotate-12 transition-transform" />
                 <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">
@@ -168,14 +150,14 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
 
           {/* ICONOS MÓVILES (DERECHA) */}
           <div className="md:hidden flex items-center gap-4">
-            <button onClick={toggleLanguage} className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${scrolled ? 'bg-slate-100 border border-slate-200 text-slate-600' : 'bg-white/10 border border-white/20 text-white'}`}>
+            <button onClick={toggleLanguage} className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-slate-100 border border-slate-200 text-slate-600">
               <Globe size={12} /> {lang}
             </button>
-            <Link href={`/${lang}/cart`} className={`relative ${scrolled ? 'text-slate-700' : 'text-white'}`}>
+            <Link href={`/${lang}/cart`} className="relative text-slate-700">
               <ShoppingCart size={20} />
               {cartCount > 0 && <span className="absolute -top-1.5 -right-1.5 bg-slate-900 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center ring-2 ring-white">{cartCount}</span>}
             </Link>
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={`focus:outline-none p-1 ${scrolled ? 'text-slate-900' : 'text-white'}`}>
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none p-1 text-slate-900">
               {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
@@ -185,10 +167,17 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
       {/* MENÚ DESPLEGABLE MÓVIL */}
       <div className={`md:hidden absolute w-full bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-96 border-t' : 'max-h-0 border-t-0'}`}>
         <div className="flex flex-col px-6 py-6 space-y-6 text-base font-bold text-slate-500 tracking-tight">
+          
+          {/* BOTÓN CUPÓN MÓVIL */}
+          <Link href={`/${lang}/apply-code`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 bg-slate-900 text-white p-4 rounded-xl active:scale-95 transition-transform">
+            <Ticket size={18} className="text-amber-400" />
+            <span className="font-black uppercase tracking-widest text-sm">{lang === 'es' ? 'Pon tu Código de Descuento' : 'Add Discount Code'}</span>
+          </Link>
+          
+          <div className="h-px w-full bg-slate-100"></div>
+
           <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className="hover:text-slate-900">{t?.nav?.home || 'Home'}</Link>
-
           <Link href={`/${lang}#zonas`} onClick={(e) => handleNavClick(e, 'zonas')} className="hover:text-slate-900">{t?.nav?.rates || 'Rates & Zones'}</Link>
-
           <Link href={`/${lang}/fleet`} onClick={() => setIsMenuOpen(false)} className="hover:text-slate-900">{t?.nav?.fleet || 'Fleet'}</Link>
           <Link href={`/${lang}/tours`} onClick={() => setIsMenuOpen(false)} className="hover:text-slate-900">{t?.nav?.experiences || 'Experiences'}</Link>
           <div className="h-px w-full bg-slate-100 my-2"></div>
