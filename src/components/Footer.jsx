@@ -44,7 +44,7 @@ const Footer = ({ lang = 'en' }) => {
                 />
                 <div className="flex flex-col justify-center">
                   <span className="font-black text-2xl tracking-tighter leading-none text-white">
-                    Cabo<span className="text-slate-400">Shuttle</span>
+                    Cabo<span className="text-slate-400">Private Transportation</span>
                   </span>
                   <span className="text-[9px] font-bold tracking-widest uppercase mt-0.5 text-slate-500">
                     by Ballard Tours
