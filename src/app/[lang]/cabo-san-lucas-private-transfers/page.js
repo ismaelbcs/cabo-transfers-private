@@ -72,7 +72,7 @@ export default function CaboSuvServicePage({ params }) {
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
 
-                        <section className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
+                         className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm"
                             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
                                 {lang === 'es'
                                     ? 'Trayectos Inigualables hacia el Fin de la Tierra'
@@ -101,7 +101,6 @@ export default function CaboSuvServicePage({ params }) {
                                     )}
                                 </p>
                             </div>
-                        </section>
                     </div>
                 </section>
 
