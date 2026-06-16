@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState, use } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // <-- Importación para optimizar imágenes en Next.js
+import Image from 'next/image';
 import { Star, ArrowRight, Home, Map, ChevronRight, Ticket } from 'lucide-react';
 
 // Custom stylesheet for specific cubic-bezier easings 
@@ -165,7 +165,7 @@ export default function LinkInBioPage({ params }) {
   );
 
   // ==========================================================
-  // IMAGEN DE TESTIMONIOS CON TEXTO SUPERPUESTO (BILINGÜE)
+  // IMAGEN DE TESTIMONIOS CON TEXTO SUPERPUESTO (AJUSTADO)
   // ==========================================================
   const testimonialImage = (
     <div className="relative w-full rounded-[32px] overflow-hidden emil-shadow emil-inner-ring bg-white aspect-[4/5] flex items-center justify-center p-2 animate-tasteful delay-400">
@@ -184,33 +184,33 @@ export default function LinkInBioPage({ params }) {
         <div className="absolute inset-0 z-10 font-sans pointer-events-none">
           
           {/* 2. Etiqueta (Arriba izquierda) */}
-          <div className="absolute top-[12%] left-[6%]">
-            <span className="bg-[#7e8083]/90 backdrop-blur-sm text-white text-sm md:text-base font-bold px-6 py-2 rounded-full shadow-sm">
+          <div className="absolute top-[15%] left-[8%] md:top-[16%]">
+            <span className="bg-[#7e8083]/90 backdrop-blur-sm text-white text-[10px] md:text-[11px] lg:text-xs font-bold px-4 py-1.5 rounded-full shadow-sm tracking-wide">
               {t.guestTestimonial}
             </span>
           </div>
 
-          {/* 3. Título principal */}
-          <div className="absolute top-[20%] left-[6%] leading-tight drop-shadow-lg">
+          {/* 3. Título principal (Más pequeño) */}
+          <div className="absolute top-[24%] left-[8%] leading-tight drop-shadow-lg md:top-[25%]">
             <h1 
-              className="text-white font-extrabold text-4xl md:text-5xl lg:text-[3.5rem]" 
+              className="text-white font-extrabold text-2xl sm:text-3xl lg:text-[2rem]" 
               dangerouslySetInnerHTML={{ __html: t.wholeFamily }}
             />
           </div>
 
-          {/* 4. Texto "UP TO / HASTA" */}
-          <div className="absolute bottom-[20.5%] left-[50%] -translate-x-[70px] md:-translate-x-[85px]">
-            <span className="text-[#001A33] font-black text-xl md:text-2xl uppercase tracking-tight leading-none">
+          {/* 4. Texto "UP TO / HASTA" (Posicionado junto al 40%) */}
+          <div className="absolute bottom-[20%] right-[40%] md:bottom-[21.5%] md:right-[41%]">
+            <span className="text-[#001A33] font-black text-base sm:text-lg lg:text-xl uppercase tracking-tighter drop-shadow-sm">
               {t.upTo}
             </span>
           </div>
 
-          {/* 5. URL del sitio web (Pie de página) */}
-          <div className="absolute bottom-[3%] w-full flex items-center justify-center text-white drop-shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+          {/* 5. URL del sitio web (Pie de página más ajustado) */}
+          <div className="absolute bottom-[4.5%] md:bottom-[5%] w-full flex items-center justify-center text-white drop-shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 opacity-90">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
             </svg>
-            <span className="text-sm md:text-base font-bold tracking-wide">
+            <span className="text-[10px] sm:text-xs lg:text-sm font-bold tracking-wide">
               www.caboprivateairporttransfers.com
             </span>
           </div>
@@ -271,7 +271,7 @@ export default function LinkInBioPage({ params }) {
       <div className="w-full max-w-4xl px-5 flex flex-col md:flex-row gap-8 items-start justify-center">
         
         {/* ======================================= */}
-        {/* VISTA PARA CELULAR (Orden exacto pedido) */}
+        {/* VISTA PARA CELULAR */}
         {/* ======================================= */}
         <div className="w-full flex flex-col gap-4 md:hidden">
           {promoBanner}
@@ -284,10 +284,9 @@ export default function LinkInBioPage({ params }) {
         </div>
 
         {/* ======================================= */}
-        {/* VISTA PARA COMPUTADORA (Dos columnas) */}
+        {/* VISTA PARA COMPUTADORA */}
         {/* ======================================= */}
         
-        {/* Columna Izquierda Computadora */}
         <div className="hidden md:flex w-[55%] flex-col gap-4">
           {promoBanner}
           {googleReview}
@@ -296,7 +295,6 @@ export default function LinkInBioPage({ params }) {
           {footerNode}
         </div>
 
-        {/* Columna Derecha Computadora */}
         <div className="hidden md:flex w-[45%] flex-col gap-4 sticky top-28">
           {testimonialImage}
           {generateCode}
