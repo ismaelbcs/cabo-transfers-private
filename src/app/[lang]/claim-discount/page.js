@@ -2,8 +2,12 @@
 'use client';
 
 import React, { useState, useRef, use } from 'react';
-import { Upload, Image as ImageIcon, X, Gift, CheckCircle2, Copy, ArrowRight, Sparkles } from 'lucide-react';
+import { Upload, Image as ImageIcon, X, Gift, CheckCircle2, Copy, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+
+// 👇 IMPORTACIONES DE FIREBASE (Vital para que el botón funcione)
+import { doc, setDoc } from "firebase/firestore";
+import { db } from '../../../firebase';
 
 export default function RewardApp({ params }) {
   // Configuración de Idioma
@@ -23,6 +27,7 @@ export default function RewardApp({ params }) {
     tapUpload: isEs ? "Toca para subir o arrastra la imagen" : "Tap to upload or drag",
     fileType: isEs ? "PNG o JPG hasta 5MB" : "PNG, JPG up to 5MB",
     getDiscountBtn: isEs ? "Obtener mi Descuento" : "Get My Discount",
+    processingBtn: isEs ? "Generando..." : "Generating...",
     successTitle: isEs ? "¡Genial, muchas gracias!" : "Awesome, thank you!",
     successDesc: isEs ? "Hemos verificado tu reseña. Aquí tienes tu código de descuento exclusivo para tu próxima reserva." : "We've verified your review. Here is your exclusive discount code for your next booking.",
     yourCode: isEs ? "Tu Código" : "Your Code",
@@ -31,8 +36,9 @@ export default function RewardApp({ params }) {
     returnWeb: isEs ? "Volver al inicio" : "Return to Website"
   };
 
-  // Estados para manejar el formulario y la vista de éxito
+  // Estados
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // 🔥 ESTE ESTADO FALTABA
   const [fileName, setFileName] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -41,12 +47,11 @@ export default function RewardApp({ params }) {
   
   const fileInputRef = useRef(null);
 
-  // Manejo de la imagen (simulado)
+  // Manejo de la imagen
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setFileName(file.name);
-      // Crear una URL temporal para mostrar la vista previa
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
     }
@@ -77,34 +82,35 @@ export default function RewardApp({ params }) {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  // Simulación de envío
-  // Simulación y registro real en Firebase
+  // ==========================================
+  // FUNCIÓN CONECTADA A FIREBASE
+  // ==========================================
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsProcessing(true); // Activa el loader visual si lo tienes
+    setIsProcessing(true); // Mostramos el efecto de carga en el botón
 
-    // 1. Generar un código único de 4 letras aleatorias
+    // 1. Generar un código único de 4 letras/números
     const randomString = Math.random().toString(36).substring(2, 6).toUpperCase();
     const codigoGenerado = `CABO-${randomString}`;
 
     try {
-      // 2. Guardamos el cupón en una colección llamada "cupones" en Firestore
+      // 2. Guardamos el cupón en Firestore
       await setDoc(doc(db, "cupones", codigoGenerado), {
         codigo: codigoGenerado,
-        tipo: "resena",            // Identifica que es por reseña de cliente
-        descuento: 10,             // 10% de descuento fijo
-        utilizado: false,          // Estado inicial: activo
-        clienteEmail: e.target.elements[1]?.value || '', // Guarda el correo por seguridad
+        tipo: "resena",
+        descuento: 10,
+        utilizado: false,
+        clienteEmail: e.target.elements[1]?.value || '', 
         fechaCreacion: new Date().toISOString()
       });
 
-      // 3. Pasamos el código al estado para mostrarlo en la pantalla de éxito
+      // 3. Mostramos pantalla de éxito
       setDiscountCode(codigoGenerado);
       setIsSubmitted(true);
 
     } catch (error) {
       console.error("Error al crear el cupón en Firebase:", error);
-      alert(isEs ? "Error al generar tu código. Intenta de nuevo." : "Error generating your code. Please try again.");
+      alert(isEs ? "Error al generar tu código. Verifica tu conexión a internet e intenta de nuevo." : "Error generating your code. Check your internet connection and try again.");
     } finally {
       setIsProcessing(false);
     }
@@ -120,14 +126,11 @@ export default function RewardApp({ params }) {
   return (
     <div className="min-h-screen bg-[#F9FAFB] flex flex-col items-center p-4 sm:p-6 relative font-sans overflow-x-hidden selection:bg-blue-200 pt-20">
       
-      {/* Background Elements */}
       <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-100/50 rounded-full blur-3xl pointer-events-none" />
       <div className="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-50/50 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Main Container */}
       <div className="z-10 w-full max-w-md mt-6">
         
-        {/* Header */}
         <div className="text-center w-full flex flex-col items-center mb-6 animate-fade-in">
           <div className="w-14 h-14 bg-white rounded-[18px] flex items-center justify-center mb-4 shadow-sm border border-gray-100 ring-1 ring-gray-900/5">
              <Gift className="w-6 h-6 text-slate-800" strokeWidth={1.5} />
@@ -140,16 +143,13 @@ export default function RewardApp({ params }) {
           </p>
         </div>
 
-        {/* View 1: The Form */}
         {!isSubmitted ? (
           <form 
             onSubmit={handleSubmit}
             className="bg-white rounded-[28px] p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100/80 transition-all duration-500 relative overflow-hidden animate-fade-in"
           >
-            {/* Form Fields */}
             <div className="space-y-5">
               
-              {/* Name Input */}
               <div>
                 <label className="block text-[13px] font-bold text-slate-700 mb-1.5 ml-1 uppercase tracking-widest">{t.fullName}</label>
                 <input 
@@ -160,7 +160,6 @@ export default function RewardApp({ params }) {
                 />
               </div>
 
-              {/* Email Input */}
               <div>
                 <label className="block text-[13px] font-bold text-slate-700 mb-1.5 ml-1 uppercase tracking-widest">{t.email}</label>
                 <input 
@@ -171,7 +170,6 @@ export default function RewardApp({ params }) {
                 />
               </div>
 
-              {/* Image Upload Area */}
               <div>
                 <label className="block text-[13px] font-bold text-slate-700 mb-1.5 ml-1 uppercase tracking-widest">{t.screenshot}</label>
                 
@@ -231,19 +229,30 @@ export default function RewardApp({ params }) {
 
             </div>
 
-            {/* Submit Button */}
+            {/* BOTÓN CON ESTADO DE CARGA */}
             <button 
               type="submit"
-              className="mt-8 group relative w-full flex items-center justify-center gap-2 bg-slate-900 text-white px-7 py-4 rounded-xl font-bold text-[15px] shadow-[0_4px_14px_0_rgb(0,0,0,0.15)] hover:bg-slate-800 hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] active:scale-[0.98] transition-all duration-300"
+              disabled={isProcessing}
+              className={`mt-8 group relative w-full flex items-center justify-center gap-2 bg-slate-900 text-white px-7 py-4 rounded-xl font-bold text-[15px] shadow-[0_4px_14px_0_rgb(0,0,0,0.15)] transition-all duration-300 ${
+                isProcessing ? 'opacity-80 cursor-not-allowed' : 'hover:bg-slate-800 hover:shadow-[0_6px_20px_rgba(0,0,0,0.2)] active:scale-[0.98]'
+              }`}
             >
-              <span>{t.getDiscountBtn}</span>
-              <Sparkles className="w-4 h-4 opacity-80 group-hover:rotate-12 transition-transform" />
+              {isProcessing ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin text-white" />
+                  <span>{t.processingBtn}</span>
+                </>
+              ) : (
+                <>
+                  <span>{t.getDiscountBtn}</span>
+                  <Sparkles className="w-4 h-4 opacity-80 group-hover:rotate-12 transition-transform" />
+                </>
+              )}
             </button>
           </form>
 
         ) : (
           
-          /* View 2: Success & Discount Code */
           <div className="bg-white rounded-[28px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-emerald-100 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 flex flex-col items-center text-center">
             
             <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-5 border border-emerald-100">
@@ -257,7 +266,6 @@ export default function RewardApp({ params }) {
               {t.successDesc}
             </p>
 
-            {/* Discount Code Box */}
             <div className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 relative group">
               <span className="block text-[11px] font-bold tracking-widest uppercase text-slate-400 mb-1">{t.yourCode}</span>
               <div className="text-[28px] font-black text-slate-900 tracking-wider font-mono">
@@ -272,7 +280,6 @@ export default function RewardApp({ params }) {
                 {copied ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
               </button>
               
-              {/* Tooltip */}
               <div className={`absolute -top-10 right-0 bg-slate-900 text-white text-[12px] font-bold py-1.5 px-3 rounded-lg transition-opacity duration-200 ${copied ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 {t.copied}
               </div>
@@ -287,7 +294,6 @@ export default function RewardApp({ params }) {
           </div>
         )}
 
-        {/* Footer */}
         <div className="text-center mt-6 pb-8 animate-fade-in">
           <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">
             © {new Date().getFullYear()} Ballard Tours Los Cabos
