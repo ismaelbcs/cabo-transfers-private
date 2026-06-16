@@ -250,11 +250,32 @@ export default function CheckoutPage({ params }) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Leer cupones guardados por la página /apply-code
-    const guardados = localStorage.getItem('cabo_cupones');
-    if (guardados) {
-      setCuponesAplicados(JSON.parse(guardados));
-    }
+    
+    // Función centralizada para cargar cupones y asegurar que se reflejen
+    const cargarCupones = () => {
+      const guardados = localStorage.getItem('cabo_cupones');
+      if (guardados) {
+        setCuponesAplicados(JSON.parse(guardados));
+      } else {
+        setCuponesAplicados([]);
+      }
+    };
+
+    // Carga inicial
+    cargarCupones();
+
+    // Event listeners para actualizar al instante si regresan de /apply-code o cambian de pestaña
+    window.addEventListener('focus', cargarCupones);
+    window.addEventListener('storage', cargarCupones);
+    
+    // Polling ligero como respaldo de caché del lado del cliente en Next.js
+    const interval = setInterval(cargarCupones, 1000); 
+
+    return () => {
+      window.removeEventListener('focus', cargarCupones);
+      window.removeEventListener('storage', cargarCupones);
+      clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
@@ -615,14 +636,29 @@ export default function CheckoutPage({ params }) {
                   </div>
                 )}
 
-                {cuponesAplicados.map((c, i) => (
-                  <div key={i} className="flex justify-between items-center mb-2 text-green-600 font-bold text-sm">
-                    <span>{isEs ? 'Cupón' : 'Coupon'}: {c.codigo} ({c.descuento || 10}%)</span>
-                    <span>-${(subtotal * ((c.descuento || 10) / 100)).toFixed(2)}</span>
+                {/* EL CUADRO NEGRO SOLICITADO CON EL CÓDIGO POR COMENTARIO Y CANTIDAD DESCONTADA */}
+                {cuponesAplicados.length > 0 && (
+                  <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-700 pb-2">
+                      {isEs ? 'Descuento Aplicado' : 'Applied Discount'}
+                    </p>
+                    {cuponesAplicados.map((c, i) => {
+                      const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                      return (
+                        <div key={i} className="flex justify-between items-center mb-2 last:mb-0">
+                          <span className="text-slate-300 text-sm font-medium">
+                            {isEs ? 'Código promocional:' : 'Promo code:'} <strong className="text-white bg-slate-800 px-2 py-1 rounded ml-1">{c.codigo}</strong>
+                          </span>
+                          <span className="font-bold text-green-400">
+                            -${cantidadDescontadaCupon.toFixed(2)}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
-                ))}
+                )}
 
-                <div className="border-t border-slate-200 pt-4 mt-4 flex justify-between items-end">
+                <div className="border-t border-slate-200 pt-4 mt-2 flex justify-between items-end">
                   <span className="text-slate-800 font-black text-lg">Total</span>
                   <div className="text-right">
                     <span className="text-4xl font-black text-blue-600">${granTotalFinal.toFixed(2)}</span>
