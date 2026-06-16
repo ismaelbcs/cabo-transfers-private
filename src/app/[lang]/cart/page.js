@@ -5,16 +5,18 @@
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+// IMPORTAMOS Ticket y Edit3 para el banner de cupones
 import { 
   Trash2, User, Plane, CreditCard, ChevronRight, ChevronLeft, 
-  ShoppingBag, CheckCircle, Plus, Info, Banknote, Calendar, Mail, Phone, Compass 
+  ShoppingBag, CheckCircle, Plus, Info, Banknote, Calendar, Mail, Phone, Compass,
+  Ticket, Edit3 
 } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { toursData } from '../../../data/seoData';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-// IMPORTACIONES DE FIREBASE (Añadido updateDoc para que los cupones se actualicen)
+// IMPORTACIONES DE FIREBASE 
 import { doc, setDoc, collection, addDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
@@ -160,7 +162,7 @@ export default function CheckoutPage({ params }) {
   });
 
   // =========================================================
-  // 🎟️ CARGAR CUPONES DESDE LOCALSTORAGE AL INSTANTE
+  // 🎟️ CARGAR CUPONES DESDE LOCALSTORAGE
   // =========================================================
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
 
@@ -243,9 +245,7 @@ export default function CheckoutPage({ params }) {
         index++;
       }
 
-      // =========================================================
-      // 🔥 PROCESAR CUPONES USADOS (Marcar revisado y pagar chofer)
-      // =========================================================
+      // 🔥 PROCESAR CUPONES USADOS
       for (const cupon of cuponesAplicados) {
         if (cupon.tipo === 'resena') {
           const docCuponRef = doc(db, "cupones", cupon.codigo);
@@ -263,9 +263,7 @@ export default function CheckoutPage({ params }) {
         }
       }
       
-      // Limpiamos los cupones del navegador
       localStorage.removeItem('cabo_cupones');
-      
       setConfirmNumber(nuevoNumConfirmacion);
       setStep(4);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -309,7 +307,6 @@ export default function CheckoutPage({ params }) {
     finalize: isEs ? "Finalizar Reserva" : "Complete Booking",
     processing: isEs ? "Procesando..." : "Processing...",
     errorForm: isEs ? "Llena tu Nombre y Correo para continuar" : "Fill your Name and Email to continue",
-    // Textos de Pago
     paymentMethodTitle: isEs ? "Método de Pago" : "Payment Method",
     paypalOptionTitle: "PayPal / Credit Card",
     paypalOptionDesc: isEs ? "Pago seguro en línea" : "Secure online payment",
@@ -362,7 +359,6 @@ export default function CheckoutPage({ params }) {
           </div>
         )}
 
-        {/* CONTENEDOR PRINCIPAL: Fijado al mismo ancho que TransportBookingForm */}
         <div className="max-w-7xl mx-auto px-4">
           
           {/* ================= PASO 1: CARRITO ================= */}
@@ -387,11 +383,6 @@ export default function CheckoutPage({ params }) {
                         <div className="flex-1 pl-4">
                           <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-2">{item.titulo}</h3>
                           <p className="text-slate-500 font-medium text-sm mb-4">{item.subtitulo}</p>
-                          {item.config?.shoppingStop && (
-                            <span className="inline-block bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded border border-blue-100 mb-2">
-                              + Shopping Stop
-                            </span>
-                          )}
                           <p className="text-2xl font-black text-slate-900 tracking-tighter">${(item.precio || 0).toFixed(2)}</p>
                         </div>
                         <button onClick={() => eliminarDelCombo && eliminarDelCombo(item.id)} className="text-red-400 hover:text-red-600 transition-colors p-2 bg-red-50 hover:bg-red-100 rounded-xl">
@@ -401,41 +392,18 @@ export default function CheckoutPage({ params }) {
                     ))}
                   </div>
 
-                  {/* CAROUSEL PREMIUM */}
                   <div>
                     <h3 className="text-xl font-bold text-slate-900 mb-6 tracking-tight flex items-center gap-2">
                       <span className="text-blue-500 text-2xl leading-none">🌴</span> {t.crossSell}
                     </h3>
-                    
                     <div className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory custom-scrollbar px-2 -mx-2">
                       {crossSellItems.map((item) => (
-                        <div 
-                          key={item.id}
-                          onClick={() => {
-                            if (item.isTour) {
-                              router.push(item.url);
-                            } else {
-                              if (setServicioSeleccionado) setServicioSeleccionado('especiales');
-                              if (setVistaEspecial) setVistaEspecial(item.id);
-                              if (setPaso) setPaso(1); 
-                              router.push(`/${lang}`); 
-                            }
-                          }}
-                          className="relative min-w-[280px] max-w-[280px] h-[220px] rounded-[2rem] overflow-hidden cursor-pointer group snap-center shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] border border-slate-200/50 bg-slate-900 flex-shrink-0 transition-all duration-500 active:scale-[0.98]"
-                        >
-                          <img 
-                            src={item.image} 
-                            alt={item.title} 
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                          />
+                        <div key={item.id} onClick={() => { item.isTour ? router.push(item.url) : (() => { if(setServicioSeleccionado) setServicioSeleccionado('especiales'); if(setVistaEspecial) setVistaEspecial(item.id); if(setPaso) setPaso(1); router.push(`/${lang}`); })(); }} className="relative min-w-[280px] max-w-[280px] h-[220px] rounded-[2rem] overflow-hidden cursor-pointer group snap-center shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] border border-slate-200/50 bg-slate-900 flex-shrink-0 transition-all duration-500 active:scale-[0.98]">
+                          <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"/>
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-500"></div>
-                          
                           <div className="absolute top-4 left-4">
-                            <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/20 shadow-sm">
-                              {item.type}
-                            </span>
+                            <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/20 shadow-sm">{item.type}</span>
                           </div>
-
                           <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col justify-end">
                             <h4 className="text-white font-bold text-lg tracking-tight mb-2 group-hover:text-blue-100 transition-colors">{item.title}</h4>
                             <div className="flex justify-between items-end mt-1">
@@ -453,7 +421,6 @@ export default function CheckoutPage({ params }) {
                     </div>
                   </div>
 
-                  {/* BARRA INFERIOR */}
                   <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 md:p-6 shadow-[0_-10px_30px_rgb(0,0,0,0.05)] z-40">
                     <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="text-center sm:text-left">
@@ -555,37 +522,51 @@ export default function CheckoutPage({ params }) {
                         </div>
                       ))}
                     </div>
+
                     <div className="pt-2">
-                      <div className="flex justify-between items-center mb-2">
+                      <div className="flex justify-between items-center mb-4">
                         <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{t.subtotalTxt || 'Subtotal'}</p>
                         <p className="font-bold">${(subtotal || 0).toFixed(2)}</p>
                       </div>
 
                       {/* ========================================================= */}
-                      {/* ✅ CUADRO NEGRO DE DESCUENTO SOLICITADO */}
+                      {/* ✅ BANNER DE CÓDIGO DE CHOFER / CUPONES */}
                       {/* ========================================================= */}
-                      {cuponesAplicados.length > 0 && (
-                        <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner border border-slate-800">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-800 pb-2">
-                            {isEs ? 'Descuento Aplicado' : 'Applied Discount'}
-                          </p>
-                          {cuponesAplicados.map((c, i) => {
-                            const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
-                            return (
-                              <div key={i} className="flex justify-between items-center mb-2 last:mb-0">
-                                <span className="text-slate-300 text-sm font-medium">
-                                  {isEs ? 'Código:' : 'Promo code:'} <strong className="text-white bg-slate-800 px-2 py-1 rounded ml-1">{c.codigo}</strong>
-                                </span>
-                                <span className="font-bold text-emerald-400">
-                                  -${cantidadDescontadaCupon.toFixed(2)}
-                                </span>
-                              </div>
-                            );
-                          })}
+                      <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400">
+                            <Ticket size={14} className="text-emerald-400" />
+                            {isEs ? "Código / Cupón" : "Code / Coupon"}
+                          </span>
+                          <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
+                            <Edit3 size={12} /> {isEs ? "Añadir" : "Add"}
+                          </Link>
                         </div>
-                      )}
+                        
+                        {cuponesAplicados.length > 0 ? (
+                          <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
+                            {cuponesAplicados.map((c, i) => {
+                              const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                              return (
+                                <div key={i} className="flex justify-between items-center">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                                    {c.codigo}
+                                  </span>
+                                  <span className="font-bold text-emerald-400 text-sm">
+                                    -${cantidadDescontadaCupon.toFixed(2)}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <p className="text-[11px] text-slate-500 font-medium">
+                            {isEs ? "Añade un código de chofer aquí." : "Add a driver code here."}
+                          </p>
+                        )}
+                      </div>
 
-                      <div className="flex justify-between items-end mt-6">
+                      <div className="flex justify-between items-end mt-4">
                         <div>
                           <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">{t.payTotal}</p>
                           <p className="text-[10px] text-slate-500 mb-0 font-medium">{t.taxesInc}</p>
@@ -593,6 +574,7 @@ export default function CheckoutPage({ params }) {
                         <p className="text-4xl font-black tracking-tighter">${(granTotalFinal || 0).toFixed(2)}</p>
                       </div>
                     </div>
+
                     <div className="flex gap-3 mt-8">
                       <button onClick={() => { setStep(1); window.scrollTo(0,0); }} className="px-4 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold active:scale-95">
                         <ChevronLeft size={20} />
@@ -653,7 +635,7 @@ export default function CheckoutPage({ params }) {
                   </div>
                 </div>
 
-                {/* WIDGET DERECHO CON SELECCIÓN DE PAGO TASTE SKILL */}
+                {/* WIDGET DERECHO PAGO */}
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                     
@@ -662,8 +644,15 @@ export default function CheckoutPage({ params }) {
                     </h3>
                     
                     <div className="space-y-4 mb-8">
-                      {/* BOTÓN PAYPAL TASTE */}
-                      <label className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                      {/* ========================================================= */}
+                      {/* ✅ ARREGLADO: BOTONES DE PAGO AHORA CON ONCLICK Y FUNCIONALES */}
+                      {/* ========================================================= */}
+                      
+                      {/* BOTÓN PAYPAL */}
+                      <div 
+                        onClick={() => setFormData({...formData, paymentMethod: 'paypal'})} 
+                        className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}
+                      >
                         <div className="mt-0.5">
                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.paymentMethod === 'paypal' ? 'border-blue-500' : 'border-slate-500'}`}>
                                 {formData.paymentMethod === 'paypal' && <div className="w-2.5 h-2.5 bg-blue-500 rounded-full"></div>}
@@ -673,10 +662,13 @@ export default function CheckoutPage({ params }) {
                             <span className={`font-black text-base block mb-1 ${formData.paymentMethod === 'paypal' ? 'text-white' : 'text-slate-300'}`}>{t.paypalOptionTitle}</span>
                             <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{t.paypalOptionDesc}</span>
                         </div>
-                      </label>
+                      </div>
 
-                      {/* BOTÓN EFECTIVO TASTE */}
-                      <label className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                      {/* BOTÓN EFECTIVO */}
+                      <div 
+                        onClick={() => setFormData({...formData, paymentMethod: 'efectivo'})} 
+                        className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}
+                      >
                         <div className="mt-0.5">
                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.paymentMethod === 'efectivo' ? 'border-emerald-500' : 'border-slate-500'}`}>
                                 {formData.paymentMethod === 'efectivo' && <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>}
@@ -686,10 +678,55 @@ export default function CheckoutPage({ params }) {
                             <span className={`font-black text-base block mb-1 ${formData.paymentMethod === 'efectivo' ? 'text-white' : 'text-slate-300'}`}>{t.cashOptionTitle}</span>
                             <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{t.cashOptionDesc}</span>
                         </div>
-                      </label>
+                      </div>
                     </div>
 
-                    <button onClick={() => { setStep(2); window.scrollTo(0,0); }} className="w-full py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold">
+                    {/* ========================================================= */}
+                    {/* BANNER DE CÓDIGO DE CHOFER (VERSIÓN REDUCIDA PARA PASO 3) */}
+                    {/* ========================================================= */}
+                    <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400">
+                          <Ticket size={14} className="text-emerald-400" />
+                          {isEs ? "Código / Cupón" : "Code / Coupon"}
+                        </span>
+                        <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
+                          <Edit3 size={12} /> {isEs ? "Añadir" : "Add"}
+                        </Link>
+                      </div>
+                      {cuponesAplicados.length > 0 ? (
+                        <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
+                          {cuponesAplicados.map((c, i) => {
+                            const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                            return (
+                              <div key={i} className="flex justify-between items-center">
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                                  {c.codigo}
+                                </span>
+                                <span className="font-bold text-emerald-400 text-sm">
+                                  -${cantidadDescontadaCupon.toFixed(2)}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <p className="text-[11px] text-slate-500 font-medium">
+                          {isEs ? "Añade un código de chofer aquí." : "Add a driver code here."}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* TOTAL A PAGAR RESUMIDO */}
+                    <div className="flex justify-between items-end mt-4 pt-4 border-t border-slate-800">
+                      <div>
+                        <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">{t.payTotal}</p>
+                        <p className="text-[10px] text-slate-500 mb-0 font-medium">{t.taxesInc}</p>
+                      </div>
+                      <p className="text-4xl font-black tracking-tighter">${(granTotalFinal || 0).toFixed(2)}</p>
+                    </div>
+
+                    <button onClick={() => { setStep(2); window.scrollTo(0,0); }} className="w-full mt-8 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold">
                       <ChevronLeft size={20} className="mr-2" /> Atrás
                     </button>
                   </div>
