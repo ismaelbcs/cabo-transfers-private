@@ -91,18 +91,18 @@ export default function HeroBooking({ lang = 'es' }) {
   };
 
   // =========================================================
-  // 🚀 VALIDACIÓN ESTRICTA Y FLUJO DE SERVICIOS CORREGIDO
+  // 🚀 VALIDACIÓN ESTRICTA Y REDIRECCIONAMIENTO POR URL
   // =========================================================
   const avanzarPaso = (servicio) => {
 
-    // 1. Si el cliente quiere entrar al menú de Tours & Especiales, lo dejamos pasar libremente sin exigirle llenar lo del Aeropuerto.
+    // 1. Si el cliente quiere ir a Tours & Especiales, lo enviamos a la URL /tours
     if (servicio === 'experiencias') {
       setServicioSeleccionado('experiencias');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      router.push(`/${lang}/tours`);
       return;
     }
 
-    // 2. Si el cliente elige un traslado de AEROPUERTO, entonces SÍ validamos las casillas estrictamente.
+    // 2. Validación de campos obligatorios para transporte de Aeropuerto
     if (!reserva.hotelId || !reserva.vehiculo || !reserva.fechaLlegada || !reserva.pasajeros) {
       toast.error(
         lang === 'es'
@@ -112,10 +112,12 @@ export default function HeroBooking({ lang = 'es' }) {
       return;
     }
 
-    // 3. Si las validaciones pasan, avanza al Checkout de transporte.
+    // 3. Guardar el servicio y REDIRIGIR a la página de Checkout
     setServicioSeleccionado(servicio);
-    setPaso(2);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setPaso(2); // Mantenemos el estado interno para referencias en el Contexto
+    
+    // REDIRECCIÓN CLAVE
+    router.push(`/${lang}/checkout`);
   };
 
   // =========================================================
@@ -186,9 +188,7 @@ export default function HeroBooking({ lang = 'es' }) {
       <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-6 md:p-10 border border-slate-200/60 transition-all duration-300">
 
         {servicioSeleccionado === 'tours' ? (
-          /* ========================================================= */
-          /* VISTA 4: CATÁLOGO DE TOURS                                */
-          /* ========================================================= */
+          /* VISTA 4: CATÁLOGO DE TOURS (Si entran desde el form en vez de URL) */
           <div className="animate-fade-in">
             <button
               onClick={() => setServicioSeleccionado('experiencias')}
@@ -208,7 +208,8 @@ export default function HeroBooking({ lang = 'es' }) {
                   onClick={() => {
                     setReserva(prev => ({ ...prev, tourId: tour.id }));
                     setPaso(2);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    // Redirigir al Checkout si compran el tour directo desde aquí
+                    router.push(`/${lang}/checkout`);
                   }}
                   className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-slate-300 transition-all duration-300 flex flex-col"
                 >
@@ -277,7 +278,7 @@ export default function HeroBooking({ lang = 'es' }) {
                 </div>
               </div>
             ) : (
-              /* SECCIÓN DE FORMULARIOS DETALLADOS */
+              /* SECCIÓN DE FORMULARIOS DETALLADOS DE ESPECIALES */
               <div>
                 {/* A. FORMULARIO DE CENAS */}
                 {vistaEspecial === 'cenas' && (
@@ -789,49 +790,6 @@ export default function HeroBooking({ lang = 'es' }) {
                 )}
               </div>
             )}
-          </div>
-
-        ) : servicioSeleccionado === 'experiencias' ? (
-          /* ========================================================= */
-          /* VISTA INTERMEDIA: ELEGIR TOUR O SERVICIO ESPECIAL         */
-          /* ========================================================= */
-          <div className="animate-fade-in py-10">
-            <button
-              onClick={() => setServicioSeleccionado('')}
-              className="mb-8 text-slate-500 hover:text-slate-900 font-bold flex items-center text-sm transition-colors group"
-            >
-              <ArrowLeft size={16} className="mr-1.5 group-hover:-translate-x-1 transition-transform" /> {lang === 'es' ? 'Volver al inicio' : 'Back to start'}
-            </button>
-
-            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 text-center mb-10 tracking-tighter">
-              {lang === 'es' ? '¿Qué experiencia estás buscando?' : 'What experience are you looking for?'}
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-              {/* Botón de Tours */}
-              <button
-                onClick={() => setServicioSeleccionado('tours')}
-                className="group bg-white border border-slate-200 rounded-[1.5rem] p-8 hover:border-slate-900 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 flex flex-col items-center text-center cursor-pointer"
-              >
-                <div className="w-16 h-16 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-6 border border-slate-200 group-hover:bg-slate-900 group-hover:text-white transition-all">
-                  <Compass size={32} />
-                </div>
-                <h4 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">{lang === 'es' ? 'Catálogo de Tours' : 'Tours Catalog'}</h4>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">{lang === 'es' ? 'Explora nuestras mejores aventuras y excursiones.' : 'Explore our best adventures and excursions.'}</p>
-              </button>
-
-              {/* Botón de Servicios Especiales */}
-              <button
-                onClick={() => setServicioSeleccionado('especiales')}
-                className="group bg-white border border-slate-200 rounded-[1.5rem] p-8 hover:border-slate-900 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 flex flex-col items-center text-center cursor-pointer"
-              >
-                <div className="w-16 h-16 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center mb-6 border border-slate-200 group-hover:bg-slate-900 group-hover:text-white transition-all">
-                  <Wine size={32} />
-                </div>
-                <h4 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">{lang === 'es' ? 'Servicios Especiales' : 'Special Services'}</h4>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed">{lang === 'es' ? 'Cenas, vida nocturna, traslados de golf y más.' : 'Dinners, nightlife, golf transfers and more.'}</p>
-              </button>
-            </div>
           </div>
 
         ) : (
