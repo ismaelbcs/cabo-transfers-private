@@ -17,7 +17,6 @@ import { db } from '../../../firebase';
 // 1. GENERADOR DE PLANTILLA HTML PARA ADMIN (IDENTICO A LAS FOTOS)
 // =========================================================
 const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
-  // Extracción de datos
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'N/A';
   const correoCliente = datosCliente.email || 'N/A';
   const telefonoCliente = datosCliente.telefono || 'N/A';
@@ -27,16 +26,13 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
   
-  // Vuelos
   const aerolineaLlegada = datosCliente.aerolinea ? `${datosCliente.aerolinea} (Vuelo: ${datosCliente.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = datosCliente.hora || 'N/A';
   
-  // Variables adicionales que podrían o no venir dependiendo si es redondo
   const aerolineaSalida = item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)';
   const horaSalida = item.config?.horaSalida || 'N/A';
   const horaPickUp = item.config?.fechaLlegada || 'N/A'; 
   
-  // Enlace para WhatsApp limpiando espacios del número
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g,'')}` : '#';
 
   return `
@@ -44,9 +40,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
     <html>
     <head><meta charset="utf-8"></head>
     <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 20px; margin: 0;">
-      
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden;">
-        
         <tr>
           <td style="background-color: #213f8c; padding: 40px 20px; text-align: center;">
             <div style="margin-bottom: 20px;">
@@ -58,100 +52,40 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             <p style="color: #ffffff; margin: 0; font-size: 16px; opacity: 0.9;">${item.titulo}</p>
           </td>
         </tr>
-        
         <tr>
           <td style="padding: 40px 30px;">
-            
-            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 0 0 20px 0;">
-              INFORMACIÓN GENERAL
-            </h2>
+            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 0 0 20px 0;">INFORMACIÓN GENERAL</h2>
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Nº de Confirmación:</td>
-                <td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${numConfirmacion}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Tipo de Servicio:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${tipoServicio}</td>
-              </tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Nº de Confirmación:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${numConfirmacion}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Tipo de Servicio:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${tipoServicio}</td></tr>
             </table>
 
-            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">
-              DATOS DEL CLIENTE
-            </h2>
+            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">DATOS DEL CLIENTE</h2>
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Nombre Completo:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${nombreCliente}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Teléfono:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${telefonoCliente}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo Electrónico:</td>
-                <td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px; text-decoration: underline;">${correoCliente}</td>
-              </tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Nombre Completo:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${nombreCliente}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Teléfono:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${telefonoCliente}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo Electrónico:</td><td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px; text-decoration: underline;">${correoCliente}</td></tr>
             </table>
 
-            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">
-              DETALLES LOGÍSTICOS
-            </h2>
+            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">DETALLES LOGÍSTICOS</h2>
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel / Destino:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelDestino}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td>
-                <td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td>
-                <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td>
-              </tr>
-              <tr>
-                <td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Salida Vuelo:</td>
-                <td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaSalida}</td>
-              </tr>
-              <tr>
-                <td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td>
-                <td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td>
-              </tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel / Destino:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelDestino}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
+              <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td></tr>
             </table>
 
-            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">
-              RESUMEN DE PAGO
-            </h2>
+            <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">RESUMEN DE PAGO</h2>
             <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; background-color: #ffffff;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                  <td style="color: #64748b; font-size: 14px; padding-bottom: 15px;">Método de Pago:</td>
-                  <td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; padding-bottom: 15px;">${metodoPago}</td>
-                </tr>
-                <tr>
-                  <td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td>
-                  <td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${(item.precio || 0).toFixed(2)} USD</td>
-                </tr>
+                <tr><td style="color: #64748b; font-size: 14px; padding-bottom: 15px;">Método de Pago:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; padding-bottom: 15px;">${metodoPago}</td></tr>
+                <tr><td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td><td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${(item.precio || 0).toFixed(2)} USD</td></tr>
               </table>
             </div>
 
-            <a href="${wpLink}" style="display: block; width: 100%; text-align: center; border: 2px solid #213f8c; color: #213f8c; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 30px;">
-              💬 Contactar con el Cliente
-            </a>
-
-            <p style="text-align: center; color: #64748b; font-size: 12px; margin-top: 40px; line-height: 1.5;">
-              Este es un correo automático generado por el nuevo sistema de reservas.<br/>Por favor, revisa la información y agenda el servicio.
-            </p>
-
+            <a href="${wpLink}" style="display: block; width: 100%; text-align: center; border: 2px solid #213f8c; color: #213f8c; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 30px;">💬 Contactar con el Cliente</a>
+            <p style="text-align: center; color: #64748b; font-size: 12px; margin-top: 40px; line-height: 1.5;">Este es un correo automático generado por el nuevo sistema de reservas.<br/>Por favor, revisa la información y agenda el servicio.</p>
           </td>
         </tr>
       </table>
@@ -161,7 +95,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
 };
 
 // =========================================================
-// 2. GENERADOR DE PLANTILLA HTML PARA CLIENTE (ESTILO PREMIUM)
+// 2. GENERADOR DE PLANTILLA HTML PARA CLIENTE
 // =========================================================
 const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => {
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'Pasajero';
@@ -199,37 +133,29 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
 };
 
 export default function CheckoutPage({ params }) {
-  // DESENVOLVEMOS LA PROMESA DE LOS PARÁMETROS PARA NEXT.JS 15
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en';
   
   const router = useRouter();
-  const { carrito, carritoTotal, vaciarCombo } = useCart();
   
-  // EXTRAEMOS APPLIEDPROMO DE USEBOOKING
+  // 👉 AQUÍ ESTABA EL ERROR: USAMOS 'combo' EN VEZ DE 'carrito'
+  const { combo = [], vaciarCombo } = useCart();
   const { appliedPromo } = useBooking();
   
-  // Estados de la interfaz
   const [isSuccess, setIsSuccess] = useState(false);
   const [numConfirmacion, setNumConfirmacion] = useState('');
   const [procesandoPago, setProcesandoPago] = useState(false);
 
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellidos: '',
-    email: '',
-    telefono: '',
-    aerolinea: '',
-    vuelo: '',
-    notas: '',
-    paymentMethod: 'paypal'
+    nombre: '', apellidos: '', email: '', telefono: '',
+    aerolinea: '', vuelo: '', notas: '', paymentMethod: 'paypal'
   });
 
-  // LÓGICA MATEMÁTICA DE DESCUENTOS PROTEGIDA CONTRA UNDEFINED
-  const totalSeguro = carritoTotal || 0;
+  // LÓGICA MATEMÁTICA CON LA VARIABLE 'combo'
+  const subtotal = combo.reduce((acc, item) => acc + (item.precio || 0), 0);
   const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
-  const cantidadDescontada = totalSeguro * (descuentoPorcentaje / 100);
-  const granTotalFinal = totalSeguro - cantidadDescontada;
+  const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
+  const granTotalFinal = subtotal - cantidadDescontada;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -239,23 +165,15 @@ export default function CheckoutPage({ params }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // =========================================================
-  // LA FUNCIÓN MÁGICA QUE GUARDA EN FIREBASE
-  // =========================================================
   const procesarConfirmacion = async (detallesPago = null) => {
     setProcesandoPago(true);
-
-    // Generamos un número de confirmación aleatorio
     const nuevoNumConfirmacion = Math.random().toString(36).substr(2, 8).toUpperCase();
     setNumConfirmacion(nuevoNumConfirmacion);
 
     try {
-      console.log("Preparando datos de correos para Firebase...");
-      
       let index = 1;
-      for (const item of carrito) {
+      for (const item of combo) {
         
-        // CORREO PARA EL CLIENTE
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
@@ -265,36 +183,29 @@ export default function CheckoutPage({ params }) {
           }
         });
 
-        // CORREO PARA ADMIN (TU EMPRESA)
         const docIdAdmin = `${nuevoNumConfirmacion}_admin_${index}`;
         await setDoc(doc(db, "correos", docIdAdmin), {
-          to: "reservationballard@gmail.com", // Tu correo
+          to: "reservationballard@gmail.com", 
           message: {
             subject: `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`,
             html: generarHtmlCorreoAdmin(item, formData, nuevoNumConfirmacion)
           }
         });
-
         index++;
       }
-
-      console.log("✅ Correos registrados en Firebase exitosamente.");
       
-      // Vaciamos el carrito y mostramos la pantalla de éxito
       vaciarCombo();
       setIsSuccess(true);
       setProcesandoPago(false);
 
     } catch (error) {
-      console.error("❌ Error al registrar los correos en Firebase:", error);
+      console.error("Error al registrar correos en Firebase:", error);
       setProcesandoPago(false);
-      alert(lang === 'es' ? "Hubo un error al procesar tu reserva. Por favor intenta nuevamente." : "There was an error processing your booking. Please try again.");
+      alert(lang === 'es' ? "Hubo un error al procesar tu reserva. Intenta nuevamente." : "There was an error processing your booking. Please try again.");
     }
   };
 
-  // =========================================================
-  // PANTALLA DE ÉXITO (POST-PAGO)
-  // =========================================================
+  // VISTA PANTALLA DE ÉXITO
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-slate-50 pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center animate-fade-in">
@@ -325,8 +236,8 @@ export default function CheckoutPage({ params }) {
     );
   }
 
-  // VISTA DE CARRITO VACÍO
-  if (carrito?.length === 0) {
+  // VISTA CARRITO VACÍO
+  if (combo.length === 0) {
     return (
       <div className="min-h-screen bg-slate-50 pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center animate-fade-in">
         <div className="w-24 h-24 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-6">
@@ -395,13 +306,25 @@ export default function CheckoutPage({ params }) {
             <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-8 lg:sticky lg:top-32">
               <h3 className="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">{lang === 'es' ? 'Resumen de tu Combo' : 'Order Summary'}</h3>
               
+              {/* LISTA DE SERVICIOS EN EL CARRITO */}
+              <div className="mb-6 space-y-4">
+                {combo.map((item, idx) => (
+                  <div key={idx} className="flex justify-between items-start border-b border-slate-100 pb-4 last:border-0 last:pb-0">
+                    <div className="pr-4">
+                      <p className="font-bold text-slate-800 text-sm tracking-tight">{item.titulo}</p>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">{item.subtitulo}</p>
+                    </div>
+                    <p className="font-bold text-blue-600">${(item.precio || 0).toFixed(2)}</p>
+                  </div>
+                ))}
+              </div>
+
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-500 font-bold text-sm">Subtotal</span>
-                  <span className="font-bold text-slate-700">${totalSeguro.toFixed(2)}</span>
+                  <span className="font-bold text-slate-700">${subtotal.toFixed(2)}</span>
                 </div>
                 
-                {/* SE RENDERIZA EL DESCUENTO SI EXISTE UN CUPÓN ACTIVO */}
                 {descuentoPorcentaje > 0 && (
                   <div className="flex justify-between items-center mb-2 text-green-600 font-bold text-sm">
                     <span>{lang === 'es' ? 'Descuento' : 'Discount'} ({descuentoPorcentaje}%)</span>
@@ -422,7 +345,7 @@ export default function CheckoutPage({ params }) {
               <div className="mt-4 relative z-0">
                 <PayPalButtons
                   style={{ layout: "vertical", shape: "rect", color: "gold" }}
-                  disabled={!formData.nombre || !formData.email} // Desactiva PayPal si no hay nombre o email
+                  disabled={!formData.nombre || !formData.email} 
                   createOrder={(data, actions) => {
                     return actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] });
                   }}
@@ -439,7 +362,7 @@ export default function CheckoutPage({ params }) {
               </div>
 
               {(!formData.nombre || !formData.email) && (
-                <p className="text-xs text-red-500 mt-2 text-center font-bold">
+                <p className="text-xs text-red-500 mt-3 text-center font-bold">
                   {lang === 'es' ? 'Por favor llena tus datos de contacto antes de pagar.' : 'Please fill in your contact details before paying.'}
                 </p>
               )}
