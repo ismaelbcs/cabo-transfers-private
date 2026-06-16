@@ -14,8 +14,8 @@ import { useBooking } from '../../../context/BookingContext';
 import { toursData } from '../../../data/seoData';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-// IMPORTACIONES DE FIREBASE
-import { doc, setDoc, collection, addDoc } from "firebase/firestore";
+// IMPORTACIONES DE FIREBASE (Añadido updateDoc para que los cupones se actualicen)
+import { doc, setDoc, collection, addDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
 // =========================================================
@@ -159,12 +159,43 @@ export default function CheckoutPage({ params }) {
     aerolinea: '', vuelo: '', hora: '', notas: '', paymentMethod: 'paypal'
   });
 
+  // =========================================================
+  // 🎟️ CARGAR CUPONES DESDE LOCALSTORAGE AL INSTANTE
+  // =========================================================
+  const [cuponesAplicados, setCuponesAplicados] = useState([]);
+
+  useEffect(() => {
+    const cargarCupones = () => {
+      const guardados = localStorage.getItem('cabo_cupones');
+      if (guardados) setCuponesAplicados(JSON.parse(guardados));
+      else setCuponesAplicados([]);
+    };
+    
+    cargarCupones();
+    window.addEventListener('focus', cargarCupones);
+    window.addEventListener('storage', cargarCupones);
+    const interval = setInterval(cargarCupones, 1000); 
+
+    return () => {
+      window.removeEventListener('focus', cargarCupones);
+      window.removeEventListener('storage', cargarCupones);
+      clearInterval(interval);
+    };
+  }, []);
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  // =========================================================
+  // 🧮 LÓGICA DE MATEMÁTICAS CON CUPONES INCLUIDOS
+  // =========================================================
   const subtotal = combo?.reduce((acc, item) => acc + (item.precio || 0), 0) || 0;
-  const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
+  
+  const descuentoPorcentajePromo = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
+  const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (c.descuento || 10), 0);
+  const descuentoPorcentaje = descuentoPorcentajePromo + cuponesDescuento;
+  
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
-  const granTotalFinal = subtotal - cantidadDescontada;
+  const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
   const isFormValid = formData.nombre.trim() !== '' && formData.email.trim() !== '';
 
@@ -176,6 +207,8 @@ export default function CheckoutPage({ params }) {
 
     try {
       let index = 1;
+      
+      // REGISTRAR RESERVA
       await addDoc(collection(db, "reservas"), {
         numeroConfirmacion: nuevoNumConfirmacion,
         idioma: lang,
@@ -184,6 +217,7 @@ export default function CheckoutPage({ params }) {
         servicios: combo,
         total: granTotalFinal,
         descuentoAplicado: descuentoPorcentaje,
+        cupones: cuponesAplicados.map(c => c.codigo),
         fechaCreacion: new Date().toISOString(),
       });
       
@@ -208,6 +242,29 @@ export default function CheckoutPage({ params }) {
 
         index++;
       }
+
+      // =========================================================
+      // 🔥 PROCESAR CUPONES USADOS (Marcar revisado y pagar chofer)
+      // =========================================================
+      for (const cupon of cuponesAplicados) {
+        if (cupon.tipo === 'resena') {
+          const docCuponRef = doc(db, "cupones", cupon.codigo);
+          await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
+        }
+        if (cupon.tipo === 'chofer') {
+          await addDoc(collection(db, "comisiones_choferes"), {
+            codigoChofer: cupon.codigo,
+            choferCorreo: cupon.choferCorreo || 'N/A',
+            numeroConfirmacion: nuevoNumConfirmacion,
+            clienteNombre: `${formData.nombre} ${formData.apellidos}`,
+            montoTotalReserva: granTotalFinal,
+            fechaUso: new Date().toISOString()
+          });
+        }
+      }
+      
+      // Limpiamos los cupones del navegador
+      localStorage.removeItem('cabo_cupones');
       
       setConfirmNumber(nuevoNumConfirmacion);
       setStep(4);
@@ -503,6 +560,31 @@ export default function CheckoutPage({ params }) {
                         <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{t.subtotalTxt || 'Subtotal'}</p>
                         <p className="font-bold">${(subtotal || 0).toFixed(2)}</p>
                       </div>
+
+                      {/* ========================================================= */}
+                      {/* ✅ CUADRO NEGRO DE DESCUENTO SOLICITADO */}
+                      {/* ========================================================= */}
+                      {cuponesAplicados.length > 0 && (
+                        <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner border border-slate-800">
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-800 pb-2">
+                            {isEs ? 'Descuento Aplicado' : 'Applied Discount'}
+                          </p>
+                          {cuponesAplicados.map((c, i) => {
+                            const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                            return (
+                              <div key={i} className="flex justify-between items-center mb-2 last:mb-0">
+                                <span className="text-slate-300 text-sm font-medium">
+                                  {isEs ? 'Código:' : 'Promo code:'} <strong className="text-white bg-slate-800 px-2 py-1 rounded ml-1">{c.codigo}</strong>
+                                </span>
+                                <span className="font-bold text-emerald-400">
+                                  -${cantidadDescontadaCupon.toFixed(2)}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+
                       <div className="flex justify-between items-end mt-6">
                         <div>
                           <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">{t.payTotal}</p>
@@ -535,7 +617,7 @@ export default function CheckoutPage({ params }) {
             </div>
           )}
 
-          {/* ================= PASO 3: CONFIRMACIÓN Y PAGO (MEJORADO) ================= */}
+          {/* ================= PASO 3: CONFIRMACIÓN Y PAGO ================= */}
           {step === 3 && (
             <div className="animate-fade-in w-full">
               {renderStepper()}
