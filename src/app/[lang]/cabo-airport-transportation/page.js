@@ -1,10 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckCircle, Clock, Calendar, Baby, Banknote, CreditCard, MapPin } from 'lucide-react';
+import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  // Desempaquetamos params (compatible con Next.js 15 si es necesario)
   const lang = params?.lang || 'en';
 
   if (lang === 'es') {
@@ -28,7 +27,7 @@ export default function CaboTransportationPage({ params }) {
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">
       
-      {/* 1. HEADER SECTION (Botones ajustados a tus rutas) */}
+      {/* 1. HEADER SECTION */}
       <header className="px-6 py-24 mx-auto max-w-5xl text-center md:py-32">
         <div className="inline-flex items-center px-3 py-1 mb-8 text-xs font-medium rounded-full text-neutral-600 bg-neutral-100 border border-neutral-200">
           ✨ {lang === 'es' ? 'Clasificado #1 en Traslados de Los Cabos' : 'Rated #1 in Los Cabos Transfers'}
@@ -61,7 +60,7 @@ export default function CaboTransportationPage({ params }) {
 
       <main className="px-6 mx-auto max-w-4xl pb-24">
         
-        {/* TEXTO SEO EXTENSO (Contenido Original + SEO Extra) */}
+        {/* TEXTO SEO EXTENSO */}
         <section className="mb-20">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
             {lang === 'es' ? 'El Mejor Shuttle y Transporte Privado de Cabo' : 'The Ultimate Cabo Airport Shuttle & Private Transport'}
@@ -82,15 +81,26 @@ export default function CaboTransportationPage({ params }) {
                 ? 'Nuestros servicios exclusivos aseguran que puedas comenzar a relajarte en el momento en que sales de la terminal. Con bebidas bien frías esperándote en el vehículo, aire acondicionado ajustado a tu temperatura preferida e interiores de cuero inmaculados, redefinimos cómo debería sentirse un Cabo Airport Shuttle.'
                 : 'Our exclusive services ensure you can start relaxing the moment you step out of the terminal. With icy cold beverages waiting in the vehicle, air conditioning set to your preferred temperature, and immaculate leather interiors, we redefine what a Cabo Airport Shuttle should feel like.'}
             </p>
-            <p>
-              {lang === 'es'
-                ? 'Ya sea que necesites transporte privado a Cabo San Lucas, San José del Cabo o el Corredor Turístico, estamos comprometidos a brindar el mejor servicio de transporte al aeropuerto SJD con tarifas competitivas y vehículos impecables.'
-                : 'Whether you need private transportation to Cabo San Lucas, San Jose del Cabo, or the Tourist Corridor, we are committed to providing the absolute best SJD airport transportation service with competitive rates and pristine vehicles.'}
-            </p>
           </div>
         </section>
 
-        {/* IMAGEN 1: SJD AIRPORT TAXI BANNER (Dark Theme) */}
+        {/* IMAGEN 1: SUBURBAN BALLARD SJD */}
+        <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] mb-24 rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
+          <Image 
+            src="/suburban-airport-los-cabos-ballard-sjd.webp" 
+            alt="Chevrolet Suburban waiting at SJD Airport for Los Cabos Transportation" 
+            fill
+            sizes="(max-width: 768px) 100vw, 1000px"
+            style={{ objectFit: 'cover' }}
+            className="transition-transform duration-1000 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none"></div>
+          <div className="absolute bottom-8 left-8 text-white">
+            <p className="font-semibold text-xl tracking-tight mb-1">{lang === 'es' ? 'Flota de Lujo en Aeropuerto SJD' : 'Luxury Fleet at SJD Airport'}</p>
+          </div>
+        </div>
+
+        {/* SJD AIRPORT TAXI BANNER (Dark Theme) */}
         <section className="mb-24">
           <div className="bg-[#0F172A] text-white rounded-[2rem] p-10 md:p-14 shadow-xl">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">
@@ -111,12 +121,12 @@ export default function CaboTransportationPage({ params }) {
           </div>
         </section>
 
-        {/* IMAGEN 2: POPULAR ROUTES (Con URLs para redirigir a reservas) */}
+        {/* POPULAR ROUTES (Con URLs Exactas de tus Destinos) */}
         <section className="mb-24">
           <div className="flex items-center mb-8">
             <MapPin className="w-8 h-8 text-slate-700 mr-3" />
             <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 tracking-tight">
-              {lang === 'es' ? 'Rutas Populares de Transporte al Aeropuerto' : 'Popular Airport Transportation Routes'}
+              {lang === 'es' ? 'Rutas Populares de Transporte' : 'Popular Airport Transportation Routes'}
             </h2>
           </div>
           
@@ -124,19 +134,19 @@ export default function CaboTransportationPage({ params }) {
             {/* Columna Izquierda */}
             <ul className="space-y-4">
               {[
-                { name: 'Airport SJD to Nobu Hotel Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Riu Palace Baja California', link: `/${lang}/` },
-                { name: 'Airport SJD to Grand Velas Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Marquis Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Hilton Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Dreams Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Pueblo Bonito Sunset', link: `/${lang}/` },
-                { name: 'Airport SJD to Garza Blanca', link: `/${lang}/` },
+                { name: "Airport SJD to Nobu Hotel Los Cabos", path: `/${lang}/destinations/sjd-to-nobu-hotel` },
+                { name: "Airport SJD to Riu Palace Baja California", path: `/${lang}/destinations/sjd-to-riu-palace` },
+                { name: "Airport SJD to Grand Velas Los Cabos", path: `/${lang}/destinations/sjd-to-grand-velas` },
+                { name: "Airport SJD to Marquis Los Cabos", path: `/${lang}/destinations/sjd-to-marquis` },
+                { name: "Airport SJD to Hilton Los Cabos", path: `/${lang}/destinations/sjd-to-hilton-los-cabos` },
+                { name: "Airport SJD to Dreams Los Cabos", path: `/${lang}/destinations/sjd-to-dreams-los-cabos` },
+                { name: "Airport SJD to Pueblo Bonito Sunset", path: `/${lang}/destinations/sjd-to-pueblo-bonito-sunset` },
+                { name: "Airport SJD to Garza Blanca", path: `/${lang}/destinations/sjd-to-garza-blanca` }
               ].map((route, i) => (
                 <li key={`left-${i}`}>
-                  <Link href={route.link} className="flex items-start group">
+                  <Link href={route.path} className="flex items-start group">
                     <CheckCircle className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors mr-3 shrink-0 mt-0.5" />
-                    <span className="text-neutral-600 group-hover:text-neutral-900 transition-colors">{route.name}</span>
+                    <span className="text-neutral-600 group-hover:text-neutral-900 transition-colors font-medium">{route.name}</span>
                   </Link>
                 </li>
               ))}
@@ -145,18 +155,18 @@ export default function CaboTransportationPage({ params }) {
             {/* Columna Derecha */}
             <ul className="space-y-4">
               {[
-                { name: 'Airport SJD to Hard Rock Hotel Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Riu Santa Fe', link: `/${lang}/` },
-                { name: 'Airport SJD to Waldorf Astoria', link: `/${lang}/` },
-                { name: 'Airport SJD to Secrets Puerto Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Hyatt Ziva Los Cabos', link: `/${lang}/` },
-                { name: 'Airport SJD to Breathless Cabo San Lucas', link: `/${lang}/` },
-                { name: 'Airport SJD to Pueblo Bonito Pacifica', link: `/${lang}/` },
+                { name: "Airport SJD to Hard Rock Hotel Los Cabos", path: `/${lang}/destinations/sjd-to-hard-rock` },
+                { name: "Airport SJD to Riu Santa Fe", path: `/${lang}/destinations/sjd-to-riu-santa-fe` },
+                { name: "Airport SJD to Waldorf Astoria", path: `/${lang}/destinations/sjd-to-waldorf-astoria` },
+                { name: "Airport SJD to Secrets Puerto Los Cabos", path: `/${lang}/destinations/sjd-to-secrets-puerto-los-cabos` },
+                { name: "Airport SJD to Hyatt Ziva Los Cabos", path: `/${lang}/destinations/sjd-to-hyatt-ziva` },
+                { name: "Airport SJD to Breathless Cabo San Lucas", path: `/${lang}/destinations/sjd-to-breathless` },
+                { name: "Airport SJD to Pueblo Bonito Pacifica", path: `/${lang}/destinations/sjd-to-pueblo-bonito-pacifica` },
               ].map((route, i) => (
                 <li key={`right-${i}`}>
-                  <Link href={route.link} className="flex items-start group">
+                  <Link href={route.path} className="flex items-start group">
                     <CheckCircle className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors mr-3 shrink-0 mt-0.5" />
-                    <span className="text-neutral-600 group-hover:text-neutral-900 transition-colors">{route.name}</span>
+                    <span className="text-neutral-600 group-hover:text-neutral-900 transition-colors font-medium">{route.name}</span>
                   </Link>
                 </li>
               ))}
@@ -164,10 +174,25 @@ export default function CaboTransportationPage({ params }) {
           </div>
         </section>
 
-        {/* IMAGEN 3: 2x2 GRID OF BENEFITS */}
+        {/* IMAGEN 2: EXPEDITION AT NOBU */}
+        <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] mb-24 rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
+          <Image 
+            src="/private-transportation-nobu-hotel-los-cabos.webp" 
+            alt="Private Transportation at Nobu Hotel Los Cabos" 
+            fill
+            sizes="(max-width: 768px) 100vw, 1000px"
+            style={{ objectFit: 'cover' }}
+            className="transition-transform duration-1000 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none"></div>
+          <div className="absolute bottom-8 left-8 text-white">
+            <p className="font-semibold text-xl tracking-tight mb-1">{lang === 'es' ? 'Llegadas a Hoteles de Lujo' : 'Luxury Resort Arrivals'}</p>
+          </div>
+        </div>
+
+        {/* 2x2 GRID OF BENEFITS */}
         <section className="mb-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white border border-neutral-200 rounded-[2rem] p-8 shadow-sm">
-            
             {/* 1. 24/7 Support */}
             <div className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
               <div className="bg-slate-100 p-3 rounded-xl shrink-0">
@@ -202,7 +227,7 @@ export default function CaboTransportationPage({ params }) {
               <div>
                 <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Asientos de Seguridad para Niños' : 'Child Safety Seats'}</h4>
                 <p className="text-neutral-500 text-sm leading-relaxed">
-                  {lang === 'es' ? 'Proporcionamos asientos infantiles y asientos elevados completamente gratis previa solicitud.' : 'We provide infant car seats and booster seats completely free of charge upon request.'}
+                  {lang === 'es' ? 'Proporcionamos asientos infantiles y elevados completamente gratis previa solicitud.' : 'We provide infant car seats and booster seats completely free of charge upon request.'}
                 </p>
               </div>
             </div>
@@ -219,17 +244,19 @@ export default function CaboTransportationPage({ params }) {
                 </p>
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* IMAGEN 4: EASY BOOKING & FLEXIBLE PAYMENT */}
+        {/* EASY BOOKING & FLEXIBLE PAYMENT (CON IMAGEN DE TARJETAS) */}
         <section className="mb-24 text-center max-w-2xl mx-auto py-10">
-          <div className="flex justify-center items-center gap-3 mb-8">
-            <span className="font-bold text-blue-900 text-xl tracking-wider italic">VISA</span>
-            <span className="font-bold text-red-600 text-xl tracking-tight">MasterCard</span>
-            <span className="font-bold text-sky-500 text-xl tracking-tight italic">PayPal</span>
-            <span className="font-bold text-blue-600 text-sm border border-blue-600 px-1">AMERICAN<br/>EXPRESS</span>
+          <div className="flex justify-center items-center mb-6">
+             <Image 
+               src="/pago-tarjetas.png" 
+               alt="Visa, MasterCard, American Express, PayPal" 
+               width={350} 
+               height={80} 
+               className="object-contain"
+             />
           </div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-6 tracking-tight">
             {lang === 'es' ? 'Reserva Fácil y Pago Flexible.' : 'Easy Booking & Flexible Payment.'}
