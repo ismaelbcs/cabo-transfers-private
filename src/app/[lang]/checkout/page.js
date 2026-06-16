@@ -5,11 +5,11 @@ import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext'; 
-import { ShieldCheck, User, Mail, Phone, Plane, CreditCard, ChevronLeft, CheckCircle } from 'lucide-react';
+import { ShieldCheck, User, Mail, Phone, Plane, CreditCard, ChevronLeft, CheckCircle, Ticket } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-// IMPORTACIONES DE FIREBASE
-import { doc, setDoc } from "firebase/firestore";
+// IMPORTACIONES DE FIREBASE COMPLETAS PARA CUPONES Y CORREOS
+import { doc, setDoc, getDoc, updateDoc, collection, addDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
 // =========================================================
@@ -94,37 +94,128 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
 };
 
 // =========================================================
-// 2. GENERADOR DE PLANTILLA HTML PARA CLIENTE
+// 2. GENERADOR DE PLANTILLA HTML PARA CLIENTE (DINÁMICO Y BILINGÜE)
 // =========================================================
 const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => {
-  const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'Pasajero';
-  const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal' : 'Efectivo/Cash';
-  const pasajeros = item.config?.pasajeros || 'N/A';
-  const pickup = item.config?.fechaLlegada || 'N/A';
+  const isEs = lang === 'es';
+  const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || (isEs ? 'Pasajero' : 'Passenger');
+  const metodoPago = datosCliente.paymentMethod === 'paypal' ? (isEs ? 'PayPal (Pagado)' : 'PayPal (Paid)') : (isEs ? 'Efectivo al llegar' : 'Cash on arrival');
 
-  const title = lang === 'es' ? '¡Gracias por tu reserva!' : 'Thank you for your booking!';
-  const greeting = lang === 'es' ? 'Hola' : 'Hello';
-  const subtitle = lang === 'es' ? 'Tu servicio en Los Cabos está confirmado. Aquí tienes los detalles:' : 'Your service in Los Cabos is confirmed. Here are the details:';
+  const hotel = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || item.extrasEspeciales?.golfOrigen || item.extrasEspeciales?.nightlifeOrigen || 'N/A';
+  const pasajeros = item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
+  const pickup = item.flightInfo?.horaPickUp || item.extrasEspeciales?.cenaHora || item.extrasEspeciales?.hotelHora || item.extrasEspeciales?.golfHora || item.extrasEspeciales?.nightlifeHora || item.config?.hhHora || item.config?.fechaLlegada || 'N/A';
+
+  // Lógica del encabezado bilingüe y responsivo
+  let bgStyle = `background-color: #1e3a8a;`;
+  let badgeText = isEs ? 'Confirmación Oficial' : 'Official Confirmation';
+  let headerText = isEs ? `
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">¡Gracias por reservar con nosotros!</h1>
+    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">${item.titulo || 'N/A'}</p>
+  ` : `
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Thank you for booking with us!</h1>
+    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">${item.titulo || 'N/A'}</p>
+  `;
+
+  if (item.servicio === 'tours' || item.tipoEspecial) {
+    let bgImg = 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?q=80&w=800'; 
+    if (item.tipoEspecial === 'cena') bgImg = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800';
+    else if (item.tipoEspecial === 'golf') bgImg = 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800';
+    else if (item.tipoEspecial === 'nightlife') bgImg = 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800';
+    else if (item.servicio === 'tours') bgImg = 'https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?q=80&w=800';
+
+    bgStyle = `background: linear-gradient(to bottom, rgba(30,58,138,0.7), rgba(30,58,138,0.85)), url('${bgImg}') center/cover no-repeat;`;
+
+    headerText = isEs ? `
+      <span style="font-size: 14px; font-weight: 500; opacity: 0.9;">Gracias por reservar con nosotros tu producto de</span><br/>
+      <span style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; display: inline-block; margin-top: 5px;">${item.titulo}</span>
+    ` : `
+      <span style="font-size: 14px; font-weight: 500; opacity: 0.9;">Thank you for booking with us your</span><br/>
+      <span style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; display: inline-block; margin-top: 5px;">${item.titulo}</span>
+    `;
+  }
+
+  const linkModificacion = `https://ballardtours.com/?id=${numConfirmacion}`;
+  const linkWhatsApp = `https://wa.me/526121943286?text=${isEs ? 'Hola,%20tengo%20una%20duda%20sobre%20mi%20reserva%20' : 'Hello,%20I%20have%20a%20question%20about%20my%20booking%20'}${numConfirmacion}`;
+
+  const greeting = isEs ? `Hola <strong>${nombreCliente}</strong>,` : `Hello <strong>${nombreCliente}</strong>,`;
+  const mainDesc = isEs 
+    ? 'Hemos recibido tu solicitud y tu transporte/experiencia en Los Cabos está asegurado. Aquí tienes los detalles de este servicio:' 
+    : 'We have received your request and your transportation/experience in Los Cabos is secured. Here are the details for this service:';
+  
+  const summaryTitle = isEs ? 'Resumen del Servicio' : 'Service Summary';
+  const labelConfirm = isEs ? 'N° de Confirmación:' : 'Confirmation N°:';
+  const labelService = isEs ? 'Servicio:' : 'Service:';
+  const labelPax = isEs ? 'Pasajeros:' : 'Passengers:';
+  const labelPickup = isEs ? 'Hora Sugerida/Pick-Up:' : 'Suggested Pick-Up Time:';
+  const labelMethod = isEs ? 'Método de Pago:' : 'Payment Method:';
+  const btnModify = isEs ? '✏️ Modificar mi Reserva' : '✏️ Modify My Booking';
+  const btnChat = isEs ? '💬 Chat con el Proveedor' : '💬 Chat with Provider';
+  const footerText = isEs 
+    ? 'Ballard Tours Los Cabos<br/>Si necesitas asistencia urgente, responde a este correo.' 
+    : 'Ballard Tours Los Cabos<br/>If you need urgent assistance, please reply to this email.';
 
   return `
-    <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
-      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
-        <div style="background-color: #10b981; padding: 30px; text-align: center; color: #ffffff;">
-          <h1 style="margin: 0; font-size: 24px;">${title}</h1>
-          <p style="margin: 5px 0 0 0; opacity: 0.9;">${item.titulo}</p>
+    <div style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 30px 15px; color: #1e293b; display: block; width: 100%; box-sizing: border-box;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
+        
+        <div style="${bgStyle} padding: 40px 30px; text-align: center; color: #ffffff;">
+          <span style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(4px); color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">${badgeText}</span><br/>
+          ${headerText}
         </div>
+
         <div style="padding: 30px;">
-          <p>${greeting} <strong>${nombreCliente}</strong>,</p>
-          <p>${subtitle}</p>
-          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0 0 10px 0;"><strong>${lang === 'es' ? 'N° de Confirmación' : 'Confirmation N°'}:</strong> <span style="color:#1e3a8a; font-weight:bold;">${numConfirmacion}</span></p>
-            <p style="margin: 0 0 10px 0;"><strong>${lang === 'es' ? 'Pasajeros' : 'Passengers'}:</strong> ${pasajeros}</p>
-            <p style="margin: 0 0 10px 0;"><strong>${lang === 'es' ? 'Fecha de Servicio' : 'Service Date'}:</strong> <span style="color: #ea580c; font-weight: bold;">${pickup}</span></p>
-            <p style="margin: 0 0 15px 0;"><strong>${lang === 'es' ? 'Método de Pago' : 'Payment Method'}:</strong> ${metodoPago}</p>
-            <hr style="border: none; border-top: 1px solid #cbd5e1; margin: 15px 0;" />
-            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a;">Total: $${(item.precio || 0).toFixed(2)} USD</p>
+          <p style="font-size: 16px; margin-top: 0; color: #334155;">${greeting}</p>
+          <p style="font-size: 15px; color: #64748b; line-height: 1.5; margin-bottom: 25px;">${mainDesc}</p>
+          
+          <h2 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 15px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">${summaryTitle}</h2>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+            <tbody>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelConfirm}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1e3a8a; width: 60%; text-align: right;">${numConfirmacion}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelService}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${item.subtitulo || 'N/A'}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPax}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${pasajeros}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPickup}</td>
+                <td style="padding: 10px 0; font-size: 15px; font-weight: 900; color: #ea580c; width: 60%; text-align: right;">${pickup}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 30px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tbody>
+                <tr>
+                  <td style="font-size: 14px; color: #64748b;">${labelMethod}</td>
+                  <td style="font-size: 14px; font-weight: 600; text-align: right;">${metodoPago}</td>
+                </tr>
+                <tr>
+                  <td style="font-size: 16px; font-weight: 700; padding-top: 10px; color: #1e293b;">Total:</td>
+                  <td style="font-size: 20px; font-weight: 700; text-align: right; padding-top: 10px; color: #1e3a8a;">$${(item.precio || 0).toFixed(2)} USD</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <p style="text-align: center; font-size: 12px; color: #94a3b8;">Ballard Tours Los Cabos</p>
+
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${linkModificacion}" style="display: block; background-color: #1e3a8a; color: #ffffff; text-decoration: none; padding: 14px 20px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(30,58,138,0.2);">
+              ${btnModify}
+            </a>
+            <a href="${linkWhatsApp}" target="_blank" style="display: block; background-color: #ffffff; color: #059669; border: 2px solid #059669; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold;">
+              ${btnChat}
+            </a>
+          </div>
+
+          <p style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 30px; line-height: 1.5;">
+            ${footerText}
+          </p>
         </div>
       </div>
     </div>
@@ -134,6 +225,7 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
 export default function CheckoutPage({ params }) {
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en';
+  const isEs = lang === 'es';
   
   const router = useRouter();
   
@@ -149,10 +241,64 @@ export default function CheckoutPage({ params }) {
     aerolinea: '', vuelo: '', notas: '', paymentMethod: 'paypal'
   });
 
+  // =========================================================
+  // 🎟️ SISTEMA DE CUPONES ACUMULABLES (MÁXIMO 10)
+  // =========================================================
+  const [cuponesAplicados, setCuponesAplicados] = useState([]);
+  const [inputCupon, setInputCupon] = useState('');
+  const [errorCupon, setErrorCupon] = useState('');
+
+  const aplicarCupon = async (e) => {
+    e.preventDefault();
+    setErrorCupon('');
+
+    const codigoLimpio = inputCupon.trim().toUpperCase();
+    if (!codigoLimpio) return;
+
+    if (cuponesAplicados.length >= 10) {
+      setErrorCupon(isEs ? "Máximo 10 códigos de descuento permitidos." : "Maximum 10 discount codes allowed.");
+      return;
+    }
+
+    if (cuponesAplicados.some(c => c.codigo === codigoLimpio)) {
+      setErrorCupon(isEs ? "Este código ya ha sido aplicado." : "This code has already been applied.");
+      return;
+    }
+
+    try {
+      const docRef = doc(db, "cupones", codigoLimpio);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const datosCupon = docSnap.data();
+
+        if (datosCupon.tipo === 'resena' && datosCupon.utilizado === true) {
+          setErrorCupon(isEs ? "Este código de reseña ya fue utilizado." : "This review code has already been used.");
+          return;
+        }
+
+        setCuponesAplicados(prev => [...prev, datosCupon]);
+        setInputCupon('');
+      } else {
+        setErrorCupon(isEs ? "El código introducido no es válido." : "Invalid discount code.");
+      }
+    } catch (error) {
+      console.error("Error validando cupón:", error);
+      setErrorCupon(isEs ? "Error de conexión. Intenta de nuevo." : "Connection error. Please try again.");
+    }
+  };
+
+  // =========================================================
+  // 🧮 MATEMÁTICAS PROTEGIDAS CON DESCUENTOS ACUMULABLES
+  // =========================================================
   const subtotal = combo.reduce((acc, item) => acc + (item.precio || 0), 0);
-  const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
-  const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
-  const granTotalFinal = subtotal - cantidadDescontada;
+  
+  const promoBasePorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
+  const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (c.descuento || 10), 0);
+  
+  const descuentoPorcentajeTotal = promoBasePorcentaje + cuponesDescuento;
+  const cantidadDescontada = subtotal * (descuentoPorcentajeTotal / 100);
+  const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -170,6 +316,20 @@ export default function CheckoutPage({ params }) {
     setNumConfirmacion(nuevoNumConfirmacion);
 
     try {
+      // 1. Guardar la reserva principal
+      await setDoc(doc(db, "reservas", nuevoNumConfirmacion), {
+        numeroConfirmacion: nuevoNumConfirmacion,
+        estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
+        cliente: datosClienteConPago,
+        servicios: combo,
+        subtotal: subtotal,
+        descuentoAplicado: descuentoPorcentajeTotal,
+        totalPagado: granTotalFinal,
+        cupones: cuponesAplicados.map(c => c.codigo),
+        fecha: new Date().toISOString()
+      });
+
+      // 2. Enviar los correos por cada ítem (A CLIENTES Y ADMIN)
       let index = 1;
       for (const item of combo) {
         
@@ -177,7 +337,7 @@ export default function CheckoutPage({ params }) {
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
           message: {
-            subject: lang === 'es' ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`,
+            subject: isEs ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`,
             html: generarHtmlCorreoCliente(item, datosClienteConPago, nuevoNumConfirmacion, lang)
           }
         });
@@ -192,6 +352,103 @@ export default function CheckoutPage({ params }) {
         });
         index++;
       }
+
+      // =========================================================
+      // 🔥 PROCESAMIENTO POST-PAGO DE CUPONES Y CORREOS A CHOFERES
+      // =========================================================
+      for (const cupon of cuponesAplicados) {
+        
+        if (cupon.tipo === 'resena') {
+          const docCuponRef = doc(db, "cupones", cupon.codigo);
+          await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
+        } 
+        
+        if (cupon.tipo === 'chofer') {
+          await addDoc(collection(db, "comisiones_choferes"), {
+            codigoChofer: cupon.codigo,
+            choferCorreo: cupon.choferCorreo || 'N/A',
+            numeroConfirmacion: nuevoNumConfirmacion,
+            clienteNombre: `${formData.nombre} ${formData.apellidos}`,
+            montoTotalReserva: granTotalFinal,
+            fechaUso: new Date().toISOString()
+          });
+          
+          if (cupon.choferCorreo && cupon.choferCorreo !== 'N/A') {
+              
+              const nombreChofer = cupon.nombreChofer || cupon.nombre || (isEs ? "Chofer" : "Driver");
+              const comision = subtotal * 0.10; 
+              const serviciosResumen = combo.map(item => item.titulo).join(', ');
+              const fechaServicio = combo[0]?.config?.fechaLlegada || combo[0]?.config?.fechaTour || combo[0]?.config?.cenaHora || (isEs ? 'Fecha en sistema' : 'System Date');
+              const nombreClienteCompleto = `${formData.nombre} ${formData.apellidos}`.trim();
+
+              const subjectChofer = isEs 
+                  ? `¡Nueva Venta! Comisión Generada - Ballard Tours` 
+                  : `New Sale! Commission Generated - Ballard Tours`;
+
+              const htmlChofer = isEs ? `
+                <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
+                  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+                    <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
+                      <h2 style="margin: 0; font-size: 24px;">¡Felicidades ${nombreChofer}! 🎉</h2>
+                      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">Has generado una nueva comisión de venta</p>
+                    </div>
+                    <div style="padding: 30px;">
+                      <p style="font-size: 16px; color: #334155;">Un cliente acaba de realizar una reserva utilizando tu código de descuento (<strong>${cupon.codigo}</strong>).</p>
+                      <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
+                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>👤 Cliente:</strong> <span style="color: #0f172a;">${nombreClienteCompleto}</span></p>
+                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>📅 Fecha del servicio:</strong> <span style="color: #0f172a;">${fechaServicio}</span></p>
+                        <p style="margin: 0; color: #475569;"><strong>🛍️ Producto(s) reservados:</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
+                      </div>
+                      <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
+                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Tu Comisión Generada (10%)</p>
+                        <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
+                      </div>
+                      <div style="margin-top: 25px; background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 4px;">
+                        <p style="margin: 0; font-size: 14px; color: #b45309; font-weight: bold; text-align: center;">
+                          ⚠️ La comisión se pagará el día del servicio.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ` : `
+                <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
+                  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+                    <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
+                      <h2 style="margin: 0; font-size: 24px;">Congratulations ${nombreChofer}! 🎉</h2>
+                      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">You have generated a new sales commission</p>
+                    </div>
+                    <div style="padding: 30px;">
+                      <p style="font-size: 16px; color: #334155;">A client just made a reservation using your discount code (<strong>${cupon.codigo}</strong>).</p>
+                      <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
+                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>👤 Client:</strong> <span style="color: #0f172a;">${nombreClienteCompleto}</span></p>
+                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>📅 Service Date:</strong> <span style="color: #0f172a;">${fechaServicio}</span></p>
+                        <p style="margin: 0; color: #475569;"><strong>🛍️ Booked Product(s):</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
+                      </div>
+                      <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
+                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Your Generated Commission (10%)</p>
+                        <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
+                      </div>
+                      <div style="margin-top: 25px; background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 4px;">
+                        <p style="margin: 0; font-size: 14px; color: #b45309; font-weight: bold; text-align: center;">
+                          ⚠️ The commission will be paid on the day of service.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+
+              await addDoc(collection(db, "correos"), {
+                to: cupon.choferCorreo,
+                message: {
+                  subject: subjectChofer,
+                  html: htmlChofer
+                }
+              });
+          }
+        }
+      }
       
       vaciarCombo();
       setIsSuccess(true);
@@ -200,7 +457,7 @@ export default function CheckoutPage({ params }) {
     } catch (error) {
       console.error("Error al registrar correos en Firebase:", error);
       setProcesandoPago(false);
-      alert(lang === 'es' ? "Hubo un error al procesar tu reserva. Intenta nuevamente." : "There was an error processing your booking. Please try again.");
+      alert(isEs ? "Hubo un error al procesar tu reserva. Intenta nuevamente." : "There was an error processing your booking. Please try again.");
     }
   };
 
@@ -212,15 +469,15 @@ export default function CheckoutPage({ params }) {
           <CheckCircle size={48} />
         </div>
         <h1 className="text-4xl font-black text-slate-900 mb-2">
-          {lang === 'es' ? '¡Reserva Confirmada!' : 'Booking Confirmed!'}
+          {isEs ? '¡Reserva Confirmada!' : 'Booking Confirmed!'}
         </h1>
         <p className="text-slate-500 mb-8 max-w-md mx-auto text-lg">
-          {lang === 'es' ? 'Hemos enviado los detalles a tu correo electrónico.' : 'We have sent the details to your email.'}
+          {isEs ? 'Hemos enviado los detalles a tu correo electrónico.' : 'We have sent the details to your email.'}
         </p>
         
         <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 w-full max-w-sm">
           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-            {lang === 'es' ? 'Número de Confirmación' : 'Confirmation Number'}
+            {isEs ? 'Número de Confirmación' : 'Confirmation Number'}
           </p>
           <p className="text-3xl font-black text-blue-900 tracking-widest">{numConfirmacion}</p>
         </div>
@@ -229,7 +486,7 @@ export default function CheckoutPage({ params }) {
           onClick={() => router.push(`/${lang}`)}
           className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg"
         >
-          {lang === 'es' ? 'Volver a la página principal' : 'Return to Homepage'}
+          {isEs ? 'Volver a la página principal' : 'Return to Homepage'}
         </button>
       </div>
     );
@@ -243,13 +500,13 @@ export default function CheckoutPage({ params }) {
           <CreditCard size={48} />
         </div>
         <h1 className="text-3xl font-black text-slate-900 mb-4">
-          {lang === 'es' ? 'Tu combo está vacío' : 'Your combo is empty'}
+          {isEs ? 'Tu combo está vacío' : 'Your combo is empty'}
         </h1>
         <button 
           onClick={() => router.push(`/${lang}`)}
           className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg mt-6"
         >
-           {lang === 'es' ? 'Volver al Inicio' : 'Return Home'}
+           {isEs ? 'Volver al Inicio' : 'Return Home'}
         </button>
       </div>
     );
@@ -262,7 +519,7 @@ export default function CheckoutPage({ params }) {
         {procesandoPago && (
           <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-900 mb-4"></div>
-             <p className="font-bold text-blue-900 text-lg">{lang === 'es' ? 'Procesando reserva...' : 'Processing booking...'}</p>
+             <p className="font-bold text-blue-900 text-lg">{isEs ? 'Procesando reserva...' : 'Processing booking...'}</p>
           </div>
         )}
 
@@ -271,33 +528,33 @@ export default function CheckoutPage({ params }) {
           {/* COLUMNA IZQUIERDA: FORMULARIO */}
           <div className="flex-1 w-full lg:max-w-[700px]">
             <button onClick={() => router.push(`/${lang}`)} className="text-blue-600 font-bold flex items-center hover:text-blue-800 transition mb-8">
-              <ChevronLeft size={20} className="mr-1" /> {lang === 'es' ? 'Seguir comprando' : 'Continue shopping'}
+              <ChevronLeft size={20} className="mr-1" /> {isEs ? 'Seguir comprando' : 'Continue shopping'}
             </button>
             <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-8">
-              {lang === 'es' ? 'Completa tu Reserva' : 'Complete your Booking'}
+              {isEs ? 'Completa tu Reserva' : 'Complete your Booking'}
             </h1>
             <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
               
               <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><User className="text-blue-600" size={24} /> {lang === 'es' ? 'Datos del Titular' : 'Lead Traveler Details'}</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><User className="text-blue-600" size={24} /> {isEs ? 'Datos del Titular' : 'Lead Traveler Details'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Nombre' : 'First Name'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Nombre' : 'First Name'}</label>
                     <input required type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Apellidos' : 'Last Name'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Apellidos' : 'Last Name'}</label>
                     <input required type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Correo' : 'Email'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Correo' : 'Email'}</label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                       <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Teléfono' : 'Phone'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Teléfono' : 'Phone'}</label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                       <input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
@@ -307,18 +564,18 @@ export default function CheckoutPage({ params }) {
               </div>
 
               <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><Plane className="text-blue-600" size={24} /> {lang === 'es' ? 'Información de Llegada' : 'Arrival Information'}</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Llegada' : 'Arrival Information'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Aerolínea' : 'Airline'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
                     <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Vuelo' : 'Flight'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Vuelo' : 'Flight'}</label>
                     <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Comentarios / Hotel' : 'Comments / Resort'}</label>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Comentarios / Hotel' : 'Comments / Resort'}</label>
                     <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
                   </div>
                 </div>
@@ -330,7 +587,7 @@ export default function CheckoutPage({ params }) {
           {/* COLUMNA DERECHA: RESUMEN Y PAGOS */}
           <div className="w-full lg:w-[420px] flex-shrink-0">
             <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-8 lg:sticky lg:top-32 w-full">
-              <h3 className="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">{lang === 'es' ? 'Resumen de tu Combo' : 'Order Summary'}</h3>
+              <h3 className="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">{isEs ? 'Resumen de tu Combo' : 'Order Summary'}</h3>
               
               <div className="mb-6 space-y-4">
                 {combo.map((item, idx) => (
@@ -344,15 +601,62 @@ export default function CheckoutPage({ params }) {
                 ))}
               </div>
 
+              {/* CAJA DE CUPONES ACUMULABLES */}
+              <div className="mb-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-800 mb-3">
+                  <Ticket size={14} className="text-blue-600" />
+                  {isEs ? "Códigos de Descuento (Hasta 10)" : "Discount Codes (Up to 10)"}
+                </span>
+                
+                <div className="flex gap-2 mb-3">
+                  <input 
+                    type="text" 
+                    value={inputCupon}
+                    onChange={(e) => setInputCupon(e.target.value)}
+                    placeholder={isEs ? "Ej: CABO-XXXX o Chofer" : "Ex: CABO-XXXX or Driver"}
+                    className="flex-1 bg-white border border-slate-300 text-slate-900 font-bold px-4 py-3 rounded-xl text-[13px] outline-none uppercase focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:font-medium placeholder:normal-case"
+                  />
+                  <button 
+                    type="button"
+                    onClick={aplicarCupon}
+                    className="bg-slate-900 text-white font-bold text-xs px-5 py-3 rounded-xl hover:bg-slate-800 transition-colors active:scale-95"
+                  >
+                    {isEs ? "Aplicar" : "Apply"}
+                  </button>
+                </div>
+                
+                {errorCupon && <p className="text-[11px] text-red-500 font-bold mb-3">{errorCupon}</p>}
+
+                {cuponesAplicados.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {cuponesAplicados.map((c, i) => (
+                      <span 
+                        key={i} 
+                        className="inline-flex items-center gap-1.5 bg-slate-900 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg"
+                      >
+                        {c.codigo} (-{c.descuento || 10}%)
+                        <button 
+                          type="button"
+                          onClick={() => setCuponesAplicados(prev => prev.filter(item => item.codigo !== c.codigo))}
+                          className="hover:text-red-400 ml-1 flex items-center justify-center transition-colors"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-500 font-bold text-sm">Subtotal</span>
                   <span className="font-bold text-slate-700">${subtotal.toFixed(2)}</span>
                 </div>
                 
-                {descuentoPorcentaje > 0 && (
+                {descuentoPorcentajeTotal > 0 && (
                   <div className="flex justify-between items-center mb-2 text-green-600 font-bold text-sm">
-                    <span>{lang === 'es' ? 'Descuento' : 'Discount'} ({descuentoPorcentaje}%)</span>
+                    <span>{isEs ? 'Descuento Total' : 'Total Discount'} ({descuentoPorcentajeTotal}%)</span>
                     <span>-${cantidadDescontada.toFixed(2)}</span>
                   </div>
                 )}
@@ -368,14 +672,14 @@ export default function CheckoutPage({ params }) {
 
               {/* MÉTODOS DE PAGO: EFECTIVO O PAYPAL */}
               <div className="mb-6 space-y-3">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{lang === 'es' ? 'Elige tu Método de Pago' : 'Choose Payment Method'}</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{isEs ? 'Elige tu Método de Pago' : 'Choose Payment Method'}</p>
                 <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
                   <input type="radio" name="paymentMethod" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={handleChange} className="w-5 h-5 accent-blue-600" />
                   <span className="font-bold text-slate-900 text-sm">PayPal / Credit Card</span>
                 </label>
                 <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'border-slate-900 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
                   <input type="radio" name="paymentMethod" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={handleChange} className="w-5 h-5 accent-slate-900" />
-                  <span className="font-bold text-slate-900 text-sm">{lang === 'es' ? 'Pagar en Efectivo (Cash on arrival)' : 'Pay in Cash on Arrival'}</span>
+                  <span className="font-bold text-slate-900 text-sm">{isEs ? 'Pagar en Efectivo (Cash on arrival)' : 'Pay in Cash on Arrival'}</span>
                 </label>
               </div>
 
@@ -394,7 +698,7 @@ export default function CheckoutPage({ params }) {
                     }}
                     onError={(err) => {
                       console.error("Error en PayPal:", err);
-                      alert(lang === 'es' ? "Ocurrió un error con la plataforma de pago. Intenta de nuevo." : "An error occurred with the payment gateway. Please try again.");
+                      alert(isEs ? "Ocurrió un error con la plataforma de pago. Intenta de nuevo." : "An error occurred with the payment gateway. Please try again.");
                     }}
                   />
                 ) : (
@@ -403,14 +707,14 @@ export default function CheckoutPage({ params }) {
                     onClick={() => procesarConfirmacion(null, 'efectivo')} 
                     className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {lang === 'es' ? 'Confirmar Reserva en Efectivo' : 'Confirm Cash Booking'}
+                    {isEs ? 'Confirmar Reserva en Efectivo' : 'Confirm Cash Booking'}
                   </button>
                 )}
               </div>
 
               {(!formData.nombre || !formData.email) && (
                 <p className="text-xs text-red-500 mt-4 text-center font-bold">
-                  {lang === 'es' ? 'Por favor llena tus datos de contacto antes de pagar.' : 'Please fill in your contact details before paying.'}
+                  {isEs ? 'Por favor llena tus datos de contacto antes de pagar.' : 'Please fill in your contact details before paying.'}
                 </p>
               )}
 

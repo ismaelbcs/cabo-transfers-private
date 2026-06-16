@@ -78,16 +78,36 @@ export default function RewardApp({ params }) {
   };
 
   // Simulación de envío
-  const handleSubmit = (e) => {
+  // Simulación y registro real en Firebase
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría tu lógica real de subida (ej. fetch a tu API/Base de datos)
-    
-    // Generar un código aleatorio
+    setIsProcessing(true); // Activa el loader visual si lo tienes
+
+    // 1. Generar un código único de 4 letras aleatorias
     const randomString = Math.random().toString(36).substring(2, 6).toUpperCase();
-    setDiscountCode(`CABO-${randomString}`);
-    
-    // Mostrar pantalla de éxito
-    setIsSubmitted(true);
+    const codigoGenerado = `CABO-${randomString}`;
+
+    try {
+      // 2. Guardamos el cupón en una colección llamada "cupones" en Firestore
+      await setDoc(doc(db, "cupones", codigoGenerado), {
+        codigo: codigoGenerado,
+        tipo: "resena",            // Identifica que es por reseña de cliente
+        descuento: 10,             // 10% de descuento fijo
+        utilizado: false,          // Estado inicial: activo
+        clienteEmail: e.target.elements[1]?.value || '', // Guarda el correo por seguridad
+        fechaCreacion: new Date().toISOString()
+      });
+
+      // 3. Pasamos el código al estado para mostrarlo en la pantalla de éxito
+      setDiscountCode(codigoGenerado);
+      setIsSubmitted(true);
+
+    } catch (error) {
+      console.error("Error al crear el cupón en Firebase:", error);
+      alert(isEs ? "Error al generar tu código. Intenta de nuevo." : "Error generating your code. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   // Copiar al portapapeles
