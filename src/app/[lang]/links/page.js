@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState, use } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // <-- Importación para optimizar imágenes en Next.js
 import { Star, ArrowRight, Home, Map, ChevronRight, Ticket } from 'lucide-react';
 
 // Custom stylesheet for specific cubic-bezier easings 
@@ -85,7 +86,9 @@ export default function LinkInBioPage({ params }) {
     setMounted(true);
   }, []);
 
+  // ==========================================
   // Diccionario Bilingüe
+  // ==========================================
   const t = {
     groupDiscount: isEs ? 'Descuento de Grupo' : 'Group Discount',
     titlePromo: isEs ? '¿Viajas con amigos o familia?' : 'Traveling with friends?',
@@ -100,10 +103,14 @@ export default function LinkInBioPage({ params }) {
     exploreTitle: isEs ? 'Explora Los Cabos' : 'Explore Cabo',
     homeTitle: isEs ? 'Visitar Página Principal' : 'Visit Homepage',
     generateCode: isEs ? 'Generar Código de Descuento' : 'Generate Discount Code',
+    // Textos para la imagen interactiva
+    guestTestimonial: isEs ? 'Testimonio de Cliente' : 'Guest Testimonial',
+    wholeFamily: isEs ? '¡Toda la familia<br/>cuenta!' : 'The whole<br/>family counts!',
+    upTo: isEs ? 'HASTA' : 'UP TO',
   };
 
   // ==========================================================
-  // BLOQUES DE INTERFAZ (Se separan para acomodarlos fácil)
+  // BLOQUES DE INTERFAZ
   // ==========================================================
 
   const promoBanner = (
@@ -157,10 +164,60 @@ export default function LinkInBioPage({ params }) {
     </Link>
   );
 
+  // ==========================================================
+  // IMAGEN DE TESTIMONIOS CON TEXTO SUPERPUESTO (BILINGÜE)
+  // ==========================================================
   const testimonialImage = (
     <div className="relative w-full rounded-[32px] overflow-hidden emil-shadow emil-inner-ring bg-white aspect-[4/5] flex items-center justify-center p-2 animate-tasteful delay-400">
-      <div className="w-full h-full rounded-[24px] overflow-hidden relative">
-        <img src="/cabo-private-transportation-airport-cabo-reviewes.webp" alt="Guest Testimonials and Discounts" className="w-full h-full object-cover transition-transform duration-[2s] ease-out hover:scale-[1.02]" />
+      <div className="relative w-full h-full rounded-[24px] overflow-hidden group">
+        
+        {/* 1. Fondo limpio */}
+        <Image
+          src="/cabo-private-transportation-airport-cabo-reviewes-sin-nada.webp" 
+          alt="Cabo Private Transportation Reviews"
+          fill
+          className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.02]"
+          priority
+        />
+
+        {/* --- CAPA DE TEXTOS SUPERPUESTOS --- */}
+        <div className="absolute inset-0 z-10 font-sans pointer-events-none">
+          
+          {/* 2. Etiqueta (Arriba izquierda) */}
+          <div className="absolute top-[12%] left-[6%]">
+            <span className="bg-[#7e8083]/90 backdrop-blur-sm text-white text-sm md:text-base font-bold px-6 py-2 rounded-full shadow-sm">
+              {t.guestTestimonial}
+            </span>
+          </div>
+
+          {/* 3. Título principal */}
+          <div className="absolute top-[20%] left-[6%] leading-tight drop-shadow-lg">
+            <h1 
+              className="text-white font-extrabold text-4xl md:text-5xl lg:text-[3.5rem]" 
+              dangerouslySetInnerHTML={{ __html: t.wholeFamily }}
+            />
+          </div>
+
+          {/* 4. Texto "UP TO / HASTA" */}
+          <div className="absolute bottom-[20.5%] left-[50%] -translate-x-[70px] md:-translate-x-[85px]">
+            <span className="text-[#001A33] font-black text-xl md:text-2xl uppercase tracking-tight leading-none">
+              {t.upTo}
+            </span>
+          </div>
+
+          {/* 5. URL del sitio web (Pie de página) */}
+          <div className="absolute bottom-[3%] w-full flex items-center justify-center text-white drop-shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+            </svg>
+            <span className="text-sm md:text-base font-bold tracking-wide">
+              www.caboprivateairporttransfers.com
+            </span>
+          </div>
+
+        </div>
+
+        {/* Borde interior oscuro (Emil style) */}
         <div className="absolute inset-0 emil-inner-ring pointer-events-none rounded-[24px]"></div>
       </div>
     </div>
