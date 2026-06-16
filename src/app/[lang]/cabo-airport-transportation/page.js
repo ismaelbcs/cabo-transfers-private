@@ -1,9 +1,7 @@
 import Image from 'next/image';
-import React from 'react';
 import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, CreditCard } from 'lucide-react';
 
-// Función para generar Metaetiquetas dinámicas por idioma
 export async function generateMetadata({ params }) {
   const lang = params?.lang || 'en';
 
