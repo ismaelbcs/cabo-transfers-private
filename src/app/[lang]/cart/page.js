@@ -199,6 +199,8 @@ export default function CheckoutPage({ params }) {
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
+  const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
+
   const isFormValid = formData.nombre.trim() !== '' && formData.email.trim() !== '';
 
   const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
@@ -530,21 +532,35 @@ export default function CheckoutPage({ params }) {
                       </div>
 
                       {/* ========================================================= */}
-                      {/* ✅ BANNER DE CÓDIGO DE CHOFER / CUPONES */}
+                      {/* ✅ BANNER DE DESCUENTOS Y CÓDIGO DE CHOFER APILADOS */}
                       {/* ========================================================= */}
                       <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
                         <div className="flex justify-between items-center mb-3">
                           <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400">
                             <Ticket size={14} className="text-emerald-400" />
-                            {isEs ? "Código / Cupón" : "Code / Coupon"}
+                            {isEs ? "CÓDIGO / CUPÓN" : "CODE / COUPON"}
                           </span>
                           <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
                             <Edit3 size={12} /> {isEs ? "Añadir" : "Add"}
                           </Link>
                         </div>
                         
-                        {cuponesAplicados.length > 0 ? (
+                        {hasAnyDiscount ? (
                           <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
+                            
+                            {/* Descuento Global (WEB/Promo Automática) */}
+                            {appliedPromo && (
+                              <div className="flex justify-between items-center">
+                                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                                  {appliedPromo.codigo || appliedPromo.code || (isEs ? "PROMO WEB" : "WEB PROMO")}
+                                </span>
+                                <span className="font-bold text-emerald-400 text-sm">
+                                  -${(subtotal * (descuentoPorcentajePromo / 100)).toFixed(2)}
+                                </span>
+                              </div>
+                            )}
+
+                            {/* Descuentos Adicionales (Chofer, etc.) */}
                             {cuponesAplicados.map((c, i) => {
                               const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
                               return (
@@ -644,10 +660,6 @@ export default function CheckoutPage({ params }) {
                     </h3>
                     
                     <div className="space-y-4 mb-8">
-                      {/* ========================================================= */}
-                      {/* ✅ ARREGLADO: BOTONES DE PAGO AHORA CON ONCLICK Y FUNCIONALES */}
-                      {/* ========================================================= */}
-                      
                       {/* BOTÓN PAYPAL */}
                       <div 
                         onClick={() => setFormData({...formData, paymentMethod: 'paypal'})} 
@@ -682,20 +694,35 @@ export default function CheckoutPage({ params }) {
                     </div>
 
                     {/* ========================================================= */}
-                    {/* BANNER DE CÓDIGO DE CHOFER (VERSIÓN REDUCIDA PARA PASO 3) */}
+                    {/* BANNER DE DESCUENTOS Y CÓDIGO DE CHOFER (PASO 3) */}
                     {/* ========================================================= */}
                     <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
                       <div className="flex justify-between items-center mb-3">
                         <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400">
                           <Ticket size={14} className="text-emerald-400" />
-                          {isEs ? "Código / Cupón" : "Code / Coupon"}
+                          {isEs ? "CÓDIGO / CUPÓN" : "CODE / COUPON"}
                         </span>
                         <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
                           <Edit3 size={12} /> {isEs ? "Añadir" : "Add"}
                         </Link>
                       </div>
-                      {cuponesAplicados.length > 0 ? (
+                      
+                      {hasAnyDiscount ? (
                         <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
+                          
+                          {/* Descuento Global (WEB/Promo Automática) */}
+                          {appliedPromo && (
+                            <div className="flex justify-between items-center">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                                {appliedPromo.codigo || appliedPromo.code || (isEs ? "PROMO WEB" : "WEB PROMO")}
+                              </span>
+                              <span className="font-bold text-emerald-400 text-sm">
+                                -${(subtotal * (descuentoPorcentajePromo / 100)).toFixed(2)}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Descuentos Adicionales (Chofer, etc.) */}
                           {cuponesAplicados.map((c, i) => {
                             const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
                             return (
