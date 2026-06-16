@@ -1,20 +1,20 @@
 // src/app/[lang]/page.js
-'use client'; 
+'use client';
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { 
-  CheckCircle, 
-  ChevronRight, 
-  MapPin, 
-  Map as MapIcon, 
-  Search, 
-  Check, 
-  Clock, 
-  Calendar, 
-  Baby, 
+import {
+  CheckCircle,
+  ChevronRight,
+  MapPin,
+  Map as MapIcon,
+  Search,
+  Check,
+  Clock,
+  Calendar,
+  Baby,
   Banknote,
   Compass
 } from 'lucide-react';
@@ -33,7 +33,7 @@ export default function Home() {
   const params = useParams();
   const lang = params?.lang || 'en';
   const t = dict[lang] || dict['en'];
-  
+
   const { paso, servicioSeleccionado, subCategoria, setSubCategoria, reserva, setServicioSeleccionado } = useBooking();
 
   // Estado para el buscador de Zonas
@@ -57,91 +57,91 @@ export default function Home() {
 
   const hotelesBase = [
     // ZONA 1: SAN JOSÉ DEL CABO
-    { id: 101, nombre: 'Cabo Azul Resort', zona: 1 }, 
-    { id: 102, nombre: 'Viceroy Los Cabos', zona: 1 }, 
-    { id: 103, nombre: 'Hyatt Ziva Los Cabos', zona: 1 }, 
-    { id: 104, nombre: 'Royal Solaris', zona: 1 }, 
-    { id: 105, nombre: 'Barceló Gran Faro', zona: 1 }, 
-    { id: 106, nombre: 'Krystal Grand Los Cabos', zona: 1 }, 
-    { id: 107, nombre: 'Holiday Inn Resort', zona: 1 }, 
-    { id: 108, nombre: 'Posada Real', zona: 1 }, 
-    { id: 109, nombre: 'Casa Natalia', zona: 1 }, 
-    { id: 110, nombre: 'El Encanto Inn & Suites', zona: 1 }, 
-    { id: 111, nombre: 'Alegranza Luxury Resort', zona: 1 }, 
-    { id: 112, nombre: 'Las Mañanitas', zona: 1 }, 
-    { id: 113, nombre: 'Royal Decameron Los Cabos', zona: 1 }, 
-    { id: 114, nombre: 'Park Royal Homestay Los Cabos', zona: 1 }, 
+    { id: 101, nombre: 'Cabo Azul Resort', zona: 1 },
+    { id: 102, nombre: 'Viceroy Los Cabos', zona: 1 },
+    { id: 103, nombre: 'Hyatt Ziva Los Cabos', zona: 1 },
+    { id: 104, nombre: 'Royal Solaris', zona: 1 },
+    { id: 105, nombre: 'Barceló Gran Faro', zona: 1 },
+    { id: 106, nombre: 'Krystal Grand Los Cabos', zona: 1 },
+    { id: 107, nombre: 'Holiday Inn Resort', zona: 1 },
+    { id: 108, nombre: 'Posada Real', zona: 1 },
+    { id: 109, nombre: 'Casa Natalia', zona: 1 },
+    { id: 110, nombre: 'El Encanto Inn & Suites', zona: 1 },
+    { id: 111, nombre: 'Alegranza Luxury Resort', zona: 1 },
+    { id: 112, nombre: 'Las Mañanitas', zona: 1 },
+    { id: 113, nombre: 'Royal Decameron Los Cabos', zona: 1 },
+    { id: 114, nombre: 'Park Royal Homestay Los Cabos', zona: 1 },
     { id: 115, nombre: 'GR Solaris Lighthouse Los Cabos', zona: 1 },
 
     // ZONA 2: TOURIST CORRIDOR (Corredor Turístico)
-    { id: 201, nombre: 'Las Ventanas al Paraíso (A Rosewood Resort)', zona: 2 }, 
-    { id: 202, nombre: 'One&Only Palmilla', zona: 2 }, 
-    { id: 203, nombre: 'Grand Velas Los Cabos', zona: 2 }, 
-    { id: 205, nombre: 'Chileno Bay Resort & Residences', zona: 2 }, 
-    { id: 206, nombre: 'Le Blanc Spa Resort', zona: 2 }, 
-    { id: 207, nombre: 'Marquis Los Cabos', zona: 2 }, 
-    { id: 208, nombre: 'Hilton Los Cabos', zona: 2 }, 
-    { id: 209, nombre: 'Dreams Los Cabos', zona: 2 }, 
-    { id: 210, nombre: 'Garza Blanca Resort', zona: 2 }, 
-    { id: 211, nombre: 'Casa del Mar / Zoëtry', zona: 2 }, 
-    { id: 212, nombre: 'Mar del Cabo', zona: 2 }, 
-    { id: 213, nombre: 'Las Residencias Golf & Beach Club', zona: 2 }, 
-    { id: 214, nombre: 'Zadún (A Ritz-Carlton Reserve)', zona: 2 }, 
-    { id: 215, nombre: 'JW Marriott Los Cabos Beach Resort & Spa', zona: 2 }, 
-    { id: 216, nombre: 'Secrets Puerto Los Cabos Golf & Spa Resort', zona: 2 }, 
+    { id: 201, nombre: 'Las Ventanas al Paraíso (A Rosewood Resort)', zona: 2 },
+    { id: 202, nombre: 'One&Only Palmilla', zona: 2 },
+    { id: 203, nombre: 'Grand Velas Los Cabos', zona: 2 },
+    { id: 205, nombre: 'Chileno Bay Resort & Residences', zona: 2 },
+    { id: 206, nombre: 'Le Blanc Spa Resort', zona: 2 },
+    { id: 207, nombre: 'Marquis Los Cabos', zona: 2 },
+    { id: 208, nombre: 'Hilton Los Cabos', zona: 2 },
+    { id: 209, nombre: 'Dreams Los Cabos', zona: 2 },
+    { id: 210, nombre: 'Garza Blanca Resort', zona: 2 },
+    { id: 211, nombre: 'Casa del Mar / Zoëtry', zona: 2 },
+    { id: 212, nombre: 'Mar del Cabo', zona: 2 },
+    { id: 213, nombre: 'Las Residencias Golf & Beach Club', zona: 2 },
+    { id: 214, nombre: 'Zadún (A Ritz-Carlton Reserve)', zona: 2 },
+    { id: 215, nombre: 'JW Marriott Los Cabos Beach Resort & Spa', zona: 2 },
+    { id: 216, nombre: 'Secrets Puerto Los Cabos Golf & Spa Resort', zona: 2 },
     { id: 217, nombre: 'Hotel El Ganzo', zona: 2 },
     { id: 218, nombre: 'Paradisus', zona: 2 },
 
     // ZONA 3: CABO SAN LUCAS
-    { id: 301, nombre: 'Park Hyatt Los Cabos at Cabo del Sol', zona: 3 }, 
-    { id: 302, nombre: 'Villas de Cabo del Sol', zona: 3 }, 
-    { id: 303, nombre: 'Grand Fiesta Americana', zona: 3 }, 
-    { id: 304, nombre: 'Breathless Cabo San Lucas Resort & Spa', zona: 3 }, 
-    { id: 305, nombre: 'Corazón Cabo Resort & Spa', zona: 3 }, 
-    { id: 306, nombre: 'ME Cabo', zona: 3 }, 
-    { id: 307, nombre: 'Pueblo Bonito Blanco (Los Cabos Beach Resort)', zona: 3 }, 
-    { id: 308, nombre: 'Marina Fiesta Resort & Spa', zona: 3 }, 
-    { id: 309, nombre: 'Playa Grande Resort', zona: 3 }, 
-    { id: 310, nombre: 'Bahía Hotel & Beach House', zona: 3 }, 
-    { id: 311, nombre: 'Los Milagros Hotel', zona: 3 }, 
-    { id: 312, nombre: 'The Bungalows Hotel', zona: 3 }, 
-    { id: 313, nombre: 'Cabo Vista Hotel', zona: 3 }, 
-    { id: 314, nombre: 'Siesta Suites', zona: 3 }, 
-    { id: 204, nombre: 'Montage Los Cabos', zona: 3 }, 
-    { id: 315, nombre: 'Riu Palace Cabo San Lucas', zona: 3 }, 
-    { id: 316, nombre: 'Riu Palace Baja California', zona: 3 }, 
-    { id: 317, nombre: 'Riu Santa Fe', zona: 3 }, 
-    { id: 318, nombre: 'City Express Plus by Marriott Cabo San Lucas', zona: 3 }, 
-    { id: 319, nombre: 'Holiday Inn Express Cabo San Lucas', zona: 3 }, 
-    { id: 320, nombre: 'Fairfield Inn by Marriott Los Cabos', zona: 3 }, 
-    { id: 321, nombre: 'Villa del Arco Beach Resort & Spa', zona: 3 }, 
-    { id: 322, nombre: 'Villa del Palmar Beach Resort & Spa', zona: 3 }, 
-    { id: 323, nombre: 'Villa La Estancia Beach Resort & Spa', zona: 3 }, 
-    { id: 324, nombre: 'El Tezal', zona: 3 }, 
-    { id: 325, nombre: 'Villas del Tezal', zona: 3 }, 
-    { id: 326, nombre: 'Casas de Pedregal', zona: 3 }, 
-    { id: 327, nombre: 'Villas de Pedregal', zona: 3 }, 
-    { id: 328, nombre: 'The Cape, a Thompson Hotel', zona: 3 }, 
-    { id: 329, nombre: 'Misiones del Cabo', zona: 3 }, 
-    { id: 330, nombre: 'Cabo Bello', zona: 3 }, 
-    { id: 331, nombre: 'Villas de Cabo Bello', zona: 3 }, 
-    { id: 332, nombre: 'Sirena del Mar (Hyatt Vacation Club)', zona: 3 }, 
-    { id: 333, nombre: 'Esperanza, Auberge Resorts Collection', zona: 3 }, 
-    { id: 334, nombre: 'Hacienda Encantada Resort & Residences', zona: 3 }, 
-    { id: 335, nombre: 'Vista Encantada Spa Resort & Residences', zona: 3 }, 
-    { id: 336, nombre: 'Villas de Hacienda Encantada', zona: 3 }, 
+    { id: 301, nombre: 'Park Hyatt Los Cabos at Cabo del Sol', zona: 3 },
+    { id: 302, nombre: 'Villas de Cabo del Sol', zona: 3 },
+    { id: 303, nombre: 'Grand Fiesta Americana', zona: 3 },
+    { id: 304, nombre: 'Breathless Cabo San Lucas Resort & Spa', zona: 3 },
+    { id: 305, nombre: 'Corazón Cabo Resort & Spa', zona: 3 },
+    { id: 306, nombre: 'ME Cabo', zona: 3 },
+    { id: 307, nombre: 'Pueblo Bonito Blanco (Los Cabos Beach Resort)', zona: 3 },
+    { id: 308, nombre: 'Marina Fiesta Resort & Spa', zona: 3 },
+    { id: 309, nombre: 'Playa Grande Resort', zona: 3 },
+    { id: 310, nombre: 'Bahía Hotel & Beach House', zona: 3 },
+    { id: 311, nombre: 'Los Milagros Hotel', zona: 3 },
+    { id: 312, nombre: 'The Bungalows Hotel', zona: 3 },
+    { id: 313, nombre: 'Cabo Vista Hotel', zona: 3 },
+    { id: 314, nombre: 'Siesta Suites', zona: 3 },
+    { id: 204, nombre: 'Montage Los Cabos', zona: 3 },
+    { id: 315, nombre: 'Riu Palace Cabo San Lucas', zona: 3 },
+    { id: 316, nombre: 'Riu Palace Baja California', zona: 3 },
+    { id: 317, nombre: 'Riu Santa Fe', zona: 3 },
+    { id: 318, nombre: 'City Express Plus by Marriott Cabo San Lucas', zona: 3 },
+    { id: 319, nombre: 'Holiday Inn Express Cabo San Lucas', zona: 3 },
+    { id: 320, nombre: 'Fairfield Inn by Marriott Los Cabos', zona: 3 },
+    { id: 321, nombre: 'Villa del Arco Beach Resort & Spa', zona: 3 },
+    { id: 322, nombre: 'Villa del Palmar Beach Resort & Spa', zona: 3 },
+    { id: 323, nombre: 'Villa La Estancia Beach Resort & Spa', zona: 3 },
+    { id: 324, nombre: 'El Tezal', zona: 3 },
+    { id: 325, nombre: 'Villas del Tezal', zona: 3 },
+    { id: 326, nombre: 'Casas de Pedregal', zona: 3 },
+    { id: 327, nombre: 'Villas de Pedregal', zona: 3 },
+    { id: 328, nombre: 'The Cape, a Thompson Hotel', zona: 3 },
+    { id: 329, nombre: 'Misiones del Cabo', zona: 3 },
+    { id: 330, nombre: 'Cabo Bello', zona: 3 },
+    { id: 331, nombre: 'Villas de Cabo Bello', zona: 3 },
+    { id: 332, nombre: 'Sirena del Mar (Hyatt Vacation Club)', zona: 3 },
+    { id: 333, nombre: 'Esperanza, Auberge Resorts Collection', zona: 3 },
+    { id: 334, nombre: 'Hacienda Encantada Resort & Residences', zona: 3 },
+    { id: 335, nombre: 'Vista Encantada Spa Resort & Residences', zona: 3 },
+    { id: 336, nombre: 'Villas de Hacienda Encantada', zona: 3 },
     { id: 337, nombre: 'Hacienda del Mar Los Cabos Resort', zona: 3 },
 
     // ZONA 4: PACIFIC ZONE (Lado del Pacífico)
-    { id: 401, nombre: 'Waldorf Astoria Los Cabos Pedregal', zona: 4 }, 
-    { id: 402, nombre: 'Nobu Hotel Los Cabos', zona: 4 }, 
-    { id: 403, nombre: 'Hard Rock Hotel Los Cabos', zona: 4 }, 
-    { id: 404, nombre: 'Pueblo Bonito Sunset Beach', zona: 4 }, 
-    { id: 405, nombre: 'Pueblo Bonito Pacífica (y The Towers)', zona: 4 }, 
-    { id: 406, nombre: 'Grand Solmar Pacific Dunes', zona: 4 }, 
-    { id: 407, nombre: 'Diamante Cabo San Lucas', zona: 4 }, 
-    { id: 408, nombre: 'Montecristo Estates Luxury Villas', zona: 4 }, 
-    { id: 409, nombre: 'Quivira Novaispania Residences', zona: 4 }, 
+    { id: 401, nombre: 'Waldorf Astoria Los Cabos Pedregal', zona: 4 },
+    { id: 402, nombre: 'Nobu Hotel Los Cabos', zona: 4 },
+    { id: 403, nombre: 'Hard Rock Hotel Los Cabos', zona: 4 },
+    { id: 404, nombre: 'Pueblo Bonito Sunset Beach', zona: 4 },
+    { id: 405, nombre: 'Pueblo Bonito Pacífica (y The Towers)', zona: 4 },
+    { id: 406, nombre: 'Grand Solmar Pacific Dunes', zona: 4 },
+    { id: 407, nombre: 'Diamante Cabo San Lucas', zona: 4 },
+    { id: 408, nombre: 'Montecristo Estates Luxury Villas', zona: 4 },
+    { id: 409, nombre: 'Quivira Novaispania Residences', zona: 4 },
     { id: 410, nombre: 'The St. Regis Los Cabos at Quivira', zona: 4 }
   ];
 
@@ -150,16 +150,16 @@ export default function Home() {
 
   return (
     <div className="w-full font-sans selection:bg-slate-900 selection:text-white">
-      
+
       {/* ===== PASO 1: WIDGET HERO CON VIDEO DE FONDO ===== */}
       {paso === 1 && (
-        <section className="relative pt-32 pb-16 px-4 min-h-[75vh] flex flex-col justify-center animate-fade-in overflow-hidden bg-slate-950">
+        <section className="relative pt-40 pb-16 px-4 min-h-[75vh] flex flex-col justify-center animate-fade-in overflow-hidden bg-slate-950">
           <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60 z-0">
             <source src="/private-luxury-transfers-cabo-san-lucas.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/40 to-slate-50 z-10"></div>
 
-          <div className="max-w-4xl mx-auto text-center mb-10 relative z-20 mt-8">
+          <div className="max-w-4xl mx-auto text-center mb-24 md:mb-10 relative z-20 mt-8">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tighter leading-tight drop-shadow-lg" style={{ letterSpacing: '-0.03em' }}>
               {lang === 'es' ? 'Transporte Privado y Shuttles en Los Cabos.' : <><span className="text-white">Premium Cabo Airport Shuttle</span> & Private Tours.</>}
             </h1>
@@ -167,7 +167,7 @@ export default function Home() {
               {lang === 'es' ? 'Reserva tu traslado seguro, sin filas y puerta a puerta en el Aeropuerto SJD.' : 'Reliable, safe, and private transportation from SJD Airport to your resort. Skip the taxi lines.'}
             </p>
           </div>
-          
+
           <div className="relative z-30 w-full">
             <HeroBooking t={t} lang={lang} />
           </div>
@@ -188,7 +188,7 @@ export default function Home() {
           {subCategoria === 'especiales' && !reserva.tourId && <SpecialServices lang={lang} />}
           {subCategoria === 'tours' && !reserva.tourId && (
             <div className="max-w-7xl mx-auto px-4">
-              <button onClick={() => { setSubCategoria(''); window.scrollTo(0,0); }} className="mb-10 text-sm font-bold text-slate-500 flex items-center gap-2 hover:text-slate-900 transition-colors">
+              <button onClick={() => { setSubCategoria(''); window.scrollTo(0, 0); }} className="mb-10 text-sm font-bold text-slate-500 flex items-center gap-2 hover:text-slate-900 transition-colors">
                 <span className="text-lg leading-none">&larr;</span> {lang === 'es' ? 'Volver a categorías' : 'Back to categories'}
               </button>
               <FeaturedTours t={t} lang={lang} />
@@ -197,13 +197,13 @@ export default function Home() {
           {reserva.tourId && <TourBookingForm lang={lang} />}
         </section>
       )}
-      
+
       {/* ==============================================================
           SECCIONES DE CONTENIDO Y SEO (SÓLO VISIBLES EN EL PASO 1)
           ============================================================== */}
       {paso === 1 && (
         <div className="pt-12 pb-24 bg-slate-50 relative z-20 space-y-20">
-          
+
           <FeaturedTours t={t} lang={lang} />
 
           {/* 🌟 SECCIÓN SEO 1: TEXTO + IMAGEN DERECHA 🌟 */}
@@ -418,16 +418,16 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">{t?.step1?.directory_title || (lang === 'es' ? 'Directorio de Zonas y Tarifas' : 'Zones & Rates Directory')}</h2>
                 <div className="relative max-w-md mx-auto mt-6">
                   <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                  <input 
-                    type="text" 
-                    placeholder={t?.step1?.search_placeholder || (lang === 'es' ? 'Buscar mi hotel...' : 'Search your hotel...')} 
-                    value={busquedaHotel} 
-                    onChange={(e) => setBusquedaHotel(e.target.value)} 
-                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl pl-14 pr-6 py-4 font-medium text-slate-900 focus:border-slate-900 focus:bg-white focus:ring-0 outline-none transition-all shadow-sm" 
+                  <input
+                    type="text"
+                    placeholder={t?.step1?.search_placeholder || (lang === 'es' ? 'Buscar mi hotel...' : 'Search your hotel...')}
+                    value={busquedaHotel}
+                    onChange={(e) => setBusquedaHotel(e.target.value)}
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl pl-14 pr-6 py-4 font-medium text-slate-900 focus:border-slate-900 focus:bg-white focus:ring-0 outline-none transition-all shadow-sm"
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {zonasVisibles.length > 0 ? (
                   zonasVisibles.map(zona => (

@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-'use client'; 
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -9,8 +9,8 @@ import { ShoppingCart, Globe, Menu, X, Users, LogOut } from 'lucide-react';
 export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [user, setUser] = useState(null); 
-  
+  const [user, setUser] = useState(null);
+
   const pathname = usePathname();
   const router = useRouter();
   const isEs = lang === 'es';
@@ -50,7 +50,7 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
   const handleNavClick = (e, targetId) => {
     // Siempre cerramos el menú móvil si está abierto
     setIsMenuOpen(false);
-    
+
     // Verificamos si estamos exactamente en la raíz (Home)
     const isHomePage = pathname === `/${lang}` || pathname === `/${lang}/`;
 
@@ -76,17 +76,17 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
   const renderAuthButton = (isMobile = false) => {
     if (user) {
       return (
-        <button 
-          onClick={handleLogout} 
+        <button
+          onClick={handleLogout}
           className={`flex items-center gap-1.5 transition-all focus:outline-none group ${isMobile ? 'hover:text-red-500 text-left' : scrolled ? 'hover:text-red-500' : 'hover:text-red-300'}`}
           title={isEs ? "Cerrar Sesión" : "Logout"}
         >
           <div className="flex items-center gap-1.5 group-hover:hidden">
-            <Users size={isMobile ? 18 : 16} className={isMobile ? "text-slate-400" : ""} /> 
+            <Users size={isMobile ? 18 : 16} className={isMobile ? "text-slate-400" : ""} />
             <span className="capitalize">{user.nombre.split(' ')[0]}</span>
           </div>
           <div className="hidden items-center gap-1.5 group-hover:flex">
-            <LogOut size={isMobile ? 18 : 16} className="text-red-500" /> 
+            <LogOut size={isMobile ? 18 : 16} className="text-red-500" />
             <span className="text-red-500">{isEs ? "Salir" : "Logout"}</span>
           </div>
         </button>
@@ -94,14 +94,14 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
     }
 
     return (
-      <button 
+      <button
         onClick={() => {
           if (isMobile) setIsMenuOpen(false);
           window.dispatchEvent(new CustomEvent('openLoginModal'));
-        }} 
+        }}
         className={`flex items-center gap-1.5 transition-colors focus:outline-none ${isMobile ? 'hover:text-slate-900 text-left' : scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}
       >
-        <Users size={isMobile ? 18 : 16} className={isMobile ? "text-slate-400" : ""} /> 
+        <Users size={isMobile ? 18 : 16} className={isMobile ? "text-slate-400" : ""} />
         {t?.nav?.login || (isEs ? 'Iniciar Sesión' : 'Login')}
       </button>
     );
@@ -111,16 +111,17 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]' : 'bg-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
-          
+
           {/* LOGO -> Apunta a Home */}
           <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className="flex items-center gap-3 group">
             <img src="/logo-cabo-airport-shuttle.png" alt="Cabo Airport Shuttle Logo" className="h-38 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
-            <div className="flex flex-col justify-center">
-              <span className={`font-black text-2xl tracking-tighter leading-none transition-colors ${scrolled ? 'text-slate-900' : 'text-white'}`}>
-                Cabo<span className={scrolled ? 'text-slate-400' : 'text-slate-300'}>Shuttle</span>
+            {/* Reemplaza la sección del texto de tu logo con esto */}
+            <div className="flex flex-col justify-center min-w-0">
+              <span className="text-[13px] sm:text-base md:text-xl font-black text-slate-900 leading-tight">
+                Cabo <span className="font-bold text-slate-500">Private Transportation</span>
               </span>
-              <span className={`text-[9px] font-bold tracking-widest uppercase mt-0.5 transition-colors ${scrolled ? 'text-slate-500' : 'text-slate-300/80'}`}>
-                by Ballard Tours
+              <span className="text-[8px] sm:text-[9px] md:text-xs font-bold tracking-widest text-slate-400 mt-0.5 uppercase">
+                By Ballard Tours
               </span>
             </div>
           </Link>
@@ -128,17 +129,17 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
           {/* MENÚ ESCRITORIO */}
           <div className={`hidden md:flex items-center space-x-8 text-sm font-bold tracking-tight transition-colors ${scrolled ? 'text-slate-500' : 'text-slate-200'}`}>
             <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.home || 'Home'}</Link>
-            
+
             {/* ENLACE ZONAS CORREGIDO */}
             <Link href={`/${lang}#zonas`} onClick={(e) => handleNavClick(e, 'zonas')} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.rates || 'Rates & Zones'}</Link>
-            
+
             <Link href={`/${lang}/fleet`} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.fleet || 'Fleet'}</Link>
             <Link href={`/${lang}/tours`} className={`hover:text-blue-500 transition-colors ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>{t?.nav?.experiences || 'Experiences'}</Link>
-            
+
             <div className={`h-5 w-px ${scrolled ? 'bg-slate-200' : 'bg-slate-600'}`}></div>
 
             {renderAuthButton(false)}
-            
+
             <Link href={`/${lang}/cart`} className={`relative p-2 transition-colors group ${scrolled ? 'hover:text-slate-900' : 'hover:text-white'}`}>
               <ShoppingCart size={20} className="group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
@@ -173,13 +174,13 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
       <div className={`md:hidden absolute w-full bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-96 border-t' : 'max-h-0 border-t-0'}`}>
         <div className="flex flex-col px-6 py-6 space-y-6 text-base font-bold text-slate-500 tracking-tight">
           <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className="hover:text-slate-900">{t?.nav?.home || 'Home'}</Link>
-          
+
           <Link href={`/${lang}#zonas`} onClick={(e) => handleNavClick(e, 'zonas')} className="hover:text-slate-900">{t?.nav?.rates || 'Rates & Zones'}</Link>
-          
+
           <Link href={`/${lang}/fleet`} onClick={() => setIsMenuOpen(false)} className="hover:text-slate-900">{t?.nav?.fleet || 'Fleet'}</Link>
           <Link href={`/${lang}/tours`} onClick={() => setIsMenuOpen(false)} className="hover:text-slate-900">{t?.nav?.experiences || 'Experiences'}</Link>
           <div className="h-px w-full bg-slate-100 my-2"></div>
-          
+
           {renderAuthButton(true)}
         </div>
       </div>
