@@ -296,6 +296,8 @@ export default function CheckoutPage({ params }) {
   const cantidadDescontada = subtotal * (descuentoPorcentajeTotal / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
+  const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -595,66 +597,55 @@ export default function CheckoutPage({ params }) {
                 ))}
               </div>
 
-              {/* MOSTRAR CUPONES APLICADOS COMO LECTURA SOLAMENTE */}
-              <div className="mb-6 bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-800">
-                    <Ticket size={14} className="text-blue-600" />
-                    {isEs ? "Códigos Aplicados" : "Applied Codes"}
-                  </span>
-                  <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-600 flex items-center gap-1 hover:underline">
-                    <Edit3 size={12} /> {isEs ? "Editar / Añadir" : "Edit / Add"}
-                  </Link>
-                </div>
-
-                {cuponesAplicados.length > 0 ? (
-                  <div className="flex flex-wrap gap-2">
-                    {cuponesAplicados.map((c, i) => (
-                      <span key={i} className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm">
-                        {c.codigo} (-{c.descuento || 10}%)
-                      </span>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-xs text-slate-500 font-medium">{isEs ? "No hay cupones activos." : "No active coupons."}</p>
-                )}
-              </div>
-
-              {/* ========================================================= */}
-              {/* ✅ ACTUALIZADO: RECUADRO DE DESGLOSE DE TOTALES DETALLADO */}
-              {/* ========================================================= */}
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-6">
                 <div className="flex justify-between items-center mb-3">
                   <span className="text-slate-500 font-bold text-sm">Subtotal</span>
                   <span className="font-bold text-slate-700">${subtotal.toFixed(2)}</span>
                 </div>
                 
-                {promoBasePorcentaje > 0 && (
-                  <div className="flex justify-between items-center mb-2 text-green-600 font-bold text-sm">
-                    <span>{isEs ? 'Descuento Base' : 'Base Discount'} ({promoBasePorcentaje}%)</span>
-                    <span>-${(subtotal * (promoBasePorcentaje / 100)).toFixed(2)}</span>
-                  </div>
-                )}
-
-                {/* EL CUADRO NEGRO SOLICITADO CON EL CÓDIGO POR COMENTARIO Y CANTIDAD DESCONTADA */}
-                {cuponesAplicados.length > 0 && (
-                  <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-700 pb-2">
-                      {isEs ? 'Descuento Aplicado' : 'Applied Discount'}
-                    </p>
-                    {cuponesAplicados.map((c, i) => {
-                      const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
-                      return (
-                        <div key={i} className="flex justify-between items-center mb-2 last:mb-0">
-                          <span className="text-slate-300 text-sm font-medium">
-                            {isEs ? 'Código promocional:' : 'Promo code:'} <strong className="text-white bg-slate-800 px-2 py-1 rounded ml-1">{c.codigo}</strong>
+                {/* ========================================================= */}
+                {/* ✅ EL CUADRO NEGRO UNIFICADO (PROMO WEB Y/O CHOFER) */}
+                {/* ========================================================= */}
+                {hasAnyDiscount && (
+                  <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner border border-slate-800">
+                    <div className="flex justify-between items-center mb-3 border-b border-slate-700 pb-2">
+                      <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400">
+                        <Ticket size={14} className="text-emerald-400" />
+                        {isEs ? 'CÓDIGO / CUPÓN' : 'CODE / COUPON'}
+                      </span>
+                      <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
+                        <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add / Edit"}
+                      </Link>
+                    </div>
+                    
+                    <div className="flex flex-col gap-2">
+                      {/* 1. Descuento de Promo Automática */}
+                      {appliedPromo && (
+                        <div className="flex justify-between items-center">
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                            {appliedPromo.codigo || appliedPromo.code || (isEs ? "PROMO WEB" : "WEB PROMO")}
                           </span>
-                          <span className="font-bold text-green-400">
-                            -${cantidadDescontadaCupon.toFixed(2)}
+                          <span className="font-bold text-emerald-400 text-sm">
+                            -${(subtotal * (promoBasePorcentaje / 100)).toFixed(2)}
                           </span>
                         </div>
-                      );
-                    })}
+                      )}
+
+                      {/* 2. Descuentos de Chofer / Manuales agregados */}
+                      {cuponesAplicados.map((c, i) => {
+                        const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                        return (
+                          <div key={i} className="flex justify-between items-center">
+                            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                              {c.codigo}
+                            </span>
+                            <span className="font-bold text-emerald-400 text-sm">
+                              -${cantidadDescontadaCupon.toFixed(2)}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
 
@@ -668,7 +659,7 @@ export default function CheckoutPage({ params }) {
               </div>
 
               {/* ========================================================= */}
-              {/* ✅ ACTUALIZADO: MÉTODOS DE PAGO CON PRECIO NETO A UN LADO */}
+              {/* MÉTODOS DE PAGO */}
               {/* ========================================================= */}
               <div className="mb-6 space-y-3">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{isEs ? 'Elige tu Método de Pago' : 'Choose Payment Method'}</p>
