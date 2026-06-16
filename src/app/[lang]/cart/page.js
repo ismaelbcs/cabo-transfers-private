@@ -148,7 +148,7 @@ export default function CheckoutPage({ params }) {
   const router = useRouter();
   const { combo = [], eliminarDelCombo, vaciarCombo } = useCart();
   
-  // 👇 EXTRAEMOS LOS CONTEXTOS DE RESERVA QUE SE COMUNICAN CON HEROBOOKING
+  // EXTRAEMOS LOS CONTEXTOS DE RESERVA QUE SE COMUNICAN CON HEROBOOKING
   const { appliedPromo, setServicioSeleccionado, setVistaEspecial, setPaso } = useBooking();
   
   const [step, setStep] = useState(1);
@@ -162,7 +162,6 @@ export default function CheckoutPage({ params }) {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  // LÓGICA MATEMÁTICA DE DESCUENTOS PROTEGIDA CONTRA UNDEFINED
   const subtotal = combo?.reduce((acc, item) => acc + (item.precio || 0), 0) || 0;
   const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
@@ -222,6 +221,7 @@ export default function CheckoutPage({ params }) {
     }
   };
 
+  // 👇 AÑADIDO: DICCIONARIO DE TRADUCCIONES CON LA OPCIÓN "CASH" (EFECTIVO)
   const t = {
     titleCart: isEs ? "Mi Combo" : "My Combo",
     empty: isEs ? "Tu combo está vacío." : "Your combo is empty.",
@@ -244,31 +244,27 @@ export default function CheckoutPage({ params }) {
     airline: isEs ? "Aerolínea" : "Airline",
     flightNo: isEs ? "No. de Vuelo" : "Flight No.",
     arrivalTime: isEs ? "Hora de Aterrizaje" : "Arrival Time",
-    reviewPay: isEs ? "Revisar Combo y Pagar" : "Review and Pay",
+    reviewPay: isEs ? "Revisar y Pagar" : "Review and Pay",
     confirmTitle: isEs ? "Confirmación de Reserva" : "Booking Confirmation",
     paxLabel: isEs ? "Pasajero" : "Passenger",
     taxesInc: isEs ? "Impuestos incluidos" : "Taxes included",
     payTotal: isEs ? "Total a Pagar" : "Total to Pay",
-    finalize: isEs ? "Finalizar Reserva" : "Complete Booking",
+    finalize: isEs ? "Confirmar Reserva" : "Confirm Booking",
     processing: isEs ? "Procesando..." : "Processing...",
-    errorForm: isEs ? "Llena tu Nombre y Correo para continuar" : "Fill your Name and Email to continue"
+    errorForm: isEs ? "Llena tu Nombre y Correo para continuar" : "Fill your Name and Email to continue",
+    cash: isEs ? "Pago en Efectivo (Al llegar)" : "Pay in Cash (On Arrival)"
   };
 
-  // =========================================================
-  // ARREGLO COMBINADO DE TOURS Y SERVICIOS ESPECIALES
-  // =========================================================
   const crossSellItems = [
-    // 1. Mapeo de todos los Tours desde seoData
     ...toursData.filter(t => t.activo).map(t => ({
       id: t.id,
       title: t.nombre[lang],
       image: `/${t.imagenUrl}`,
       price: t.precioPx,
-      isTour: true, // Identificador de tipo
+      isTour: true,
       url: `/${lang}/tours/${t.slug}`,
       type: isEs ? 'Tour' : 'Tour'
     })),
-    // 2. Mapeo exacto de tus 4 Servicios Especiales (IDs coordinados con HeroBooking)
     {
       id: 'cenas',
       title: isEs ? 'Cenas y Restaurantes' : 'Dinners & Restaurants',
@@ -431,7 +427,7 @@ export default function CheckoutPage({ params }) {
                           <p className="text-[10px] text-slate-400 font-bold uppercase pb-1.5">{t.taxesInc}</p>
                         </div>
                       </div>
-                      <button onClick={() => setStep(2)} className="w-full sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-slate-900/20 hover:bg-slate-800 active:scale-95 transition-all flex items-center justify-center">
+                      <button onClick={() => { setStep(2); window.scrollTo(0,0); }} className="w-full sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-slate-900/20 hover:bg-slate-800 active:scale-95 transition-all flex items-center justify-center">
                         {t.proceed} <ChevronRight size={18} className="ml-2" />
                       </button>
                     </div>
@@ -442,11 +438,13 @@ export default function CheckoutPage({ params }) {
             </div>
           )}
 
-          {/* PASO 2: FORMULARIO */}
+          {/* ================= PASO 2: FORMULARIO (MANTENIENDO ANCHOS) ================= */}
           {step === 2 && (
-            <div className="animate-fade-in max-w-6xl mx-auto">
+            <div className="animate-fade-in max-w-7xl mx-auto">
               {renderStepper()}
               <div className="flex flex-col lg:flex-row gap-8">
+                
+                {/* LADO IZQUIERDO */}
                 <div className="flex-1 space-y-8">
                   <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                     <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight">
@@ -454,25 +452,25 @@ export default function CheckoutPage({ params }) {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="flex flex-col">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.name}</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className={`w-full p-3.5 border rounded-xl outline-none focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all ${formData.nombre ? 'bg-slate-50 border-slate-200' : 'bg-red-50/50 border-red-200'}`} />
+                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.name}</label>
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className={`w-full p-4 border rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all ${formData.nombre ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.lastName}</label>
-                        <input type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all" />
+                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.lastName}</label>
+                        <input type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full p-4 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.email}</label>
+                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.email}</label>
                         <div className="relative">
-                          <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                          <input type="email" name="email" value={formData.email} onChange={handleChange} className={`w-full pl-10 pr-4 py-3.5 border rounded-xl outline-none focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all ${formData.email ? 'bg-slate-50 border-slate-200' : 'bg-red-50/50 border-red-200'}`} />
+                          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                          <input type="email" name="email" value={formData.email} onChange={handleChange} className={`w-full pl-12 pr-4 py-4 border rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all ${formData.email ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
                         </div>
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.phone}</label>
+                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.phone}</label>
                         <div className="relative">
-                          <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                          <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full pl-10 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all" />
+                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                          <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                         </div>
                       </div>
                     </div>
@@ -485,18 +483,18 @@ export default function CheckoutPage({ params }) {
                     <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-6">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="flex flex-col">
-                          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.airline}</label>
-                          <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full p-3.5 bg-white border border-slate-200 rounded-lg outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all" />
+                          <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.airline}</label>
+                          <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full p-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                         </div>
                         <div className="flex flex-col">
-                          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.flightNo}</label>
-                          <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full p-3.5 bg-white border border-slate-200 rounded-lg outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all" />
+                          <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.flightNo}</label>
+                          <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full p-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                         </div>
                         <div className="flex flex-col">
-                          <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{t.arrivalTime}</label>
+                          <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.arrivalTime}</label>
                           <div className="relative">
-                            <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                            <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-4 bg-white border border-slate-200 rounded-lg outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 text-slate-800 font-medium transition-all" />
+                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                            <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
                           </div>
                         </div>
                       </div>
@@ -504,6 +502,7 @@ export default function CheckoutPage({ params }) {
                   </div>
                 </div>
 
+                {/* WIDGET DERECHO */}
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-800 pb-4 tracking-tight">
@@ -522,7 +521,7 @@ export default function CheckoutPage({ params }) {
                     </div>
                     <div className="pt-2">
                       <div className="flex justify-between items-center mb-2">
-                        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{t.subtotalTxt}</p>
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{t.subtotalTxt || 'Subtotal'}</p>
                         <p className="font-bold">${(subtotal || 0).toFixed(2)}</p>
                       </div>
                       <div className="flex justify-between items-end mt-6">
@@ -534,11 +533,18 @@ export default function CheckoutPage({ params }) {
                       </div>
                     </div>
                     <div className="flex gap-3 mt-8">
-                      <button onClick={() => setStep(1)} className="px-4 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold active:scale-95">
+                      <button onClick={() => { setStep(1); window.scrollTo(0,0); }} className="px-4 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold active:scale-95">
                         <ChevronLeft size={20} />
                       </button>
                       <button 
-                        onClick={() => isFormValid ? setStep(3) : alert(t.errorForm)} 
+                        onClick={() => {
+                          if (isFormValid) {
+                            setStep(3);
+                            window.scrollTo(0,0);
+                          } else {
+                            alert(t.errorForm);
+                          }
+                        }} 
                         className={`flex-1 py-4 rounded-xl font-bold flex items-center justify-center transition-all text-sm tracking-wide ${isFormValid ? 'bg-white text-slate-900 hover:bg-slate-100 active:scale-95' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
                       >
                         {t.reviewPay} <ChevronRight size={18} className="ml-2" />
@@ -550,11 +556,13 @@ export default function CheckoutPage({ params }) {
             </div>
           )}
 
-          {/* PASO 3: CONFIRMACIÓN Y PAGO */}
+          {/* ================= PASO 3: CONFIRMACIÓN Y PAGO ================= */}
           {step === 3 && (
-            <div className="animate-fade-in max-w-6xl mx-auto">
+            <div className="animate-fade-in max-w-7xl mx-auto">
               {renderStepper()}
               <div className="flex flex-col lg:flex-row gap-8">
+                
+                {/* LADO IZQUIERDO */}
                 <div className="flex-1">
                   <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                     <h2 className="text-2xl font-black text-slate-900 mb-8 border-b border-slate-100 pb-4 tracking-tight uppercase">
@@ -572,29 +580,33 @@ export default function CheckoutPage({ params }) {
                         </div>
                       ) : (
                         <button onClick={() => procesarConfirmacion(null, 'efectivo')} className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-4 rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg">
-                          {t.finalize} en Efectivo
+                          {t.finalize} ({t.cash})
                         </button>
                       )}
                     </div>
                   </div>
                 </div>
 
+                {/* WIDGET DERECHO CON OPCIONES DE PAGO */}
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-800 pb-4 tracking-tight">
                       <ShoppingBag size={20} className="text-blue-500" /> {t.totalCombo}
                     </h3>
+                    
                     <div className="space-y-3 mb-8">
-                      <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/10 border-blue-500' : 'bg-slate-900 border-slate-800'}`}>
-                        <input type="radio" name="payment" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={() => setFormData({...formData, paymentMethod: 'paypal'})} />
-                        <span className="font-bold text-sm">PayPal</span>
+                      <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border transition-colors ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/20 border-blue-500' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                        <input type="radio" name="payment" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={() => setFormData({...formData, paymentMethod: 'paypal'})} className="accent-blue-500 w-4 h-4" />
+                        <span className="font-bold text-sm">PayPal / Credit Card</span>
                       </label>
-                      <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/10 border-emerald-500' : 'bg-slate-900 border-slate-800'}`}>
-                        <input type="radio" name="payment" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={() => setFormData({...formData, paymentMethod: 'efectivo'})} />
+                      
+                      <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border transition-colors ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/20 border-emerald-500' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                        <input type="radio" name="payment" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={() => setFormData({...formData, paymentMethod: 'efectivo'})} className="accent-emerald-500 w-4 h-4" />
                         <span className="font-bold text-sm">{t.cash}</span>
                       </label>
                     </div>
-                    <button onClick={() => setStep(2)} className="w-full py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold">
+
+                    <button onClick={() => { setStep(2); window.scrollTo(0,0); }} className="w-full py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold">
                       <ChevronLeft size={20} className="mr-2" /> Atrás
                     </button>
                   </div>
@@ -603,7 +615,7 @@ export default function CheckoutPage({ params }) {
             </div>
           )}
 
-          {/* PASO 4: ÉXITO */}
+          {/* ================= PASO 4: ÉXITO ================= */}
           {step === 4 && (
             <div className="animate-fade-in max-w-4xl mx-auto space-y-8">
               <div className="bg-emerald-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_20px_50px_rgba(16,185,129,0.2)] flex flex-col items-center">
