@@ -90,6 +90,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             </div>
 
             <a href="${wpLink}" style="display: block; width: 100%; text-align: center; border: 2px solid #213f8c; color: #213f8c; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 30px;">💬 Contactar con el Cliente</a>
+            <p style="text-align: center; color: #64748b; font-size: 12px; margin-top: 40px; line-height: 1.5;">Este es un correo automático generado por el nuevo sistema de reservas.<br/>Por favor, revisa la información y agenda el servicio.</p>
           </td>
         </tr>
       </table>
@@ -147,8 +148,6 @@ export default function CheckoutPage({ params }) {
 
   const router = useRouter();
   const { combo = [], eliminarDelCombo, vaciarCombo } = useCart();
-  
-  // EXTRAEMOS LOS CONTEXTOS DE RESERVA QUE SE COMUNICAN CON HEROBOOKING
   const { appliedPromo, setServicioSeleccionado, setVistaEspecial, setPaso } = useBooking();
   
   const [step, setStep] = useState(1);
@@ -169,17 +168,18 @@ export default function CheckoutPage({ params }) {
 
   const isFormValid = formData.nombre.trim() !== '' && formData.email.trim() !== '';
 
-  const procesarConfirmacion = async (detallesPago = null, metodo = 'efectivo') => {
+  const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
     setIsProcessing(true);
+    const metodoReal = metodoOverride || formData.paymentMethod;
     const nuevoNumConfirmacion = Math.random().toString(36).substring(2, 10).toUpperCase();
-    const datosFinalesCliente = { ...formData, paymentMethod: metodo };
+    const datosFinalesCliente = { ...formData, paymentMethod: metodoReal };
 
     try {
       let index = 1;
       await addDoc(collection(db, "reservas"), {
         numeroConfirmacion: nuevoNumConfirmacion,
         idioma: lang,
-        estado: metodo === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
+        estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
         cliente: datosFinalesCliente,
         servicios: combo,
         total: granTotalFinal,
@@ -221,7 +221,7 @@ export default function CheckoutPage({ params }) {
     }
   };
 
-  // 👇 AÑADIDO: DICCIONARIO DE TRADUCCIONES CON LA OPCIÓN "CASH" (EFECTIVO)
+  // DICCIONARIO BILINGÜE
   const t = {
     titleCart: isEs ? "Mi Combo" : "My Combo",
     empty: isEs ? "Tu combo está vacío." : "Your combo is empty.",
@@ -249,10 +249,16 @@ export default function CheckoutPage({ params }) {
     paxLabel: isEs ? "Pasajero" : "Passenger",
     taxesInc: isEs ? "Impuestos incluidos" : "Taxes included",
     payTotal: isEs ? "Total a Pagar" : "Total to Pay",
-    finalize: isEs ? "Confirmar Reserva" : "Confirm Booking",
+    finalize: isEs ? "Finalizar Reserva" : "Complete Booking",
     processing: isEs ? "Procesando..." : "Processing...",
     errorForm: isEs ? "Llena tu Nombre y Correo para continuar" : "Fill your Name and Email to continue",
-    cash: isEs ? "Pago en Efectivo (Al llegar)" : "Pay in Cash (On Arrival)"
+    // Textos de Pago
+    paymentMethodTitle: isEs ? "Método de Pago" : "Payment Method",
+    paypalOptionTitle: "PayPal / Credit Card",
+    paypalOptionDesc: isEs ? "Pago seguro en línea" : "Secure online payment",
+    cashOptionTitle: isEs ? "Pago en Efectivo" : "Cash Payment",
+    cashOptionDesc: isEs ? "Paga al chofer a tu llegada" : "Pay the driver upon arrival",
+    confirmCashBtn: isEs ? "Confirmar Reserva" : "Confirm Booking"
   };
 
   const crossSellItems = [
@@ -265,38 +271,10 @@ export default function CheckoutPage({ params }) {
       url: `/${lang}/tours/${t.slug}`,
       type: isEs ? 'Tour' : 'Tour'
     })),
-    {
-      id: 'cenas',
-      title: isEs ? 'Cenas y Restaurantes' : 'Dinners & Restaurants',
-      image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800',
-      price: 85,
-      isTour: false,
-      type: isEs ? 'Servicio Especial' : 'Special Service'
-    },
-    {
-      id: 'golf',
-      title: isEs ? 'Campos de Golf' : 'Golf Courses',
-      image: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800',
-      price: 90,
-      isTour: false,
-      type: isEs ? 'Servicio Especial' : 'Special Service'
-    },
-    {
-      id: 'nightlife',
-      title: isEs ? 'Vida Nocturna' : 'Nightlife',
-      image: 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800',
-      price: 100,
-      isTour: false,
-      type: isEs ? 'Servicio Especial' : 'Special Service'
-    },
-    {
-      id: 'hotel',
-      title: isEs ? 'Traslado de Hotel a Hotel' : 'Hotel to Hotel Transfer',
-      image: 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?q=80&w=800',
-      price: 50,
-      isTour: false,
-      type: isEs ? 'Servicio Especial' : 'Special Service'
-    }
+    { id: 'cenas', title: isEs ? 'Cenas y Restaurantes' : 'Dinners & Restaurants', image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800', price: 85, isTour: false, type: isEs ? 'Servicio Especial' : 'Special Service' },
+    { id: 'golf', title: isEs ? 'Campos de Golf' : 'Golf Courses', image: 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800', price: 90, isTour: false, type: isEs ? 'Servicio Especial' : 'Special Service' },
+    { id: 'nightlife', title: isEs ? 'Vida Nocturna' : 'Nightlife', image: 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800', price: 100, isTour: false, type: isEs ? 'Servicio Especial' : 'Special Service' },
+    { id: 'hotel', title: isEs ? 'Traslado de Hotel a Hotel' : 'Hotel to Hotel Transfer', image: 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?q=80&w=800', price: 50, isTour: false, type: isEs ? 'Servicio Especial' : 'Special Service' }
   ];
 
   const renderStepper = () => (
@@ -327,11 +305,12 @@ export default function CheckoutPage({ params }) {
           </div>
         )}
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* CONTENEDOR PRINCIPAL: Fijado al mismo ancho que TransportBookingForm */}
+        <div className="max-w-7xl mx-auto px-4">
           
-          {/* ================= PASO 1 ================= */}
+          {/* ================= PASO 1: CARRITO ================= */}
           {step === 1 && (
-            <div className="animate-fade-in max-w-4xl mx-auto">
+            <div className="animate-fade-in w-full max-w-6xl mx-auto">
               <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-8 flex items-center gap-3 tracking-tighter">
                 <ShoppingBag className="text-blue-600" size={32} /> {t.titleCart}
               </h1>
@@ -365,7 +344,7 @@ export default function CheckoutPage({ params }) {
                     ))}
                   </div>
 
-                  {/* CAROUSEL PREMIUM TOTALMENTE CLIQUEABLE */}
+                  {/* CAROUSEL PREMIUM */}
                   <div>
                     <h3 className="text-xl font-bold text-slate-900 mb-6 tracking-tight flex items-center gap-2">
                       <span className="text-blue-500 text-2xl leading-none">🌴</span> {t.crossSell}
@@ -417,7 +396,7 @@ export default function CheckoutPage({ params }) {
                     </div>
                   </div>
 
-                  {/* Barra inferior fija */}
+                  {/* BARRA INFERIOR */}
                   <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 md:p-6 shadow-[0_-10px_30px_rgb(0,0,0,0.05)] z-40">
                     <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="text-center sm:text-left">
@@ -438,9 +417,9 @@ export default function CheckoutPage({ params }) {
             </div>
           )}
 
-          {/* ================= PASO 2: FORMULARIO (MANTENIENDO ANCHOS) ================= */}
+          {/* ================= PASO 2: DETALLES DE VIAJERO ================= */}
           {step === 2 && (
-            <div className="animate-fade-in max-w-7xl mx-auto">
+            <div className="animate-fade-in w-full">
               {renderStepper()}
               <div className="flex flex-col lg:flex-row gap-8">
                 
@@ -452,25 +431,25 @@ export default function CheckoutPage({ params }) {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="flex flex-col">
-                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.name}</label>
-                        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className={`w-full p-4 border rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all ${formData.nombre ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
+                        <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.name}</label>
+                        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className={`w-full p-4 border rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all ${formData.nombre ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.lastName}</label>
-                        <input type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full p-4 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                        <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.lastName}</label>
+                        <input type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full p-4 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all" />
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.email}</label>
+                        <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.email}</label>
                         <div className="relative">
                           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                          <input type="email" name="email" value={formData.email} onChange={handleChange} className={`w-full pl-12 pr-4 py-4 border rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all ${formData.email ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
+                          <input type="email" name="email" value={formData.email} onChange={handleChange} className={`w-full pl-12 pr-4 py-4 border rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all ${formData.email ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
                         </div>
                       </div>
                       <div className="flex flex-col">
-                        <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.phone}</label>
+                        <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.phone}</label>
                         <div className="relative">
                           <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                          <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                          <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:bg-white focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all" />
                         </div>
                       </div>
                     </div>
@@ -483,18 +462,18 @@ export default function CheckoutPage({ params }) {
                     <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-6">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="flex flex-col">
-                          <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.airline}</label>
-                          <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full p-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                          <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.airline}</label>
+                          <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full p-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all" />
                         </div>
                         <div className="flex flex-col">
-                          <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.flightNo}</label>
-                          <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full p-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                          <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.flightNo}</label>
+                          <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full p-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all" />
                         </div>
                         <div className="flex flex-col">
-                          <label className="text-[11px] font-black text-slate-800 uppercase tracking-widest mb-2 block">{t.arrivalTime}</label>
+                          <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{t.arrivalTime}</label>
                           <div className="relative">
                             <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                            <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                            <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-base placeholder-slate-400 transition-all" />
                           </div>
                         </div>
                       </div>
@@ -556,9 +535,9 @@ export default function CheckoutPage({ params }) {
             </div>
           )}
 
-          {/* ================= PASO 3: CONFIRMACIÓN Y PAGO ================= */}
+          {/* ================= PASO 3: CONFIRMACIÓN Y PAGO (MEJORADO) ================= */}
           {step === 3 && (
-            <div className="animate-fade-in max-w-7xl mx-auto">
+            <div className="animate-fade-in w-full">
               {renderStepper()}
               <div className="flex flex-col lg:flex-row gap-8">
                 
@@ -568,8 +547,10 @@ export default function CheckoutPage({ params }) {
                     <h2 className="text-2xl font-black text-slate-900 mb-8 border-b border-slate-100 pb-4 tracking-tight uppercase">
                       {t.confirmTitle}
                     </h2>
+                    
                     <div className="space-y-4">
-                      {formData.paymentMethod === 'paypal' ? (
+                      {/* VISTA PAYPAL */}
+                      {formData.paymentMethod === 'paypal' && (
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 relative z-0 min-h-[150px]">
                           <PayPalButtons
                             style={{ layout: "vertical", shape: "rect", color: "gold" }}
@@ -578,31 +559,51 @@ export default function CheckoutPage({ params }) {
                             onError={(err) => alert("Error PayPal")}
                           />
                         </div>
-                      ) : (
+                      )}
+                      
+                      {/* VISTA EFECTIVO */}
+                      {formData.paymentMethod === 'efectivo' && (
                         <button onClick={() => procesarConfirmacion(null, 'efectivo')} className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-4 rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg">
-                          {t.finalize} ({t.cash})
+                          <CheckCircle size={24} /> {t.confirmCashBtn}
                         </button>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* WIDGET DERECHO CON OPCIONES DE PAGO */}
+                {/* WIDGET DERECHO CON SELECCIÓN DE PAGO TASTE SKILL */}
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
+                    
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-800 pb-4 tracking-tight">
-                      <ShoppingBag size={20} className="text-blue-500" /> {t.totalCombo}
+                      <CreditCard size={20} className="text-emerald-400" /> {t.paymentMethodTitle}
                     </h3>
                     
-                    <div className="space-y-3 mb-8">
-                      <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border transition-colors ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/20 border-blue-500' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
-                        <input type="radio" name="payment" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={() => setFormData({...formData, paymentMethod: 'paypal'})} className="accent-blue-500 w-4 h-4" />
-                        <span className="font-bold text-sm">PayPal / Credit Card</span>
+                    <div className="space-y-4 mb-8">
+                      {/* BOTÓN PAYPAL TASTE */}
+                      <label className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/10 border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                        <div className="mt-0.5">
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.paymentMethod === 'paypal' ? 'border-blue-500' : 'border-slate-500'}`}>
+                                {formData.paymentMethod === 'paypal' && <div className="w-2.5 h-2.5 bg-blue-500 rounded-full"></div>}
+                            </div>
+                        </div>
+                        <div className="flex-1">
+                            <span className={`font-black text-base block mb-1 ${formData.paymentMethod === 'paypal' ? 'text-white' : 'text-slate-300'}`}>{t.paypalOptionTitle}</span>
+                            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{t.paypalOptionDesc}</span>
+                        </div>
                       </label>
-                      
-                      <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border transition-colors ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/20 border-emerald-500' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
-                        <input type="radio" name="payment" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={() => setFormData({...formData, paymentMethod: 'efectivo'})} className="accent-emerald-500 w-4 h-4" />
-                        <span className="font-bold text-sm">{t.cash}</span>
+
+                      {/* BOTÓN EFECTIVO TASTE */}
+                      <label className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                        <div className="mt-0.5">
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.paymentMethod === 'efectivo' ? 'border-emerald-500' : 'border-slate-500'}`}>
+                                {formData.paymentMethod === 'efectivo' && <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>}
+                            </div>
+                        </div>
+                        <div className="flex-1">
+                            <span className={`font-black text-base block mb-1 ${formData.paymentMethod === 'efectivo' ? 'text-white' : 'text-slate-300'}`}>{t.cashOptionTitle}</span>
+                            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">{t.cashOptionDesc}</span>
+                        </div>
                       </label>
                     </div>
 
@@ -617,7 +618,7 @@ export default function CheckoutPage({ params }) {
 
           {/* ================= PASO 4: ÉXITO ================= */}
           {step === 4 && (
-            <div className="animate-fade-in max-w-4xl mx-auto space-y-8">
+            <div className="animate-fade-in w-full max-w-4xl mx-auto space-y-8">
               <div className="bg-emerald-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_20px_50px_rgba(16,185,129,0.2)] flex flex-col items-center">
                 <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-md text-emerald-500">
                   <CheckCircle size={40} />
