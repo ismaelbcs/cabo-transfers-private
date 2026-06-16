@@ -5,7 +5,9 @@ import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext'; 
-import { ShieldCheck, User, Mail, Phone, Plane, CreditCard, ChevronLeft, CheckCircle, Ticket } from 'lucide-react';
+// IMPORTAMOS Link y Edit3 para el botón de editar cupones
+import Link from 'next/link';
+import { ShieldCheck, User, Mail, Phone, Plane, CreditCard, ChevronLeft, CheckCircle, Ticket, Edit3 } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 // IMPORTACIONES DE FIREBASE COMPLETAS PARA CUPONES Y CORREOS
@@ -242,51 +244,24 @@ export default function CheckoutPage({ params }) {
   });
 
   // =========================================================
-  // 🎟️ SISTEMA DE CUPONES ACUMULABLES (MÁXIMO 10)
+  // 🎟️ CARGAMOS LOS CUPONES DESDE LOCALSTORAGE AUTOMÁTICAMENTE
   // =========================================================
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
-  const [inputCupon, setInputCupon] = useState('');
-  const [errorCupon, setErrorCupon] = useState('');
 
-  const aplicarCupon = async (e) => {
-    e.preventDefault();
-    setErrorCupon('');
-
-    const codigoLimpio = inputCupon.trim().toUpperCase();
-    if (!codigoLimpio) return;
-
-    if (cuponesAplicados.length >= 10) {
-      setErrorCupon(isEs ? "Máximo 10 códigos de descuento permitidos." : "Maximum 10 discount codes allowed.");
-      return;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Leer cupones guardados por la página /apply-code
+    const guardados = localStorage.getItem('cabo_cupones');
+    if (guardados) {
+      setCuponesAplicados(JSON.parse(guardados));
     }
+  }, []);
 
-    if (cuponesAplicados.some(c => c.codigo === codigoLimpio)) {
-      setErrorCupon(isEs ? "Este código ya ha sido aplicado." : "This code has already been applied.");
-      return;
+  useEffect(() => {
+    if (isSuccess) {
+      window.scrollTo(0, 0);
     }
-
-    try {
-      const docRef = doc(db, "cupones", codigoLimpio);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const datosCupon = docSnap.data();
-
-        if (datosCupon.tipo === 'resena' && datosCupon.utilizado === true) {
-          setErrorCupon(isEs ? "Este código de reseña ya fue utilizado." : "This review code has already been used.");
-          return;
-        }
-
-        setCuponesAplicados(prev => [...prev, datosCupon]);
-        setInputCupon('');
-      } else {
-        setErrorCupon(isEs ? "El código introducido no es válido." : "Invalid discount code.");
-      }
-    } catch (error) {
-      console.error("Error validando cupón:", error);
-      setErrorCupon(isEs ? "Error de conexión. Intenta de nuevo." : "Connection error. Please try again.");
-    }
-  };
+  }, [isSuccess]);
 
   // =========================================================
   // 🧮 MATEMÁTICAS PROTEGIDAS CON DESCUENTOS ACUMULABLES
@@ -299,10 +274,6 @@ export default function CheckoutPage({ params }) {
   const descuentoPorcentajeTotal = promoBasePorcentaje + cuponesDescuento;
   const cantidadDescontada = subtotal * (descuentoPorcentajeTotal / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [isSuccess]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -450,6 +421,8 @@ export default function CheckoutPage({ params }) {
         }
       }
       
+      // Limpiamos la basura de local storage para que el cupón no se aplique a compras futuras
+      localStorage.removeItem('cabo_cupones');
       vaciarCombo();
       setIsSuccess(true);
       setProcesandoPago(false);
@@ -601,50 +574,28 @@ export default function CheckoutPage({ params }) {
                 ))}
               </div>
 
-              {/* CAJA DE CUPONES ACUMULABLES */}
-              <div className="mb-6 bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-800 mb-3">
-                  <Ticket size={14} className="text-blue-600" />
-                  {isEs ? "Códigos de Descuento (Hasta 10)" : "Discount Codes (Up to 10)"}
-                </span>
-                
-                <div className="flex gap-2 mb-3">
-                  <input 
-                    type="text" 
-                    value={inputCupon}
-                    onChange={(e) => setInputCupon(e.target.value)}
-                    placeholder={isEs ? "Ej: CABO-XXXX o Chofer" : "Ex: CABO-XXXX or Driver"}
-                    className="flex-1 bg-white border border-slate-300 text-slate-900 font-bold px-4 py-3 rounded-xl text-[13px] outline-none uppercase focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:font-medium placeholder:normal-case"
-                  />
-                  <button 
-                    type="button"
-                    onClick={aplicarCupon}
-                    className="bg-slate-900 text-white font-bold text-xs px-5 py-3 rounded-xl hover:bg-slate-800 transition-colors active:scale-95"
-                  >
-                    {isEs ? "Aplicar" : "Apply"}
-                  </button>
+              {/* MOSTRAR CUPONES APLICADOS COMO LECTURA SOLAMENTE */}
+              <div className="mb-6 bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-800">
+                    <Ticket size={14} className="text-blue-600" />
+                    {isEs ? "Códigos Aplicados" : "Applied Codes"}
+                  </span>
+                  <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-600 flex items-center gap-1 hover:underline">
+                    <Edit3 size={12} /> {isEs ? "Editar / Añadir" : "Edit / Add"}
+                  </Link>
                 </div>
-                
-                {errorCupon && <p className="text-[11px] text-red-500 font-bold mb-3">{errorCupon}</p>}
 
-                {cuponesAplicados.length > 0 && (
+                {cuponesAplicados.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {cuponesAplicados.map((c, i) => (
-                      <span 
-                        key={i} 
-                        className="inline-flex items-center gap-1.5 bg-slate-900 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg"
-                      >
+                      <span key={i} className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm">
                         {c.codigo} (-{c.descuento || 10}%)
-                        <button 
-                          type="button"
-                          onClick={() => setCuponesAplicados(prev => prev.filter(item => item.codigo !== c.codigo))}
-                          className="hover:text-red-400 ml-1 flex items-center justify-center transition-colors"
-                        >
-                          ✕
-                        </button>
                       </span>
                     ))}
                   </div>
+                ) : (
+                  <p className="text-xs text-slate-500 font-medium">{isEs ? "No hay cupones activos." : "No active coupons."}</p>
                 )}
               </div>
 

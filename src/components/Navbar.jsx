@@ -152,6 +152,18 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
             <button onClick={toggleLanguage} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest active:scale-95 transition-all ${scrolled ? 'bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900' : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'}`}>
               <Globe size={14} /> {lang === 'en' ? 'EN' : 'ES'}
             </button>
+            {/* BOTÓN PON TU CÓDIGO (Link in Navbar) */}
+            <Link
+              href={`/${lang}/apply-code`}
+              className="flex flex-col items-center justify-center group ml-2 sm:ml-4"
+            >
+              <div className="flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1.5 rounded-full hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
+                <Ticket size={14} className="text-amber-400 group-hover:rotate-12 transition-transform" />
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">
+                  {lang === 'es' ? 'Pon tu Código' : 'Add Code'}
+                </span>
+              </div>
+            </Link>
           </div>
 
           {/* ICONOS MÓVILES (DERECHA) */}
