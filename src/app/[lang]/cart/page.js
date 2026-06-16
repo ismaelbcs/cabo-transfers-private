@@ -128,7 +128,7 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
             <p style="margin: 0 0 10px 0;"><strong>${isEs ? 'Fecha de Servicio' : 'Service Date'}:</strong> <span style="color: #ea580c; font-weight: bold;">${pickup}</span></p>
             <p style="margin: 0 0 15px 0;"><strong>${isEs ? 'Método de Pago' : 'Payment Method'}:</strong> ${metodoPago}</p>
             <hr style="border: none; border-top: 1px solid #cbd5e1; margin: 15px 0;" />
-            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a;">Total: $${item.precio.toFixed(2)} USD</p>
+            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a;">Total: $${(item.precio || 0).toFixed(2)} USD</p>
           </div>
           <p style="text-align: center; font-size: 12px; color: #94a3b8;">Ballard Tours Los Cabos</p>
         </div>

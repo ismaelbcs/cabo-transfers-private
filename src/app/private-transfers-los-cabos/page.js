@@ -71,35 +71,36 @@ export default function CaboSuvServicePage({ params }) {
                                 ? 'Nuestras SUV de lujo son la opción perfecta para familias, ejecutivos o pequeños grupos de amigos que llevan equipaje extra, palos de golf o simplemente desean viajar con el mayor nivel de confort en Los Cabos. Además, te recibimos con bebidas frías de cortesía en el interior.'
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
-                        className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm"
-                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
-                            {lang === 'es'
-                                ? 'Transporte Exclusivo en Los Cabos'
-                                : 'Exclusive Transportation in Los Cabos'}
-                        </h2>
-                        <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
-                            <p className="mb-6">
-                                {lang === 'es' ? (
-                                    <>Experimenta el más alto estándar de viaje con nuestros <strong>private transfers Los Cabos</strong>. Ya sea que llegues para una escapada romántica o unas vacaciones familiares, contar con un vehículo dedicado asegura que tu trayecto se adapte completamente a tu propio horario.</>
-                                ) : (
-                                    <>Experience the highest standard of travel with our <strong>private transfers Los Cabos</strong>. Whether you are arriving for a romantic getaway or a family vacation, having a dedicated vehicle ensures your journey is completely tailored to your schedule.</>
-                                )}
-                            </p>
-                            <p className="mb-6">
-                                {lang === 'es' ? (
-                                    <>Al elegir nuestros <strong>private transfers Los Cabos</strong>, evitas las molestias de los transportes compartidos y las concurridas filas de taxis. Nuestra flota de lujo se mantiene a la perfección, garantizando un viaje suave a lo largo del pintoresco corredor turístico.</>
-                                ) : (
-                                    <>By choosing our <strong>private transfers Los Cabos</strong>, you avoid the hassle of shared shuttles and crowded taxi lines. Our luxury fleet is maintained to perfection, guaranteeing a smooth ride along the scenic tourist corridor.</>
-                                )}
-                            </p>
-                            <p>
-                                {lang === 'es' ? (
-                                    <>Reserva tus <strong>private transfers Los Cabos</strong> hoy mismo y deja que nuestros choferes bilingües te den la bienvenida con bebidas frías y un servicio excepcional desde el momento en que sales del aeropuerto.</>
-                                ) : (
-                                    <>Book your <strong>private transfers Los Cabos</strong> today and let our bilingual chauffeurs welcome you with cold beverages and exceptional service from the moment you step out of the airport.</>
-                                )}
-                            </p>
-                        </div>
+                        <section className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
+                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+                                {lang === 'es'
+                                    ? 'Transporte Exclusivo en Los Cabos'
+                                    : 'Exclusive Transportation in Los Cabos'}
+                            </h2>
+                            <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                                <p className="mb-6">
+                                    {lang === 'es' ? (
+                                        <>Experimenta el más alto estándar de viaje con nuestros <strong>private transfers Los Cabos</strong>. Ya sea que llegues para una escapada romántica o unas vacaciones familiares, contar con un vehículo dedicado asegura que tu trayecto se adapte completamente a tu propio horario.</>
+                                    ) : (
+                                        <>Experience the highest standard of travel with our <strong>private transfers Los Cabos</strong>. Whether you are arriving for a romantic getaway or a family vacation, having a dedicated vehicle ensures your journey is completely tailored to your schedule.</>
+                                    )}
+                                </p>
+                                <p className="mb-6">
+                                    {lang === 'es' ? (
+                                        <>Al elegir nuestros <strong>private transfers Los Cabos</strong>, evitas las molestias de los transportes compartidos y las concurridas filas de taxis. Nuestra flota de lujo se mantiene a la perfección, garantizando un viaje suave a lo largo del pintoresco corredor turístico.</>
+                                    ) : (
+                                        <>By choosing our <strong>private transfers Los Cabos</strong>, you avoid the hassle of shared shuttles and crowded taxi lines. Our luxury fleet is maintained to perfection, guaranteeing a smooth ride along the scenic tourist corridor.</>
+                                    )}
+                                </p>
+                                <p>
+                                    {lang === 'es' ? (
+                                        <>Reserva tus <strong>private transfers Los Cabos</strong> hoy mismo y deja que nuestros choferes bilingües te den la bienvenida con bebidas frías y un servicio excepcional desde el momento en que sales del aeropuerto.</>
+                                    ) : (
+                                        <>Book your <strong>private transfers Los Cabos</strong> today and let our bilingual chauffeurs welcome you with cold beverages and exceptional service from the moment you step out of the airport.</>
+                                    )}
+                                </p>
+                            </div>
+                        </section>
                     </div>
                 </section>
 
