@@ -333,7 +333,7 @@ export default function CheckoutPage({ params }) {
   }
 
   // VISTA DE CARRITO VACÍO
-  if (carrito.length === 0) {
+  if (carrito?.length === 0) {
     return (
       <div className="min-h-screen bg-slate-50 pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center animate-fade-in">
         <div className="w-24 h-24 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-6">
