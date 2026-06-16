@@ -599,18 +599,28 @@ export default function CheckoutPage({ params }) {
                 )}
               </div>
 
+              {/* ========================================================= */}
+              {/* ✅ ACTUALIZADO: RECUADRO DE DESGLOSE DE TOTALES DETALLADO */}
+              {/* ========================================================= */}
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-6">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-3">
                   <span className="text-slate-500 font-bold text-sm">Subtotal</span>
                   <span className="font-bold text-slate-700">${subtotal.toFixed(2)}</span>
                 </div>
                 
-                {descuentoPorcentajeTotal > 0 && (
+                {promoBasePorcentaje > 0 && (
                   <div className="flex justify-between items-center mb-2 text-green-600 font-bold text-sm">
-                    <span>{isEs ? 'Descuento Total' : 'Total Discount'} ({descuentoPorcentajeTotal}%)</span>
-                    <span>-${cantidadDescontada.toFixed(2)}</span>
+                    <span>{isEs ? 'Descuento Base' : 'Base Discount'} ({promoBasePorcentaje}%)</span>
+                    <span>-${(subtotal * (promoBasePorcentaje / 100)).toFixed(2)}</span>
                   </div>
                 )}
+
+                {cuponesAplicados.map((c, i) => (
+                  <div key={i} className="flex justify-between items-center mb-2 text-green-600 font-bold text-sm">
+                    <span>{isEs ? 'Cupón' : 'Coupon'}: {c.codigo} ({c.descuento || 10}%)</span>
+                    <span>-${(subtotal * ((c.descuento || 10) / 100)).toFixed(2)}</span>
+                  </div>
+                ))}
 
                 <div className="border-t border-slate-200 pt-4 mt-4 flex justify-between items-end">
                   <span className="text-slate-800 font-black text-lg">Total</span>
@@ -621,16 +631,26 @@ export default function CheckoutPage({ params }) {
                 </div>
               </div>
 
-              {/* MÉTODOS DE PAGO: EFECTIVO O PAYPAL */}
+              {/* ========================================================= */}
+              {/* ✅ ACTUALIZADO: MÉTODOS DE PAGO CON PRECIO NETO A UN LADO */}
+              {/* ========================================================= */}
               <div className="mb-6 space-y-3">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{isEs ? 'Elige tu Método de Pago' : 'Choose Payment Method'}</p>
-                <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
-                  <input type="radio" name="paymentMethod" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={handleChange} className="w-5 h-5 accent-blue-600" />
-                  <span className="font-bold text-slate-900 text-sm">PayPal / Credit Card</span>
+                
+                <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all w-full ${formData.paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+                  <input type="radio" name="paymentMethod" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={handleChange} className="w-5 h-5 accent-blue-600 flex-shrink-0" />
+                  <div className="flex justify-between items-center w-full">
+                    <span className="font-bold text-slate-900 text-sm">PayPal / Credit Card</span>
+                    <span className="font-black text-blue-700">${granTotalFinal.toFixed(2)}</span>
+                  </div>
                 </label>
-                <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'border-slate-900 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
-                  <input type="radio" name="paymentMethod" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={handleChange} className="w-5 h-5 accent-slate-900" />
-                  <span className="font-bold text-slate-900 text-sm">{isEs ? 'Pagar en Efectivo (Cash on arrival)' : 'Pay in Cash on Arrival'}</span>
+                
+                <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all w-full ${formData.paymentMethod === 'efectivo' ? 'border-slate-900 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+                  <input type="radio" name="paymentMethod" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={handleChange} className="w-5 h-5 accent-slate-900 flex-shrink-0" />
+                  <div className="flex justify-between items-center w-full">
+                    <span className="font-bold text-slate-900 text-sm">{isEs ? 'Pagar en Efectivo (Cash on arrival)' : 'Pay in Cash on Arrival'}</span>
+                    <span className="font-black text-slate-900">${granTotalFinal.toFixed(2)}</span>
+                  </div>
                 </label>
               </div>
 
