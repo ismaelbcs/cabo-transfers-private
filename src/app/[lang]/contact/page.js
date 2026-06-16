@@ -18,8 +18,8 @@ export default function ContactPage({ params }) {
 
   const content = {
     en: {
-      seoTitle: "Contact Us | Ballard Tour Services",
-      seoDesc: "Get in touch with Ballard Tours in Los Cabos. Call us, send a WhatsApp message, or email us directly for your private transportation needs.",
+      seoTitle: "Private Transportation Los Cabos | Airport Transfers & Luxury Transportation | Cabo Private Transportation",
+      seoDesc: "Premium transportation services in Los Cabos. Private airport transportation, hotel transfers, luxury SUVs, and group transportation. Trusted by travelers visiting Cabo San Lucas and San José del Cabo.",
       title: "Get in touch.",
       subtitle: "We're here to help you plan the perfect Los Cabos experience. Reach out to our local experts.",
       wpRes: "Reservations",
@@ -47,8 +47,8 @@ export default function ContactPage({ params }) {
       bannerBadge: "Premium Fleet"
     },
     es: {
-      seoTitle: "Contáctanos | Ballard Tour Services",
-      seoDesc: "Ponte en contacto con Ballard Tours en Los Cabos. Llámanos, envíanos un WhatsApp o un correo electrónico para tu transporte privado.",
+      seoTitle: "Los Cabos Private Transportation | Airport Transfers, Tours & Luxury SUVs",
+      seoDesc: "Professional private transportation in Los Cabos. Airport transfers, resort transportation, luxury SUVs, and tourist transportation services. Safe, comfortable, and available 24/7. Book online with Ballard Tours.",
       title: "Hablemos.",
       subtitle: "Estamos aquí para ayudarte a planear la experiencia perfecta en Los Cabos. Contacta a nuestros expertos.",
       wpRes: "Reservas",
@@ -76,7 +76,6 @@ export default function ContactPage({ params }) {
       bannerBadge: "Flota Premium"
     }
   };
-
   const t = content[lang] || content.en;
 
   const handleSubmit = async (e) => {
