@@ -1,7 +1,6 @@
 // src/app/[lang]/checkout/page.js
 'use client';
 
-// 1. IMPORTAMOS 'use' PARA NEXT.JS 15
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../../context/CartContext';
@@ -14,7 +13,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
 // =========================================================
-// 1. GENERADOR DE PLANTILLA HTML PARA ADMIN (IDENTICO A LAS FOTOS)
+// 1. GENERADOR DE PLANTILLA HTML PARA ADMIN
 // =========================================================
 const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'N/A';
@@ -138,7 +137,6 @@ export default function CheckoutPage({ params }) {
   
   const router = useRouter();
   
-  // 👉 AQUÍ ESTABA EL ERROR: USAMOS 'combo' EN VEZ DE 'carrito'
   const { combo = [], vaciarCombo } = useCart();
   const { appliedPromo } = useBooking();
   
@@ -151,7 +149,6 @@ export default function CheckoutPage({ params }) {
     aerolinea: '', vuelo: '', notas: '', paymentMethod: 'paypal'
   });
 
-  // LÓGICA MATEMÁTICA CON LA VARIABLE 'combo'
   const subtotal = combo.reduce((acc, item) => acc + (item.precio || 0), 0);
   const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
@@ -165,9 +162,11 @@ export default function CheckoutPage({ params }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const procesarConfirmacion = async (detallesPago = null) => {
+  const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
     setProcesandoPago(true);
+    const metodoReal = metodoOverride || formData.paymentMethod;
     const nuevoNumConfirmacion = Math.random().toString(36).substr(2, 8).toUpperCase();
+    const datosClienteConPago = { ...formData, paymentMethod: metodoReal };
     setNumConfirmacion(nuevoNumConfirmacion);
 
     try {
@@ -179,7 +178,7 @@ export default function CheckoutPage({ params }) {
           to: formData.email,
           message: {
             subject: lang === 'es' ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`,
-            html: generarHtmlCorreoCliente(item, formData, nuevoNumConfirmacion, lang)
+            html: generarHtmlCorreoCliente(item, datosClienteConPago, nuevoNumConfirmacion, lang)
           }
         });
 
@@ -188,7 +187,7 @@ export default function CheckoutPage({ params }) {
           to: "reservationballard@gmail.com", 
           message: {
             subject: `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`,
-            html: generarHtmlCorreoAdmin(item, formData, nuevoNumConfirmacion)
+            html: generarHtmlCorreoAdmin(item, datosClienteConPago, nuevoNumConfirmacion)
           }
         });
         index++;
@@ -270,7 +269,7 @@ export default function CheckoutPage({ params }) {
         <div className="max-w-6xl mx-auto flex flex-col-reverse lg:flex-row gap-8 lg:gap-12 animate-fade-in">
           
           {/* COLUMNA IZQUIERDA: FORMULARIO */}
-          <div className="flex-1">
+          <div className="flex-1 w-full lg:max-w-[700px]">
             <button onClick={() => router.push(`/${lang}`)} className="text-blue-600 font-bold flex items-center hover:text-blue-800 transition mb-8">
               <ChevronLeft size={20} className="mr-1" /> {lang === 'es' ? 'Seguir comprando' : 'Continue shopping'}
             </button>
@@ -282,31 +281,57 @@ export default function CheckoutPage({ params }) {
               <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
                 <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><User className="text-blue-600" size={24} /> {lang === 'es' ? 'Datos del Titular' : 'Lead Traveler Details'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Nombre' : 'First Name'}</label><input required type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-900" /></div>
-                  <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Apellidos' : 'Last Name'}</label><input required type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-900" /></div>
-                  <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Correo' : 'Email'}</label><div className="relative"><Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} /><input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-blue-900" /></div></div>
-                  <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Teléfono' : 'Phone'}</label><div className="relative"><Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} /><input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-blue-900" /></div></div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Nombre' : 'First Name'}</label>
+                    <input required type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Apellidos' : 'Last Name'}</label>
+                    <input required type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Correo' : 'Email'}</label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                      <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Teléfono' : 'Phone'}</label>
+                    <div className="relative">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                      <input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
                 <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><Plane className="text-blue-600" size={24} /> {lang === 'es' ? 'Información de Llegada' : 'Arrival Information'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Aerolínea' : 'Airline'}</label><input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-900" /></div>
-                  <div><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Vuelo' : 'Flight'}</label><input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-900" /></div>
-                  <div className="md:col-span-2"><label className="block text-xs font-bold text-slate-500 uppercase mb-2">{lang === 'es' ? 'Comentarios / Hotel' : 'Comments / Resort'}</label><textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-blue-900"></textarea></div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Aerolínea' : 'Airline'}</label>
+                    <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Vuelo' : 'Flight'}</label>
+                    <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Comentarios / Hotel' : 'Comments / Resort'}</label>
+                    <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
+                  </div>
                 </div>
               </div>
 
             </form>
           </div>
 
-          {/* COLUMNA DERECHA: RESUMEN Y PAYPAL */}
+          {/* COLUMNA DERECHA: RESUMEN Y PAGOS */}
           <div className="w-full lg:w-[420px] flex-shrink-0">
-            <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-8 lg:sticky lg:top-32">
+            <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-8 lg:sticky lg:top-32 w-full">
               <h3 className="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">{lang === 'es' ? 'Resumen de tu Combo' : 'Order Summary'}</h3>
               
-              {/* LISTA DE SERVICIOS EN EL CARRITO */}
               <div className="mb-6 space-y-4">
                 {combo.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-start border-b border-slate-100 pb-4 last:border-0 last:pb-0">
@@ -341,28 +366,50 @@ export default function CheckoutPage({ params }) {
                 </div>
               </div>
 
-              {/* BOTONES PAYPAL */}
+              {/* MÉTODOS DE PAGO: EFECTIVO O PAYPAL */}
+              <div className="mb-6 space-y-3">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{lang === 'es' ? 'Elige tu Método de Pago' : 'Choose Payment Method'}</p>
+                <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+                  <input type="radio" name="paymentMethod" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={handleChange} className="w-5 h-5 accent-blue-600" />
+                  <span className="font-bold text-slate-900 text-sm">PayPal / Credit Card</span>
+                </label>
+                <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'border-slate-900 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
+                  <input type="radio" name="paymentMethod" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={handleChange} className="w-5 h-5 accent-slate-900" />
+                  <span className="font-bold text-slate-900 text-sm">{lang === 'es' ? 'Pagar en Efectivo (Cash on arrival)' : 'Pay in Cash on Arrival'}</span>
+                </label>
+              </div>
+
               <div className="mt-4 relative z-0">
-                <PayPalButtons
-                  style={{ layout: "vertical", shape: "rect", color: "gold" }}
-                  disabled={!formData.nombre || !formData.email} 
-                  createOrder={(data, actions) => {
-                    return actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] });
-                  }}
-                  onApprove={(data, actions) => {
-                    return actions.order.capture().then((details) => {
-                      procesarConfirmacion(details);
-                    });
-                  }}
-                  onError={(err) => {
-                    console.error("Error en PayPal:", err);
-                    alert(lang === 'es' ? "Ocurrió un error con la plataforma de pago. Intenta de nuevo." : "An error occurred with the payment gateway. Please try again.");
-                  }}
-                />
+                {formData.paymentMethod === 'paypal' ? (
+                  <PayPalButtons
+                    style={{ layout: "vertical", shape: "rect", color: "gold" }}
+                    disabled={!formData.nombre || !formData.email} 
+                    createOrder={(data, actions) => {
+                      return actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] });
+                    }}
+                    onApprove={(data, actions) => {
+                      return actions.order.capture().then((details) => {
+                        procesarConfirmacion(details, 'paypal');
+                      });
+                    }}
+                    onError={(err) => {
+                      console.error("Error en PayPal:", err);
+                      alert(lang === 'es' ? "Ocurrió un error con la plataforma de pago. Intenta de nuevo." : "An error occurred with the payment gateway. Please try again.");
+                    }}
+                  />
+                ) : (
+                  <button 
+                    disabled={!formData.nombre || !formData.email}
+                    onClick={() => procesarConfirmacion(null, 'efectivo')} 
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {lang === 'es' ? 'Confirmar Reserva en Efectivo' : 'Confirm Cash Booking'}
+                  </button>
+                )}
               </div>
 
               {(!formData.nombre || !formData.email) && (
-                <p className="text-xs text-red-500 mt-3 text-center font-bold">
+                <p className="text-xs text-red-500 mt-4 text-center font-bold">
                   {lang === 'es' ? 'Por favor llena tus datos de contacto antes de pagar.' : 'Please fill in your contact details before paying.'}
                 </p>
               )}

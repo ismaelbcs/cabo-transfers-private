@@ -1,4 +1,3 @@
-// src/components/TransportBookingForm.jsx
 'use client';
 
 import React, { useState } from 'react';
@@ -59,8 +58,8 @@ export default function TransportBookingForm({ lang = 'es' }) {
       config: reserva
     });
     
-    // 👇 ESTA LÍNEA REDIRIGE AL USUARIO A LA PANTALLA DE PAGO
-    router.push(`/${lang}/checkout`);
+    // 👇 REDIRIGE A LA PÁGINA DEL CARRITO (CART) PARA VER LOS TOURS EXTRAS
+    router.push(`/${lang}/cart`);
   };
 
   return (
@@ -109,7 +108,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
                 onChange={(e) => { setBusquedaHotelPrincipal(e.target.value); setMostrarDropdownHotelPrincipal(true); }} 
                 onFocus={() => setMostrarDropdownHotelPrincipal(true)} 
                 onBlur={() => setTimeout(() => setMostrarDropdownHotelPrincipal(false), 200)} 
-                className="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white outline-none transition-all bg-slate-50 text-slate-800 font-medium" 
+                className="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 focus:bg-white outline-none transition-all bg-slate-50 text-slate-900 font-bold" 
               />
               {mostrarDropdownHotelPrincipal && (
                 <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-2xl mt-1 top-[80px] max-h-60 overflow-y-auto">
@@ -148,7 +147,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-slate-100 pt-8">
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha de Llegada' : 'Arrival Date'}</label>
-                <input type="date" name="fechaLlegada" value={reserva.fechaLlegada} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                <input type="date" name="fechaLlegada" value={reserva.fechaLlegada} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none font-bold text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Pasajeros' : 'Passengers'}</label>
@@ -162,14 +161,14 @@ export default function TransportBookingForm({ lang = 'es' }) {
                     if (numPasajeros > 6) nuevoVehiculo = 'sprinter'; 
                     setReserva({ ...reserva, pasajeros: numPasajeros, vehiculo: nuevoVehiculo });
                   }}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none font-bold text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all"
                 />
               </div>
               
               {servicioSeleccionado === 'redondo' && (
                 <div className="md:col-span-2">
                   <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha de Regreso' : 'Departure Date'}</label>
-                  <input type="date" name="fechaSalida" value={reserva.fechaSalida} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                  <input type="date" name="fechaSalida" value={reserva.fechaSalida} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none font-bold text-slate-900 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
                 </div>
               )}
             </div>
