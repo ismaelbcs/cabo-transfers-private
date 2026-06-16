@@ -72,36 +72,34 @@ export default function CaboSuvServicePage({ params }) {
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
 
-                        <section className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
-                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
-                                {lang === 'es'
-                                    ? 'Tu Viaje a Cabo San Lucas'
-                                    : 'Your Journey to Cabo San Lucas'}
-                            </h2>
-                            <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Si tu destino es el vibrante corazón de la península, nuestros <strong>private transfers Cabo San Lucas</strong> son la manera perfecta de comenzar tu viaje. Brindamos transporte impecable directamente a tu resort o villa privada cerca de la marina.</>
-                                    ) : (
-                                        <>If your destination is the vibrant heart of the Baja peninsula, our <strong>private transfers Cabo San Lucas</strong> are the perfect way to start your trip. We provide seamless transportation directly to your resort or villa near the marina.</>
-                                    )}
-                                </p>
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Moverse por la ciudad es muy sencillo cuando confías en nuestros <strong>private transfers Cabo San Lucas</strong>. Relájate en nuestras SUV con aire acondicionado mientras nosotros nos encargamos del tráfico y la logística de tu ruta.</>
-                                    ) : (
-                                        <>Navigating through the city is effortless when you rely on our <strong>private transfers Cabo San Lucas</strong>. Relax in our air-conditioned SUVs while we take care of the traffic and logistics.</>
-                                    )}
-                                </p>
-                                <p>
-                                    {lang === 'es' ? (
-                                        <>Confía en nuestros <strong>private transfers Cabo San Lucas</strong> para una experiencia de viaje puntual, segura y de primer nivel. Tu comodidad es nuestra prioridad, asegurando que llegues listo para disfrutar de las playas y la vida nocturna local.</>
-                                    ) : (
-                                        <>Trust our <strong>private transfers Cabo San Lucas</strong> for a punctual, safe, and premium travel experience. Your comfort is our priority, ensuring you arrive ready to enjoy the local beaches and nightlife.</>
-                                    )}
-                                </p>
-                            </div>
-                        </section>
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+                            {lang === 'es'
+                                ? 'Tu Viaje a Cabo San Lucas'
+                                : 'Your Journey to Cabo San Lucas'}
+                        </h2>
+                        <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Si tu destino es el vibrante corazón de la península, nuestros <strong>private transfers Cabo San Lucas</strong> son la manera perfecta de comenzar tu viaje. Brindamos transporte impecable directamente a tu resort o villa privada cerca de la marina.</>
+                                ) : (
+                                    <>If your destination is the vibrant heart of the Baja peninsula, our <strong>private transfers Cabo San Lucas</strong> are the perfect way to start your trip. We provide seamless transportation directly to your resort or villa near the marina.</>
+                                )}
+                            </p>
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Moverse por la ciudad es muy sencillo cuando confías en nuestros <strong>private transfers Cabo San Lucas</strong>. Relájate en nuestras SUV con aire acondicionado mientras nosotros nos encargamos del tráfico y la logística de tu ruta.</>
+                                ) : (
+                                    <>Navigating through the city is effortless when you rely on our <strong>private transfers Cabo San Lucas</strong>. Relax in our air-conditioned SUVs while we take care of the traffic and logistics.</>
+                                )}
+                            </p>
+                            <p>
+                                {lang === 'es' ? (
+                                    <>Confía en nuestros <strong>private transfers Cabo San Lucas</strong> para una experiencia de viaje puntual, segura y de primer nivel. Tu comodidad es nuestra prioridad, asegurando que llegues listo para disfrutar de las playas y la vida nocturna local.</>
+                                ) : (
+                                    <>Trust our <strong>private transfers Cabo San Lucas</strong> for a punctual, safe, and premium travel experience. Your comfort is our priority, ensuring you arrive ready to enjoy the local beaches and nightlife.</>
+                                )}
+                            </p>
+                        </div>
                     </div>
                 </section>
 

@@ -85,7 +85,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; background-color: #ffffff;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr><td style="color: #64748b; font-size: 14px; padding-bottom: 15px;">Método de Pago:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; padding-bottom: 15px;">${metodoPago}</td></tr>
-                <tr><td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td><td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${item.precio.toFixed(2)} USD</td></tr>
+                <tr><td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td><td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${(item.precio || 0).toFixed(2)} USD</td></tr>
               </table>
             </div>
 
@@ -162,7 +162,8 @@ export default function CheckoutPage({ params }) {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const subtotal = combo.reduce((acc, item) => acc + (item.precio || 0), 0);
+  // LÓGICA MATEMÁTICA DE DESCUENTOS PROTEGIDA CONTRA UNDEFINED
+  const subtotal = combo?.reduce((acc, item) => acc + (item.precio || 0), 0) || 0;
   const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
   const granTotalFinal = subtotal - cantidadDescontada;
@@ -359,7 +360,7 @@ export default function CheckoutPage({ params }) {
                               + Shopping Stop
                             </span>
                           )}
-                          <p className="text-2xl font-black text-slate-900 tracking-tighter">${item.precio?.toFixed(2)}</p>
+                          <p className="text-2xl font-black text-slate-900 tracking-tighter">${(item.precio || 0).toFixed(2)}</p>
                         </div>
                         <button onClick={() => eliminarDelCombo && eliminarDelCombo(item.id)} className="text-red-400 hover:text-red-600 transition-colors p-2 bg-red-50 hover:bg-red-100 rounded-xl">
                           <Trash2 size={20} />
@@ -380,14 +381,12 @@ export default function CheckoutPage({ params }) {
                           key={item.id}
                           onClick={() => {
                             if (item.isTour) {
-                              // Si es un Tour normal, redirige a su página de tour
                               router.push(item.url);
                             } else {
-                              // 👇 SI ES SERVICIO ESPECIAL, CONECTA CON TU HEROBOOKING CONTEXT
                               if (setServicioSeleccionado) setServicioSeleccionado('especiales');
                               if (setVistaEspecial) setVistaEspecial(item.id);
-                              if (setPaso) setPaso(1); // Nos aseguramos de inicializar la vista
-                              router.push(`/${lang}`); // Regresa a Home con el formulario abierto
+                              if (setPaso) setPaso(1); 
+                              router.push(`/${lang}`); 
                             }
                           }}
                           className="relative min-w-[280px] max-w-[280px] h-[220px] rounded-[2rem] overflow-hidden cursor-pointer group snap-center shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] border border-slate-200/50 bg-slate-900 flex-shrink-0 transition-all duration-500 active:scale-[0.98]"
@@ -410,7 +409,7 @@ export default function CheckoutPage({ params }) {
                             <div className="flex justify-between items-end mt-1">
                               <div>
                                 <p className="text-slate-400 text-[9px] uppercase font-bold tracking-widest mb-0.5">{isEs ? 'Tarifa desde' : 'Rates from'}</p>
-                                <p className="text-white font-black text-xl leading-none">${item.price} <span className="text-xs text-slate-400 font-bold">USD</span></p>
+                                <p className="text-white font-black text-xl leading-none">${(item.price || 0).toFixed(2)} <span className="text-xs text-slate-400 font-bold">USD</span></p>
                               </div>
                               <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white group-hover:bg-white group-hover:text-slate-900 transition-all duration-300 border border-white/20 shadow-lg">
                                 <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
@@ -428,7 +427,7 @@ export default function CheckoutPage({ params }) {
                       <div className="text-center sm:text-left">
                         <p className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-1">{t.totalCombo}</p>
                         <div className="flex items-end gap-2">
-                          <p className="text-4xl font-black text-slate-900 leading-none tracking-tighter">${granTotalFinal.toFixed(2)}</p>
+                          <p className="text-4xl font-black text-slate-900 leading-none tracking-tighter">${(granTotalFinal || 0).toFixed(2)}</p>
                           <p className="text-[10px] text-slate-400 font-bold uppercase pb-1.5">{t.taxesInc}</p>
                         </div>
                       </div>
@@ -517,21 +516,21 @@ export default function CheckoutPage({ params }) {
                             <p className="font-bold text-sm tracking-tight mb-1">{item.titulo}</p>
                             <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest leading-relaxed">{item.subtitulo}</p>
                           </div>
-                          <p className="font-black text-blue-400">${item.precio?.toFixed(2)}</p>
+                          <p className="font-black text-blue-400">${(item.precio || 0).toFixed(2)}</p>
                         </div>
                       ))}
                     </div>
                     <div className="pt-2">
                       <div className="flex justify-between items-center mb-2">
                         <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{t.subtotalTxt}</p>
-                        <p className="font-bold">${subtotal.toFixed(2)}</p>
+                        <p className="font-bold">${(subtotal || 0).toFixed(2)}</p>
                       </div>
                       <div className="flex justify-between items-end mt-6">
                         <div>
                           <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">{t.payTotal}</p>
                           <p className="text-[10px] text-slate-500 mb-0 font-medium">{t.taxesInc}</p>
                         </div>
-                        <p className="text-4xl font-black tracking-tighter">${granTotalFinal.toFixed(2)}</p>
+                        <p className="text-4xl font-black tracking-tighter">${(granTotalFinal || 0).toFixed(2)}</p>
                       </div>
                     </div>
                     <div className="flex gap-3 mt-8">
@@ -566,7 +565,7 @@ export default function CheckoutPage({ params }) {
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 relative z-0 min-h-[150px]">
                           <PayPalButtons
                             style={{ layout: "vertical", shape: "rect", color: "gold" }}
-                            createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] })}
+                            createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: (granTotalFinal || 0).toFixed(2) } }] })}
                             onApprove={(data, actions) => actions.order.capture().then((details) => procesarConfirmacion(details, 'paypal'))}
                             onError={(err) => alert("Error PayPal")}
                           />

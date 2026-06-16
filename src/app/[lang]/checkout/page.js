@@ -47,7 +47,6 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
       
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden;">
         
-        <!-- HEADER AZUL OSCURO -->
         <tr>
           <td style="background-color: #213f8c; padding: 40px 20px; text-align: center;">
             <div style="margin-bottom: 20px;">
@@ -60,11 +59,9 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
           </td>
         </tr>
         
-        <!-- CUERPO DEL CORREO -->
         <tr>
           <td style="padding: 40px 30px;">
             
-            <!-- INFORMACIÓN GENERAL -->
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 0 0 20px 0;">
               INFORMACIÓN GENERAL
             </h2>
@@ -79,7 +76,6 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               </tr>
             </table>
 
-            <!-- DATOS DEL CLIENTE -->
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">
               DATOS DEL CLIENTE
             </h2>
@@ -98,7 +94,6 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               </tr>
             </table>
 
-            <!-- DETALLES LOGÍSTICOS -->
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">
               DETALLES LOGÍSTICOS
             </h2>
@@ -133,7 +128,6 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               </tr>
             </table>
 
-            <!-- RESUMEN DE PAGO -->
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">
               RESUMEN DE PAGO
             </h2>
@@ -145,17 +139,15 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
                 </tr>
                 <tr>
                   <td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td>
-                  <td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${item.precio.toFixed(2)} USD</td>
+                  <td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${(item.precio || 0).toFixed(2)} USD</td>
                 </tr>
               </table>
             </div>
 
-            <!-- BOTON CONTACTAR CLIENTE -->
             <a href="${wpLink}" style="display: block; width: 100%; text-align: center; border: 2px solid #213f8c; color: #213f8c; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 30px;">
               💬 Contactar con el Cliente
             </a>
 
-            <!-- FOOTER -->
             <p style="text-align: center; color: #64748b; font-size: 12px; margin-top: 40px; line-height: 1.5;">
               Este es un correo automático generado por el nuevo sistema de reservas.<br/>Por favor, revisa la información y agenda el servicio.
             </p>
@@ -197,7 +189,7 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
             <p style="margin: 0 0 10px 0;"><strong>${lang === 'es' ? 'Fecha de Servicio' : 'Service Date'}:</strong> <span style="color: #ea580c; font-weight: bold;">${pickup}</span></p>
             <p style="margin: 0 0 15px 0;"><strong>${lang === 'es' ? 'Método de Pago' : 'Payment Method'}:</strong> ${metodoPago}</p>
             <hr style="border: none; border-top: 1px solid #cbd5e1; margin: 15px 0;" />
-            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a;">Total: $${item.precio.toFixed(2)} USD</p>
+            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a;">Total: $${(item.precio || 0).toFixed(2)} USD</p>
           </div>
           <p style="text-align: center; font-size: 12px; color: #94a3b8;">Ballard Tours Los Cabos</p>
         </div>
@@ -233,10 +225,11 @@ export default function CheckoutPage({ params }) {
     paymentMethod: 'paypal'
   });
 
-  // LÓGICA MATEMÁTICA DE DESCUENTOS
+  // LÓGICA MATEMÁTICA DE DESCUENTOS PROTEGIDA CONTRA UNDEFINED
+  const totalSeguro = carritoTotal || 0;
   const descuentoPorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
-  const cantidadDescontada = carritoTotal * (descuentoPorcentaje / 100);
-  const granTotalFinal = carritoTotal - cantidadDescontada;
+  const cantidadDescontada = totalSeguro * (descuentoPorcentaje / 100);
+  const granTotalFinal = totalSeguro - cantidadDescontada;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -405,7 +398,7 @@ export default function CheckoutPage({ params }) {
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-500 font-bold text-sm">Subtotal</span>
-                  <span className="font-bold text-slate-700">${carritoTotal.toFixed(2)}</span>
+                  <span className="font-bold text-slate-700">${totalSeguro.toFixed(2)}</span>
                 </div>
                 
                 {/* SE RENDERIZA EL DESCUENTO SI EXISTE UN CUPÓN ACTIVO */}

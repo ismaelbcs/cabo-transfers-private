@@ -72,36 +72,34 @@ export default function CaboSuvServicePage({ params }) {
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
 
-                        <section className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
-                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
-                                {lang === 'es'
-                                    ? 'Traslados Directos desde el Aeropuerto SJD'
-                                    : 'Direct Transfers from SJD Airport'}
-                            </h2>
-                            <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Navegar por la llegada es muy fácil cuando tienes nuestro servicio de <strong>San Jose del Cabo private transfers airport</strong> esperándote. Rastreamos tu vuelo en tiempo real para asegurarnos de que tu conductor esté listo exactamente cuando aterrices.</>
-                                    ) : (
-                                        <>Navigating the arrival is a breeze when you have our <strong>San Jose del Cabo private transfers airport</strong> service waiting for you. We track your flight in real-time to ensure your driver is ready exactly when you land.</>
-                                    )}
-                                </p>
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Baja de tu vuelo y entra directamente al lujo con nuestros <strong>San Jose del Cabo private transfers airport</strong>. No hay tarifas ocultas ni paradas inesperadas; solo una ruta directa hacia tu destino final en Baja California Sur.</>
-                                    ) : (
-                                        <>Step off your flight and straight into luxury with our <strong>San Jose del Cabo private transfers airport</strong>. There are no hidden fees or unexpected stops—just a direct route to your final destination in Baja California Sur.</>
-                                    )}
-                                </p>
-                                <p>
-                                    {lang === 'es' ? (
-                                        <>Experimenta la máxima conveniencia con nuestros <strong>San Jose del Cabo private transfers airport</strong>. Permítenos encargarnos de tu equipaje pesado y brindarte una transición perfecta desde la pista de aterrizaje hasta tu lujosa habitación de hotel.</>
-                                    ) : (
-                                        <>Experience the ultimate convenience with our <strong>San Jose del Cabo private transfers airport</strong>. Let us handle your heavy luggage and provide a seamless transition from the runway to your luxurious hotel room.</>
-                                    )}
-                                </p>
-                            </div>
-                        </section>
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+                            {lang === 'es'
+                                ? 'Traslados Directos desde el Aeropuerto SJD'
+                                : 'Direct Transfers from SJD Airport'}
+                        </h2>
+                        <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Navegar por la llegada es muy fácil cuando tienes nuestro servicio de <strong>San Jose del Cabo private transfers airport</strong> esperándote. Rastreamos tu vuelo en tiempo real para asegurarnos de que tu conductor esté listo exactamente cuando aterrices.</>
+                                ) : (
+                                    <>Navigating the arrival is a breeze when you have our <strong>San Jose del Cabo private transfers airport</strong> service waiting for you. We track your flight in real-time to ensure your driver is ready exactly when you land.</>
+                                )}
+                            </p>
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Baja de tu vuelo y entra directamente al lujo con nuestros <strong>San Jose del Cabo private transfers airport</strong>. No hay tarifas ocultas ni paradas inesperadas; solo una ruta directa hacia tu destino final en Baja California Sur.</>
+                                ) : (
+                                    <>Step off your flight and straight into luxury with our <strong>San Jose del Cabo private transfers airport</strong>. There are no hidden fees or unexpected stops—just a direct route to your final destination in Baja California Sur.</>
+                                )}
+                            </p>
+                            <p>
+                                {lang === 'es' ? (
+                                    <>Experimenta la máxima conveniencia con nuestros <strong>San Jose del Cabo private transfers airport</strong>. Permítenos encargarnos de tu equipaje pesado y brindarte una transición perfecta desde la pista de aterrizaje hasta tu lujosa habitación de hotel.</>
+                                ) : (
+                                    <>Experience the ultimate convenience with our <strong>San Jose del Cabo private transfers airport</strong>. Let us handle your heavy luggage and provide a seamless transition from the runway to your luxurious hotel room.</>
+                                )}
+                            </p>
+                        </div>
                     </div>
                 </section>
 

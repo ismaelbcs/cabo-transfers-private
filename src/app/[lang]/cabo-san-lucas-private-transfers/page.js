@@ -72,35 +72,34 @@ export default function CaboSuvServicePage({ params }) {
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
 
-                         className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm"
-                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
-                                {lang === 'es'
-                                    ? 'Trayectos Inigualables hacia el Fin de la Tierra'
-                                    : 'Unmatched Journeys to Land’s End'}
-                            </h2>
-                            <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Viajar hasta la punta de la península exige máxima comodidad, que es exactamente lo que ofrecen nuestros <strong>Cabo San Lucas private transfers</strong>. Atendemos a grupos de todos los tamaños, asegurando que todos viajen juntos con estilo y lujo.</>
-                                    ) : (
-                                        <>Traveling to the tip of the peninsula demands comfort, which is exactly what our <strong>Cabo San Lucas private transfers</strong> deliver. We cater to groups of all sizes, ensuring everyone travels together in style and luxury.</>
-                                    )}
-                                </p>
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>¿Por qué esperar en largas filas cuando nuestros <strong>Cabo San Lucas private transfers</strong> ofrecen salida inmediata? Desde el aeropuerto directamente a tu resort frente al mar, proporcionamos un viaje continuo y de alta calidad.</>
-                                    ) : (
-                                        <>Why wait in long lines when our <strong>Cabo San Lucas private transfers</strong> offer immediate departure? From the airport directly to your oceanfront resort, we provide an uninterrupted, high-quality journey.</>
-                                    )}
-                                </p>
-                                <p>
-                                    {lang === 'es' ? (
-                                        <>Asegura tu tranquilidad reservando tus <strong>Cabo San Lucas private transfers</strong> con anticipación. Disfruta de las espectaculares vistas del desierto y el océano a través de las ventanas de nuestros vehículos modernos e impecables.</>
-                                    ) : (
-                                        <>Secure your peace of mind by reserving your <strong>Cabo San Lucas private transfers</strong> in advance. Enjoy the spectacular desert and ocean views through the windows of our pristine, modern vehicles.</>
-                                    )}
-                                </p>
-                            </div>
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+                            {lang === 'es'
+                                ? 'Trayectos Inigualables hacia el Fin de la Tierra'
+                                : 'Unmatched Journeys to Land’s End'}
+                        </h2>
+                        <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Viajar hasta la punta de la península exige máxima comodidad, que es exactamente lo que ofrecen nuestros <strong>Cabo San Lucas private transfers</strong>. Atendemos a grupos de todos los tamaños, asegurando que todos viajen juntos con estilo y lujo.</>
+                                ) : (
+                                    <>Traveling to the tip of the peninsula demands comfort, which is exactly what our <strong>Cabo San Lucas private transfers</strong> deliver. We cater to groups of all sizes, ensuring everyone travels together in style and luxury.</>
+                                )}
+                            </p>
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>¿Por qué esperar en largas filas cuando nuestros <strong>Cabo San Lucas private transfers</strong> ofrecen salida inmediata? Desde el aeropuerto directamente a tu resort frente al mar, proporcionamos un viaje continuo y de alta calidad.</>
+                                ) : (
+                                    <>Why wait in long lines when our <strong>Cabo San Lucas private transfers</strong> offer immediate departure? From the airport directly to your oceanfront resort, we provide an uninterrupted, high-quality journey.</>
+                                )}
+                            </p>
+                            <p>
+                                {lang === 'es' ? (
+                                    <>Asegura tu tranquilidad reservando tus <strong>Cabo San Lucas private transfers</strong> con anticipación. Disfruta de las espectaculares vistas del desierto y el océano a través de las ventanas de nuestros vehículos modernos e impecables.</>
+                                ) : (
+                                    <>Secure your peace of mind by reserving your <strong>Cabo San Lucas private transfers</strong> in advance. Enjoy the spectacular desert and ocean views through the windows of our pristine, modern vehicles.</>
+                                )}
+                            </p>
+                        </div>
                     </div>
                 </section>
 

@@ -72,36 +72,34 @@ export default function CaboSuvServicePage({ params }) {
                                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
                         </p>
 
-                        <section className="mb-24 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-12 shadow-sm">
-                            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
-                                {lang === 'es'
-                                    ? 'Comodidad y Elegancia en San José del Cabo'
-                                    : 'Comfort and Elegance in San Jose del Cabo'}
-                            </h2>
-                            <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Descubre el encanto tranquilo y la belleza histórica de la región con nuestros <strong>San Jose del Cabo private transfers</strong>. Nos especializamos en brindar transporte elegante al distrito del arte, hoteles boutique y resorts de lujo en esta zona pacífica.</>
-                                    ) : (
-                                        <>Discover the quiet charm and historic beauty of the region with our <strong>San Jose del Cabo private transfers</strong>. We specialize in providing elegant transportation to the art district, boutique hotels, and luxury resorts in this peaceful area.</>
-                                    )}
-                                </p>
-                                <p className="mb-6">
-                                    {lang === 'es' ? (
-                                        <>Optar por nuestros <strong>San Jose del Cabo private transfers</strong> significa que disfrutarás de un servicio de bienvenida personalizado. Nuestros conductores conocen las mejores rutas para llevarte a tu alojamiento de manera rápida y segura.</>
-                                    ) : (
-                                        <>Opting for our <strong>San Jose del Cabo private transfers</strong> means you will enjoy a personalized meet-and-greet service. Our drivers know the best routes to get you to your accommodation swiftly and safely.</>
-                                    )}
-                                </p>
-                                <p>
-                                    {lang === 'es' ? (
-                                        <>Haz que tu llegada sea tan relajante como el destino mismo. Con nuestros <strong>San Jose del Cabo private transfers</strong>, tienes garantizado un vehículo premium y un chofer altamente profesional dedicado exclusivamente a tu grupo.</>
-                                    ) : (
-                                        <>Make your arrival as relaxing as the destination itself. With our <strong>San Jose del Cabo private transfers</strong>, you are guaranteed a premium vehicle and a highly professional chauffeur dedicated to your party.</>
-                                    )}
-                                </p>
-                            </div>
-                        </section>
+                        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6">
+                            {lang === 'es'
+                                ? 'Comodidad y Elegancia en San José del Cabo'
+                                : 'Comfort and Elegance in San Jose del Cabo'}
+                        </h2>
+                        <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Descubre el encanto tranquilo y la belleza histórica de la región con nuestros <strong>San Jose del Cabo private transfers</strong>. Nos especializamos en brindar transporte elegante al distrito del arte, hoteles boutique y resorts de lujo en esta zona pacífica.</>
+                                ) : (
+                                    <>Discover the quiet charm and historic beauty of the region with our <strong>San Jose del Cabo private transfers</strong>. We specialize in providing elegant transportation to the art district, boutique hotels, and luxury resorts in this peaceful area.</>
+                                )}
+                            </p>
+                            <p className="mb-6">
+                                {lang === 'es' ? (
+                                    <>Optar por nuestros <strong>San Jose del Cabo private transfers</strong> significa que disfrutarás de un servicio de bienvenida personalizado. Nuestros conductores conocen las mejores rutas para llevarte a tu alojamiento de manera rápida y segura.</>
+                                ) : (
+                                    <>Opting for our <strong>San Jose del Cabo private transfers</strong> means you will enjoy a personalized meet-and-greet service. Our drivers know the best routes to get you to your accommodation swiftly and safely.</>
+                                )}
+                            </p>
+                            <p>
+                                {lang === 'es' ? (
+                                    <>Haz que tu llegada sea tan relajante como el destino mismo. Con nuestros <strong>San Jose del Cabo private transfers</strong>, tienes garantizado un vehículo premium y un chofer altamente profesional dedicado exclusivamente a tu grupo.</>
+                                ) : (
+                                    <>Make your arrival as relaxing as the destination itself. With our <strong>San Jose del Cabo private transfers</strong>, you are guaranteed a premium vehicle and a highly professional chauffeur dedicated to your party.</>
+                                )}
+                            </p>
+                        </div>
                     </div>
                 </section>
 
