@@ -162,15 +162,25 @@ export default function CheckoutPage({ params }) {
   });
 
   // =========================================================
-  // 🎟️ CARGAR CUPONES DESDE LOCALSTORAGE
+  // 🎟️ CARGAR CUPONES DESDE LOCALSTORAGE (CORREGIDO PARA OBJETOS/ARREGLOS)
   // =========================================================
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
 
   useEffect(() => {
     const cargarCupones = () => {
-      const guardados = localStorage.getItem('cabo_cupones');
-      if (guardados) setCuponesAplicados(JSON.parse(guardados));
-      else setCuponesAplicados([]);
+      try {
+        const guardados = localStorage.getItem('cabo_cupones');
+        if (guardados) {
+          const parsed = JSON.parse(guardados);
+          // Si por alguna razón se guardó como un solo objeto, lo metemos a un arreglo
+          setCuponesAplicados(Array.isArray(parsed) ? parsed : [parsed]);
+        } else {
+          setCuponesAplicados([]);
+        }
+      } catch (e) {
+        console.error("Error leyendo cupones:", e);
+        setCuponesAplicados([]);
+      }
     };
     
     cargarCupones();
@@ -193,13 +203,17 @@ export default function CheckoutPage({ params }) {
   const subtotal = combo?.reduce((acc, item) => acc + (item.precio || 0), 0) || 0;
   
   const descuentoPorcentajePromo = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
-  const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (c.descuento || 10), 0);
+  
+  // Sumamos los descuentos de todos los cupones que haya en el arreglo
+  const cuponesDescuento = (Array.isArray(cuponesAplicados) ? cuponesAplicados : []).reduce((acc, c) => acc + (Number(c.descuento) || 10), 0);
+  
   const descuentoPorcentaje = descuentoPorcentajePromo + cuponesDescuento;
   
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
-  const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
+  // Variable para saber si mostramos la caja de código
+  const hasAnyDiscount = appliedPromo || (Array.isArray(cuponesAplicados) && cuponesAplicados.length > 0);
 
   const isFormValid = formData.nombre.trim() !== '' && formData.email.trim() !== '';
 
@@ -221,7 +235,7 @@ export default function CheckoutPage({ params }) {
         servicios: combo,
         total: granTotalFinal,
         descuentoAplicado: descuentoPorcentaje,
-        cupones: cuponesAplicados.map(c => c.codigo),
+        cupones: (Array.isArray(cuponesAplicados) ? cuponesAplicados : []).map(c => c.codigo),
         fechaCreacion: new Date().toISOString(),
       });
       
@@ -248,7 +262,7 @@ export default function CheckoutPage({ params }) {
       }
 
       // 🔥 PROCESAR CUPONES USADOS
-      for (const cupon of cuponesAplicados) {
+      for (const cupon of (Array.isArray(cuponesAplicados) ? cuponesAplicados : [])) {
         if (cupon.tipo === 'resena') {
           const docCuponRef = doc(db, "cupones", cupon.codigo);
           await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
@@ -541,7 +555,7 @@ export default function CheckoutPage({ params }) {
                             {isEs ? "CÓDIGO / CUPÓN" : "CODE / COUPON"}
                           </span>
                           <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
-                            <Edit3 size={12} /> {isEs ? "Añadir" : "Add"}
+                            <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add / Edit"}
                           </Link>
                         </div>
                         
@@ -561,8 +575,8 @@ export default function CheckoutPage({ params }) {
                             )}
 
                             {/* Descuentos Adicionales (Chofer, etc.) */}
-                            {cuponesAplicados.map((c, i) => {
-                              const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                            {(Array.isArray(cuponesAplicados) ? cuponesAplicados : []).map((c, i) => {
+                              const cantidadDescontadaCupon = subtotal * ((Number(c.descuento) || 10) / 100);
                               return (
                                 <div key={i} className="flex justify-between items-center">
                                   <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
@@ -703,7 +717,7 @@ export default function CheckoutPage({ params }) {
                           {isEs ? "CÓDIGO / CUPÓN" : "CODE / COUPON"}
                         </span>
                         <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline">
-                          <Edit3 size={12} /> {isEs ? "Añadir" : "Add"}
+                          <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add / Edit"}
                         </Link>
                       </div>
                       
@@ -723,8 +737,8 @@ export default function CheckoutPage({ params }) {
                           )}
 
                           {/* Descuentos Adicionales (Chofer, etc.) */}
-                          {cuponesAplicados.map((c, i) => {
-                            const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                          {(Array.isArray(cuponesAplicados) ? cuponesAplicados : []).map((c, i) => {
+                            const cantidadDescontadaCupon = subtotal * ((Number(c.descuento) || 10) / 100);
                             return (
                               <div key={i} className="flex justify-between items-center">
                                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
