@@ -27,8 +27,10 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const aerolineaLlegada = datosCliente.aerolinea ? `${datosCliente.aerolinea} (Vuelo: ${datosCliente.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = datosCliente.hora || 'N/A';
   
-  const aerolineaSalida = item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)';
-  const horaSalida = item.config?.horaSalida || 'N/A';
+  // Respaldo dual para la Salida (ya sea que venga del config o del formulario)
+  const aerolineaSalida = datosCliente.aerolineaSalida ? `${datosCliente.aerolineaSalida} (Vuelo: ${datosCliente.vueloSalida || 'N/A'})` : (item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)');
+  const horaSalida = datosCliente.horaSalida || item.config?.horaSalida || 'N/A';
+  
   const horaPickUp = item.config?.fechaLlegada || 'N/A'; 
   
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g,'')}` : '#';
@@ -71,6 +73,8 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Salida Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaSalida}</td></tr>
               <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td></tr>
             </table>
 
@@ -237,9 +241,12 @@ export default function CheckoutPage({ params }) {
   const [promoError, setPromoError] = useState('');
   const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
+  // Formulario con estados dinámicos para salida y llegada
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
-    aerolinea: '', vuelo: '', notas: '', paymentMethod: 'paypal'
+    aerolinea: '', vuelo: '', hora: '', // Vuelo Llegada
+    aerolineaSalida: '', vueloSalida: '', horaSalida: '', // Vuelo Salida
+    notas: '', paymentMethod: 'paypal'
   });
 
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
@@ -291,7 +298,6 @@ export default function CheckoutPage({ params }) {
     setPromoError('');
     const codigoLimpio = promoInput.trim().toUpperCase();
 
-    // Evitar duplicados
     if (cuponesAplicados.some(c => c.codigo === codigoLimpio || c.codigoChofer === codigoLimpio)) {
       setPromoError(isEs ? 'Este código ya está aplicado.' : 'Code is already applied.');
       setIsValidatingPromo(false);
@@ -301,7 +307,6 @@ export default function CheckoutPage({ params }) {
     try {
       let cuponValido = null;
 
-      // 1. Buscamos primero si es un Cupón de RESEÑA
       const qResena = query(collection(db, "cupones"), where("codigo", "==", codigoLimpio));
       const snapResena = await getDocs(qResena);
       
@@ -314,7 +319,6 @@ export default function CheckoutPage({ params }) {
         }
         cuponValido = { tipo: 'resena', codigo: codigoLimpio, descuento: data.descuento || 10 };
       } else {
-        // 2. Si no es de reseña, buscamos en Códigos de CHOFER (codigos_descuento)
         const qChofer = query(collection(db, "codigos_descuento"), where("codigo", "==", codigoLimpio));
         const snapChofer = await getDocs(qChofer);
 
@@ -335,7 +339,7 @@ export default function CheckoutPage({ params }) {
         setCuponesAplicados(nuevosCupones);
         localStorage.setItem('cabo_cupones', JSON.stringify(nuevosCupones));
         setShowPromoModal(false);
-        setPromoInput(''); // Limpiamos
+        setPromoInput(''); 
       } else {
         setPromoError(isEs ? 'Código inválido o no existe.' : 'Invalid code or does not exist.');
       }
@@ -363,6 +367,10 @@ export default function CheckoutPage({ params }) {
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
   const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
     setProcesandoPago(true);
@@ -421,7 +429,6 @@ export default function CheckoutPage({ params }) {
             fechaUso: new Date().toISOString()
           });
 
-          // REGISTRAR EN EL HISTORIAL PARA EVITAR REUSO DE CÓDIGO (Lógica del otro sitio)
           if (formData.email) {
              const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
              await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
@@ -586,50 +593,108 @@ export default function CheckoutPage({ params }) {
             <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-8">{isEs ? 'Completa tu Reserva' : 'Complete your Booking'}</h1>
             <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
               
-              <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><User className="text-blue-600" size={24} /> {isEs ? 'Datos del Titular' : 'Lead Traveler Details'}</h2>
+              <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight"><User className="text-blue-600" size={24} /> {isEs ? 'Datos del Titular' : 'Lead Traveler Details'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Nombre' : 'First Name'}</label>
-                    <input required type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                  <div className="flex flex-col">
+                    <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Nombre(s)' : 'First Name'}</label>
+                    <input required type="text" name="nombre" value={formData.nombre} onChange={handleChange} className={`w-full p-4 border rounded-xl outline-none text-slate-900 font-bold ${formData.nombre ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
                   </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Apellidos' : 'Last Name'}</label>
-                    <input required type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                  <div className="flex flex-col">
+                    <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Apellidos' : 'Last Name'}</label>
+                    <input required type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} className="w-full p-4 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-900 font-bold" />
                   </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Correo' : 'Email'}</label>
+                  <div className="flex flex-col">
+                    <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Correo Electrónico' : 'Email Address'}</label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                      <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                      <input required type="email" name="email" value={formData.email} onChange={handleChange} className={`w-full pl-12 pr-4 py-4 border rounded-xl outline-none text-slate-900 font-bold ${formData.email ? 'bg-slate-50 border-slate-300' : 'bg-red-50/50 border-red-200'}`} />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Teléfono' : 'Phone'}</label>
+                  <div className="flex flex-col">
+                    <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Teléfono' : 'Phone Number'}</label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                      <input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-12 pr-4 py-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                      <input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-900 font-bold" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4"><Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Llegada' : 'Arrival Information'}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                    <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Vuelo' : 'Flight'}</label>
-                    <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all" />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">{isEs ? 'Comentarios / Hotel' : 'Comments / Resort'}</label>
-                    <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 outline-none focus:ring-2 focus:ring-slate-900 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
-                  </div>
+              {/* INFORMACIÓN DE VUELOS (DINÁMICO BASADO EN EL CARRITO) */}
+              <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight">
+                  <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
+                </h2>
+
+                {combo.map((item, idx) => {
+                  const isTour = item.servicio === 'tours' || item.tipoEspecial || item.isTour || item.subtitulo?.toLowerCase().includes('tour');
+                  if (isTour) return null; // Solo muestra vuelos si es transportación
+
+                  const isRoundTrip = item.subtitulo?.toLowerCase().includes('round') || item.subtitulo?.toLowerCase().includes('vuelta');
+                  const isDepartureOnly = item.subtitulo?.toLowerCase().includes('salida') || item.subtitulo?.toLowerCase().includes('departure') || item.subtitulo?.includes('-> Aeropuerto');
+                  const isArrival = !isDepartureOnly || isRoundTrip;
+
+                  return (
+                    <div key={idx} className="mb-8 last:mb-0">
+                      <div className="inline-flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl mb-4 border border-slate-100">
+                        <span className="text-[12px] font-bold text-slate-600">{item.titulo} - {item.subtitulo}</span>
+                      </div>
+
+                      {/* VUELO DE LLEGADA */}
+                      {isArrival && (
+                        <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 mb-4">
+                          <h3 className="text-sm font-black text-blue-900 flex items-center gap-2 mb-4">
+                            <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="flex flex-col">
+                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                              <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                              <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
+                              <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* VUELO DE SALIDA */}
+                      {(isRoundTrip || isDepartureOnly) && (
+                        <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-6 mb-4">
+                          <h3 className="text-sm font-black text-amber-900 flex items-center gap-2 mb-4">
+                            <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="flex flex-col">
+                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                              <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                              <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
+                              <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div className="mt-4 flex flex-col pt-4 border-t border-slate-100">
+                  <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Comentarios / Instrucciones / Hotel' : 'Comments / Resort / Instructions'}</label>
+                  <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} placeholder={isEs ? "¿Algo más que debamos saber?" : "Anything else we should know?"} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
                 </div>
+
               </div>
 
             </form>
@@ -664,7 +729,6 @@ export default function CheckoutPage({ params }) {
                       {isEs ? 'CÓDIGO / CUPÓN' : 'CODE / COUPON'}
                     </span>
                     
-                    {/* BOTÓN NATIVO PARA ABRIR EL MODAL */}
                     <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
                       <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add / Edit"}
                     </button>
@@ -691,7 +755,6 @@ export default function CheckoutPage({ params }) {
                               <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
                                 {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
                               </span>
-                              {/* ICONO PARA BORRAR EL CUPÓN FÁCILMENTE */}
                               <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
                                 <Trash2 size={14}/>
                               </button>

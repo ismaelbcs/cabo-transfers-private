@@ -13,7 +13,6 @@ import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { toursData } from '../../../data/seoData';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-// IMPORTANTE: Añadimos query, where y getDocs para validar cupones en tiempo real
 import { doc, setDoc, collection, addDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../../firebase';
 
@@ -33,8 +32,10 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const aerolineaLlegada = datosCliente.aerolinea ? `${datosCliente.aerolinea} (Vuelo: ${datosCliente.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = datosCliente.hora || 'N/A';
   
-  const aerolineaSalida = item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)';
-  const horaSalida = item.config?.horaSalida || 'N/A';
+  // Respaldo dual para la Salida (ya sea que venga del config o del formulario)
+  const aerolineaSalida = datosCliente.aerolineaSalida ? `${datosCliente.aerolineaSalida} (Vuelo: ${datosCliente.vueloSalida || 'N/A'})` : (item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)');
+  const horaSalida = datosCliente.horaSalida || item.config?.horaSalida || 'N/A';
+  
   const horaPickUp = item.config?.fechaLlegada || 'N/A'; 
   
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g,'')}` : '#';
@@ -75,6 +76,8 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Salida Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaSalida}</td></tr>
               <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td></tr>
             </table>
 
@@ -134,9 +137,6 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   `;
 };
 
-// =========================================================
-// COMPONENTE PRINCIPAL
-// =========================================================
 export default function CheckoutPage({ params }) {
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en';
@@ -144,7 +144,7 @@ export default function CheckoutPage({ params }) {
 
   const router = useRouter();
   const { combo = [], eliminarDelCombo, vaciarCombo } = useCart();
-  const { appliedPromo, setServicioSeleccionado, setVistaEspecial, setPaso } = useBooking();
+  const { appliedPromo } = useBooking();
   
   const [step, setStep] = useState(1);
   const [confirmNumber, setConfirmNumber] = useState('');
@@ -156,9 +156,12 @@ export default function CheckoutPage({ params }) {
   const [promoError, setPromoError] = useState('');
   const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
+  // Form data expandido para manejar vuelos de llegada y salida
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
-    aerolinea: '', vuelo: '', hora: '', notas: '', paymentMethod: 'paypal'
+    aerolinea: '', vuelo: '', hora: '', // Vuelo Llegada
+    aerolineaSalida: '', vueloSalida: '', horaSalida: '', // Vuelo Salida
+    notas: '', paymentMethod: 'paypal'
   });
 
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
@@ -193,7 +196,7 @@ export default function CheckoutPage({ params }) {
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // =========================================================
-  // 🔥 LÓGICA DE VALIDACIÓN DE CÓDIGOS (RESEÑAS Y CHOFERES)
+  // 🔥 LÓGICA DE VALIDACIÓN DE CÓDIGOS
   // =========================================================
   const aplicarCodigo = async () => {
     if (!promoInput) {
@@ -204,7 +207,6 @@ export default function CheckoutPage({ params }) {
     setPromoError('');
     const codigoLimpio = promoInput.trim().toUpperCase();
 
-    // Evitar que el usuario agregue el mismo código 2 veces
     if (cuponesAplicados.some(c => c.codigo === codigoLimpio || c.codigoChofer === codigoLimpio)) {
       setPromoError(isEs ? 'Este código ya está aplicado.' : 'Code is already applied.');
       setIsValidatingPromo(false);
@@ -213,21 +215,18 @@ export default function CheckoutPage({ params }) {
 
     try {
       let cuponValido = null;
-
-      // 1. Buscamos primero si es un Cupón de RESEÑA
       const qResena = query(collection(db, "cupones"), where("codigo", "==", codigoLimpio));
       const snapResena = await getDocs(qResena);
       
       if (!snapResena.empty) {
         const data = snapResena.docs[0].data();
         if (data.utilizado) {
-          setPromoError(isEs ? 'Este cupón de reseña ya fue utilizado.' : 'This review coupon has already been used.');
+          setPromoError(isEs ? 'Este cupón ya fue utilizado.' : 'This coupon has already been used.');
           setIsValidatingPromo(false);
           return;
         }
         cuponValido = { tipo: 'resena', codigo: codigoLimpio, descuento: data.descuento || 10 };
       } else {
-        // 2. Si no es de reseña, buscamos si es un Código de CHOFER (codigos_descuento)
         const qChofer = query(collection(db, "codigos_descuento"), where("codigo", "==", codigoLimpio));
         const snapChofer = await getDocs(qChofer);
 
@@ -248,12 +247,11 @@ export default function CheckoutPage({ params }) {
         setCuponesAplicados(nuevosCupones);
         localStorage.setItem('cabo_cupones', JSON.stringify(nuevosCupones));
         setShowPromoModal(false);
-        setPromoInput(''); // Limpiamos el input
+        setPromoInput(''); 
       } else {
         setPromoError(isEs ? 'Código inválido o no existe.' : 'Invalid code or does not exist.');
       }
     } catch(error) {
-      console.error(error);
       setPromoError(isEs ? 'Error de conexión. Intenta de nuevo.' : 'Connection error. Try again.');
     }
     setIsValidatingPromo(false);
@@ -286,7 +284,6 @@ export default function CheckoutPage({ params }) {
 
     try {
       let index = 1;
-      
       await addDoc(collection(db, "reservas"), {
         numeroConfirmacion: nuevoNumConfirmacion,
         idioma: lang,
@@ -336,7 +333,6 @@ export default function CheckoutPage({ params }) {
             fechaUso: new Date().toISOString()
           });
 
-          // REGISTRAR EN EL HISTORIAL PARA EVITAR REUSO DE CÓDIGO (Lógica del otro sitio)
           if (formData.email) {
              const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
              await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
@@ -354,7 +350,6 @@ export default function CheckoutPage({ params }) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
-      console.error("Error al registrar en Firebase:", error);
       alert(isEs ? "Hubo un error al procesar tu reserva." : "There was an error processing your booking.");
     } finally {
       setIsProcessing(false);
@@ -398,13 +393,6 @@ export default function CheckoutPage({ params }) {
     cashOptionDesc: isEs ? "Paga a tu llegada" : "Pay upon arrival",
     confirmCashBtn: isEs ? "Confirmar Reserva" : "Confirm Booking"
   };
-
-  const crossSellItems = [
-    ...toursData.filter(t => t.activo).map(t => ({
-      id: t.id, title: t.nombre[lang], image: `/${t.imagenUrl}`, price: t.precioPx, isTour: true, url: `/${lang}/tours/${t.slug}`, type: 'Tour'
-    })),
-    { id: 'cenas', title: isEs ? 'Cenas y Restaurantes' : 'Dinners & Restaurants', image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800', price: 85, isTour: false, type: isEs ? 'Especial' : 'Special' }
-  ];
 
   const renderStepper = () => (
     <div className="flex items-center justify-between w-full max-w-2xl mx-auto mb-12 px-4 relative">
@@ -516,7 +504,11 @@ export default function CheckoutPage({ params }) {
             <div className="animate-fade-in w-full">
               {renderStepper()}
               <div className="flex flex-col lg:flex-row gap-8">
+                
+                {/* COLUMNA IZQUIERDA FORMULARIO */}
                 <div className="flex-1 space-y-8">
+                  
+                  {/* DATOS DEL TITULAR */}
                   <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                     <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight"><User className="text-blue-600" size={24} /> {t.titularTitle}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -544,12 +536,102 @@ export default function CheckoutPage({ params }) {
                       </div>
                     </div>
                   </div>
+
+                  {/* INFORMACIÓN DE VUELOS (DINÁMICO BASADO EN EL CARRITO) */}
+                  <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                    <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight">
+                      <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
+                    </h2>
+
+                    {combo.map((item, idx) => {
+                      const isTour = item.servicio === 'tours' || item.tipoEspecial || item.isTour || item.subtitulo?.toLowerCase().includes('tour');
+                      if (isTour) return null; // Solo muestra vuelos si es transportación
+
+                      const isRoundTrip = item.subtitulo?.toLowerCase().includes('round') || item.subtitulo?.toLowerCase().includes('vuelta');
+                      const isDepartureOnly = item.subtitulo?.toLowerCase().includes('salida') || item.subtitulo?.toLowerCase().includes('departure') || item.subtitulo?.includes('-> Aeropuerto');
+                      const isArrival = !isDepartureOnly || isRoundTrip;
+
+                      return (
+                        <div key={idx} className="mb-8 last:mb-0">
+                          <div className="inline-flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl mb-4 border border-slate-100">
+                            <span className="text-[12px] font-bold text-slate-600">{item.titulo} - {item.subtitulo}</span>
+                          </div>
+
+                          {/* VUELO DE LLEGADA */}
+                          {isArrival && (
+                            <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 mb-4">
+                              <h3 className="text-sm font-black text-blue-900 flex items-center gap-2 mb-4">
+                                <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
+                              </h3>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="flex flex-col">
+                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                                  <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                                  <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
+                                  <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* VUELO DE SALIDA */}
+                          {(isRoundTrip || isDepartureOnly) && (
+                            <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-6 mb-4">
+                              <h3 className="text-sm font-black text-amber-900 flex items-center gap-2 mb-4">
+                                <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
+                              </h3>
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="flex flex-col">
+                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                                  <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                                  <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
+                                  <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+
+                    <div className="mt-4 flex flex-col pt-4 border-t border-slate-100">
+                      <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Comentarios / Instrucciones / Hotel' : 'Comments / Resort / Instructions'}</label>
+                      <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} placeholder={isEs ? "¿Algo más que debamos saber?" : "Anything else we should know?"} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
+                    </div>
+
+                  </div>
+
                 </div>
 
+                {/* COLUMNA DERECHA CARRITO */}
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-800 pb-4 tracking-tight"><ShoppingBag size={20} className="text-blue-500" /> {t.totalCombo}</h3>
                     
+                    <div className="space-y-6 mb-8 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
+                      {combo.map((item, idx) => (
+                        <div key={idx} className="flex justify-between items-start border-b border-slate-800 pb-4">
+                          <div className="pr-4">
+                            <p className="font-bold text-sm tracking-tight mb-1">{item.titulo}</p>
+                            <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest leading-relaxed">{item.subtitulo}</p>
+                          </div>
+                          <p className="font-black text-blue-400">${(item.precio || 0).toFixed(2)}</p>
+                        </div>
+                      ))}
+                    </div>
+
                     <div className="pt-2">
                       <div className="flex justify-between items-center mb-4">
                         <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Subtotal</p>
@@ -560,7 +642,6 @@ export default function CheckoutPage({ params }) {
                         <div className="flex justify-between items-center mb-3">
                           <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400"><Ticket size={14} className="text-emerald-400" /> {isEs ? "CÓDIGO / CUPÓN" : "CODE"}</span>
                           
-                          {/* BOTÓN NATIVO PARA ABRIR EL MODAL */}
                           <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
                             <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}
                           </button>
@@ -587,7 +668,6 @@ export default function CheckoutPage({ params }) {
                                     <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
                                       {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
                                     </span>
-                                    {/* ICONO PARA BORRAR EL CUPÓN FÁCILMENTE */}
                                     <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
                                       <Trash2 size={14}/>
                                     </button>
@@ -674,7 +754,6 @@ export default function CheckoutPage({ params }) {
                     <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
                       <div className="flex justify-between items-center mb-3">
                         <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400"><Ticket size={14} className="text-emerald-400" /> {isEs ? "CÓDIGO / CUPÓN" : "CODE / COUPON"}</span>
-                        {/* BOTÓN NATIVO PARA ABRIR EL MODAL */}
                         <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
                           <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}
                         </button>
