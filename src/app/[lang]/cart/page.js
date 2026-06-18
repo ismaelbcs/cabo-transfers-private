@@ -564,11 +564,16 @@ export default function CheckoutPage({ params }) {
 
                     if (!esLlegada && !esSalida && !esRedondo) return null;
 
-                    const hotelNombre = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || (isEs ? 'Hotel no especificado' : 'Unspecified Hotel');
-                    const numPasajeros = item.config?.pasajeros || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.cenaPax || '1';
-                    const tagText = isEs 
-                      ? `${item.titulo} → ${hotelNombre} - ${numPasajeros} Pasajero(s)` 
-                      : `${item.titulo} → ${hotelNombre} - ${numPasajeros} Passenger(s)`;
+                    // 1. Extraemos el hotel y armamos la etiqueta exacta
+                    const hotelNombre = item.config?.hotelId || item.config?.hotel || item.extrasEspeciales?.hotelOrigen || '';
+                    
+                    // Armamos el texto uniendo Titulo - Hotel - Subtitulo (Vehículo)
+                    let tagParts = [];
+                    if (item.titulo) tagParts.push(item.titulo);
+                    if (hotelNombre) tagParts.push(hotelNombre);
+                    if (item.subtitulo) tagParts.push(item.subtitulo);
+                    
+                    const tagText = tagParts.join(' - ');
 
                     return (
                       <div key={idx} className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8 animate-fade-in">
@@ -576,13 +581,14 @@ export default function CheckoutPage({ params }) {
                           <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
                         </h2>
 
-                        <div className="inline-block bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg mb-6">
-                          <span className="text-[13px] font-medium text-slate-600">{tagText}</span>
+                        {/* ETIQUETA GRIS EXACTAMENTE COMO EN LA IMAGEN */}
+                        <div className="inline-block bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg mb-6">
+                          <span className="text-[13px] font-medium text-slate-500">{tagText}</span>
                         </div>
 
                         {/* VUELO DE LLEGADA */}
                         {(esLlegada || esRedondo) && (
-                          <div className="bg-[#f4f8ff] border border-blue-100/80 rounded-2xl p-6 mb-5 last:mb-0">
+                          <div className="bg-[#f4f8ff] border border-blue-100/60 rounded-2xl p-6 mb-5 last:mb-0">
                             <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
                               <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
                             </h3>
@@ -605,7 +611,7 @@ export default function CheckoutPage({ params }) {
 
                         {/* VUELO DE SALIDA + HORA DE PICK-UP */}
                         {(esSalida || esRedondo) && (
-                          <div className="bg-[#fff9f0] border border-amber-100/80 rounded-2xl p-6 mb-5 last:mb-0">
+                          <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5 last:mb-0">
                             <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
                               <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
                             </h3>
