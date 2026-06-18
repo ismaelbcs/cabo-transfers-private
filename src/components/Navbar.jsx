@@ -58,7 +58,7 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
         }
       }
     } else {
-      // Si estamos en el carrito o checkout y tocan "Home", forzamos un reinicio completo
+      // Si estamos en el carrito/checkout y tocan Home, forzamos recarga limpia
       if (targetId === 'home') {
         e.preventDefault();
         window.location.href = `/${lang}`;
