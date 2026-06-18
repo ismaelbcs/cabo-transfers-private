@@ -5,12 +5,9 @@ import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext'; 
-// IMPORTAMOS Link y Edit3 para el botón de editar cupones
 import Link from 'next/link';
 import { ShieldCheck, User, Mail, Phone, Plane, CreditCard, ChevronLeft, CheckCircle, Ticket, Edit3 } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-
-// IMPORTACIONES DE FIREBASE COMPLETAS PARA CUPONES Y CORREOS
 import { doc, setDoc, getDoc, updateDoc, collection, addDoc } from "firebase/firestore";
 import { db } from '../../../firebase';
 
@@ -96,7 +93,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
 };
 
 // =========================================================
-// 2. GENERADOR DE PLANTILLA HTML PARA CLIENTE (DINÁMICO Y BILINGÜE)
+// 2. GENERADOR DE PLANTILLA HTML PARA CLIENTE
 // =========================================================
 const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => {
   const isEs = lang === 'es';
@@ -107,7 +104,6 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const pasajeros = item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
   const pickup = item.flightInfo?.horaPickUp || item.extrasEspeciales?.cenaHora || item.extrasEspeciales?.hotelHora || item.extrasEspeciales?.golfHora || item.extrasEspeciales?.nightlifeHora || item.config?.hhHora || item.config?.fechaLlegada || 'N/A';
 
-  // Lógica del encabezado bilingüe y responsivo
   let bgStyle = `background-color: #1e3a8a;`;
   let badgeText = isEs ? 'Confirmación Oficial' : 'Official Confirmation';
   let headerText = isEs ? `
@@ -159,12 +155,10 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   return `
     <div style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 30px 15px; color: #1e293b; display: block; width: 100%; box-sizing: border-box;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
-        
         <div style="${bgStyle} padding: 40px 30px; text-align: center; color: #ffffff;">
           <span style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(4px); color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">${badgeText}</span><br/>
           ${headerText}
         </div>
-
         <div style="padding: 30px;">
           <p style="font-size: 16px; margin-top: 0; color: #334155;">${greeting}</p>
           <p style="font-size: 15px; color: #64748b; line-height: 1.5; margin-bottom: 25px;">${mainDesc}</p>
@@ -251,24 +245,24 @@ export default function CheckoutPage({ params }) {
   useEffect(() => {
     window.scrollTo(0, 0);
     
-    // Función centralizada para cargar cupones y asegurar que se reflejen
     const cargarCupones = () => {
       const guardados = localStorage.getItem('cabo_cupones');
       if (guardados) {
-        setCuponesAplicados(JSON.parse(guardados));
+        try {
+          const parsed = JSON.parse(guardados);
+          // Convertimos a arreglo seguro sin importar cómo se guardó
+          setCuponesAplicados(Array.isArray(parsed) ? parsed : [parsed]);
+        } catch (error) {
+          setCuponesAplicados([]);
+        }
       } else {
         setCuponesAplicados([]);
       }
     };
 
-    // Carga inicial
     cargarCupones();
-
-    // Event listeners para actualizar al instante si regresan de /apply-code o cambian de pestaña
     window.addEventListener('focus', cargarCupones);
     window.addEventListener('storage', cargarCupones);
-    
-    // Polling ligero como respaldo de caché del lado del cliente en Next.js
     const interval = setInterval(cargarCupones, 1000); 
 
     return () => {
@@ -290,12 +284,15 @@ export default function CheckoutPage({ params }) {
   const subtotal = combo.reduce((acc, item) => acc + (item.precio || 0), 0);
   
   const promoBasePorcentaje = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
-  const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (c.descuento || 10), 0);
+  
+  // Verificación matemática segura para prevenir errores si viene nulo
+  const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (Number(c.descuento) || 10), 0);
   
   const descuentoPorcentajeTotal = promoBasePorcentaje + cuponesDescuento;
   const cantidadDescontada = subtotal * (descuentoPorcentajeTotal / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
+  // Variable ahora segura gracias a que garantizamos que es un arreglo
   const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
 
   const handleChange = (e) => {
@@ -310,7 +307,6 @@ export default function CheckoutPage({ params }) {
     setNumConfirmacion(nuevoNumConfirmacion);
 
     try {
-      // 1. Guardar la reserva principal
       await setDoc(doc(db, "reservas", nuevoNumConfirmacion), {
         numeroConfirmacion: nuevoNumConfirmacion,
         estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
@@ -319,14 +315,12 @@ export default function CheckoutPage({ params }) {
         subtotal: subtotal,
         descuentoAplicado: descuentoPorcentajeTotal,
         totalPagado: granTotalFinal,
-        cupones: cuponesAplicados.map(c => c.codigo),
+        cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
         fecha: new Date().toISOString()
       });
 
-      // 2. Enviar los correos por cada ítem (A CLIENTES Y ADMIN)
       let index = 1;
       for (const item of combo) {
-        
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
@@ -347,19 +341,14 @@ export default function CheckoutPage({ params }) {
         index++;
       }
 
-      // =========================================================
-      // 🔥 PROCESAMIENTO POST-PAGO DE CUPONES Y CORREOS A CHOFERES
-      // =========================================================
       for (const cupon of cuponesAplicados) {
-        
         if (cupon.tipo === 'resena') {
           const docCuponRef = doc(db, "cupones", cupon.codigo);
           await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
         } 
-        
         if (cupon.tipo === 'chofer') {
           await addDoc(collection(db, "comisiones_choferes"), {
-            codigoChofer: cupon.codigo,
+            codigoChofer: cupon.codigo || cupon.codigoChofer || 'CUPON_CHOFER',
             choferCorreo: cupon.choferCorreo || 'N/A',
             numeroConfirmacion: nuevoNumConfirmacion,
             clienteNombre: `${formData.nombre} ${formData.apellidos}`,
@@ -368,7 +357,6 @@ export default function CheckoutPage({ params }) {
           });
           
           if (cupon.choferCorreo && cupon.choferCorreo !== 'N/A') {
-              
               const nombreChofer = cupon.nombreChofer || cupon.nombre || (isEs ? "Chofer" : "Driver");
               const comision = subtotal * 0.10; 
               const serviciosResumen = combo.map(item => item.titulo).join(', ');
@@ -387,20 +375,15 @@ export default function CheckoutPage({ params }) {
                       <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">Has generado una nueva comisión de venta</p>
                     </div>
                     <div style="padding: 30px;">
-                      <p style="font-size: 16px; color: #334155;">Un cliente acaba de realizar una reserva utilizando tu código de descuento (<strong>${cupon.codigo}</strong>).</p>
+                      <p style="font-size: 16px; color: #334155;">Un cliente acaba de realizar una reserva utilizando tu código de descuento.</p>
                       <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
                         <p style="margin: 0 0 10px 0; color: #475569;"><strong>👤 Cliente:</strong> <span style="color: #0f172a;">${nombreClienteCompleto}</span></p>
                         <p style="margin: 0 0 10px 0; color: #475569;"><strong>📅 Fecha del servicio:</strong> <span style="color: #0f172a;">${fechaServicio}</span></p>
-                        <p style="margin: 0; color: #475569;"><strong>🛍️ Producto(s) reservados:</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
+                        <p style="margin: 0; color: #475569;"><strong>🛍️ Producto(s):</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
                       </div>
                       <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
-                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Tu Comisión Generada (10%)</p>
+                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Tu Comisión (10%)</p>
                         <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
-                      </div>
-                      <div style="margin-top: 25px; background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 4px;">
-                        <p style="margin: 0; font-size: 14px; color: #b45309; font-weight: bold; text-align: center;">
-                          ⚠️ La comisión se pagará el día del servicio.
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -410,23 +393,13 @@ export default function CheckoutPage({ params }) {
                   <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
                     <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
                       <h2 style="margin: 0; font-size: 24px;">Congratulations ${nombreChofer}! 🎉</h2>
-                      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">You have generated a new sales commission</p>
+                      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">You generated a sales commission</p>
                     </div>
                     <div style="padding: 30px;">
-                      <p style="font-size: 16px; color: #334155;">A client just made a reservation using your discount code (<strong>${cupon.codigo}</strong>).</p>
-                      <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
-                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>👤 Client:</strong> <span style="color: #0f172a;">${nombreClienteCompleto}</span></p>
-                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>📅 Service Date:</strong> <span style="color: #0f172a;">${fechaServicio}</span></p>
-                        <p style="margin: 0; color: #475569;"><strong>🛍️ Booked Product(s):</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
-                      </div>
+                      <p style="font-size: 16px; color: #334155;">A client made a reservation using your discount code.</p>
                       <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
-                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Your Generated Commission (10%)</p>
+                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold;">Commission (10%)</p>
                         <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
-                      </div>
-                      <div style="margin-top: 25px; background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 4px;">
-                        <p style="margin: 0; font-size: 14px; color: #b45309; font-weight: bold; text-align: center;">
-                          ⚠️ The commission will be paid on the day of service.
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -435,100 +408,74 @@ export default function CheckoutPage({ params }) {
 
               await addDoc(collection(db, "correos"), {
                 to: cupon.choferCorreo,
-                message: {
-                  subject: subjectChofer,
-                  html: htmlChofer
-                }
+                message: { subject: subjectChofer, html: htmlChofer }
               });
           }
         }
       }
       
-      // Limpiamos la basura de local storage para que el cupón no se aplique a compras futuras
       localStorage.removeItem('cabo_cupones');
       vaciarCombo();
       setIsSuccess(true);
       setProcesandoPago(false);
 
     } catch (error) {
-      console.error("Error al registrar correos en Firebase:", error);
+      console.error("Error al registrar en Firebase:", error);
       setProcesandoPago(false);
-      alert(isEs ? "Hubo un error al procesar tu reserva. Intenta nuevamente." : "There was an error processing your booking. Please try again.");
+      alert(isEs ? "Error al procesar reserva. Intenta de nuevo." : "Error processing booking. Please try again.");
     }
   };
 
-  // VISTA PANTALLA DE ÉXITO
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-slate-50 pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center animate-fade-in">
         <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
           <CheckCircle size={48} />
         </div>
-        <h1 className="text-4xl font-black text-slate-900 mb-2">
-          {isEs ? '¡Reserva Confirmada!' : 'Booking Confirmed!'}
-        </h1>
-        <p className="text-slate-500 mb-8 max-w-md mx-auto text-lg">
-          {isEs ? 'Hemos enviado los detalles a tu correo electrónico.' : 'We have sent the details to your email.'}
-        </p>
+        <h1 className="text-4xl font-black text-slate-900 mb-2">{isEs ? '¡Reserva Confirmada!' : 'Booking Confirmed!'}</h1>
+        <p className="text-slate-500 mb-8 max-w-md mx-auto text-lg">{isEs ? 'Enviamos los detalles a tu correo.' : 'Details sent to your email.'}</p>
         
         <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 w-full max-w-sm">
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-            {isEs ? 'Número de Confirmación' : 'Confirmation Number'}
-          </p>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">{isEs ? 'Confirmación' : 'Confirmation'}</p>
           <p className="text-3xl font-black text-blue-900 tracking-widest">{numConfirmacion}</p>
         </div>
 
-        <button 
-          onClick={() => router.push(`/${lang}`)}
-          className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg"
-        >
-          {isEs ? 'Volver a la página principal' : 'Return to Homepage'}
+        <button onClick={() => router.push(`/${lang}`)} className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg">
+          {isEs ? 'Volver al Inicio' : 'Return Home'}
         </button>
       </div>
     );
   }
 
-  // VISTA CARRITO VACÍO
   if (combo.length === 0) {
     return (
       <div className="min-h-screen bg-slate-50 pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center animate-fade-in">
-        <div className="w-24 h-24 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-6">
-          <CreditCard size={48} />
-        </div>
-        <h1 className="text-3xl font-black text-slate-900 mb-4">
-          {isEs ? 'Tu combo está vacío' : 'Your combo is empty'}
-        </h1>
-        <button 
-          onClick={() => router.push(`/${lang}`)}
-          className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg mt-6"
-        >
+        <div className="w-24 h-24 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-6"><CreditCard size={48} /></div>
+        <h1 className="text-3xl font-black text-slate-900 mb-4">{isEs ? 'Tu combo está vacío' : 'Your combo is empty'}</h1>
+        <button onClick={() => router.push(`/${lang}`)} className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg mt-6">
            {isEs ? 'Volver al Inicio' : 'Return Home'}
         </button>
       </div>
     );
   }
 
-  // VISTA PRINCIPAL DEL CHECKOUT
   return (
     <PayPalScriptProvider options={{ "client-id": "Af_QMaiYhnkVGklhDJbI7gdNcNsgSTCyQG5GfsR0uxD3QEs-XSDIX7tBw3M6TWDkxljqn8jLfpS2CyxF", currency: "USD" }}>
       <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-4">
         {procesandoPago && (
           <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-900 mb-4"></div>
-             <p className="font-bold text-blue-900 text-lg">{isEs ? 'Procesando reserva...' : 'Processing booking...'}</p>
+             <p className="font-bold text-blue-900 text-lg">{isEs ? 'Procesando...' : 'Processing...'}</p>
           </div>
         )}
 
         <div className="max-w-6xl mx-auto flex flex-col-reverse lg:flex-row gap-8 lg:gap-12 animate-fade-in">
           
-          {/* COLUMNA IZQUIERDA: FORMULARIO */}
           <div className="flex-1 w-full lg:max-w-[700px]">
             <button onClick={() => router.push(`/${lang}`)} className="text-blue-600 font-bold flex items-center hover:text-blue-800 transition mb-8">
               <ChevronLeft size={20} className="mr-1" /> {isEs ? 'Seguir comprando' : 'Continue shopping'}
             </button>
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-8">
-              {isEs ? 'Completa tu Reserva' : 'Complete your Booking'}
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-8">{isEs ? 'Completa tu Reserva' : 'Complete your Booking'}</h1>
             <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
               
               <div className="bg-white p-6 md:p-8 rounded-[2rem] border border-slate-200 shadow-sm">
@@ -580,7 +527,6 @@ export default function CheckoutPage({ params }) {
             </form>
           </div>
 
-          {/* COLUMNA DERECHA: RESUMEN Y PAGOS */}
           <div className="w-full lg:w-[420px] flex-shrink-0">
             <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-8 lg:sticky lg:top-32 w-full">
               <h3 className="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">{isEs ? 'Resumen de tu Combo' : 'Order Summary'}</h3>
@@ -603,9 +549,6 @@ export default function CheckoutPage({ params }) {
                   <span className="font-bold text-slate-700">${subtotal.toFixed(2)}</span>
                 </div>
                 
-                {/* ========================================================= */}
-                {/* ✅ EL CUADRO NEGRO UNIFICADO (PROMO WEB Y/O CHOFER) */}
-                {/* ========================================================= */}
                 {hasAnyDiscount && (
                   <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner border border-slate-800">
                     <div className="flex justify-between items-center mb-3 border-b border-slate-700 pb-2">
@@ -619,7 +562,6 @@ export default function CheckoutPage({ params }) {
                     </div>
                     
                     <div className="flex flex-col gap-2">
-                      {/* 1. Descuento de Promo Automática */}
                       {appliedPromo && (
                         <div className="flex justify-between items-center">
                           <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
@@ -631,13 +573,12 @@ export default function CheckoutPage({ params }) {
                         </div>
                       )}
 
-                      {/* 2. Descuentos de Chofer / Manuales agregados */}
                       {cuponesAplicados.map((c, i) => {
-                        const cantidadDescontadaCupon = subtotal * ((c.descuento || 10) / 100);
+                        const cantidadDescontadaCupon = subtotal * ((Number(c.descuento) || 10) / 100);
                         return (
                           <div key={i} className="flex justify-between items-center">
                             <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
-                              {c.codigo}
+                              {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
                             </span>
                             <span className="font-bold text-emerald-400 text-sm">
                               -${cantidadDescontadaCupon.toFixed(2)}
@@ -658,12 +599,8 @@ export default function CheckoutPage({ params }) {
                 </div>
               </div>
 
-              {/* ========================================================= */}
-              {/* MÉTODOS DE PAGO */}
-              {/* ========================================================= */}
               <div className="mb-6 space-y-3">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{isEs ? 'Elige tu Método de Pago' : 'Choose Payment Method'}</p>
-                
                 <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all w-full ${formData.paymentMethod === 'paypal' ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
                   <input type="radio" name="paymentMethod" value="paypal" checked={formData.paymentMethod === 'paypal'} onChange={handleChange} className="w-5 h-5 accent-blue-600 flex-shrink-0" />
                   <div className="flex justify-between items-center w-full">
@@ -675,7 +612,7 @@ export default function CheckoutPage({ params }) {
                 <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all w-full ${formData.paymentMethod === 'efectivo' ? 'border-slate-900 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
                   <input type="radio" name="paymentMethod" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={handleChange} className="w-5 h-5 accent-slate-900 flex-shrink-0" />
                   <div className="flex justify-between items-center w-full">
-                    <span className="font-bold text-slate-900 text-sm">{isEs ? 'Pagar en Efectivo (Cash on arrival)' : 'Pay in Cash on Arrival'}</span>
+                    <span className="font-bold text-slate-900 text-sm">{isEs ? 'Pagar en Efectivo (Cash)' : 'Pay in Cash on Arrival'}</span>
                     <span className="font-black text-slate-900">${granTotalFinal.toFixed(2)}</span>
                   </div>
                 </label>
@@ -686,18 +623,9 @@ export default function CheckoutPage({ params }) {
                   <PayPalButtons
                     style={{ layout: "vertical", shape: "rect", color: "gold" }}
                     disabled={!formData.nombre || !formData.email} 
-                    createOrder={(data, actions) => {
-                      return actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] });
-                    }}
-                    onApprove={(data, actions) => {
-                      return actions.order.capture().then((details) => {
-                        procesarConfirmacion(details, 'paypal');
-                      });
-                    }}
-                    onError={(err) => {
-                      console.error("Error en PayPal:", err);
-                      alert(isEs ? "Ocurrió un error con la plataforma de pago. Intenta de nuevo." : "An error occurred with the payment gateway. Please try again.");
-                    }}
+                    createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] })}
+                    onApprove={(data, actions) => actions.order.capture().then((details) => procesarConfirmacion(details, 'paypal'))}
+                    onError={(err) => alert(isEs ? "Error al procesar pago." : "Payment error.")}
                   />
                 ) : (
                   <button 
