@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { 
   Trash2, User, Plane, CreditCard, ChevronRight, ChevronLeft, 
   ShoppingBag, CheckCircle, Plus, Info, Banknote, Calendar, Mail, Phone, Compass,
-  Ticket, Edit3 
+  Ticket, Edit3, X 
 } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { toursData } from '../../../data/seoData';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { doc, setDoc, collection, addDoc, updateDoc } from "firebase/firestore";
+// IMPORTANTE: Añadimos query, where y getDocs para validar cupones en tiempo real
+import { doc, setDoc, collection, addDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../../firebase';
 
 // =========================================================
@@ -149,14 +150,17 @@ export default function CheckoutPage({ params }) {
   const [confirmNumber, setConfirmNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // Estados para el Modal de Promociones
+  const [showPromoModal, setShowPromoModal] = useState(false);
+  const [promoInput, setPromoInput] = useState('');
+  const [promoError, setPromoError] = useState('');
+  const [isValidatingPromo, setIsValidatingPromo] = useState(false);
+
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
     aerolinea: '', vuelo: '', hora: '', notas: '', paymentMethod: 'paypal'
   });
 
-  // =========================================================
-  // 🎟️ CARGAR CUPONES DESDE LOCALSTORAGE
-  // =========================================================
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
 
   useEffect(() => {
@@ -189,14 +193,84 @@ export default function CheckoutPage({ params }) {
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // =========================================================
+  // 🔥 LÓGICA DE VALIDACIÓN DE CÓDIGOS (RESEÑAS Y CHOFERES)
+  // =========================================================
+  const aplicarCodigo = async () => {
+    if (!promoInput) {
+      setPromoError(isEs ? 'Ingresa un código.' : 'Enter a code.');
+      return;
+    }
+    setIsValidatingPromo(true);
+    setPromoError('');
+    const codigoLimpio = promoInput.trim().toUpperCase();
+
+    // Evitar que el usuario agregue el mismo código 2 veces
+    if (cuponesAplicados.some(c => c.codigo === codigoLimpio || c.codigoChofer === codigoLimpio)) {
+      setPromoError(isEs ? 'Este código ya está aplicado.' : 'Code is already applied.');
+      setIsValidatingPromo(false);
+      return;
+    }
+
+    try {
+      let cuponValido = null;
+
+      // 1. Buscamos primero si es un Cupón de RESEÑA
+      const qResena = query(collection(db, "cupones"), where("codigo", "==", codigoLimpio));
+      const snapResena = await getDocs(qResena);
+      
+      if (!snapResena.empty) {
+        const data = snapResena.docs[0].data();
+        if (data.utilizado) {
+          setPromoError(isEs ? 'Este cupón de reseña ya fue utilizado.' : 'This review coupon has already been used.');
+          setIsValidatingPromo(false);
+          return;
+        }
+        cuponValido = { tipo: 'resena', codigo: codigoLimpio, descuento: data.descuento || 10 };
+      } else {
+        // 2. Si no es de reseña, buscamos si es un Código de CHOFER (codigos_descuento)
+        const qChofer = query(collection(db, "codigos_descuento"), where("codigo", "==", codigoLimpio));
+        const snapChofer = await getDocs(qChofer);
+
+        if (!snapChofer.empty) {
+          const data = snapChofer.docs[0].data();
+          cuponValido = {
+            tipo: 'chofer',
+            codigo: codigoLimpio,
+            descuento: data.descuento || 10,
+            choferCorreo: data.correo || data.CORREO || 'N/A',
+            nombreChofer: data.nombre || 'Chofer'
+          };
+        }
+      }
+
+      if (cuponValido) {
+        const nuevosCupones = [...cuponesAplicados, cuponValido];
+        setCuponesAplicados(nuevosCupones);
+        localStorage.setItem('cabo_cupones', JSON.stringify(nuevosCupones));
+        setShowPromoModal(false);
+        setPromoInput(''); // Limpiamos el input
+      } else {
+        setPromoError(isEs ? 'Código inválido o no existe.' : 'Invalid code or does not exist.');
+      }
+    } catch(error) {
+      console.error(error);
+      setPromoError(isEs ? 'Error de conexión. Intenta de nuevo.' : 'Connection error. Try again.');
+    }
+    setIsValidatingPromo(false);
+  };
+
+  const removerCupon = (codigo) => {
+    const nuevos = cuponesAplicados.filter(c => c.codigo !== codigo && c.codigoChofer !== codigo);
+    setCuponesAplicados(nuevos);
+    localStorage.setItem('cabo_cupones', JSON.stringify(nuevos));
+  };
+
+  // =========================================================
   // 🧮 LÓGICA DE MATEMÁTICAS CON CUPONES INCLUIDOS
   // =========================================================
   const subtotal = combo?.reduce((acc, item) => acc + (item.precio || 0), 0) || 0;
-  
   const descuentoPorcentajePromo = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
-  
   const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (Number(c.descuento) || 10), 0);
-  
   const descuentoPorcentaje = descuentoPorcentajePromo + cuponesDescuento;
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
@@ -261,6 +335,16 @@ export default function CheckoutPage({ params }) {
             montoTotalReserva: granTotalFinal,
             fechaUso: new Date().toISOString()
           });
+
+          // REGISTRAR EN EL HISTORIAL PARA EVITAR REUSO DE CÓDIGO (Lógica del otro sitio)
+          if (formData.email) {
+             const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
+             await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
+                correo: formData.email.trim().toLowerCase(),
+                codigo: cupon.codigo || cupon.codigoChofer,
+                fechaUso: new Date().toISOString()
+             });
+          }
         }
       }
       
@@ -338,10 +422,42 @@ export default function CheckoutPage({ params }) {
 
   return (
     <PayPalScriptProvider options={{ "client-id": "Af_QMaiYhnkVGklhDJbI7gdNcNsgSTCyQG5GfsR0uxD3QEs-XSDIX7tBw3M6TWDkxljqn8jLfpS2CyxF", currency: "USD" }}>
-      <div className="min-h-screen bg-slate-50 font-sans selection:bg-slate-900 selection:text-white pt-32 pb-24">
+      <div className="min-h-screen bg-slate-50 font-sans selection:bg-slate-900 selection:text-white pt-32 pb-24 relative">
         
+        {/* ========================================================= */}
+        {/* MODAL DE CÓDIGOS DE DESCUENTO NATIVO */}
+        {/* ========================================================= */}
+        {showPromoModal && (
+          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+             <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative animate-fade-in">
+                <button onClick={() => setShowPromoModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors p-2"><X size={20}/></button>
+                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4"><Ticket size={24}/></div>
+                <h3 className="text-xl font-black text-slate-900 mb-2">{isEs ? 'Ingresar Código' : 'Enter Code'}</h3>
+                <p className="text-sm text-slate-500 mb-6">{isEs ? 'Ingresa tu cupón de reseña o código de chofer.' : 'Enter your review coupon or driver code.'}</p>
+                
+                <input
+                  type="text"
+                  value={promoInput}
+                  onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                  placeholder="Ej. CABO10"
+                  className="w-full border-2 border-slate-200 rounded-xl px-4 py-4 font-black text-slate-900 focus:border-blue-600 focus:ring-0 outline-none text-center tracking-widest text-lg transition-colors"
+                />
+                
+                {promoError && <p className="text-red-500 text-xs font-bold mt-3 text-center">{promoError}</p>}
+                
+                <button 
+                  onClick={aplicarCodigo} 
+                  disabled={isValidatingPromo || !promoInput}
+                  className="w-full mt-6 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isValidatingPromo ? (isEs ? 'Validando...' : 'Validating...') : (isEs ? 'Aplicar Descuento' : 'Apply Discount')}
+                </button>
+             </div>
+          </div>
+        )}
+
         {isProcessing && (
-          <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[9999] flex flex-col items-center justify-center">
+          <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[9998] flex flex-col items-center justify-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-900 mb-4"></div>
             <p className="font-bold text-blue-900 text-lg">{t.processing}</p>
           </div>
@@ -356,9 +472,9 @@ export default function CheckoutPage({ params }) {
               {combo.length === 0 ? (
                 <div className="bg-white rounded-[2rem] p-12 text-center border border-slate-200/60 shadow-sm">
                   <p className="text-slate-500 mb-6 font-medium text-lg">{t.empty}</p>
-                  <Link href={`/${lang}`} className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors">
+                  <button onClick={() => router.push(`/${lang}`)} className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors">
                     <ChevronLeft size={18} /> {t.backHome}
-                  </Link>
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-12">
@@ -443,10 +559,14 @@ export default function CheckoutPage({ params }) {
                       <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
                         <div className="flex justify-between items-center mb-3">
                           <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400"><Ticket size={14} className="text-emerald-400" /> {isEs ? "CÓDIGO / CUPÓN" : "CODE"}</span>
-                          <Link href={`/${lang}/apply-code`} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline"><Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}</Link>
+                          
+                          {/* BOTÓN NATIVO PARA ABRIR EL MODAL */}
+                          <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
+                            <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}
+                          </button>
                         </div>
                         
-                        {hasAnyDiscount && (
+                        {hasAnyDiscount ? (
                           <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
                             {appliedPromo && (
                               <div className="flex justify-between items-center">
@@ -463,15 +583,27 @@ export default function CheckoutPage({ params }) {
                               const cantidadDescontadaCupon = subtotal * ((Number(c.descuento) || 10) / 100);
                               return (
                                 <div key={i} className="flex justify-between items-center">
-                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
-                                    {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
-                                  </span>
+                                  <div className="flex items-center gap-2">
+                                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                                      {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
+                                    </span>
+                                    {/* ICONO PARA BORRAR EL CUPÓN FÁCILMENTE */}
+                                    <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
+                                      <Trash2 size={14}/>
+                                    </button>
+                                  </div>
                                   <span className="font-bold text-emerald-400 text-sm">
                                     -${cantidadDescontadaCupon.toFixed(2)}
                                   </span>
                                 </div>
                               );
                             })}
+                          </div>
+                        ) : (
+                          <div className="text-center py-2">
+                             <button onClick={() => setShowPromoModal(true)} className="text-[11px] text-slate-400 font-bold hover:text-white transition-colors underline decoration-slate-600 underline-offset-4">
+                               {isEs ? "Añadir código de descuento o chofer" : "Add discount or driver code"}
+                             </button>
                           </div>
                         )}
                       </div>
@@ -542,6 +674,10 @@ export default function CheckoutPage({ params }) {
                     <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
                       <div className="flex justify-between items-center mb-3">
                         <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400"><Ticket size={14} className="text-emerald-400" /> {isEs ? "CÓDIGO / CUPÓN" : "CODE / COUPON"}</span>
+                        {/* BOTÓN NATIVO PARA ABRIR EL MODAL */}
+                        <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
+                          <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}
+                        </button>
                       </div>
                       
                       {hasAnyDiscount && (
@@ -550,9 +686,14 @@ export default function CheckoutPage({ params }) {
                             const cantidadDescontadaCupon = subtotal * ((Number(c.descuento) || 10) / 100);
                             return (
                               <div key={i} className="flex justify-between items-center">
-                                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
-                                  {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
-                                </span>
+                                <div className="flex items-center gap-2">
+                                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-300">
+                                    {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
+                                  </span>
+                                  <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
+                                    <Trash2 size={14}/>
+                                  </button>
+                                </div>
                                 <span className="font-bold text-emerald-400 text-sm">
                                   -${cantidadDescontadaCupon.toFixed(2)}
                                 </span>
