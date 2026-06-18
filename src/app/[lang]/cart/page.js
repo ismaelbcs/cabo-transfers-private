@@ -159,8 +159,8 @@ export default function CheckoutPage({ params }) {
   // Form data expandido para manejar vuelos de llegada y salida
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
-    aerolinea: '', vuelo: '', hora: '', // Vuelo Llegada
-    aerolineaSalida: '', vueloSalida: '', horaSalida: '', // Vuelo Salida
+    aerolinea: '', vuelo: '', hora: '',
+    aerolineaSalida: '', vueloSalida: '', horaSalida: '', horaPickUp: '', // <-- ¡Añadido aquí!
     notas: '', paymentMethod: 'paypal'
   });
 
@@ -586,13 +586,13 @@ export default function CheckoutPage({ params }) {
                             </div>
                           )}
 
-                          {/* VUELO DE SALIDA */}
+                          {/* VUELO DE SALIDA + HORA DE PICK-UP */}
                           {(isRoundTrip || isDepartureOnly) && (
                             <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5">
                               <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
                                 <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
                               </h3>
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                                 <div className="flex flex-col">
                                   <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
                                   <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
@@ -605,6 +605,23 @@ export default function CheckoutPage({ params }) {
                                   <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
                                   <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
+                              </div>
+
+                              {/* BLOQUE: HORA DE RECOGIDA (PICK-UP) */}
+                              <div className="bg-white p-4 rounded-xl border border-amber-200/60 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
+                                <div className="flex-1">
+                                  <p className="text-[13px] font-bold text-slate-800">{isEs ? 'Hora de Pick-up sugerida' : 'Suggested Pick-up Time'}</p>
+                                  <p className="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                                    {isEs ? 'Te recomendamos estar listos 3 horas antes de tu vuelo. El chofer te contactará para confirmar.' : 'We recommend being ready 3 hours before your flight. The driver will contact you to confirm.'}
+                                  </p>
+                                </div>
+                                <input
+                                  type="time"
+                                  name="horaPickUp"
+                                  value={formData.horaPickUp || ''}
+                                  onChange={handleChange}
+                                  className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm"
+                                />
                               </div>
                             </div>
                           )}
