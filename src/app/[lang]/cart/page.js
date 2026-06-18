@@ -305,14 +305,14 @@ export default function CheckoutPage({ params }) {
         idioma: lang,
         estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
         cliente: datosFinalesCliente,
-        servicios: comboFinalConVuelos, // <--- OJO AQUÍ, USA EL COMBO FUSIONADO
+        servicios: comboFinalConVuelos, // <--- GUARDAMOS EL COMBO CON VUELOS
         total: granTotalFinal,
         descuentoAplicado: descuentoPorcentaje,
         cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
         fechaCreacion: new Date().toISOString(),
       });
 
-      for (const item of comboFinalConVuelos) { // <--- OJO AQUÍ, ITERA EL COMBO FUSIONADO
+      for (const item of comboFinalConVuelos) {
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
@@ -574,6 +574,7 @@ export default function CheckoutPage({ params }) {
                           <span className="text-[13px] font-medium text-slate-500">{item.titulo}{item.subtitulo ? ` - ${item.subtitulo}` : ''}</span>
                         </div>
 
+                        {/* VUELO DE LLEGADA */}
                         {(esLlegada || esRedondo) && (
                           <div className="bg-[#f4f8ff] border border-blue-100/60 rounded-2xl p-6 mb-5 last:mb-0">
                             <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
@@ -596,6 +597,7 @@ export default function CheckoutPage({ params }) {
                           </div>
                         )}
 
+                        {/* VUELO DE SALIDA + HORA DE PICK-UP */}
                         {(esSalida || esRedondo) && (
                           <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5 last:mb-0">
                             <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
@@ -616,6 +618,7 @@ export default function CheckoutPage({ params }) {
                               </div>
                             </div>
 
+                            {/* BLOQUE: HORA DE RECOGIDA (PICK-UP) */}
                             <div className="bg-white p-4 rounded-xl border border-amber-200/60 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
                               <div className="flex-1">
                                 <p className="text-[13px] font-bold text-slate-800">{isEs ? 'Hora de Pick-up sugerida' : 'Suggested Pick-up Time'}</p>
@@ -623,7 +626,12 @@ export default function CheckoutPage({ params }) {
                                   {isEs ? 'Te recomendamos estar listos 3 horas antes de tu vuelo. El chofer te contactará para confirmar.' : 'We recommend being ready 3 hours before your flight. The driver will contact you to confirm.'}
                                 </p>
                               </div>
-                              <input type="time" value={vuelosData[item.id]?.horaPickUp || ''} onChange={(e) => handleVueloChange(item.id, 'horaPickUp', e.target.value)} className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm" />
+                              <input
+                                type="time"
+                                value={vuelosData[item.id]?.horaPickUp || ''}
+                                onChange={(e) => handleVueloChange(item.id, 'horaPickUp', e.target.value)}
+                                className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm"
+                              />
                             </div>
                           </div>
                         )}
