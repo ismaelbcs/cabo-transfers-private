@@ -47,6 +47,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
   const handleAddToCart = () => {
     agregarAlCombo({
       id: `trans-${Date.now()}`,
+      servicio: servicioSeleccionado, // <--- ESTA ES LA LÍNEA MÁGICA QUE FALTABA
       titulo: servicioSeleccionado === 'aeropuerto_hotel' 
         ? (lang === 'es' ? 'AEROPUERTO → HOTEL' : 'AIRPORT → HOTEL') 
         : servicioSeleccionado === 'hotel_aeropuerto' 
