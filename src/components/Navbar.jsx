@@ -57,6 +57,12 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
       }
+    } else {
+      // Si estamos en el carrito o checkout y tocan "Home", forzamos un reinicio completo
+      if (targetId === 'home') {
+        e.preventDefault();
+        window.location.href = `/${lang}`;
+      }
     }
   };
 
@@ -136,7 +142,7 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
             <button onClick={toggleLanguage} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest active:scale-95 transition-all bg-slate-100 border border-slate-200 text-slate-600 hover:bg-slate-200 hover:text-slate-900">
               <Globe size={14} /> {lang === 'en' ? 'EN' : 'ES'}
             </button>
-            
+
             {/* BOTÓN CUPÓN ESCRITORIO */}
             <Link href={`/${lang}/apply-code`} className="flex flex-col items-center justify-center group ml-2">
               <div className="flex items-center gap-1.5 bg-slate-900 text-white px-3 py-1.5 rounded-full hover:bg-slate-800 transition-colors shadow-sm active:scale-95">
@@ -167,13 +173,13 @@ export default function Navbar({ t, lang = 'en', cartCount = 0 }) {
       {/* MENÚ DESPLEGABLE MÓVIL */}
       <div className={`md:hidden absolute w-full bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 ease-in-out overflow-hidden ${isMenuOpen ? 'max-h-96 border-t' : 'max-h-0 border-t-0'}`}>
         <div className="flex flex-col px-6 py-6 space-y-6 text-base font-bold text-slate-500 tracking-tight">
-          
+
           {/* BOTÓN CUPÓN MÓVIL */}
           <Link href={`/${lang}/apply-code`} onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 bg-slate-900 text-white p-4 rounded-xl active:scale-95 transition-transform">
             <Ticket size={18} className="text-amber-400" />
             <span className="font-black uppercase tracking-widest text-sm">{lang === 'es' ? 'Pon tu Código de Descuento' : 'Add Discount Code'}</span>
           </Link>
-          
+
           <div className="h-px w-full bg-slate-100"></div>
 
           <Link href={`/${lang}`} onClick={(e) => handleNavClick(e, 'home')} className="hover:text-slate-900">{t?.nav?.home || 'Home'}</Link>

@@ -4,7 +4,7 @@
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../../context/CartContext';
-import { useBooking } from '../../../context/BookingContext'; 
+import { useBooking } from '../../../context/BookingContext';
 import Link from 'next/link';
 import { ShieldCheck, User, Mail, Phone, Plane, CreditCard, ChevronLeft, CheckCircle, Ticket, Edit3, X, Trash2 } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -19,21 +19,21 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const correoCliente = datosCliente.email || 'N/A';
   const telefonoCliente = datosCliente.telefono || 'N/A';
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal (Pagado)' : 'Efectivo al llegar';
-  
+
   const tipoServicio = item.subtitulo || 'N/A';
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
-  
+
   const aerolineaLlegada = datosCliente.aerolinea ? `${datosCliente.aerolinea} (Vuelo: ${datosCliente.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = datosCliente.hora || 'N/A';
-  
+
   // Respaldo dual para la Salida (ya sea que venga del config o del formulario)
   const aerolineaSalida = datosCliente.aerolineaSalida ? `${datosCliente.aerolineaSalida} (Vuelo: ${datosCliente.vueloSalida || 'N/A'})` : (item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)');
   const horaSalida = datosCliente.horaSalida || item.config?.horaSalida || 'N/A';
-  
-  const horaPickUp = item.config?.fechaLlegada || 'N/A'; 
-  
-  const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g,'')}` : '#';
+
+  const horaPickUp = item.config?.fechaLlegada || 'N/A';
+
+  const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
 
   return `
     <!DOCTYPE html>
@@ -118,7 +118,7 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   `;
 
   if (item.servicio === 'tours' || item.tipoEspecial) {
-    let bgImg = 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?q=80&w=800'; 
+    let bgImg = 'https://images.unsplash.com/photo-1549558549-415fe4c37b60?q=80&w=800';
     if (item.tipoEspecial === 'cena') bgImg = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800';
     else if (item.tipoEspecial === 'golf') bgImg = 'https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=800';
     else if (item.tipoEspecial === 'nightlife') bgImg = 'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?q=80&w=800';
@@ -139,10 +139,10 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const linkWhatsApp = `https://wa.me/526121943286?text=${isEs ? 'Hola,%20tengo%20una%20duda%20sobre%20mi%20reserva%20' : 'Hello,%20I%20have%20a%20question%20about%20my%20booking%20'}${numConfirmacion}`;
 
   const greeting = isEs ? `Hola <strong>${nombreCliente}</strong>,` : `Hello <strong>${nombreCliente}</strong>,`;
-  const mainDesc = isEs 
-    ? 'Hemos recibido tu solicitud y tu transporte/experiencia en Los Cabos está asegurado. Aquí tienes los detalles de este servicio:' 
+  const mainDesc = isEs
+    ? 'Hemos recibido tu solicitud y tu transporte/experiencia en Los Cabos está asegurado. Aquí tienes los detalles de este servicio:'
     : 'We have received your request and your transportation/experience in Los Cabos is secured. Here are the details for this service:';
-  
+
   const summaryTitle = isEs ? 'Resumen del Servicio' : 'Service Summary';
   const labelConfirm = isEs ? 'N° de Confirmación:' : 'Confirmation N°:';
   const labelService = isEs ? 'Servicio:' : 'Service:';
@@ -151,8 +151,8 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const labelMethod = isEs ? 'Método de Pago:' : 'Payment Method:';
   const btnModify = isEs ? '✏️ Modificar mi Reserva' : '✏️ Modify My Booking';
   const btnChat = isEs ? '💬 Chat con el Proveedor' : '💬 Chat with Provider';
-  const footerText = isEs 
-    ? 'Ballard Tours Los Cabos<br/>Si necesitas asistencia urgente, responde a este correo.' 
+  const footerText = isEs
+    ? 'Ballard Tours Los Cabos<br/>Si necesitas asistencia urgente, responde a este correo.'
     : 'Ballard Tours Los Cabos<br/>If you need urgent assistance, please reply to this email.';
 
   return `
@@ -225,12 +225,12 @@ export default function CheckoutPage({ params }) {
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en';
   const isEs = lang === 'es';
-  
+
   const router = useRouter();
-  
+
   const { combo = [], vaciarCombo } = useCart();
   const { appliedPromo } = useBooking();
-  
+
   const [isSuccess, setIsSuccess] = useState(false);
   const [numConfirmacion, setNumConfirmacion] = useState('');
   const [procesandoPago, setProcesandoPago] = useState(false);
@@ -253,7 +253,7 @@ export default function CheckoutPage({ params }) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
     const cargarCupones = () => {
       const guardados = localStorage.getItem('cabo_cupones');
       if (guardados) {
@@ -271,7 +271,7 @@ export default function CheckoutPage({ params }) {
     cargarCupones();
     window.addEventListener('focus', cargarCupones);
     window.addEventListener('storage', cargarCupones);
-    const interval = setInterval(cargarCupones, 1000); 
+    const interval = setInterval(cargarCupones, 1000);
 
     return () => {
       window.removeEventListener('focus', cargarCupones);
@@ -309,7 +309,7 @@ export default function CheckoutPage({ params }) {
 
       const qResena = query(collection(db, "cupones"), where("codigo", "==", codigoLimpio));
       const snapResena = await getDocs(qResena);
-      
+
       if (!snapResena.empty) {
         const data = snapResena.docs[0].data();
         if (data.utilizado) {
@@ -339,11 +339,11 @@ export default function CheckoutPage({ params }) {
         setCuponesAplicados(nuevosCupones);
         localStorage.setItem('cabo_cupones', JSON.stringify(nuevosCupones));
         setShowPromoModal(false);
-        setPromoInput(''); 
+        setPromoInput('');
       } else {
         setPromoError(isEs ? 'Código inválido o no existe.' : 'Invalid code or does not exist.');
       }
-    } catch(error) {
+    } catch (error) {
       console.error(error);
       setPromoError(isEs ? 'Error de conexión. Intenta de nuevo.' : 'Connection error. Try again.');
     }
@@ -405,7 +405,7 @@ export default function CheckoutPage({ params }) {
 
         const docIdAdmin = `${nuevoNumConfirmacion}_admin_${index}`;
         await setDoc(doc(db, "correos", docIdAdmin), {
-          to: "reservationballard@gmail.com", 
+          to: "reservationballard@gmail.com",
           message: {
             subject: `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`,
             html: generarHtmlCorreoAdmin(item, datosClienteConPago, nuevoNumConfirmacion)
@@ -418,7 +418,7 @@ export default function CheckoutPage({ params }) {
         if (cupon.tipo === 'resena') {
           const docCuponRef = doc(db, "cupones", cupon.codigo);
           await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
-        } 
+        }
         if (cupon.tipo === 'chofer') {
           await addDoc(collection(db, "comisiones_choferes"), {
             codigoChofer: cupon.codigo || cupon.codigoChofer || 'CUPON_CHOFER',
@@ -430,26 +430,26 @@ export default function CheckoutPage({ params }) {
           });
 
           if (formData.email) {
-             const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
-             await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
-                correo: formData.email.trim().toLowerCase(),
-                codigo: cupon.codigo || cupon.codigoChofer,
-                fechaUso: new Date().toISOString()
-             });
+            const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
+            await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
+              correo: formData.email.trim().toLowerCase(),
+              codigo: cupon.codigo || cupon.codigoChofer,
+              fechaUso: new Date().toISOString()
+            });
           }
-          
+
           if (cupon.choferCorreo && cupon.choferCorreo !== 'N/A') {
-              const nombreChofer = cupon.nombreChofer || cupon.nombre || (isEs ? "Chofer" : "Driver");
-              const comision = subtotal * 0.10; 
-              const serviciosResumen = combo.map(item => item.titulo).join(', ');
-              const fechaServicio = combo[0]?.config?.fechaLlegada || combo[0]?.config?.fechaTour || combo[0]?.config?.cenaHora || (isEs ? 'Fecha en sistema' : 'System Date');
-              const nombreClienteCompleto = `${formData.nombre} ${formData.apellidos}`.trim();
+            const nombreChofer = cupon.nombreChofer || cupon.nombre || (isEs ? "Chofer" : "Driver");
+            const comision = subtotal * 0.10;
+            const serviciosResumen = combo.map(item => item.titulo).join(', ');
+            const fechaServicio = combo[0]?.config?.fechaLlegada || combo[0]?.config?.fechaTour || combo[0]?.config?.cenaHora || (isEs ? 'Fecha en sistema' : 'System Date');
+            const nombreClienteCompleto = `${formData.nombre} ${formData.apellidos}`.trim();
 
-              const subjectChofer = isEs 
-                  ? `¡Nueva Venta! Comisión Generada - Ballard Tours` 
-                  : `New Sale! Commission Generated - Ballard Tours`;
+            const subjectChofer = isEs
+              ? `¡Nueva Venta! Comisión Generada - Ballard Tours`
+              : `New Sale! Commission Generated - Ballard Tours`;
 
-              const htmlChofer = isEs ? `
+            const htmlChofer = isEs ? `
                 <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
                   <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
                     <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
@@ -488,14 +488,14 @@ export default function CheckoutPage({ params }) {
                 </div>
               `;
 
-              await addDoc(collection(db, "correos"), {
-                to: cupon.choferCorreo,
-                message: { subject: subjectChofer, html: htmlChofer }
-              });
+            await addDoc(collection(db, "correos"), {
+              to: cupon.choferCorreo,
+              message: { subject: subjectChofer, html: htmlChofer }
+            });
           }
         }
       }
-      
+
       localStorage.removeItem('cabo_cupones');
       vaciarCombo();
       setIsSuccess(true);
@@ -516,7 +516,7 @@ export default function CheckoutPage({ params }) {
         </div>
         <h1 className="text-4xl font-black text-slate-900 mb-2">{isEs ? '¡Reserva Confirmada!' : 'Booking Confirmed!'}</h1>
         <p className="text-slate-500 mb-8 max-w-md mx-auto text-lg">{isEs ? 'Enviamos los detalles a tu correo.' : 'Details sent to your email.'}</p>
-        
+
         <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 w-full max-w-sm">
           <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">{isEs ? 'Confirmación' : 'Confirmation'}</p>
           <p className="text-3xl font-black text-blue-900 tracking-widest">{numConfirmacion}</p>
@@ -535,7 +535,7 @@ export default function CheckoutPage({ params }) {
         <div className="w-24 h-24 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-6"><CreditCard size={48} /></div>
         <h1 className="text-3xl font-black text-slate-900 mb-4">{isEs ? 'Tu combo está vacío' : 'Your combo is empty'}</h1>
         <button onClick={() => router.push(`/${lang}`)} className="px-8 py-4 bg-blue-900 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg mt-6">
-           {isEs ? 'Volver al Inicio' : 'Return Home'}
+          {isEs ? 'Volver al Inicio' : 'Return Home'}
         </button>
       </div>
     );
@@ -544,55 +544,55 @@ export default function CheckoutPage({ params }) {
   return (
     <PayPalScriptProvider options={{ "client-id": "Af_QMaiYhnkVGklhDJbI7gdNcNsgSTCyQG5GfsR0uxD3QEs-XSDIX7tBw3M6TWDkxljqn8jLfpS2CyxF", currency: "USD" }}>
       <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-4 relative">
-        
+
         {/* ========================================================= */}
         {/* MODAL DE CÓDIGOS DE DESCUENTO NATIVO */}
         {/* ========================================================= */}
         {showPromoModal && (
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-             <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative animate-fade-in">
-                <button onClick={() => setShowPromoModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors p-2"><X size={20}/></button>
-                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4"><Ticket size={24}/></div>
-                <h3 className="text-xl font-black text-slate-900 mb-2">{isEs ? 'Ingresar Código' : 'Enter Code'}</h3>
-                <p className="text-sm text-slate-500 mb-6">{isEs ? 'Ingresa tu cupón de reseña o código de chofer.' : 'Enter your review coupon or driver code.'}</p>
-                
-                <input
-                  type="text"
-                  value={promoInput}
-                  onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                  placeholder="Ej. CABO10"
-                  className="w-full border-2 border-slate-200 rounded-xl px-4 py-4 font-black text-slate-900 focus:border-blue-600 focus:ring-0 outline-none text-center tracking-widest text-lg transition-colors"
-                />
-                
-                {promoError && <p className="text-red-500 text-xs font-bold mt-3 text-center">{promoError}</p>}
-                
-                <button 
-                  onClick={aplicarCodigo} 
-                  disabled={isValidatingPromo || !promoInput}
-                  className="w-full mt-6 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isValidatingPromo ? (isEs ? 'Validando...' : 'Validating...') : (isEs ? 'Aplicar Descuento' : 'Apply Discount')}
-                </button>
-             </div>
+            <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative animate-fade-in">
+              <button onClick={() => setShowPromoModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors p-2"><X size={20} /></button>
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4"><Ticket size={24} /></div>
+              <h3 className="text-xl font-black text-slate-900 mb-2">{isEs ? 'Ingresar Código' : 'Enter Code'}</h3>
+              <p className="text-sm text-slate-500 mb-6">{isEs ? 'Ingresa tu cupón de reseña o código de chofer.' : 'Enter your review coupon or driver code.'}</p>
+
+              <input
+                type="text"
+                value={promoInput}
+                onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                placeholder="Ej. CABO10"
+                className="w-full border-2 border-slate-200 rounded-xl px-4 py-4 font-black text-slate-900 focus:border-blue-600 focus:ring-0 outline-none text-center tracking-widest text-lg transition-colors"
+              />
+
+              {promoError && <p className="text-red-500 text-xs font-bold mt-3 text-center">{promoError}</p>}
+
+              <button
+                onClick={aplicarCodigo}
+                disabled={isValidatingPromo || !promoInput}
+                className="w-full mt-6 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isValidatingPromo ? (isEs ? 'Validando...' : 'Validating...') : (isEs ? 'Aplicar Descuento' : 'Apply Discount')}
+              </button>
+            </div>
           </div>
         )}
 
         {procesandoPago && (
           <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-[9998] flex flex-col items-center justify-center">
-             <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-900 mb-4"></div>
-             <p className="font-bold text-blue-900 text-lg">{isEs ? 'Procesando...' : 'Processing...'}</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-900 mb-4"></div>
+            <p className="font-bold text-blue-900 text-lg">{isEs ? 'Procesando...' : 'Processing...'}</p>
           </div>
         )}
 
         <div className="max-w-6xl mx-auto flex flex-col-reverse lg:flex-row gap-8 lg:gap-12 animate-fade-in">
-          
+
           <div className="flex-1 w-full lg:max-w-[700px]">
             <button onClick={() => router.push(`/${lang}`)} className="text-blue-600 font-bold flex items-center hover:text-blue-800 transition mb-8">
               <ChevronLeft size={20} className="mr-1" /> {isEs ? 'Seguir comprando' : 'Continue shopping'}
             </button>
             <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-8">{isEs ? 'Completa tu Reserva' : 'Complete your Booking'}</h1>
             <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-              
+
               <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                 <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight"><User className="text-blue-600" size={24} /> {isEs ? 'Datos del Titular' : 'Lead Traveler Details'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -622,8 +622,8 @@ export default function CheckoutPage({ params }) {
               </div>
 
               {/* INFORMACIÓN DE VUELOS (DINÁMICO BASADO EN EL CARRITO) */}
-              <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-                <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight">
+              <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8">
+                <h2 className="text-xl font-black text-[#0f285e] mb-6 flex items-center gap-2 tracking-tight">
                   <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
                 </h2>
 
@@ -637,51 +637,53 @@ export default function CheckoutPage({ params }) {
 
                   return (
                     <div key={idx} className="mb-8 last:mb-0">
-                      <div className="inline-flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl mb-4 border border-slate-100">
-                        <span className="text-[12px] font-bold text-slate-600">{item.titulo} - {item.subtitulo}</span>
+
+                      {/* ETIQUETA DEL SERVICIO (Estilo de la imagen) */}
+                      <div className="inline-block bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg mb-5">
+                        <span className="text-[13px] font-medium text-slate-500">{item.titulo} - {item.subtitulo}</span>
                       </div>
 
-                      {/* VUELO DE LLEGADA */}
+                      {/* VUELO DE LLEGADA (DISEÑO NUEVO CLONADO DE LA IMAGEN) */}
                       {isArrival && (
-                        <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 mb-4">
-                          <h3 className="text-sm font-black text-blue-900 flex items-center gap-2 mb-4">
+                        <div className="bg-[#f4f8ff] border border-blue-100/60 rounded-2xl p-6 mb-5">
+                          <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
                             <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
                           </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div className="flex flex-col">
-                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                              <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                              <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                              <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American Airlines"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                             </div>
                             <div className="flex flex-col">
-                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                              <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                              <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                              <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                             </div>
                             <div className="flex flex-col">
-                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
-                              <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                              <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
+                              <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {/* VUELO DE SALIDA */}
+                      {/* VUELO DE SALIDA (Mismo diseño pero con tono ambar sutil) */}
                       {(isRoundTrip || isDepartureOnly) && (
-                        <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-6 mb-4">
-                          <h3 className="text-sm font-black text-amber-900 flex items-center gap-2 mb-4">
+                        <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5">
+                          <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
                             <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
                           </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div className="flex flex-col">
-                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                              <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                              <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                              <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                             </div>
                             <div className="flex flex-col">
-                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                              <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                              <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                              <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                             </div>
                             <div className="flex flex-col">
-                              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
-                              <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                              <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
+                              <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                             </div>
                           </div>
                         </div>
@@ -690,9 +692,9 @@ export default function CheckoutPage({ params }) {
                   );
                 })}
 
-                <div className="mt-4 flex flex-col pt-4 border-t border-slate-100">
-                  <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Comentarios / Instrucciones / Hotel' : 'Comments / Resort / Instructions'}</label>
-                  <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} placeholder={isEs ? "¿Algo más que debamos saber?" : "Anything else we should know?"} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
+                <div className="mt-4 flex flex-col pt-6 border-t border-slate-100">
+                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5 block">{isEs ? 'Comentarios / Instrucciones / Hotel' : 'Comments / Resort / Instructions'}</label>
+                  <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} placeholder={isEs ? "¿Algo más que debamos saber?" : "Anything else we should know?"} className="w-full p-4 bg-white shadow-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium transition-all"></textarea>
                 </div>
 
               </div>
@@ -703,7 +705,7 @@ export default function CheckoutPage({ params }) {
           <div className="w-full lg:w-[420px] flex-shrink-0">
             <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-8 lg:sticky lg:top-32 w-full">
               <h3 className="text-2xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4">{isEs ? 'Resumen de tu Combo' : 'Order Summary'}</h3>
-              
+
               <div className="mb-6 space-y-4">
                 {combo.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-start border-b border-slate-100 pb-4 last:border-0 last:pb-0">
@@ -721,19 +723,19 @@ export default function CheckoutPage({ params }) {
                   <span className="text-slate-500 font-bold text-sm">Subtotal</span>
                   <span className="font-bold text-slate-700">${subtotal.toFixed(2)}</span>
                 </div>
-                
+
                 <div className="bg-slate-900 p-4 rounded-xl mt-4 mb-4 shadow-inner border border-slate-800">
                   <div className="flex justify-between items-center mb-3 border-b border-slate-700 pb-2">
                     <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400">
                       <Ticket size={14} className="text-emerald-400" />
                       {isEs ? 'CÓDIGO / CUPÓN' : 'CODE / COUPON'}
                     </span>
-                    
+
                     <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
                       <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add / Edit"}
                     </button>
                   </div>
-                  
+
                   {hasAnyDiscount ? (
                     <div className="flex flex-col gap-2">
                       {appliedPromo && (
@@ -756,7 +758,7 @@ export default function CheckoutPage({ params }) {
                                 {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
                               </span>
                               <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
-                                <Trash2 size={14}/>
+                                <Trash2 size={14} />
                               </button>
                             </div>
                             <span className="font-bold text-emerald-400 text-sm">
@@ -768,9 +770,9 @@ export default function CheckoutPage({ params }) {
                     </div>
                   ) : (
                     <div className="text-center py-2">
-                       <button onClick={() => setShowPromoModal(true)} className="text-[11px] text-slate-400 font-bold hover:text-white transition-colors underline decoration-slate-600 underline-offset-4">
-                         {isEs ? "Añadir código de descuento o chofer" : "Add discount or driver code"}
-                       </button>
+                      <button onClick={() => setShowPromoModal(true)} className="text-[11px] text-slate-400 font-bold hover:text-white transition-colors underline decoration-slate-600 underline-offset-4">
+                        {isEs ? "Añadir código de descuento o chofer" : "Add discount or driver code"}
+                      </button>
                     </div>
                   )}
                 </div>
@@ -793,7 +795,7 @@ export default function CheckoutPage({ params }) {
                     <span className="font-black text-blue-700">${granTotalFinal.toFixed(2)}</span>
                   </div>
                 </label>
-                
+
                 <label className={`flex items-center gap-3 p-4 rounded-xl cursor-pointer border-2 transition-all w-full ${formData.paymentMethod === 'efectivo' ? 'border-slate-900 bg-slate-50' : 'border-slate-200 bg-white hover:border-slate-300'}`}>
                   <input type="radio" name="paymentMethod" value="efectivo" checked={formData.paymentMethod === 'efectivo'} onChange={handleChange} className="w-5 h-5 accent-slate-900 flex-shrink-0" />
                   <div className="flex justify-between items-center w-full">
@@ -807,15 +809,15 @@ export default function CheckoutPage({ params }) {
                 {formData.paymentMethod === 'paypal' ? (
                   <PayPalButtons
                     style={{ layout: "vertical", shape: "rect", color: "gold" }}
-                    disabled={!formData.nombre || !formData.email} 
+                    disabled={!formData.nombre || !formData.email}
                     createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] })}
                     onApprove={(data, actions) => actions.order.capture().then((details) => procesarConfirmacion(details, 'paypal'))}
                     onError={(err) => alert(isEs ? "Error al procesar pago." : "Payment error.")}
                   />
                 ) : (
-                  <button 
+                  <button
                     disabled={!formData.nombre || !formData.email}
-                    onClick={() => procesarConfirmacion(null, 'efectivo')} 
+                    onClick={() => procesarConfirmacion(null, 'efectivo')}
                     className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isEs ? 'Confirmar Reserva en Efectivo' : 'Confirm Cash Booking'}

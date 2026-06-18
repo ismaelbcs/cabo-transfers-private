@@ -4,10 +4,10 @@
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Trash2, User, Plane, CreditCard, ChevronRight, ChevronLeft, 
+import {
+  Trash2, User, Plane, CreditCard, ChevronRight, ChevronLeft,
   ShoppingBag, CheckCircle, Plus, Info, Banknote, Calendar, Mail, Phone, Compass,
-  Ticket, Edit3, X 
+  Ticket, Edit3, X
 } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
@@ -24,21 +24,21 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const correoCliente = datosCliente.email || 'N/A';
   const telefonoCliente = datosCliente.telefono || 'N/A';
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal (Pagado)' : 'Efectivo al llegar';
-  
+
   const tipoServicio = item.subtitulo || 'N/A';
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
-  
+
   const aerolineaLlegada = datosCliente.aerolinea ? `${datosCliente.aerolinea} (Vuelo: ${datosCliente.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = datosCliente.hora || 'N/A';
-  
+
   // Respaldo dual para la Salida (ya sea que venga del config o del formulario)
   const aerolineaSalida = datosCliente.aerolineaSalida ? `${datosCliente.aerolineaSalida} (Vuelo: ${datosCliente.vueloSalida || 'N/A'})` : (item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)');
   const horaSalida = datosCliente.horaSalida || item.config?.horaSalida || 'N/A';
-  
-  const horaPickUp = item.config?.fechaLlegada || 'N/A'; 
-  
-  const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g,'')}` : '#';
+
+  const horaPickUp = item.config?.fechaLlegada || 'N/A';
+
+  const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
 
   return `
     <!DOCTYPE html>
@@ -145,7 +145,7 @@ export default function CheckoutPage({ params }) {
   const router = useRouter();
   const { combo = [], eliminarDelCombo, vaciarCombo } = useCart();
   const { appliedPromo } = useBooking();
-  
+
   const [step, setStep] = useState(1);
   const [confirmNumber, setConfirmNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -180,11 +180,11 @@ export default function CheckoutPage({ params }) {
         setCuponesAplicados([]);
       }
     };
-    
+
     cargarCupones();
     window.addEventListener('focus', cargarCupones);
     window.addEventListener('storage', cargarCupones);
-    const interval = setInterval(cargarCupones, 1000); 
+    const interval = setInterval(cargarCupones, 1000);
 
     return () => {
       window.removeEventListener('focus', cargarCupones);
@@ -217,7 +217,7 @@ export default function CheckoutPage({ params }) {
       let cuponValido = null;
       const qResena = query(collection(db, "cupones"), where("codigo", "==", codigoLimpio));
       const snapResena = await getDocs(qResena);
-      
+
       if (!snapResena.empty) {
         const data = snapResena.docs[0].data();
         if (data.utilizado) {
@@ -247,11 +247,11 @@ export default function CheckoutPage({ params }) {
         setCuponesAplicados(nuevosCupones);
         localStorage.setItem('cabo_cupones', JSON.stringify(nuevosCupones));
         setShowPromoModal(false);
-        setPromoInput(''); 
+        setPromoInput('');
       } else {
         setPromoError(isEs ? 'Código inválido o no existe.' : 'Invalid code or does not exist.');
       }
-    } catch(error) {
+    } catch (error) {
       setPromoError(isEs ? 'Error de conexión. Intenta de nuevo.' : 'Connection error. Try again.');
     }
     setIsValidatingPromo(false);
@@ -295,7 +295,7 @@ export default function CheckoutPage({ params }) {
         cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
         fechaCreacion: new Date().toISOString(),
       });
-      
+
       for (const item of combo) {
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         await setDoc(doc(db, "correos", docIdCliente), {
@@ -308,7 +308,7 @@ export default function CheckoutPage({ params }) {
 
         const docIdAdmin = `${nuevoNumConfirmacion}_admin_${index}`;
         await setDoc(doc(db, "correos", docIdAdmin), {
-          to: "reservationballard@gmail.com", 
+          to: "reservationballard@gmail.com",
           message: {
             subject: `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`,
             html: generarHtmlCorreoAdmin(item, datosFinalesCliente, nuevoNumConfirmacion)
@@ -334,16 +334,16 @@ export default function CheckoutPage({ params }) {
           });
 
           if (formData.email) {
-             const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
-             await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
-                correo: formData.email.trim().toLowerCase(),
-                codigo: cupon.codigo || cupon.codigoChofer,
-                fechaUso: new Date().toISOString()
-             });
+            const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
+            await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
+              correo: formData.email.trim().toLowerCase(),
+              codigo: cupon.codigo || cupon.codigoChofer,
+              fechaUso: new Date().toISOString()
+            });
           }
         }
       }
-      
+
       localStorage.removeItem('cabo_cupones');
       setConfirmNumber(nuevoNumConfirmacion);
       setStep(4);
@@ -411,36 +411,36 @@ export default function CheckoutPage({ params }) {
   return (
     <PayPalScriptProvider options={{ "client-id": "Af_QMaiYhnkVGklhDJbI7gdNcNsgSTCyQG5GfsR0uxD3QEs-XSDIX7tBw3M6TWDkxljqn8jLfpS2CyxF", currency: "USD" }}>
       <div className="min-h-screen bg-slate-50 font-sans selection:bg-slate-900 selection:text-white pt-32 pb-24 relative">
-        
+
         {/* ========================================================= */}
         {/* MODAL DE CÓDIGOS DE DESCUENTO NATIVO */}
         {/* ========================================================= */}
         {showPromoModal && (
           <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
-             <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative animate-fade-in">
-                <button onClick={() => setShowPromoModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors p-2"><X size={20}/></button>
-                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4"><Ticket size={24}/></div>
-                <h3 className="text-xl font-black text-slate-900 mb-2">{isEs ? 'Ingresar Código' : 'Enter Code'}</h3>
-                <p className="text-sm text-slate-500 mb-6">{isEs ? 'Ingresa tu cupón de reseña o código de chofer.' : 'Enter your review coupon or driver code.'}</p>
-                
-                <input
-                  type="text"
-                  value={promoInput}
-                  onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                  placeholder="Ej. CABO10"
-                  className="w-full border-2 border-slate-200 rounded-xl px-4 py-4 font-black text-slate-900 focus:border-blue-600 focus:ring-0 outline-none text-center tracking-widest text-lg transition-colors"
-                />
-                
-                {promoError && <p className="text-red-500 text-xs font-bold mt-3 text-center">{promoError}</p>}
-                
-                <button 
-                  onClick={aplicarCodigo} 
-                  disabled={isValidatingPromo || !promoInput}
-                  className="w-full mt-6 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isValidatingPromo ? (isEs ? 'Validando...' : 'Validating...') : (isEs ? 'Aplicar Descuento' : 'Apply Discount')}
-                </button>
-             </div>
+            <div className="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl relative animate-fade-in">
+              <button onClick={() => setShowPromoModal(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors p-2"><X size={20} /></button>
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4"><Ticket size={24} /></div>
+              <h3 className="text-xl font-black text-slate-900 mb-2">{isEs ? 'Ingresar Código' : 'Enter Code'}</h3>
+              <p className="text-sm text-slate-500 mb-6">{isEs ? 'Ingresa tu cupón de reseña o código de chofer.' : 'Enter your review coupon or driver code.'}</p>
+
+              <input
+                type="text"
+                value={promoInput}
+                onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                placeholder="Ej. CABO10"
+                className="w-full border-2 border-slate-200 rounded-xl px-4 py-4 font-black text-slate-900 focus:border-blue-600 focus:ring-0 outline-none text-center tracking-widest text-lg transition-colors"
+              />
+
+              {promoError && <p className="text-red-500 text-xs font-bold mt-3 text-center">{promoError}</p>}
+
+              <button
+                onClick={aplicarCodigo}
+                disabled={isValidatingPromo || !promoInput}
+                className="w-full mt-6 bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isValidatingPromo ? (isEs ? 'Validando...' : 'Validating...') : (isEs ? 'Aplicar Descuento' : 'Apply Discount')}
+              </button>
+            </div>
           </div>
         )}
 
@@ -479,7 +479,7 @@ export default function CheckoutPage({ params }) {
                       </div>
                     ))}
                   </div>
-                  
+
                   <div className="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 p-4 md:p-6 shadow-[0_-10px_30px_rgb(0,0,0,0.05)] z-40">
                     <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="text-center sm:text-left">
@@ -489,7 +489,7 @@ export default function CheckoutPage({ params }) {
                           <p className="text-[10px] text-slate-400 font-bold uppercase pb-1.5">{t.taxesInc}</p>
                         </div>
                       </div>
-                      <button onClick={() => { setStep(2); window.scrollTo(0,0); }} className="w-full sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-slate-900/20 hover:bg-slate-800 active:scale-95 transition-all flex items-center justify-center">
+                      <button onClick={() => { setStep(2); window.scrollTo(0, 0); }} className="w-full sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-slate-900/20 hover:bg-slate-800 active:scale-95 transition-all flex items-center justify-center">
                         {t.proceed} <ChevronRight size={18} className="ml-2" />
                       </button>
                     </div>
@@ -504,10 +504,10 @@ export default function CheckoutPage({ params }) {
             <div className="animate-fade-in w-full">
               {renderStepper()}
               <div className="flex flex-col lg:flex-row gap-8">
-                
+
                 {/* COLUMNA IZQUIERDA FORMULARIO */}
                 <div className="flex-1 space-y-8">
-                  
+
                   {/* DATOS DEL TITULAR */}
                   <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                     <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight"><User className="text-blue-600" size={24} /> {t.titularTitle}</h2>
@@ -538,8 +538,8 @@ export default function CheckoutPage({ params }) {
                   </div>
 
                   {/* INFORMACIÓN DE VUELOS (DINÁMICO BASADO EN EL CARRITO) */}
-                  <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-                    <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2 tracking-tight">
+                  <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8">
+                    <h2 className="text-xl font-black text-[#0f285e] mb-6 flex items-center gap-2 tracking-tight">
                       <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
                     </h2>
 
@@ -553,51 +553,53 @@ export default function CheckoutPage({ params }) {
 
                       return (
                         <div key={idx} className="mb-8 last:mb-0">
-                          <div className="inline-flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl mb-4 border border-slate-100">
-                            <span className="text-[12px] font-bold text-slate-600">{item.titulo} - {item.subtitulo}</span>
+
+                          {/* ETIQUETA DEL SERVICIO (Estilo de la imagen) */}
+                          <div className="inline-block bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg mb-5">
+                            <span className="text-[13px] font-medium text-slate-500">{item.titulo} - {item.subtitulo}</span>
                           </div>
 
-                          {/* VUELO DE LLEGADA */}
+                          {/* VUELO DE LLEGADA (DISEÑO NUEVO CLONADO DE LA IMAGEN) */}
                           {isArrival && (
-                            <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 mb-4">
-                              <h3 className="text-sm font-black text-blue-900 flex items-center gap-2 mb-4">
+                            <div className="bg-[#f4f8ff] border border-blue-100/60 rounded-2xl p-6 mb-5">
+                              <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
                                 <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
                               </h3>
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                 <div className="flex flex-col">
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                                  <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                                  <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American Airlines"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
                                 <div className="flex flex-col">
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                                  <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                                  <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
                                 <div className="flex flex-col">
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
-                                  <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold text-sm transition-all" />
+                                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
+                                  <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
                               </div>
                             </div>
                           )}
 
-                          {/* VUELO DE SALIDA */}
+                          {/* VUELO DE SALIDA (Mismo diseño pero con tono ambar sutil) */}
                           {(isRoundTrip || isDepartureOnly) && (
-                            <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-6 mb-4">
-                              <h3 className="text-sm font-black text-amber-900 flex items-center gap-2 mb-4">
+                            <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5">
+                              <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
                                 <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
                               </h3>
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                 <div className="flex flex-col">
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                                  <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                                  <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
                                 <div className="flex flex-col">
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                                  <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                                  <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
                                 <div className="flex flex-col">
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
-                                  <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-900 font-bold text-sm transition-all" />
+                                  <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
+                                  <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                                 </div>
                               </div>
                             </div>
@@ -606,9 +608,9 @@ export default function CheckoutPage({ params }) {
                       );
                     })}
 
-                    <div className="mt-4 flex flex-col pt-4 border-t border-slate-100">
-                      <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Comentarios / Instrucciones / Hotel' : 'Comments / Resort / Instructions'}</label>
-                      <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} placeholder={isEs ? "¿Algo más que debamos saber?" : "Anything else we should know?"} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-900 font-bold placeholder-slate-400 transition-all"></textarea>
+                    <div className="mt-4 flex flex-col pt-6 border-t border-slate-100">
+                      <label className="text-[12px] font-semibold text-slate-700 mb-1.5 block">{isEs ? 'Comentarios / Instrucciones / Hotel' : 'Comments / Resort / Instructions'}</label>
+                      <textarea name="notas" rows="3" value={formData.notas} onChange={handleChange} placeholder={isEs ? "¿Algo más que debamos saber?" : "Anything else we should know?"} className="w-full p-4 bg-white shadow-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium transition-all"></textarea>
                     </div>
 
                   </div>
@@ -619,7 +621,7 @@ export default function CheckoutPage({ params }) {
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-800 pb-4 tracking-tight"><ShoppingBag size={20} className="text-blue-500" /> {t.totalCombo}</h3>
-                    
+
                     <div className="space-y-6 mb-8 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
                       {combo.map((item, idx) => (
                         <div key={idx} className="flex justify-between items-start border-b border-slate-800 pb-4">
@@ -641,12 +643,12 @@ export default function CheckoutPage({ params }) {
                       <div className="mb-6 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
                         <div className="flex justify-between items-center mb-3">
                           <span className="flex items-center gap-1.5 text-[10px] font-black tracking-widest uppercase text-slate-400"><Ticket size={14} className="text-emerald-400" /> {isEs ? "CÓDIGO / CUPÓN" : "CODE"}</span>
-                          
+
                           <button onClick={() => setShowPromoModal(true)} className="text-[10px] font-bold text-blue-400 flex items-center gap-1 hover:underline transition-all">
                             <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}
                           </button>
                         </div>
-                        
+
                         {hasAnyDiscount ? (
                           <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
                             {appliedPromo && (
@@ -669,7 +671,7 @@ export default function CheckoutPage({ params }) {
                                       {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
                                     </span>
                                     <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
-                                      <Trash2 size={14}/>
+                                      <Trash2 size={14} />
                                     </button>
                                   </div>
                                   <span className="font-bold text-emerald-400 text-sm">
@@ -681,9 +683,9 @@ export default function CheckoutPage({ params }) {
                           </div>
                         ) : (
                           <div className="text-center py-2">
-                             <button onClick={() => setShowPromoModal(true)} className="text-[11px] text-slate-400 font-bold hover:text-white transition-colors underline decoration-slate-600 underline-offset-4">
-                               {isEs ? "Añadir código de descuento o chofer" : "Add discount or driver code"}
-                             </button>
+                            <button onClick={() => setShowPromoModal(true)} className="text-[11px] text-slate-400 font-bold hover:text-white transition-colors underline decoration-slate-600 underline-offset-4">
+                              {isEs ? "Añadir código de descuento o chofer" : "Add discount or driver code"}
+                            </button>
                           </div>
                         )}
                       </div>
@@ -698,8 +700,8 @@ export default function CheckoutPage({ params }) {
                     </div>
 
                     <div className="flex gap-3 mt-8">
-                      <button onClick={() => { setStep(1); window.scrollTo(0,0); }} className="px-4 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold active:scale-95"><ChevronLeft size={20} /></button>
-                      <button onClick={() => { if (isFormValid) { setStep(3); window.scrollTo(0,0); } else { alert(t.errorForm); } }} className={`flex-1 py-4 rounded-xl font-bold flex items-center justify-center transition-all text-sm tracking-wide ${isFormValid ? 'bg-white text-slate-900 hover:bg-slate-100 active:scale-95' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}>
+                      <button onClick={() => { setStep(1); window.scrollTo(0, 0); }} className="px-4 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold active:scale-95"><ChevronLeft size={20} /></button>
+                      <button onClick={() => { if (isFormValid) { setStep(3); window.scrollTo(0, 0); } else { alert(t.errorForm); } }} className={`flex-1 py-4 rounded-xl font-bold flex items-center justify-center transition-all text-sm tracking-wide ${isFormValid ? 'bg-white text-slate-900 hover:bg-slate-100 active:scale-95' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}>
                         {t.reviewPay} <ChevronRight size={18} className="ml-2" />
                       </button>
                     </div>
@@ -738,14 +740,14 @@ export default function CheckoutPage({ params }) {
                 <div className="w-full lg:w-[400px] shrink-0">
                   <div className="bg-slate-950 rounded-[2rem] p-8 text-white sticky top-32 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-2 border-b border-slate-800 pb-4 tracking-tight"><CreditCard size={20} className="text-emerald-400" /> {t.paymentMethodTitle}</h3>
-                    
+
                     <div className="space-y-4 mb-8">
-                      <div onClick={() => setFormData({...formData, paymentMethod: 'paypal'})} className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/10 border-blue-500' : 'bg-slate-900 border-slate-800'}`}>
+                      <div onClick={() => setFormData({ ...formData, paymentMethod: 'paypal' })} className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'paypal' ? 'bg-blue-600/10 border-blue-500' : 'bg-slate-900 border-slate-800'}`}>
                         <div className="mt-0.5"><div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.paymentMethod === 'paypal' ? 'border-blue-500' : 'border-slate-500'}`}>{formData.paymentMethod === 'paypal' && <div className="w-2.5 h-2.5 bg-blue-500 rounded-full"></div>}</div></div>
                         <div className="flex-1"><span className="font-black text-base block mb-1 text-white">{t.paypalOptionTitle}</span></div>
                       </div>
 
-                      <div onClick={() => setFormData({...formData, paymentMethod: 'efectivo'})} className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/10 border-emerald-500' : 'bg-slate-900 border-slate-800'}`}>
+                      <div onClick={() => setFormData({ ...formData, paymentMethod: 'efectivo' })} className={`flex items-start gap-4 p-5 rounded-2xl cursor-pointer border-2 transition-all ${formData.paymentMethod === 'efectivo' ? 'bg-emerald-500/10 border-emerald-500' : 'bg-slate-900 border-slate-800'}`}>
                         <div className="mt-0.5"><div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.paymentMethod === 'efectivo' ? 'border-emerald-500' : 'border-slate-500'}`}>{formData.paymentMethod === 'efectivo' && <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>}</div></div>
                         <div className="flex-1"><span className="font-black text-base block mb-1 text-white">{t.cashOptionTitle}</span></div>
                       </div>
@@ -758,7 +760,7 @@ export default function CheckoutPage({ params }) {
                           <Edit3 size={12} /> {isEs ? "Añadir / Editar" : "Add"}
                         </button>
                       </div>
-                      
+
                       {hasAnyDiscount && (
                         <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
                           {cuponesAplicados.map((c, i) => {
@@ -770,7 +772,7 @@ export default function CheckoutPage({ params }) {
                                     {c.codigo || c.codigoChofer || (isEs ? 'CUPÓN CHOFER' : 'DRIVER CODE')}
                                   </span>
                                   <button onClick={() => removerCupon(c.codigo || c.codigoChofer)} className="text-slate-500 hover:text-red-400 transition-colors">
-                                    <Trash2 size={14}/>
+                                    <Trash2 size={14} />
                                   </button>
                                 </div>
                                 <span className="font-bold text-emerald-400 text-sm">
@@ -788,7 +790,7 @@ export default function CheckoutPage({ params }) {
                       <p className="text-4xl font-black tracking-tighter">${(granTotalFinal || 0).toFixed(2)}</p>
                     </div>
 
-                    <button onClick={() => { setStep(2); window.scrollTo(0,0); }} className="w-full mt-8 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold"><ChevronLeft size={20} className="mr-2" /> Atrás</button>
+                    <button onClick={() => { setStep(2); window.scrollTo(0, 0); }} className="w-full mt-8 py-4 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition flex items-center justify-center font-bold"><ChevronLeft size={20} className="mr-2" /> Atrás</button>
                   </div>
                 </div>
               </div>
@@ -803,9 +805,9 @@ export default function CheckoutPage({ params }) {
                 <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl py-4 px-8 inline-block"><p className="text-3xl font-black tracking-widest">{confirmNumber}</p></div>
               </div>
               <div className="text-center mt-12">
-                 <button onClick={() => { if(vaciarCombo) vaciarCombo(); router.push(`/${lang}`); }} className="bg-slate-900 text-white px-10 py-5 rounded-xl font-bold hover:bg-slate-800 transition-all text-lg shadow-md">
-                   {isEs ? 'Volver al Inicio' : 'Return to Home'}
-                 </button>
+                <button onClick={() => { if (vaciarCombo) vaciarCombo(); router.push(`/${lang}`); }} className="bg-slate-900 text-white px-10 py-5 rounded-xl font-bold hover:bg-slate-800 transition-all text-lg shadow-md">
+                  {isEs ? 'Volver al Inicio' : 'Return to Home'}
+                </button>
               </div>
             </div>
           )}
