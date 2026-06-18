@@ -31,7 +31,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const aerolineaSalida = item.flightInfo?.aerolineaSalida ? `${item.flightInfo.aerolineaSalida} (Vuelo: ${item.flightInfo.vueloSalida || 'N/A'})` : 'N/A';
   const horaSalida = item.flightInfo?.horaSalida || 'N/A';
 
- const horaPickUp = item.flightInfo?.horaPickUp || 'N/A';
+  const horaPickUp = item.flightInfo?.horaPickUp || 'N/A';
 
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
 
@@ -248,11 +248,12 @@ export default function CheckoutPage({ params }) {
   });
   const [vuelosData, setVuelosData] = useState({});
 
-  const handleVueloChange = (itemId, campo, valor) => {
+  // FUSIÓN: Asignamos el vuelo basado en el índice
+  const handleVueloChange = (idx, campo, valor) => {
     setVuelosData(prev => ({
       ...prev,
-      [itemId]: {
-        ...(prev[itemId] || {}),
+      [idx]: {
+        ...(prev[idx] || {}),
         [campo]: valor
       }
     }));
@@ -382,18 +383,24 @@ export default function CheckoutPage({ params }) {
   };
 
   const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
-    setIsProcessing(true);
+    setProcesandoPago(true);
     const metodoReal = metodoOverride || formData.paymentMethod;
     const nuevoNumConfirmacion = Math.random().toString(36).substring(2, 10).toUpperCase();
     const datosFinalesCliente = { ...formData, paymentMethod: metodoReal };
     setNumConfirmacion(nuevoNumConfirmacion);
 
+    // FUSIÓN: Mapeamos los combos y les insertamos su vuelo específico
+    const comboFinalConVuelos = combo.map((item, idx) => ({
+      ...item,
+      flightInfo: vuelosData[idx] || {}
+    }));
+
     try {
       await setDoc(doc(db, "reservas", nuevoNumConfirmacion), {
         numeroConfirmacion: nuevoNumConfirmacion,
         estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
-        cliente: datosClienteConPago,
-        servicios: combo,
+        cliente: datosFinalesCliente,
+        servicios: comboFinalConVuelos, 
         subtotal: subtotal,
         descuentoAplicado: descuentoPorcentajeTotal,
         totalPagado: granTotalFinal,
@@ -402,13 +409,13 @@ export default function CheckoutPage({ params }) {
       });
 
       let index = 1;
-      for (const item of combo) {
+      for (const item of comboFinalConVuelos) {
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
           message: {
             subject: isEs ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`,
-            html: generarHtmlCorreoCliente(item, datosClienteConPago, nuevoNumConfirmacion, lang)
+            html: generarHtmlCorreoCliente(item, datosFinalesCliente, nuevoNumConfirmacion, lang)
           }
         });
 
@@ -417,7 +424,7 @@ export default function CheckoutPage({ params }) {
           to: "reservationballard@gmail.com",
           message: {
             subject: `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`,
-            html: generarHtmlCorreoAdmin(item, datosClienteConPago, nuevoNumConfirmacion)
+            html: generarHtmlCorreoAdmin(item, datosFinalesCliente, nuevoNumConfirmacion)
           }
         });
         index++;
@@ -641,77 +648,83 @@ export default function CheckoutPage({ params }) {
 
                 if (!esLlegada && !esSalida && !esRedondo) return null;
 
+                const hotelNombre = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || (isEs ? 'Hotel no especificado' : 'Unspecified Hotel');
+                const numPasajeros = item.config?.pasajeros || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.cenaPax || '1';
+                const tagText = isEs 
+                  ? `${item.titulo} → ${hotelNombre} - ${numPasajeros} Pasajero(s)` 
+                  : `${item.titulo} → ${hotelNombre} - ${numPasajeros} Passenger(s)`;
+
                 return (
                   <div key={idx} className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8 animate-fade-in">
-                    <h2 className="text-xl font-black text-[#0f285e] mb-6 flex items-center gap-2 tracking-tight">
+                    <h2 className="text-xl font-black text-[#0f285e] mb-4 flex items-center gap-2 tracking-tight">
                       <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
                     </h2>
 
-                    <div className="inline-block bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg mb-5">
-                      <span className="text-[13px] font-medium text-slate-500">{item.titulo}{item.subtitulo ? ` - ${item.subtitulo}` : ''}</span>
+                    <div className="inline-block bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg mb-6">
+                      <span className="text-[13px] font-medium text-slate-600">{tagText}</span>
                     </div>
 
                     {/* VUELO DE LLEGADA */}
-                        {(esLlegada || esRedondo) && (
-                          <div className="bg-[#f4f8ff] border border-blue-100/60 rounded-2xl p-6 mb-5 last:mb-0">
-                            <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
-                              <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                              <div className="flex flex-col">
-                                <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                                <input type="text" value={vuelosData[item.id]?.aerolinea || ''} onChange={(e) => handleVueloChange(item.id, 'aerolinea', e.target.value)} placeholder={isEs ? "Ej. American Airlines" : "E.g. American Airlines"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
-                              </div>
-                              <div className="flex flex-col">
-                                <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                                <input type="text" value={vuelosData[item.id]?.vuelo || ''} onChange={(e) => handleVueloChange(item.id, 'vuelo', e.target.value)} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
-                              </div>
-                              <div className="flex flex-col">
-                                <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
-                                <input type="time" value={vuelosData[item.id]?.hora || ''} onChange={(e) => handleVueloChange(item.id, 'hora', e.target.value)} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
-                              </div>
-                            </div>
+                    {(esLlegada || esRedondo) && (
+                      <div className="bg-[#f4f8ff] border border-blue-100/80 rounded-2xl p-6 mb-5 last:mb-0">
+                        <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
+                          <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                          <div className="flex flex-col">
+                            <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                            <input type="text" value={vuelosData[idx]?.aerolinea || ''} onChange={(e) => handleVueloChange(idx, 'aerolinea', e.target.value)} placeholder={isEs ? "Ej. American Airlines" : "E.g. American Airlines"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                           </div>
-                        )}
-
-                        {/* VUELO DE SALIDA + HORA DE PICK-UP */}
-                        {(esSalida || esRedondo) && (
-                          <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5 last:mb-0">
-                            <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
-                              <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-                              <div className="flex flex-col">
-                                <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                                <input type="text" value={vuelosData[item.id]?.aerolineaSalida || ''} onChange={(e) => handleVueloChange(item.id, 'aerolineaSalida', e.target.value)} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
-                              </div>
-                              <div className="flex flex-col">
-                                <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                                <input type="text" value={vuelosData[item.id]?.vueloSalida || ''} onChange={(e) => handleVueloChange(item.id, 'vueloSalida', e.target.value)} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
-                              </div>
-                              <div className="flex flex-col">
-                                <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
-                                <input type="time" value={vuelosData[item.id]?.horaSalida || ''} onChange={(e) => handleVueloChange(item.id, 'horaSalida', e.target.value)} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
-                              </div>
-                            </div>
-
-                            {/* BLOQUE: HORA DE RECOGIDA (PICK-UP) */}
-                            <div className="bg-white p-4 rounded-xl border border-amber-200/60 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
-                              <div className="flex-1">
-                                <p className="text-[13px] font-bold text-slate-800">{isEs ? 'Hora de Pick-up sugerida' : 'Suggested Pick-up Time'}</p>
-                                <p className="text-[11px] text-slate-500 mt-0.5 leading-tight">
-                                  {isEs ? 'Te recomendamos estar listos 3 horas antes de tu vuelo. El chofer te contactará para confirmar.' : 'We recommend being ready 3 hours before your flight. The driver will contact you to confirm.'}
-                                </p>
-                              </div>
-                              <input
-                                type="time"
-                                value={vuelosData[item.id]?.horaPickUp || ''}
-                                onChange={(e) => handleVueloChange(item.id, 'horaPickUp', e.target.value)}
-                                className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm"
-                              />
-                            </div>
+                          <div className="flex flex-col">
+                            <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                            <input type="text" value={vuelosData[idx]?.vuelo || ''} onChange={(e) => handleVueloChange(idx, 'vuelo', e.target.value)} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                           </div>
-                        )}
+                          <div className="flex flex-col">
+                            <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
+                            <input type="time" value={vuelosData[idx]?.hora || ''} onChange={(e) => handleVueloChange(idx, 'hora', e.target.value)} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* VUELO DE SALIDA + HORA DE PICK-UP */}
+                    {(esSalida || esRedondo) && (
+                      <div className="bg-[#fff9f0] border border-amber-100/80 rounded-2xl p-6 mb-5 last:mb-0">
+                        <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
+                          <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                          <div className="flex flex-col">
+                            <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
+                            <input type="text" value={vuelosData[idx]?.aerolineaSalida || ''} onChange={(e) => handleVueloChange(idx, 'aerolineaSalida', e.target.value)} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                          </div>
+                          <div className="flex flex-col">
+                            <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
+                            <input type="text" value={vuelosData[idx]?.vueloSalida || ''} onChange={(e) => handleVueloChange(idx, 'vueloSalida', e.target.value)} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                          </div>
+                          <div className="flex flex-col">
+                            <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
+                            <input type="time" value={vuelosData[idx]?.horaSalida || ''} onChange={(e) => handleVueloChange(idx, 'horaSalida', e.target.value)} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                          </div>
+                        </div>
+
+                        {/* BLOQUE: HORA DE RECOGIDA (PICK-UP) */}
+                        <div className="bg-white p-4 rounded-xl border border-amber-200/60 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
+                          <div className="flex-1">
+                            <p className="text-[13px] font-bold text-slate-800">{isEs ? 'Hora de Pick-up sugerida' : 'Suggested Pick-up Time'}</p>
+                            <p className="text-[11px] text-slate-500 mt-0.5 leading-tight">
+                              {isEs ? 'Te recomendamos estar listos 3 horas antes de tu vuelo. El chofer te contactará para confirmar.' : 'We recommend being ready 3 hours before your flight. The driver will contact you to confirm.'}
+                            </p>
+                          </div>
+                          <input
+                            type="time"
+                            value={vuelosData[idx]?.horaPickUp || ''}
+                            onChange={(e) => handleVueloChange(idx, 'horaPickUp', e.target.value)}
+                            className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
