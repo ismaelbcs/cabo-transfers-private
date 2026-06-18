@@ -29,14 +29,13 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
 
-  const aerolineaLlegada = datosCliente.aerolinea ? `${datosCliente.aerolinea} (Vuelo: ${datosCliente.vuelo || 'N/A'})` : 'N/A';
-  const horaLlegada = datosCliente.hora || 'N/A';
+  const aerolineaLlegada = item.flightInfo?.aerolinea ? `${item.flightInfo.aerolinea} (Vuelo: ${item.flightInfo.vuelo || 'N/A'})` : 'N/A';
+  const horaLlegada = item.flightInfo?.hora || 'N/A';
 
-  // Respaldo dual para la Salida (ya sea que venga del config o del formulario)
-  const aerolineaSalida = datosCliente.aerolineaSalida ? `${datosCliente.aerolineaSalida} (Vuelo: ${datosCliente.vueloSalida || 'N/A'})` : (item.config?.aerolineaSalida ? `${item.config.aerolineaSalida} (Vuelo: ${item.config.vueloSalida || 'N/A'})` : 'N/A (Vuelo: N/A)');
-  const horaSalida = datosCliente.horaSalida || item.config?.horaSalida || 'N/A';
+  const aerolineaSalida = item.flightInfo?.aerolineaSalida ? `${item.flightInfo.aerolineaSalida} (Vuelo: ${item.flightInfo.vueloSalida || 'N/A'})` : 'N/A';
+  const horaSalida = item.flightInfo?.horaSalida || 'N/A';
 
-  const horaPickUp = item.config?.fechaLlegada || 'N/A';
+  const horaPickUp = item.flightInfo?.horaPickUp || 'N/A';
 
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
 
@@ -106,7 +105,7 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'Pasajero';
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal' : 'Efectivo/Cash';
   const pasajeros = item.config?.pasajeros || 'N/A';
-  const pickup = item.config?.fechaLlegada || 'N/A';
+  const pickup = item.flightInfo?.horaPickUp || item.config?.fechaLlegada || 'N/A';
 
   const title = isEs ? '¡Gracias por tu reserva!' : 'Thank you for your booking!';
   const greeting = isEs ? 'Hola' : 'Hello';
@@ -159,10 +158,21 @@ export default function CheckoutPage({ params }) {
   // Form data expandido para manejar vuelos de llegada y salida
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
-    aerolinea: '', vuelo: '', hora: '',
-    aerolineaSalida: '', vueloSalida: '', horaSalida: '', horaPickUp: '', // <-- ¡Añadido aquí!
     notas: '', paymentMethod: 'paypal'
   });
+
+  const [vuelosData, setVuelosData] = useState({});
+
+  // Función para actualizar específicamente el vuelo de un ítem
+  const handleVueloChange = (itemId, campo, valor) => {
+    setVuelosData(prev => ({
+      ...prev,
+      [itemId]: {
+        ...(prev[itemId] || {}),
+        [campo]: valor
+      }
+    }));
+  };
 
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
 
@@ -282,6 +292,12 @@ export default function CheckoutPage({ params }) {
     const nuevoNumConfirmacion = Math.random().toString(36).substring(2, 10).toUpperCase();
     const datosFinalesCliente = { ...formData, paymentMethod: metodoReal };
 
+    // PEGA ESTA FUSIÓN AQUÍ:
+    const comboFinalConVuelos = combo.map(item => ({
+      ...item,
+      flightInfo: vuelosData[item.id] || {}
+    }));
+
     try {
       let index = 1;
       await addDoc(collection(db, "reservas"), {
@@ -289,14 +305,14 @@ export default function CheckoutPage({ params }) {
         idioma: lang,
         estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
         cliente: datosFinalesCliente,
-        servicios: combo,
+        servicios: comboFinalConVuelos, // <--- OJO AQUÍ, USA EL COMBO FUSIONADO
         total: granTotalFinal,
         descuentoAplicado: descuentoPorcentaje,
         cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
         fechaCreacion: new Date().toISOString(),
       });
 
-      for (const item of combo) {
+      for (const item of comboFinalConVuelos) { // <--- OJO AQUÍ, ITERA EL COMBO FUSIONADO
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
@@ -542,30 +558,23 @@ export default function CheckoutPage({ params }) {
                   {/* ========================================================= */}
 
                   {combo.map((item, idx) => {
-                    const isTour = item.servicio === 'tours' || item.tipoEspecial || item.isTour || item.subtitulo?.toLowerCase().includes('tour') || item.id === 'cenas' || item.id === 'golf' || item.id === 'nightlife' || item.id === 'hotel';
+                    const esLlegada = item.servicio === 'aeropuerto_hotel';
+                    const esSalida = item.servicio === 'hotel_aeropuerto';
+                    const esRedondo = item.servicio === 'redondo';
 
-                    // Si es un Tour o no ocupa vuelos, retornamos null para que NO se dibuje la tarjeta blanca
-                    if (isTour) return null;
-
-                    const subtituloStr = item.subtitulo ? String(item.subtitulo).toLowerCase() : '';
-                    const isRoundTrip = subtituloStr.includes('round') || subtituloStr.includes('vuelta');
-                    const isDepartureOnly = subtituloStr.includes('salida') || subtituloStr.includes('departure') || subtituloStr.includes('hotel -> aeropuerto') || subtituloStr.includes('hotel to airport');
-                    const isArrival = !isDepartureOnly || isRoundTrip;
+                    if (!esLlegada && !esSalida && !esRedondo) return null;
 
                     return (
-                      <div key={idx} className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8">
-
+                      <div key={idx} className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mt-8 animate-fade-in">
                         <h2 className="text-xl font-black text-[#0f285e] mb-6 flex items-center gap-2 tracking-tight">
                           <Plane className="text-blue-600" size={24} /> {isEs ? 'Información de Vuelos' : 'Flight Information'}
                         </h2>
 
-                        {/* ETIQUETA GRIS DEL SERVICIO */}
                         <div className="inline-block bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg mb-5">
                           <span className="text-[13px] font-medium text-slate-500">{item.titulo}{item.subtitulo ? ` - ${item.subtitulo}` : ''}</span>
                         </div>
 
-                        {/* VUELO DE LLEGADA */}
-                        {isArrival && (
+                        {(esLlegada || esRedondo) && (
                           <div className="bg-[#f4f8ff] border border-blue-100/60 rounded-2xl p-6 mb-5 last:mb-0">
                             <h3 className="text-sm font-bold text-[#1e3a8a] flex items-center gap-2 mb-4">
                               <Plane className="rotate-90 text-blue-600" size={18} /> {isEs ? 'Vuelo de Llegada al Aeropuerto (SJD)' : 'Arrival Flight to Airport (SJD)'}
@@ -573,22 +582,21 @@ export default function CheckoutPage({ params }) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                               <div className="flex flex-col">
                                 <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                                <input type="text" name="aerolinea" value={formData.aerolinea} onChange={handleChange} placeholder={isEs ? "Ej. American Airlines" : "E.g. American Airlines"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                                <input type="text" value={vuelosData[item.id]?.aerolinea || ''} onChange={(e) => handleVueloChange(item.id, 'aerolinea', e.target.value)} placeholder={isEs ? "Ej. American Airlines" : "E.g. American Airlines"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                               </div>
                               <div className="flex flex-col">
                                 <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                                <input type="text" name="vuelo" value={formData.vuelo} onChange={handleChange} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                                <input type="text" value={vuelosData[item.id]?.vuelo || ''} onChange={(e) => handleVueloChange(item.id, 'vuelo', e.target.value)} placeholder={isEs ? "Ej. AA1234" : "E.g. AA1234"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                               </div>
                               <div className="flex flex-col">
                                 <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Aterrizaje' : 'Arrival Time'}</label>
-                                <input type="time" name="hora" value={formData.hora} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                                <input type="time" value={vuelosData[item.id]?.hora || ''} onChange={(e) => handleVueloChange(item.id, 'hora', e.target.value)} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                               </div>
                             </div>
                           </div>
                         )}
 
-                        {/* VUELO DE SALIDA + HORA DE PICK-UP */}
-                        {(isRoundTrip || isDepartureOnly) && (
+                        {(esSalida || esRedondo) && (
                           <div className="bg-[#fff9f0] border border-amber-100/60 rounded-2xl p-6 mb-5 last:mb-0">
                             <h3 className="text-sm font-bold text-amber-900 flex items-center gap-2 mb-4">
                               <Plane className="-rotate-45 text-amber-600" size={18} /> {isEs ? 'Vuelo de Salida desde Aeropuerto (SJD)' : 'Departure Flight from Airport (SJD)'}
@@ -596,19 +604,18 @@ export default function CheckoutPage({ params }) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                               <div className="flex flex-col">
                                 <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Aerolínea' : 'Airline'}</label>
-                                <input type="text" name="aerolineaSalida" value={formData.aerolineaSalida} onChange={handleChange} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                                <input type="text" value={vuelosData[item.id]?.aerolineaSalida || ''} onChange={(e) => handleVueloChange(item.id, 'aerolineaSalida', e.target.value)} placeholder={isEs ? "Ej. Delta" : "E.g. Delta"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                               </div>
                               <div className="flex flex-col">
                                 <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'No. de Vuelo' : 'Flight No.'}</label>
-                                <input type="text" name="vueloSalida" value={formData.vueloSalida} onChange={handleChange} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                                <input type="text" value={vuelosData[item.id]?.vueloSalida || ''} onChange={(e) => handleVueloChange(item.id, 'vueloSalida', e.target.value)} placeholder={isEs ? "Ej. DL5678" : "E.g. DL5678"} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                               </div>
                               <div className="flex flex-col">
                                 <label className="text-[12px] font-semibold text-slate-700 mb-1.5">{isEs ? 'Hora de Despegue' : 'Departure Time'}</label>
-                                <input type="time" name="horaSalida" value={formData.horaSalida} onChange={handleChange} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
+                                <input type="time" value={vuelosData[item.id]?.horaSalida || ''} onChange={(e) => handleVueloChange(item.id, 'horaSalida', e.target.value)} className="w-full p-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-amber-600/20 focus:border-amber-600 text-slate-700 font-medium text-sm transition-all shadow-sm" />
                               </div>
                             </div>
 
-                            {/* BLOQUE: HORA DE RECOGIDA (PICK-UP) */}
                             <div className="bg-white p-4 rounded-xl border border-amber-200/60 flex flex-col sm:flex-row sm:items-center gap-4 shadow-sm">
                               <div className="flex-1">
                                 <p className="text-[13px] font-bold text-slate-800">{isEs ? 'Hora de Pick-up sugerida' : 'Suggested Pick-up Time'}</p>
@@ -616,13 +623,7 @@ export default function CheckoutPage({ params }) {
                                   {isEs ? 'Te recomendamos estar listos 3 horas antes de tu vuelo. El chofer te contactará para confirmar.' : 'We recommend being ready 3 hours before your flight. The driver will contact you to confirm.'}
                                 </p>
                               </div>
-                              <input
-                                type="time"
-                                name="horaPickUp"
-                                value={formData.horaPickUp || ''}
-                                onChange={handleChange}
-                                className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm"
-                              />
+                              <input type="time" value={vuelosData[item.id]?.horaPickUp || ''} onChange={(e) => handleVueloChange(item.id, 'horaPickUp', e.target.value)} className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-slate-700 font-bold transition-all shadow-sm" />
                             </div>
                           </div>
                         )}
