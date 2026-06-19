@@ -369,7 +369,7 @@ export default function ContactPage({ params }) {
           <div className="flex flex-col items-center text-center group">
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white mb-5 group-hover:scale-105 transition-transform duration-500 ease-out">
               <img 
-                src="/dayana-ballard-tours-trafic-los-cabos-transportation-airport-private.webp" 
+                src="/dayana.png" 
                 alt="Dayana" 
                 className="w-full h-full object-cover" 
               />
