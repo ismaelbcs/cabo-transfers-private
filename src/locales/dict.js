@@ -69,6 +69,46 @@ export const dict = {
       whatsapp: "WhatsApp",
       rights: "All rights reserved."
     }
+    ,
+    agencies: {
+      title: "Travel Agencies",
+      desc: "Partner with us for exclusive benefits.",
+      heroTitle: "Let's work together.",
+      heroSubtitle: "Working with Travel Agencies is one of our top priorities and we would love to partner with you. That's why we offer a 20% discount on all our services.",
+      formInstruction: "Fill out your details and an agent will contact you immediately.",
+      agencyName: "Agency Name",
+      agencyEmail: "Agency Email",
+      howFoundUs: "How did you find us?",
+      comments: "Comments",
+      send: "Send Request",
+      sending: "Sending...",
+      success: "Request sent successfully! We will contact you soon."
+    },
+    weddings: {
+      title: "Weddings & Events",
+      desc: "Everything for your special day in Cabo.",
+      heroTitle: "Your Perfect Cabo Wedding.",
+      heroSubtitle: "We go beyond just transfers. We can offer everything for your wedding or your clients' wedding, from transportation, photographer, makeup artist, and more...",
+      formInstruction: "Fill out this form so we don't miss a single detail of your big day.",
+      coupleName: "Couple's or Planner's Name",
+      email: "Email Address",
+      phone: "Phone (WhatsApp)",
+      date: "Event Date",
+      venue: "Ceremony / Reception Venue",
+      guests: "Estimated Guests Needing Transport",
+      servicesTitle: "Additional Services of Interest",
+      services: {
+        guestTransport: "Guest Transportation",
+        vipTransport: "VIP Transport for the Couple",
+        photoVideo: "Photography & Video",
+        makeup: "Hair & Makeup",
+        tours: "Pre/Post Wedding Tours"
+      },
+      vision: "Tell us more about your vision / Additional comments",
+      send: "Request Wedding Info",
+      sending: "Sending...",
+      success: "Request received! A wedding specialist will reach out soon."
+    }
   },
   es: {
     seoTitle: "Transporte Privado y Shuttles en Los Cabos | Reserva Online",
@@ -137,6 +177,46 @@ export const dict = {
       callUs: "Llámanos",
       whatsapp: "WhatsApp",
       rights: "Todos los derechos reservados."
+    }
+    ,
+    agencies: {
+      title: "Agencias de Viajes",
+      desc: "Asóciate con nosotros y obtén descuentos.",
+      heroTitle: "Trabajemos juntos.",
+      heroSubtitle: "Trabajar con Agencias de viajes es una de nuestras prioridades y nos encantaría trabajar contigo. Por eso ofrecemos el 20% de descuento en todos nuestros servicios.",
+      formInstruction: "Llena tus datos y un agente te contactará de inmediato.",
+      agencyName: "Nombre de la Agencia",
+      agencyEmail: "Correo de la Agencia",
+      howFoundUs: "¿Cómo nos encontraste?",
+      comments: "Comentarios",
+      send: "Enviar Solicitud",
+      sending: "Enviando...",
+      success: "¡Solicitud enviada! Te contactaremos muy pronto."
+    },
+    weddings: {
+      title: "Bodas y Eventos",
+      desc: "Todo para tu día especial en Los Cabos.",
+      heroTitle: "Tu Boda Perfecta en Cabo.",
+      heroSubtitle: "Nosotros vamos más allá que solo traslados. Podemos ofrecerte todo para tu boda o la boda de tus clientes, desde transporte, fotógrafo, maquillista y más...",
+      formInstruction: "Llena este formulario para que no se nos pase ningún detalle.",
+      coupleName: "Nombre de los Novios u Organizador",
+      email: "Correo Electrónico",
+      phone: "Teléfono (WhatsApp)",
+      date: "Fecha exacta del evento",
+      venue: "Lugar de Ceremonia / Recepción",
+      guests: "Número estimado de invitados a transportar",
+      servicesTitle: "Servicios adicionales de interés",
+      services: {
+        guestTransport: "Transporte para invitados",
+        vipTransport: "Transporte VIP para los novios",
+        photoVideo: "Fotografía y Video",
+        makeup: "Maquillaje y Peinado",
+        tours: "Tours para invitados (Pre/Post Boda)"
+      },
+      vision: "Cuéntanos más sobre tu evento / Comentarios",
+      send: "Solicitar Info de Bodas",
+      sending: "Enviando...",
+      success: "¡Solicitud recibida! Un especialista en bodas te contactará pronto."
     }
   }
 };

@@ -2,11 +2,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Car, Info, Plus } from 'lucide-react';
+import { Car, Info, Plus, Briefcase, HeartHandshake } from 'lucide-react';
+import Link from 'next/link';
+import { dict } from '../locales/dict';
 import { useCart } from '../context/CartContext';
 import { useBooking } from '../context/BookingContext';
 
 export default function SpecialServices({ lang = 'es' }) {
+  const t = dict[lang] || dict['en'];
   const { agregarAlCombo } = useCart();
   const { 
     setSubCategoria, 
@@ -62,7 +65,7 @@ export default function SpecialServices({ lang = 'es' }) {
         <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 text-center mb-8">
           {lang === 'es' ? 'Servicios Especiales' : 'Special Services'}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           
           <div onClick={() => setVistaEspecial('cenas')} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer text-left group flex flex-col h-full">
             <div className="w-14 h-14 bg-blue-50 text-blue-900 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-2xl">🍽️</div>
@@ -87,6 +90,19 @@ export default function SpecialServices({ lang = 'es' }) {
             <h3 className="text-lg font-bold text-slate-900 mb-2">Campos de Golf</h3>
             <p className="text-sm text-slate-500 flex-grow">Transporte ida y vuelta a los mejores campos de Los Cabos.</p>
           </div>
+          <Link href={`/${lang}/agencies`} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer text-left group flex flex-col h-full relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+            <div className="w-14 h-14 bg-white/10 text-white rounded-xl flex items-center justify-center mb-4 group-hover:bg-white group-hover:text-slate-900 transition-colors"><Briefcase size={28} /></div>
+            <h3 className="text-lg font-bold text-white mb-2 relative z-10">{t.agencies.title}</h3>
+            <p className="text-sm text-slate-400 flex-grow relative z-10">{t.agencies.desc}</p>
+          </Link>
+
+          <Link href={`/${lang}/weddings`} className="bg-rose-50 border border-rose-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-rose-300 transition-all cursor-pointer text-left group flex flex-col h-full relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-200 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+            <div className="w-14 h-14 bg-rose-200 text-rose-700 rounded-xl flex items-center justify-center mb-4 group-hover:bg-rose-500 group-hover:text-white transition-colors"><HeartHandshake size={28} /></div>
+            <h3 className="text-lg font-bold text-slate-900 mb-2 relative z-10">{t.weddings.title}</h3>
+            <p className="text-sm text-slate-600 flex-grow relative z-10">{t.weddings.desc}</p>
+          </Link>
 
         </div>
       </div>
