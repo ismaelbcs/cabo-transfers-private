@@ -40,14 +40,9 @@ export default function TransportBookingForm({ lang = 'es' }) {
 
   const multiplicadorViaje = servicioSeleccionado === 'redondo' ? 2 : 1;
   const precioShopping = reserva.shoppingStop ? 30 : 0;
-
-  // 👇 NUEVA MATEMÁTICA DE DESCUENTO PARA AGENCIA 👇
-  const subtotalBase = (tarifaBase * multiplicadorViaje) + precioShopping;
-  let descuentoAgencia = 0;
-  if (currentUser?.role === 'agency') {
-    descuentoAgencia = subtotalBase * 0.20; // 20% de descuento automático
-  }
-  const totalReal = subtotalBase - descuentoAgencia;
+  
+  // Reemplaza la matemática por esta línea simple:
+  const totalReal = (tarifaBase * multiplicadorViaje) + precioShopping;
 
   const formularioCompleto = reserva.hotelId && reserva.fechaLlegada && (servicioSeleccionado !== 'redondo' || reserva.fechaSalida);
 

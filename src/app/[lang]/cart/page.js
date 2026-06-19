@@ -143,7 +143,7 @@ export default function CheckoutPage({ params }) {
 
   const router = useRouter();
   const { combo = [], eliminarDelCombo, vaciarCombo } = useCart();
-  const { appliedPromo } = useBooking();
+  const { appliedPromo, currentUser } = useBooking();
 
   const [step, setStep] = useState(1);
   const [confirmNumber, setConfirmNumber] = useState('');
@@ -277,9 +277,15 @@ export default function CheckoutPage({ params }) {
   // 🧮 LÓGICA DE MATEMÁTICAS CON CUPONES INCLUIDOS
   // =========================================================
   const subtotal = combo?.reduce((acc, item) => acc + (item.precio || 0), 0) || 0;
+
+  const esAgencia = currentUser?.role === 'agency';
+  const descuentoAgenciaPorcentaje = esAgencia ? (Number(currentUser?.descuento) || 20) : 0;
+
   const descuentoPorcentajePromo = appliedPromo ? Number(appliedPromo.porcentaje_descuento || appliedPromo.descuento || 0) : 0;
   const cuponesDescuento = cuponesAplicados.reduce((acc, c) => acc + (Number(c.descuento) || 10), 0);
-  const descuentoPorcentaje = descuentoPorcentajePromo + cuponesDescuento;
+
+  // Si es agencia, toma su descuento del 20%. Si no, toma la suma de los cupones que haya escrito.
+  const descuentoPorcentaje = esAgencia ? descuentoAgenciaPorcentaje : (descuentoPorcentajePromo + cuponesDescuento);
   const cantidadDescontada = subtotal * (descuentoPorcentaje / 100);
   const granTotalFinal = Math.max(0, subtotal - cantidadDescontada);
 
@@ -305,7 +311,7 @@ export default function CheckoutPage({ params }) {
         idioma: lang,
         estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
         cliente: datosFinalesCliente,
-        servicios: comboFinalConVuelos, 
+        servicios: comboFinalConVuelos,
         total: granTotalFinal,
         descuentoAplicado: descuentoPorcentaje,
         cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
@@ -566,13 +572,13 @@ export default function CheckoutPage({ params }) {
 
                     // 1. Extraemos el hotel y armamos la etiqueta exacta
                     const hotelNombre = item.config?.hotelId || item.config?.hotel || item.extrasEspeciales?.hotelOrigen || '';
-                    
+
                     // Armamos el texto uniendo Titulo - Hotel - Subtitulo (Vehículo)
                     let tagParts = [];
                     if (item.titulo) tagParts.push(item.titulo);
                     if (hotelNombre) tagParts.push(hotelNombre);
                     if (item.subtitulo) tagParts.push(item.subtitulo);
-                    
+
                     const tagText = tagParts.join(' - ');
 
                     return (
@@ -696,7 +702,18 @@ export default function CheckoutPage({ params }) {
                           </button>
                         </div>
 
-                        {hasAnyDiscount ? (
+                        {esAgencia ? (
+                          <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
+                            <div className="flex justify-between items-center">
+                              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-blue-600 text-white tracking-widest">
+                                {isEs ? 'DESCUENTO DE AGENCIA' : 'AGENCY DISCOUNT'}
+                              </span>
+                              <span className="font-bold text-emerald-400 text-sm">
+                                -${cantidadDescontada.toFixed(2)}
+                              </span>
+                            </div>
+                          </div>
+                        ) : hasAnyDiscount ? (
                           <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
                             {appliedPromo && (
                               <div className="flex justify-between items-center">

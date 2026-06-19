@@ -53,15 +53,8 @@ export default function TourBookingForm({ lang = 'es' }) {
       }
     }
 
-    // 👇 NUEVA MATEMÁTICA DE DESCUENTO PARA AGENCIA 👇
-    let descuentoAgencia = 0;
-    if (currentUser?.role === 'agency') {
-      descuentoAgencia = subtotal * 0.20; // 20% de descuento automático
-    }
-    const totalFinal = subtotal - descuentoAgencia;
-
-    return { total: totalFinal };
-  }, [reserva.participantes, tr, currentUser]);
+    return { total: subtotal };
+  }, [reserva.participantes, tr]);
 
   const handleAddToCart = () => {
     agregarAlCombo({
