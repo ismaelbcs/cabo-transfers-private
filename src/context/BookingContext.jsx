@@ -15,7 +15,7 @@ export function BookingProvider({ children }) {
   const [subCategoria, setSubCategoria] = useState('');
   const [vistaEspecial, setVistaEspecial] = useState(null);
   const [imagenTourDestacada, setImagenTourDestacada] = useState('');
-  
+
   // 🏨 NUEVO: Estado para guardar el nombre del hotel precargado en el buscador del Home
   const [busquedaHotelPrincipal, setBusquedaHotelPrincipal] = useState('');
 
@@ -156,9 +156,9 @@ export function BookingProvider({ children }) {
           setShowAuthModal(false);
           setAuthForm({ nombre: '', email: '', password: '' });
 
-          if (user.descuento_agencia) {
-            setAppliedPromo({ codigo: "AGENCY_DISCOUNT", porcentaje_descuento: user.descuento_agencia });
-          } else if (pendingPromoCode) {
+          // FIX: Ya no inyectamos "AGENCY_DISCOUNT" a appliedPromo para evitar doble descuento en el carrito.
+          // Solo procesamos un código pendiente si es un cliente normal que se logueó después de meter un cupón.
+          if (!user.descuento_agencia && pendingPromoCode) {
             procesarCodigo(pendingPromoCode, userData, currentLang);
             setPendingPromoCode('');
           }
@@ -178,7 +178,6 @@ export function BookingProvider({ children }) {
           return;
         }
 
-        const fechaActual = new Date();
         const docIdUsuario = `${authForm.nombre.replace(/\s+/g, '').toLowerCase()}${Date.now()}`;
 
         await setDoc(doc(db, "Usuarios", docIdUsuario), {
@@ -221,7 +220,7 @@ export function BookingProvider({ children }) {
     try {
       const emailUsuario = String(userLogueado.email || userLogueado.correo || "").trim().toLowerCase();
       const codigoLimpio = String(codigo).trim().toUpperCase();
-      
+
       const qHistorial = query(collection(db, "cupones_usados"), where("correo", "==", emailUsuario), where("codigo", "==", codigoLimpio));
       const historialSnap = await getDocs(qHistorial);
 
@@ -243,7 +242,7 @@ export function BookingProvider({ children }) {
 
       setAppliedPromo(dataResult);
       setShowPromoModal(false);
-      
+
       toast.success(currentLang === 'es' ? `¡Código ${codigoLimpio} Activado!` : `Code ${codigoLimpio} Activated!`, {
         description: currentLang === 'es' ? 'El descuento se verá reflejado en tu checkout.' : 'The discount will reflect automatically on checkout.',
         duration: 4000,
@@ -259,7 +258,7 @@ export function BookingProvider({ children }) {
       paso, setPaso, servicioSeleccionado, setServicioSeleccionado,
       subCategoria, setSubCategoria, vistaEspecial, setVistaEspecial,
       imagenTourDestacada, setImagenTourDestacada, reserva, setReserva,
-      busquedaHotelPrincipal, setBusquedaHotelPrincipal, 
+      busquedaHotelPrincipal, setBusquedaHotelPrincipal,
       lightboxAbierto, setLightboxAbierto, // <-- FIX: Agregados al value
       lightboxIndice, setLightboxIndice,   // <-- FIX: Agregados al value
       handleParticipanteChange, puedeAvanzarPaso2,

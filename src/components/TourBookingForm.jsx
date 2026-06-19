@@ -19,7 +19,8 @@ export default function TourBookingForm({ lang = 'es' }) {
     puedeAvanzarPaso2,
     setPaso,
     setLightboxAbierto,
-    setLightboxIndice
+    setLightboxIndice,
+    currentUser
   } = useBooking();
 
   const router = useRouter();
@@ -52,8 +53,15 @@ export default function TourBookingForm({ lang = 'es' }) {
       }
     }
 
-    return { total: subtotal };
-  }, [reserva.participantes, tr]);
+    // 👇 NUEVA MATEMÁTICA DE DESCUENTO PARA AGENCIA 👇
+    let descuentoAgencia = 0;
+    if (currentUser?.role === 'agency') {
+      descuentoAgencia = subtotal * 0.20; // 20% de descuento automático
+    }
+    const totalFinal = subtotal - descuentoAgencia;
+
+    return { total: totalFinal };
+  }, [reserva.participantes, tr, currentUser]);
 
   const handleAddToCart = () => {
     agregarAlCombo({
