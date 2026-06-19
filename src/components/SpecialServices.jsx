@@ -52,56 +52,69 @@ export default function SpecialServices({ lang = 'es' }) {
   };
 
   // ==========================================
-  // VISTA A: LAS 4 TARJETAS PRINCIPALES
+  // VISTA A: TARJETAS PRINCIPALES
   // ==========================================
   if (!vistaEspecial) {
     return (
-      <div className="w-full animate-fade-in max-w-5xl mx-auto px-4">
-        <div className="w-full mb-6 flex justify-start">
-          <button onClick={() => setSubCategoria('')} className="text-blue-600 font-bold flex items-center hover:text-blue-800 transition">
-            <span className="mr-2">←</span> {lang === 'es' ? 'Volver a Categorías' : 'Back to categories'}
-          </button>
-        </div>
-        <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 text-center mb-8">
+      <div className="w-full animate-fade-in">
+        <h2 className="text-xl md:text-2xl font-black text-slate-900 text-center mb-8">
           {lang === 'es' ? 'Servicios Especiales' : 'Special Services'}
         </h2>
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           
-          <div onClick={() => setVistaEspecial('cenas')} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer text-left group flex flex-col h-full">
-            <div className="w-14 h-14 bg-blue-50 text-blue-900 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-2xl">🍽️</div>
+          <div onClick={() => setVistaEspecial('cenas')} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-xl">🍽️</div>
             <h3 className="text-lg font-bold text-slate-900 mb-2">Cenas y Restaurantes</h3>
-            <p className="text-sm text-slate-500 flex-grow">Disfruta tu velada sin preocuparte por el volante.</p>
+            <p className="text-sm text-slate-500 flex-grow mb-6">Disfruta tu velada sin preocuparte por el volante.</p>
+            <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
+              {lang === 'es' ? 'Configurar Traslado' : 'Configure Transfer'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
           </div>
 
-          <div onClick={() => setVistaEspecial('nightlife')} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer text-left group flex flex-col h-full">
-            <div className="w-14 h-14 bg-blue-50 text-blue-900 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-2xl">🍸</div>
+          <div onClick={() => setVistaEspecial('nightlife')} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-xl">🍸</div>
             <h3 className="text-lg font-bold text-slate-900 mb-2">Nightlife</h3>
-            <p className="text-sm text-slate-500 flex-grow">Transporte seguro para disfrutar la vida nocturna de Los Cabos.</p>
+            <p className="text-sm text-slate-500 flex-grow mb-6">Transporte seguro para disfrutar la vida nocturna de Los Cabos.</p>
+            <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
+              {lang === 'es' ? 'Configurar Traslado' : 'Configure Transfer'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
           </div>
 
-          <div onClick={() => setVistaEspecial('hotel')} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer text-left group flex flex-col h-full">
-            <div className="w-14 h-14 bg-blue-50 text-blue-900 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><Car size={28} /></div>
+          <div onClick={() => setVistaEspecial('hotel')} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><Car size={20} /></div>
             <h3 className="text-lg font-bold text-slate-900 mb-2">Hotel a Hotel</h3>
-            <p className="text-sm text-slate-500 flex-grow">Cambia de resort con total comodidad y espacio para tu equipaje.</p>
+            <p className="text-sm text-slate-500 flex-grow mb-6">Cambia de resort con comodidad y espacio para tu equipaje.</p>
+            <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
+              {lang === 'es' ? 'Configurar Traslado' : 'Configure Transfer'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
           </div>
 
-          <div onClick={() => setVistaEspecial('golf')} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer text-left group flex flex-col h-full">
-            <div className="w-14 h-14 bg-blue-50 text-blue-900 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-2xl">⛳</div>
+          <div onClick={() => setVistaEspecial('golf')} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-xl">⛳</div>
             <h3 className="text-lg font-bold text-slate-900 mb-2">Campos de Golf</h3>
-            <p className="text-sm text-slate-500 flex-grow">Transporte ida y vuelta a los mejores campos de Los Cabos.</p>
+            <p className="text-sm text-slate-500 flex-grow mb-6">Transporte ida y vuelta a los mejores campos de Los Cabos.</p>
+            <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
+              {lang === 'es' ? 'Configurar Traslado' : 'Configure Transfer'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
           </div>
-          <Link href={`/${lang}/agencies`} className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer text-left group flex flex-col h-full relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-            <div className="w-14 h-14 bg-white/10 text-white rounded-xl flex items-center justify-center mb-4 group-hover:bg-white group-hover:text-slate-900 transition-colors"><Briefcase size={28} /></div>
-            <h3 className="text-lg font-bold text-white mb-2 relative z-10">{t.agencies.title}</h3>
-            <p className="text-sm text-slate-400 flex-grow relative z-10">{t.agencies.desc}</p>
+
+          <Link href={`/${lang}/agencies`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><Briefcase size={20} /></div>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">{t.agencies?.title || 'Agencias de Viajes'}</h3>
+            <p className="text-sm text-slate-500 flex-grow mb-6">{t.agencies?.desc || 'Asóciate con nosotros y obtén descuentos.'}</p>
+            <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
+              {lang === 'es' ? 'Ver Información' : 'View Info'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
           </Link>
 
-          <Link href={`/${lang}/weddings`} className="bg-rose-50 border border-rose-100 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:border-rose-300 transition-all cursor-pointer text-left group flex flex-col h-full relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-200 rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
-            <div className="w-14 h-14 bg-rose-200 text-rose-700 rounded-xl flex items-center justify-center mb-4 group-hover:bg-rose-500 group-hover:text-white transition-colors"><HeartHandshake size={28} /></div>
-            <h3 className="text-lg font-bold text-slate-900 mb-2 relative z-10">{t.weddings.title}</h3>
-            <p className="text-sm text-slate-600 flex-grow relative z-10">{t.weddings.desc}</p>
+          <Link href={`/${lang}/weddings`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><HeartHandshake size={20} /></div>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">{t.weddings?.title || 'Bodas y Eventos'}</h3>
+            <p className="text-sm text-slate-500 flex-grow mb-6">{t.weddings?.desc || 'Todo para tu día especial en Los Cabos.'}</p>
+            <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
+              {lang === 'es' ? 'Ver Información' : 'View Info'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
           </Link>
 
         </div>

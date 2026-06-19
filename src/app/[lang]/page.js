@@ -184,20 +184,85 @@ export default function Home() {
       {/* ===== PASO 2: FLUJO DE TOURS Y ESPECIALES ===== */}
       {paso === 2 && servicioSeleccionado === 'tours' && (
         <section className="pt-24 pb-16 bg-slate-50 min-h-screen animate-fade-in">
-          {!subCategoria && !reserva.tourId && <ExperienceSelector lang={lang} />}
-          {subCategoria === 'especiales' && !reserva.tourId && <SpecialServices lang={lang} />}
-          {subCategoria === 'tours' && !reserva.tourId && (
-            <div className="max-w-7xl mx-auto px-4">
-              <button onClick={() => { setSubCategoria(''); window.scrollTo(0, 0); }} className="mb-10 text-sm font-bold text-slate-500 flex items-center gap-2 hover:text-slate-900 transition-colors">
-                <span className="text-lg leading-none">&larr;</span> {lang === 'es' ? 'Volver a categorías' : 'Back to categories'}
-              </button>
-              <FeaturedTours t={t} lang={lang} />
+          <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            {/* COLUMNA IZQUIERDA: TARJETA BLANCA DE CONTENIDO */}
+            <div className="lg:col-span-8 bg-white border border-slate-200 rounded-[2rem] p-6 md:p-10 shadow-sm">
+
+              {/* HEADER UNIVERSAL (Título de Brújula y Botón Atrás) */}
+              {!reserva.tourId && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-4">
+                    <Compass className="text-blue-600" />
+                    {lang === 'es' ? 'Selecciona una Experiencia' : 'Select an Experience'}
+                  </h2>
+                  {!subCategoria ? (
+                    <button onClick={() => { setServicioSeleccionado(''); setPaso(1); }} className="text-blue-600 font-bold text-sm hover:text-blue-800 transition flex items-center gap-1 w-max">
+                      &larr; {lang === 'es' ? 'Volver al inicio' : 'Back to home'}
+                    </button>
+                  ) : (
+                    <button onClick={() => setSubCategoria('')} className="text-blue-600 font-bold text-sm hover:text-blue-800 transition flex items-center gap-1 w-max">
+                      &larr; {lang === 'es' ? 'Volver a Categorías' : 'Back to Categories'}
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* RENDERIZADO DE LAS OPCIONES DENTRO DE LA TARJETA BLANCA */}
+              {!subCategoria && !reserva.tourId && <ExperienceSelector lang={lang} />}
+              {subCategoria === 'especiales' && !reserva.tourId && <SpecialServices lang={lang} />}
+              {subCategoria === 'tours' && !reserva.tourId && (
+                <div className="-mt-8"> {/* Ajuste para empujar los tours un poco arriba */}
+                  <FeaturedTours t={t} lang={lang} />
+                </div>
+              )}
+              {reserva.tourId && <TourBookingForm lang={lang} />}
             </div>
-          )}
-          {reserva.tourId && <TourBookingForm lang={lang} />}
+
+            {/* COLUMNA DERECHA: SIDEBAR RESUMEN DE COTIZACIÓN */}
+            <div className="lg:col-span-4 sticky top-28">
+              <div className="bg-[#0f172a] rounded-[2rem] p-8 text-white shadow-xl">
+                <h3 className="text-xl font-bold mb-6 border-b border-slate-700 pb-4">
+                  {lang === 'es' ? 'Resumen de Cotización' : 'Quote Summary'}
+                </h3>
+                <div className="space-y-4 mb-8">
+                  <div className="flex justify-between items-center text-sm font-bold text-slate-300 uppercase tracking-widest border-b border-slate-800 pb-2">
+                    <span>{lang === 'es' ? 'TOURS / ESPECIALES' : 'TOURS / SPECIALS'}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-slate-400">{lang === 'es' ? 'Pasajeros:' : 'Passengers:'}</span>
+                    <span className="font-bold">{reserva?.pasajeros || 1}</span>
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-700 pt-6 mb-8">
+                  <p className="text-xs text-slate-400 mb-1">{lang === 'es' ? 'Subtotal del Servicio (USD)' : 'Service Subtotal (USD)'}</p>
+                  <p className="text-4xl font-black">$0.00</p>
+                  <p className="text-xs text-slate-400 mt-2 flex items-center gap-1">
+                    <Check size={12} /> {lang === 'es' ? 'Impuestos incluidos' : 'Taxes included'}
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => {
+                      if (subCategoria) setSubCategoria('');
+                      else { setServicioSeleccionado(''); setPaso(1); }
+                    }}
+                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition flex-shrink-0"
+                  >
+                    &lt; {lang === 'es' ? 'Atrás' : 'Back'}
+                  </button>
+                  <button className="flex-1 bg-slate-800/50 text-slate-500 cursor-not-allowed rounded-xl font-bold transition flex items-center justify-center">
+                    {lang === 'es' ? 'Añadir a mi combo +' : 'Add to combo +'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </section>
       )}
-
       {/* ==============================================================
           SECCIONES DE CONTENIDO Y SEO (SÓLO VISIBLES EN EL PASO 1)
           ============================================================== */}
