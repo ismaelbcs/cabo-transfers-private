@@ -15,10 +15,10 @@ import {
   Clock,
   Calendar,
   Baby,
-  Briefcase, // <-- NUEVO
-  Heartz,
   Banknote,
-  Compass
+  Compass,
+  Briefcase, // <-- Agrega este
+  Heart      // <-- ¡Este es el que está causando el error!
 } from 'lucide-react';
 import { useBooking } from '../../context/BookingContext';
 import FeaturedTours from '../../components/FeaturedTours';
