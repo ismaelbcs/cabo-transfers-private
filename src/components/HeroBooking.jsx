@@ -95,12 +95,14 @@ export default function HeroBooking({ lang = 'es' }) {
   // =========================================================
   const avanzarPaso = (servicio) => {
 
-    if (servicio === 'experiencias') {
-      setServicioSeleccionado('experiencias');
-      router.push(`/${lang}/tours`);
-      return;
+    // Si hace clic en "Tours y Especiales", lo pasamos al Paso 2 PERO sin redirigir por URL
+    if (servicio === 'experiencias' || servicio === 'tours') {
+      setServicioSeleccionado('tours');
+      setPaso(2);
+      return; // Detenemos la función aquí para no ir a booking
     }
 
+    // Para transporte regular, validamos que haya llenado el formulario
     if (!reserva.hotelId || !reserva.vehiculo || !reserva.fechaLlegada || !reserva.pasajeros) {
       toast.error(
         lang === 'es'
@@ -112,8 +114,6 @@ export default function HeroBooking({ lang = 'es' }) {
 
     setServicioSeleccionado(servicio);
     setPaso(2); 
-    
-    // REDIRECCIÓN CORREGIDA: Vamos a la página de cotización, no al checkout final
     router.push(`/${lang}/booking`);
   };
 
@@ -927,7 +927,7 @@ export default function HeroBooking({ lang = 'es' }) {
 
                 {/* BOTÓN OSCURO DE EXPERIENCIAS */}
                 <button
-                  onClick={() => avanzarPaso('experiencias')}
+                  onClick={() => avanzarPaso('tours')}
                   className={`flex flex-col items-center justify-center rounded-2xl p-5 transition-all duration-300 group ${['experiencias', 'tours', 'especiales'].includes(servicioSeleccionado)
                       ? 'bg-slate-950 border-2 border-slate-900 shadow-[0_8px_30px_rgba(15,23,42,0.3)] scale-[1.02]'
                       : 'bg-slate-900 border border-slate-900 hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-900/20'
