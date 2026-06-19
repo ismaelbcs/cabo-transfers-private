@@ -408,7 +408,7 @@ export default function CheckoutPage({ params }) {
         cliente: datosFinalesCliente,
         servicios: comboFinalConVuelos,
         subtotal: subtotal,
-        descuentoAplicado: descuentoPorcentajeTotal,
+        descuentoAplicado: descuentoPorcentaje,
         totalPagado: granTotalFinal,
         cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
         fecha: new Date().toISOString()

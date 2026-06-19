@@ -145,11 +145,15 @@ export function BookingProvider({ children }) {
         }
 
         if (user) {
+          // Convertimos a número por seguridad. Si no existe, será 0.
+          const descuentoNumero = Number(user.descuento_agencia) || 0;
+
           const userData = {
             email: user.correo,
             nombre: user.nombre,
-            role: user.descuento_agencia ? 'agency' : 'client',
-            descuento: user.descuento_agencia || 0
+            // Si el descuento es mayor a 0, le damos rol de agencia
+            role: descuentoNumero > 0 ? 'agency' : 'client',
+            descuento: descuentoNumero
           };
 
           setCurrentUser(userData);
