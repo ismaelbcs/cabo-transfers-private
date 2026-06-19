@@ -33,7 +33,7 @@ export function BookingProvider({ children }) {
   // --- 👥 NUEVOS ESTADOS DE AUTENTICACIÓN (BILINGÜE) ---
   const [currentUser, setCurrentUser] = useState(() => {
     if (typeof window !== 'undefined') {
-      const sesionGuardada = localStorage.getItem('sesionActual');
+      const sesionGuardada = localStorage.getItem('cabo_user'); // <--- CAMBIO AQUÍ
       return sesionGuardada ? JSON.parse(sesionGuardada) : null;
     }
     return null;
@@ -53,9 +53,9 @@ export function BookingProvider({ children }) {
   // Sincronizar sesión en LocalStorage
   useEffect(() => {
     if (currentUser) {
-      localStorage.setItem('sesionActual', JSON.stringify(currentUser));
+      localStorage.setItem('cabo_user', JSON.stringify(currentUser)); // <--- CAMBIO AQUÍ
     } else {
-      localStorage.removeItem('sesionActual');
+      localStorage.removeItem('cabo_user'); // <--- CAMBIO AQUÍ
     }
   }, [currentUser]);
 
