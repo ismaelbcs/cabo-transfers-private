@@ -15,6 +15,8 @@ import {
   Clock,
   Calendar,
   Baby,
+  Briefcase, // <-- NUEVO
+  Heartz,
   Banknote,
   Compass
 } from 'lucide-react';
@@ -168,8 +170,38 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative z-30 w-full">
-            <HeroBooking t={t} lang={lang} />
+          {/* ===== CONTENEDOR HERO + NUEVOS BOTONES LATERALES ===== */}
+          <div className="relative z-30 w-full max-w-[90rem] mx-auto flex flex-col xl:flex-row items-center xl:items-start justify-center gap-6 px-4">
+            
+            {/* El recuadro blanco original (HeroBooking) */}
+            <div className="w-full xl:w-[70%]">
+              <HeroBooking t={t} lang={lang} />
+            </div>
+
+            {/* NUEVOS BOTONES DE AGENCIA Y BODAS CON ANIMACIONES TIPO EMIL KOWALSKI */}
+            <div className="flex flex-col w-full sm:flex-row xl:flex-col xl:w-[30%] gap-4 xl:mt-0">
+              
+              {/* Botón Agencia de Viajes */}
+              <button className="group relative overflow-hidden bg-white/5 hover:bg-white/10 active:scale-[0.98] backdrop-blur-xl border border-white/10 text-white w-full px-6 py-5 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] flex items-center justify-center xl:justify-start gap-4 cursor-pointer">
+                <div className="bg-white/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-blue-500/20 transition-all duration-300 ease-out">
+                  <Briefcase className="w-5 h-5 text-blue-300" />
+                </div>
+                <span className="text-base tracking-wide">{lang === 'es' ? 'Agencias de Viajes' : 'Travel Agencies'}</span>
+                {/* Animación Shimmer Refinada */}
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
+              </button>
+
+              {/* Botón Bodas */}
+              <button className="group relative overflow-hidden bg-pink-500/5 hover:bg-pink-500/10 active:scale-[0.98] backdrop-blur-xl border border-pink-500/20 text-white w-full px-6 py-5 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(236,72,153,0.12)] flex items-center justify-center xl:justify-start gap-4 cursor-pointer">
+                <div className="bg-pink-500/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-pink-500/20 transition-all duration-300 ease-out">
+                  <Heart className="w-5 h-5 text-pink-400 group-hover:fill-pink-400/50 transition-all duration-300 ease-out" />
+                </div>
+                <span className="text-base tracking-wide">{lang === 'es' ? 'Bodas y Eventos' : 'Weddings & Events'}</span>
+                {/* Animación Shimmer Refinada */}
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-pink-400/10 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
+              </button>
+
+            </div>
           </div>
         </section>
       )}
