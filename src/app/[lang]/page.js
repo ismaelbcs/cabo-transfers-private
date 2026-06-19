@@ -170,43 +170,67 @@ export default function Home() {
             </p>
           </div>
 
-          {/* ===== CONTENEDOR HERO + NUEVOS BOTONES LATERALES ===== */}
-          <div className="relative z-30 w-full max-w-[85rem] mx-auto flex flex-col xl:flex-row items-center xl:items-start justify-center gap-2 px-4">
-            
+          {/* ===== CONTENEDOR HERO + PANEL LATERAL DE SERVICIOS ===== */}
+          <div className="relative z-30 w-full max-w-[85rem] mx-auto flex flex-col xl:flex-row items-center xl:items-start justify-center gap-6 px-4">
+
             {/* El recuadro blanco original (HeroBooking) */}
-            <div className="w-full xl:w-[75%]">
+            <div className="w-full xl:w-[72%]">
               <HeroBooking t={t} lang={lang} />
             </div>
 
-            {/* NUEVOS ENLACES DE AGENCIA Y BODAS */}
-            <div className="flex flex-col w-full sm:flex-row xl:flex-col xl:w-[25%] gap-2 xl:mt-0">
-              
-              {/* Enlace Agencia de Viajes */}
-              <Link 
-                href={`/${lang}/agencies`}
-                className="group relative overflow-hidden bg-white/10 hover:bg-white/15 active:scale-[0.98] backdrop-blur-xl border border-white/10 text-white w-full px-6 py-5 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] flex items-center justify-center xl:justify-start gap-4 cursor-pointer"
-              >
-                <div className="bg-white/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-blue-500/20 transition-all duration-300 ease-out">
-                  <Briefcase className="w-5 h-5 text-blue-300" />
-                </div>
-                <span className="text-base tracking-wide">{lang === 'es' ? 'Agencias de Viajes' : 'Travel Agencies'}</span>
-                {/* Animación Shimmer */}
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
-              </Link>
+            {/* NUEVO PANEL LATERAL (Agrupa los botones para que no se vean sueltos) */}
+            <div className="w-full xl:w-[28%] flex flex-col xl:mt-0">
+              <div className="bg-slate-950/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 sm:p-8 flex flex-col shadow-2xl w-full">
 
-              {/* Enlace Bodas */}
-              <Link 
-                href={`/${lang}/weddings`}
-                className="group relative overflow-hidden bg-pink-500/10 hover:bg-pink-500/15 active:scale-[0.98] backdrop-blur-xl border border-pink-500/20 text-white w-full px-6 py-5 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(236,72,153,0.12)] flex items-center justify-center xl:justify-start gap-4 cursor-pointer"
-              >
-                <div className="bg-pink-500/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-pink-500/20 transition-all duration-300 ease-out">
-                  <Heart className="w-5 h-5 text-pink-400 group-hover:fill-pink-400/50 transition-all duration-300 ease-out" />
+                {/* Encabezado del Panel */}
+                <div className="mb-6 text-center xl:text-left border-b border-white/10 pb-4">
+                  <h3 className="text-white font-bold text-xl mb-1">
+                    {lang === 'es' ? 'Servicios Exclusivos' : 'Exclusive Services'}
+                  </h3>
+                  <p className="text-slate-300 text-sm font-medium">
+                    {lang === 'es' ? 'Descubre opciones premium' : 'Discover premium options'}
+                  </p>
                 </div>
-                <span className="text-base tracking-wide">{lang === 'es' ? 'Bodas y Eventos' : 'Weddings & Events'}</span>
-                {/* Animación Shimmer */}
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-pink-400/10 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
-              </Link>
 
+                {/* Contenedor de los Botones */}
+                <div className="flex flex-col sm:flex-row xl:flex-col gap-4">
+
+                  {/* Enlace Agencia de Viajes */}
+                  <Link
+                    href={`/${lang}/agencies`}
+                    className="group relative overflow-hidden bg-white/5 hover:bg-white/15 active:scale-[0.98] border border-white/10 text-white w-full px-5 py-4 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] flex items-center gap-4 cursor-pointer"
+                  >
+                    <div className="bg-white/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-blue-500/30 transition-all duration-300 ease-out shrink-0">
+                      <Briefcase className="w-5 h-5 text-blue-300" />
+                    </div>
+                    <span className="text-sm sm:text-base tracking-wide flex-1 text-left">
+                      {lang === 'es' ? 'Agencias de Viajes' : 'Travel Agencies'}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+
+                    {/* Animación Shimmer */}
+                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
+                  </Link>
+
+                  {/* Enlace Bodas */}
+                  <Link
+                    href={`/${lang}/weddings`}
+                    className="group relative overflow-hidden bg-pink-500/5 hover:bg-pink-500/15 active:scale-[0.98] border border-pink-500/20 text-white w-full px-5 py-4 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(236,72,153,0.12)] flex items-center gap-4 cursor-pointer"
+                  >
+                    <div className="bg-pink-500/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-pink-500/30 transition-all duration-300 ease-out shrink-0">
+                      <Heart className="w-5 h-5 text-pink-400 group-hover:fill-pink-400/50 transition-all duration-300 ease-out" />
+                    </div>
+                    <span className="text-sm sm:text-base tracking-wide flex-1 text-left">
+                      {lang === 'es' ? 'Bodas y Eventos' : 'Weddings & Events'}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-pink-400/40 group-hover:text-pink-400 group-hover:translate-x-1 transition-all shrink-0" />
+
+                    {/* Animación Shimmer */}
+                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-pink-400/10 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
+                  </Link>
+
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -223,10 +247,10 @@ export default function Home() {
       {paso === 2 && servicioSeleccionado === 'tours' && (
         <section className="pt-24 pb-16 bg-slate-50 min-h-screen animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
+
             {/* COLUMNA IZQUIERDA: TARJETA BLANCA DE CONTENIDO */}
             <div className="lg:col-span-8 bg-white border border-slate-200 rounded-[2rem] p-6 md:p-10 shadow-sm">
-              
+
               {/* HEADER UNIVERSAL (Título de Brújula y Botón Atrás) */}
               {!reserva.tourId && (
                 <div className="mb-8 border-b border-slate-100 pb-6">
@@ -235,7 +259,7 @@ export default function Home() {
                     {lang === 'es' ? 'Selecciona una Experiencia' : 'Select an Experience'}
                   </h2>
                   {!subCategoria ? (
-                    <button onClick={() => { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0,0); }} className="text-blue-600 font-bold text-sm hover:text-blue-800 transition flex items-center gap-1 w-max">
+                    <button onClick={() => { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0, 0); }} className="text-blue-600 font-bold text-sm hover:text-blue-800 transition flex items-center gap-1 w-max">
                       &larr; {lang === 'es' ? 'Volver al inicio' : 'Back to home'}
                     </button>
                   ) : (
@@ -272,7 +296,7 @@ export default function Home() {
                     <span className="font-bold">{reserva?.pasajeros || 1}</span>
                   </div>
                 </div>
-                
+
                 <div className="border-t border-slate-700 pt-6 mb-8">
                   <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">
                     {lang === 'es' ? 'Subtotal del Servicio (USD)' : 'Service Subtotal (USD)'}
@@ -282,13 +306,13 @@ export default function Home() {
                     <Check size={14} className="text-green-500" /> {lang === 'es' ? 'Impuestos incluidos' : 'Taxes included'}
                   </p>
                 </div>
-                
+
                 <div className="flex gap-4">
-                  <button 
+                  <button
                     onClick={() => {
-                      if(subCategoria) setSubCategoria('');
-                      else { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0,0); }
-                    }} 
+                      if (subCategoria) setSubCategoria('');
+                      else { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0, 0); }
+                    }}
                     className="px-6 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition flex-shrink-0"
                   >
                     &lt; {lang === 'es' ? 'Atrás' : 'Back'}
