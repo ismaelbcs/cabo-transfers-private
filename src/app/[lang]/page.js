@@ -185,19 +185,19 @@ export default function Home() {
       {paso === 2 && servicioSeleccionado === 'tours' && (
         <section className="pt-24 pb-16 bg-slate-50 min-h-screen animate-fade-in">
           <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
+            
             {/* COLUMNA IZQUIERDA: TARJETA BLANCA DE CONTENIDO */}
             <div className="lg:col-span-8 bg-white border border-slate-200 rounded-[2rem] p-6 md:p-10 shadow-sm">
-
+              
               {/* HEADER UNIVERSAL (Título de Brújula y Botón Atrás) */}
               {!reserva.tourId && (
-                <div className="mb-8">
+                <div className="mb-8 border-b border-slate-100 pb-6">
                   <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-4">
-                    <Compass className="text-blue-600" />
+                    <Compass className="text-blue-900" size={28} />
                     {lang === 'es' ? 'Selecciona una Experiencia' : 'Select an Experience'}
                   </h2>
                   {!subCategoria ? (
-                    <button onClick={() => { setServicioSeleccionado(''); setPaso(1); }} className="text-blue-600 font-bold text-sm hover:text-blue-800 transition flex items-center gap-1 w-max">
+                    <button onClick={() => { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0,0); }} className="text-blue-600 font-bold text-sm hover:text-blue-800 transition flex items-center gap-1 w-max">
                       &larr; {lang === 'es' ? 'Volver al inicio' : 'Back to home'}
                     </button>
                   ) : (
@@ -208,21 +208,21 @@ export default function Home() {
                 </div>
               )}
 
-              {/* RENDERIZADO DE LAS OPCIONES DENTRO DE LA TARJETA BLANCA */}
+              {/* RENDERIZADO DEL CONTENIDO DENTRO DE LA TARJETA BLANCA */}
               {!subCategoria && !reserva.tourId && <ExperienceSelector lang={lang} />}
               {subCategoria === 'especiales' && !reserva.tourId && <SpecialServices lang={lang} />}
               {subCategoria === 'tours' && !reserva.tourId && (
-                <div className="-mt-8"> {/* Ajuste para empujar los tours un poco arriba */}
+                <div className="-mt-8"> {/* Empuja los tours un poco hacia arriba para que se vean bien en la caja */}
                   <FeaturedTours t={t} lang={lang} />
                 </div>
               )}
               {reserva.tourId && <TourBookingForm lang={lang} />}
             </div>
 
-            {/* COLUMNA DERECHA: SIDEBAR RESUMEN DE COTIZACIÓN */}
+            {/* COLUMNA DERECHA: SIDEBAR NEGRO (Resumen de Cotización) */}
             <div className="lg:col-span-4 sticky top-28">
               <div className="bg-[#0f172a] rounded-[2rem] p-8 text-white shadow-xl">
-                <h3 className="text-xl font-bold mb-6 border-b border-slate-700 pb-4">
+                <h3 className="text-xl font-black mb-6 border-b border-slate-700 pb-4">
                   {lang === 'es' ? 'Resumen de Cotización' : 'Quote Summary'}
                 </h3>
                 <div className="space-y-4 mb-8">
@@ -234,26 +234,28 @@ export default function Home() {
                     <span className="font-bold">{reserva?.pasajeros || 1}</span>
                   </div>
                 </div>
-
+                
                 <div className="border-t border-slate-700 pt-6 mb-8">
-                  <p className="text-xs text-slate-400 mb-1">{lang === 'es' ? 'Subtotal del Servicio (USD)' : 'Service Subtotal (USD)'}</p>
+                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">
+                    {lang === 'es' ? 'Subtotal del Servicio (USD)' : 'Service Subtotal (USD)'}
+                  </p>
                   <p className="text-4xl font-black">$0.00</p>
-                  <p className="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                    <Check size={12} /> {lang === 'es' ? 'Impuestos incluidos' : 'Taxes included'}
+                  <p className="text-xs text-slate-400 mt-2 flex items-center font-medium gap-1">
+                    <Check size={14} className="text-green-500" /> {lang === 'es' ? 'Impuestos incluidos' : 'Taxes included'}
                   </p>
                 </div>
-
+                
                 <div className="flex gap-4">
-                  <button
+                  <button 
                     onClick={() => {
-                      if (subCategoria) setSubCategoria('');
-                      else { setServicioSeleccionado(''); setPaso(1); }
-                    }}
-                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition flex-shrink-0"
+                      if(subCategoria) setSubCategoria('');
+                      else { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0,0); }
+                    }} 
+                    className="px-6 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition flex-shrink-0"
                   >
                     &lt; {lang === 'es' ? 'Atrás' : 'Back'}
                   </button>
-                  <button className="flex-1 bg-slate-800/50 text-slate-500 cursor-not-allowed rounded-xl font-bold transition flex items-center justify-center">
+                  <button className="flex-1 py-4 bg-slate-800 text-slate-500 cursor-not-allowed rounded-xl font-bold transition flex items-center justify-center">
                     {lang === 'es' ? 'Añadir a mi combo +' : 'Add to combo +'}
                   </button>
                 </div>

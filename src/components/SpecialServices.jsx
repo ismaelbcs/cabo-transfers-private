@@ -54,6 +54,9 @@ export default function SpecialServices({ lang = 'es' }) {
   // ==========================================
   // VISTA A: TARJETAS PRINCIPALES
   // ==========================================
+  // ==========================================
+  // VISTA A: TARJETAS PRINCIPALES
+  // ==========================================
   if (!vistaEspecial) {
     return (
       <div className="w-full animate-fade-in">
@@ -99,23 +102,23 @@ export default function SpecialServices({ lang = 'es' }) {
             </div>
           </div>
 
-          <Link href={`/${lang}/agencies`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
-            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><Briefcase size={20} /></div>
-            <h3 className="text-lg font-bold text-slate-900 mb-2">{t.agencies?.title || 'Agencias de Viajes'}</h3>
-            <p className="text-sm text-slate-500 flex-grow mb-6">{t.agencies?.desc || 'Asóciate con nosotros y obtén descuentos.'}</p>
+          <a href={`/${lang}/agencies`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-xl">💼</div>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">Agencias de Viajes</h3>
+            <p className="text-sm text-slate-500 flex-grow mb-6">Asóciate con nosotros y obtén beneficios exclusivos.</p>
             <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
               {lang === 'es' ? 'Ver Información' : 'View Info'} <span className="text-lg leading-none">&rsaquo;</span>
             </div>
-          </Link>
+          </a>
 
-          <Link href={`/${lang}/weddings`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
-            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors"><HeartHandshake size={20} /></div>
-            <h3 className="text-lg font-bold text-slate-900 mb-2">{t.weddings?.title || 'Bodas y Eventos'}</h3>
-            <p className="text-sm text-slate-500 flex-grow mb-6">{t.weddings?.desc || 'Todo para tu día especial en Los Cabos.'}</p>
+          <a href={`/${lang}/weddings`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
+            <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-xl">💍</div>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">Bodas y Eventos</h3>
+            <p className="text-sm text-slate-500 flex-grow mb-6">Todo lo que necesitas para tu evento especial en Cabo.</p>
             <div className="text-blue-900 font-bold text-sm flex items-center justify-between group-hover:text-blue-600">
               {lang === 'es' ? 'Ver Información' : 'View Info'} <span className="text-lg leading-none">&rsaquo;</span>
             </div>
-          </Link>
+          </a>
 
         </div>
       </div>
