@@ -298,22 +298,26 @@ export default function WeddingsPage({ params }) {
           <div className="order-1 md:order-2">
             <FadeInSection delay={200}>
               <h2 className="text-4xl md:text-5xl font-serif text-stone-900 mb-6 leading-tight">
-                {t.philosophyTitle1} <br />
-                <span className="text-rose-500 italic">{t.philosophyTitle2}</span>
+                {lang === 'es' ? 'Cada detalle,' : 'Every detail,'} <br />
+                <span className="text-rose-500 italic">{lang === 'es' ? 'perfectamente ejecutado.' : 'perfectly executed.'}</span>
               </h2>
             </FadeInSection>
             <FadeInSection delay={400}>
               <p className="text-stone-600 text-lg leading-relaxed mb-8">
-                {t.philosophyP1}
+                {lang === 'es' 
+                  ? 'Sabemos que el día de tu boda es uno de los momentos más importantes de tu vida. Nuestro objetivo es quitarte el estrés de la logística para que tú y tus invitados solo se preocupen por disfrutar.' 
+                  : 'We know your wedding day is one of the most important moments of your life. Our goal is to take away the stress of logistics so you and your guests can just focus on enjoying.'}
               </p>
               <p className="text-stone-600 text-lg leading-relaxed mb-8">
-                {t.philosophyP2}
+                {lang === 'es' 
+                  ? 'Desde transporte de lujo que asegura llegadas puntuales y elegantes, hasta experiencias adicionales para quienes viajan de lejos.' 
+                  : 'From luxury transportation ensuring punctual and elegant arrivals, to additional experiences for those traveling from afar.'}
               </p>
             </FadeInSection>
             <FadeInSection delay={600}>
               <div className="flex items-center gap-4 text-stone-800 font-medium">
                 <div className="w-12 h-px bg-rose-300"></div>
-                {t.philosophyTag}
+                {lang === 'es' ? 'Tu visión, nuestra misión' : 'Your vision, our mission'}
               </div>
             </FadeInSection>
           </div>
@@ -337,10 +341,10 @@ export default function WeddingsPage({ params }) {
                   <img src="https://images.unsplash.com/photo-1533558701576-23c65e0272fb?auto=format&fit=crop&q=80&w=800" alt="Transport" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-stone-900/20 group-hover:bg-transparent transition-colors duration-300"></div>
                 </div>
-                <div className="p-8">
+                <div className="p-8 flex flex-col flex-grow">
                   <Car className="text-rose-400 mb-4" size={32} strokeWidth={1.5} />
-                  <h3 className="text-xl font-serif text-stone-900 mb-3">{t.serv1Title}</h3>
-                  <p className="text-stone-500 text-sm leading-relaxed">{t.serv1Desc}</p>
+                  <h3 className="text-xl font-serif text-stone-900 mb-3">{lang === 'es' ? 'Logística y Transporte' : 'Logistics & Transportation'}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed">{lang === 'es' ? 'Flotilla moderna y cómoda para trasladar a todos tus invitados desde el hotel hasta el altar, y de regreso a salvo.' : 'Modern and comfortable fleet to safely transport all your guests from the hotel to the altar, and back.'}</p>
                 </div>
               </div>
             </FadeInSection>
@@ -351,10 +355,10 @@ export default function WeddingsPage({ params }) {
                   <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&q=80&w=800" alt="VIP" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-stone-900/20 group-hover:bg-transparent transition-colors duration-300"></div>
                 </div>
-                <div className="p-8">
+                <div className="p-8 flex flex-col flex-grow">
                   <Sparkles className="text-rose-400 mb-4" size={32} strokeWidth={1.5} />
-                  <h3 className="text-xl font-serif text-stone-900 mb-3">{t.serv2Title}</h3>
-                  <p className="text-stone-500 text-sm leading-relaxed">{t.serv2Desc}</p>
+                  <h3 className="text-xl font-serif text-stone-900 mb-3">{lang === 'es' ? 'Atención VIP' : 'VIP Attention'}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed">{lang === 'es' ? 'Vehículos de lujo exclusivos para los novios. Un momento de paz, confort y privacidad antes y después del "Sí, acepto".' : "Exclusive luxury vehicles for the couple. A moment of peace, comfort, and privacy before and after the 'I do'."}</p>
                 </div>
               </div>
             </FadeInSection>
@@ -365,10 +369,10 @@ export default function WeddingsPage({ params }) {
                   <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&q=80&w=800" alt="Tours" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-stone-900/20 group-hover:bg-transparent transition-colors duration-300"></div>
                 </div>
-                <div className="p-8">
-                  <Map className="text-rose-400 mb-4" size={32} strokeWidth={1.5} />
-                  <h3 className="text-xl font-serif text-stone-900 mb-3">{t.serv3Title}</h3>
-                  <p className="text-stone-500 text-sm leading-relaxed">{t.serv3Desc}</p>
+                <div className="p-8 flex flex-col flex-grow">
+                  <Sparkles className="text-rose-400 mb-4" size={32} strokeWidth={1.5} />
+                  <h3 className="text-xl font-serif text-stone-900 mb-3">{lang === 'es' ? 'Atención VIP' : 'VIP Attention'}</h3>
+                  <p className="text-stone-500 text-sm leading-relaxed">{lang === 'es' ? 'Vehículos de lujo exclusivos para los novios. Un momento de paz, confort y privacidad antes y después del "Sí, acepto".' : "Exclusive luxury vehicles for the couple. A moment of peace, comfort, and privacy before and after the 'I do'."}</p>
                 </div>
               </div>
             </FadeInSection>
