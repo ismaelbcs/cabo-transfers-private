@@ -323,6 +323,65 @@ export default function ContactPage({ params }) {
         </div>
       </div>
 
+      {/* SECCIÓN DEL EQUIPO / TEAM SECTION */}
+      <div className="max-w-6xl mx-auto px-4 mb-16 animate-fade-in">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+            {lang === 'es' ? 'Conoce a nuestro equipo' : 'Meet our team'}
+          </h2>
+          <p className="text-slate-500 font-medium mt-2">
+            {lang === 'es' ? 'Las personas detrás de tu excelente experiencia.' : 'The people behind your excellent experience.'}
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          {/* Tania */}
+          <div className="flex flex-col items-center text-center group">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white mb-5 group-hover:scale-105 transition-transform duration-500 ease-out">
+              <img 
+                src="/tania-ballard-tours-trafic-los-cabos-transportation-airport-private.webp" 
+                alt="Tania" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Tania</h3>
+            <span className="text-[11px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+              {lang === 'es' ? 'Tráfico' : 'Traffic'}
+            </span>
+          </div>
+
+          {/* Alex */}
+          <div className="flex flex-col items-center text-center group">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white mb-5 group-hover:scale-105 transition-transform duration-500 ease-out">
+              <img 
+                src="/alex-ballard-tours-trafic-los-cabos-transportation-airport-private.webp" 
+                alt="Alex" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Alex</h3>
+            <span className="text-[11px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+              Call Center
+            </span>
+          </div>
+
+          {/* Dayana */}
+          <div className="flex flex-col items-center text-center group">
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-4 border-white mb-5 group-hover:scale-105 transition-transform duration-500 ease-out">
+              <img 
+                src="/dayana-ballard-tours-trafic-los-cabos-transportation-airport-private.webp" 
+                alt="Dayana" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Dayana</h3>
+            <span className="text-[11px] font-black text-blue-600 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+              {lang === 'es' ? 'Socia' : 'Partner'}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* PREGUNTAS FRECUENTES (SEO) */}
       <div className="max-w-6xl mx-auto px-4">
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60">
