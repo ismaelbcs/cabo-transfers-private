@@ -11,7 +11,8 @@ export default function ContactPage({ params }) {
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en';
 
-  const [formData, setFormData] = useState({ nombre: '', asunto: '', comentario: '' });
+  // 1. Agregamos 'email' al estado inicial
+  const [formData, setFormData] = useState({ nombre: '', email: '', asunto: '', comentario: '' });
   const [enviando, setEnviando] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const maxLength = 600;
@@ -33,6 +34,8 @@ export default function ContactPage({ params }) {
       formDesc: "Fill out the form below and our team will get back to you shortly.",
       nameLabel: "Name",
       namePh: "John Doe",
+      emailFormLabel: "Email", // Nuevo en Inglés
+      emailFormPh: "john@example.com", // Nuevo en Inglés
       subLabel: "Subject",
       subPh: "e.g. Airport Transfer Quote",
       msgLabel: "Message",
@@ -62,6 +65,8 @@ export default function ContactPage({ params }) {
       formDesc: "Llena el formulario y nuestro equipo te responderá a la brevedad.",
       nameLabel: "Nombre",
       namePh: "Juan Pérez",
+      emailFormLabel: "Email", // Nuevo en Español (O "Correo Electrónico", pero 'Email' es universal)
+      emailFormPh: "juan@ejemplo.com", // Nuevo en Español
       subLabel: "Asunto",
       subPh: "Ej. Cotización de traslado",
       msgLabel: "Mensaje",
@@ -93,6 +98,7 @@ export default function ContactPage({ params }) {
                 <h2 style="color: #111827; margin-top: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.5px;">Nuevo Mensaje Web</h2>
                 <div style="margin-top: 24px; margin-bottom: 24px; border-bottom: 1px solid #eaeaea; padding-bottom: 24px;">
                   <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Cliente:</strong> ${formData.nombre}</p>
+                  <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Correo:</strong> <a href="mailto:${formData.email}" style="color: #2563eb; text-decoration: none;">${formData.email}</a></p>
                   <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Asunto:</strong> ${formData.asunto}</p>
                 </div>
                 <h3 style="color: #111827; font-size: 14px; font-weight: 500; margin-bottom: 8px;">Mensaje:</h3>
@@ -105,7 +111,8 @@ export default function ContactPage({ params }) {
         }
       });
       setEnviado(true);
-      setFormData({ nombre: '', asunto: '', comentario: '' });
+      // Limpiamos también el campo email al terminar
+      setFormData({ nombre: '', email: '', asunto: '', comentario: '' });
       setTimeout(() => setEnviado(false), 5000);
     } catch (error) {
       console.error("Error al enviar el mensaje: ", error);
@@ -125,7 +132,7 @@ export default function ContactPage({ params }) {
       <title>{t.seoTitle}</title>
       <meta name="description" content={t.seoDesc} />
 
-      {/* HERO SECTION (Emil Style: Minimalist, clean typography, subtle image integration) */}
+      {/* HERO SECTION */}
       <div className="pt-32 pb-16 px-4 text-center max-w-3xl mx-auto">
         <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 tracking-tighter" style={{ letterSpacing: '-0.04em' }}>
           {t.title}
@@ -196,7 +203,7 @@ export default function ContactPage({ params }) {
             </div>
           </a>
 
-          {/* BANNER PREMIUM EN EL GRID (Emil Style Image Integration) */}
+          {/* BANNER PREMIUM EN EL GRID */}
           <div className="sm:col-span-2 relative rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 bg-slate-900 group min-h-[220px] flex items-end">
             <div className="absolute inset-0">
               <img 
@@ -242,6 +249,7 @@ export default function ContactPage({ params }) {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 
+                {/* Fila 1: Nombre y Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Nombre */}
                   <div>
@@ -260,21 +268,38 @@ export default function ContactPage({ params }) {
                     </div>
                   </div>
 
-                  {/* Asunto */}
+                  {/* Email */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">{t.subLabel}</label>
+                    <label className="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">{t.emailFormLabel}</label>
                     <div className="relative group">
-                      <BookOpen className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={16} />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={16} />
                       <input
-                        type="text"
-                        name="asunto"
+                        type="email"
+                        name="email"
                         required
-                        value={formData.asunto}
+                        value={formData.email}
                         onChange={handleChange}
-                        placeholder={t.subPh}
+                        placeholder={t.emailFormPh}
                         className="w-full bg-[#f9fafb] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3.5 text-slate-900 focus:bg-white focus:border-slate-300 focus:ring-4 focus:ring-slate-900/5 outline-none transition-all font-medium text-sm placeholder-slate-400"
                       />
                     </div>
+                  </div>
+                </div>
+
+                {/* Fila 2: Asunto */}
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-widest">{t.subLabel}</label>
+                  <div className="relative group">
+                    <BookOpen className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={16} />
+                    <input
+                      type="text"
+                      name="asunto"
+                      required
+                      value={formData.asunto}
+                      onChange={handleChange}
+                      placeholder={t.subPh}
+                      className="w-full bg-[#f9fafb] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3.5 text-slate-900 focus:bg-white focus:border-slate-300 focus:ring-4 focus:ring-slate-900/5 outline-none transition-all font-medium text-sm placeholder-slate-400"
+                    />
                   </div>
                 </div>
 
@@ -297,7 +322,7 @@ export default function ContactPage({ params }) {
                   ></textarea>
                 </div>
 
-                {/* Botón Enviar (Emil Style: Tactile, clean black button) */}
+                {/* Botón Enviar */}
                 <button
                   type="submit"
                   disabled={enviando}
