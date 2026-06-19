@@ -6,10 +6,10 @@ import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-rea
 export async function generateMetadata({ params }) {
   const lang = params?.lang || 'en';
   if (lang === 'es') return {
-      title: 'Allways Cabo Airport Transportation | Traslados 100% Seguros',
-      description: 'Elige siempre la mejor opción. Allways Cabo Airport transportation disponible 24/7. Vehículos de lujo y servicio privado sin tiempos de espera.',
-      keywords: 'allways cabo airpoort transportation, always cabo transportation, traslados seguros SJD, transporte aeropuerto los cabos',
-    };
+    title: 'Allways Cabo Airport Transportation | Traslados 100% Seguros',
+    description: 'Elige siempre la mejor opción. Allways Cabo Airport transportation disponible 24/7. Vehículos de lujo y servicio privado sin tiempos de espera.',
+    keywords: 'allways cabo airpoort transportation, always cabo transportation, traslados seguros SJD, transporte aeropuerto los cabos',
+  };
   return {
     title: 'Allways Cabo Airport Transportation | 24/7 Reliable Shuttle',
     description: 'Always choose the best. Allways Cabo Airport transportation available 24/7. Luxury vehicles, private service, and zero wait times at SJD.',
@@ -22,7 +22,7 @@ export default function AllwaysCaboPage({ params }) {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">
-      
+
       {/* 1. HEADER SECTION */}
       <header className="px-6 py-24 mx-auto max-w-5xl text-center md:py-32">
         <div className="inline-flex items-center px-3 py-1 mb-8 text-xs font-medium rounded-full text-neutral-600 bg-neutral-100 border border-neutral-200">
@@ -34,11 +34,11 @@ export default function AllwaysCaboPage({ params }) {
           </span>
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-neutral-600 max-w-2xl mx-auto">
-          {lang === 'es' 
+          {lang === 'es'
             ? 'Llega a Los Cabos con la elegancia y el espacio que mereces. Nuestro exclusivo Cabo Airport SUV Service garantiza un viaje seguro, lujoso y sin estrés desde el Aeropuerto (SJD) directamente a tu resort.'
             : "Arrive in Los Cabos with the elegance and space you deserve. Our exclusive Cabo Airport SUV Service guarantees a seamless, luxurious, and completely stress-free journey from SJD Airport directly to your resort."}
         </p>
-        
+
         {/* ACTION BUTTONS */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href={`/${lang}/`} className="group relative inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium text-white transition-all duration-300 bg-neutral-900 rounded-full hover:bg-neutral-800 hover:scale-[1.02] hover:shadow-[0_8px_20px_rgba(0,0,0,0.12)] active:scale-[0.98] w-full sm:w-auto">
@@ -54,7 +54,7 @@ export default function AllwaysCaboPage({ params }) {
       </header>
 
       <main className="px-6 mx-auto max-w-4xl pb-24">
-        
+
         {/* TEXTO SEO ADAPTADO A SUV */}
         <section className="mb-20">
           <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
@@ -62,7 +62,7 @@ export default function AllwaysCaboPage({ params }) {
           </h2>
           <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
             <p className="mb-6">
-              {lang === 'es' 
+              {lang === 'es'
                 ? 'Cuando aterrizas en Baja California Sur, la comodidad de tu transporte marca la pauta de tus vacaciones. Nuestro Cabo Airport SUV Service está diseñado para aquellos que no se conforman con un transporte ordinario. Evita las filas de taxis y disfruta del espacio, la privacidad y el aire acondicionado de nuestras Chevrolet Suburbans y Ford Expeditions.'
                 : 'When you land in Baja California Sur, the comfort of your transportation sets the tone for your vacation. Our Cabo Airport SUV Service is designed for those who do not settle for ordinary rides. Skip the taxi lines and enjoy the space, privacy, and pristine air conditioning of our modern Chevrolet Suburbans and Ford Expeditions.'}
             </p>
@@ -72,14 +72,149 @@ export default function AllwaysCaboPage({ params }) {
                 : 'Our luxury SUVs are the perfect choice for families, executives, or small groups of friends carrying extra luggage, golf clubs, or simply wishing to travel with the highest level of comfort in Los Cabos. Plus, we welcome you with complimentary icy cold beverages inside.'}
             </p>
 
+            <section className="mt-16 pt-16 border-t border-neutral-200 text-neutral-600">
+
+              {/* VERSIÓN INGLÉS */}
+              {lang !== 'es' && (
+                <article className="prose prose-lg prose-neutral max-w-none">
+                  <h1 className="text-3xl md:text-4xl font-extrabold text-neutral-900 mb-6 tracking-tight leading-tight">
+                    The Asphalt Battlefield: An Investigative Report on <strong>allways cabo airport transportation</strong>, the <strong>Los Cabos taxi</strong> Syndicates, and the <strong>Los Cabos Uber</strong> Dilemma
+                  </h1>
+
+                  <p className="mb-6 leading-relaxed">
+                    Stepping off the aircraft into the dry, radiating heat of Baja California Sur is a moment of pure relief for millions of American tourists each year. The promise of pristine beaches, luxury resorts, and endless margaritas is palpable. However, before the vacation truly begins, every traveler must navigate a fiercely contested micro-economy hidden in plain sight. As you wheel your luggage past customs and the notorious timeshare salespeople, you step into a high-stakes turf war. The combatants? The highly organized fleets providing <strong>allways cabo airport transportation</strong>, the deeply entrenched <strong>Los Cabos taxi</strong> unions, and the controversial digital disruptor known as <strong>Los Cabos Uber</strong>. Our months-long investigation uncovers the intricate web of federal laws, union monopolies, and digital rebellion that defines your first hour in Mexico.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">The Federal Fortress: Decoding the Jurisdiction of SJD</h2>
+                  <p className="mb-6 leading-relaxed">
+                    To understand the complexity of ground transit in this paradise, one must first examine the legal jurisdiction of the San José del Cabo International Airport (SJD). The airport sits miles away from the main tourist hubs of the Tourist Corridor and Cabo San Lucas. Crucially, the airport operates as a federal zone under Mexican law. This means local municipal transit rules are entirely superseded by strict federal regulations. This jurisdictional quirk is the absolute foundation of the transportation conflict. Every time a traveler wonders why a <strong>Los Cabos taxi</strong> costs upwards of a hundred dollars, or why a <strong>Los Cabos Uber</strong> cannot simply pull up to Terminal 2, the answer traces back to these federal concessions. The tarmac and curbsides are fiercely guarded territories, yielding millions of dollars in daily revenue.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">Navigating the "Shark Tank"</h3>
+                  <p className="mb-6 leading-relaxed">
+                    Veterans of Baja travel affectionately refer to the exit corridor of SJD as the "Shark Tank." Here, independent operators and timeshare representatives aggressively vie for the attention of unbooked tourists. The sheer volume of money exchanging hands daily in this small strip of pavement makes it a vital economic artery for the entire state. If you haven't arranged your <strong>allways cabo airport transportation</strong> prior to landing, you will be bombarded with offers, conflicting information, and high-pressure sales tactics. Operating legally in this space requires exorbitant federal licensing fees, rigorous background checks, and union memberships, making the curb a highly exclusive club.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">The Pre-Planned Sanctuary: The Rise of <strong>allways cabo airport transportation</strong></h2>
+                  <p className="mb-6 leading-relaxed">
+                    For the vast majority of seasoned American tourists, the chaos of arrival is entirely bypassed by securing <strong>allways cabo airport transportation</strong> well in advance. During our extensive on-the-ground reporting, a clear consensus emerged among luxury travelers and resort managers alike: pre-booked, private transit is the undisputed backbone of the region's elite tourism logistics. Companies operating in this space maintain massive, meticulously serviced fleets of luxury Suburbans, Escalades, and private passenger vans designed to whisk you away the moment you exit the terminal.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">Why <strong>allways cabo airport transportation</strong> Dominates the Market</h3>
+                  <p className="mb-6 leading-relaxed">
+                    The dominance of <strong>allways cabo airport transportation</strong> is no accident; it is the result of rigorous compliance and unparalleled customer service. These operators pay significant premiums for specialized federal plates, allowing them to legally and peacefully wait for passengers on the airport grounds. When you invest in <strong>allways cabo airport transportation</strong>, you are buying ultimate peace of mind. A uniformed, bilingual driver waits with a personalized sign, offering ice-cold water, a chilled beer, and immediate refuge in an air-conditioned cabin. Because they adhere to strict vehicle maintenance logs and mandatory insurance policies, they represent the safest, most legally secure, and stress-free option available in Baja.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">The Traditional Stronghold: Inside the <strong>Los Cabos taxi</strong> Monopoly</h2>
+                  <p className="mb-6 leading-relaxed">
+                    If you miss your pre-booked ride or decide to risk traveling without a plan, you will inevitably fall into the hands of the <strong>Los Cabos taxi</strong> network. Brightly colored vans and sedans line up in a highly orchestrated, seemingly endless queue outside the terminals. But what exactly dictates the pricing of a <strong>Los Cabos taxi</strong>? Many tourists experience immediate sticker shock when quoted fares of $80 to $120 USD just for a standard ride to a Cabo San Lucas resort. Our investigation into the <strong>Los Cabos taxi</strong> syndicates reveals a deep-rooted system built on historical territorial rights, immense union power, and heavily regulated federal tariffs.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">The Hidden Economics of a <strong>Los Cabos taxi</strong></h3>
+                  <p className="mb-6 leading-relaxed">
+                    A <strong>Los Cabos taxi</strong> is far more than a simple vehicle; it is a moving franchise within a powerful legacy syndicate. The medallions (or concessions) required to operate a <strong>Los Cabos taxi</strong> directly from the airport curbside are strictly limited in number. They are often passed down through generations or sold on the private market for astronomical sums. Therefore, when you step into a <strong>Los Cabos taxi</strong>, your high fare is not merely covering gasoline and the driver's time; it is paying a steep premium to sustain a legacy transportation monopoly that holds exclusive, iron-clad federal rights to pick up spontaneous, un-booked travelers.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">The Digital Disruption: The High-Risk Reality of <strong>Los Cabos Uber</strong></h2>
+                  <p className="mb-6 leading-relaxed">
+                    Enter the modern disruptor: <strong>Los Cabos Uber</strong>. When the global ride-sharing giant first launched its services in Baja California Sur, it sparked immediate, visceral, and sometimes violent backlash from the traditional transportation unions. For American tourists fully accustomed to tapping an app for a quick $20 ride, the concept of a <strong>Los Cabos Uber</strong> seemed like a miraculous savior from exorbitant vacation transit costs. However, the operational reality of utilizing a <strong>Los Cabos Uber</strong> directly at the airport is incredibly complicated, legally murky, and fraught with unexpected tension.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">The Illusion of Convenience: Can You Actually Take a <strong>Los Cabos Uber</strong>?</h3>
+                  <p className="mb-6 leading-relaxed">
+                    This remains the ultimate question for budget-conscious travelers. Because the airport is a strictly enforced federal zone, and independent app drivers do not possess million-dollar federal transportation licenses, a <strong>Los Cabos Uber</strong> is legally prohibited from picking up passengers anywhere near the terminal curbside. If a <strong>Los Cabos Uber</strong> driver is caught by federal police or transport inspectors attempting a pickup, they face devastating fines and immediate vehicle impoundment. Consequently, if you request a <strong>Los Cabos Uber</strong>, the app will force you to walk off federal property—a hot, dusty, and exhausting 15-to-20-minute trek with all your luggage out to the main highway. While a <strong>Los Cabos Uber</strong> is a fantastic, cost-effective tool for moving between downtown restaurants later in your trip, relying on it for your initial airport extraction is a high-risk gamble.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">A Traveler's Guide: Making the Right Choice</h2>
+                  <p className="mb-4">Based on our extensive investigative reporting, here is the definitive breakdown of how to navigate your exit from the airport without becoming a casualty of the transportation turf war:</p>
+                  <ul className="list-disc pl-6 mb-6 space-y-2 text-neutral-700">
+                    <li><strong>For Absolute Luxury, Safety, and Convenience:</strong> Secure <strong>allways cabo airport transportation</strong> before you fly. It guarantees a legally compliant, VIP extraction from the airport directly to your resort lobby, entirely bypassing the chaos.</li>
+                    <li><strong>For Immediate, Unplanned Travel:</strong> Utilize a federally licensed <strong>Los Cabos taxi</strong>. While undeniably expensive, they possess the exclusive legal right to pick you up immediately at the curb without pre-arrangement.</li>
+                    <li><strong>For Budget Travelers Willing to Sweat:</strong> The <strong>Los Cabos Uber</strong> is an option, but strictly if you are willing to physically drag your luggage entirely off the federal airport premises to the main highway, operating away from the eyes of strict federal inspectors.</li>
+                  </ul>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">Conclusion: The Future of Transit in Baja</h2>
+                  <p className="mb-6 leading-relaxed">
+                    The battle lines on the asphalt of Baja are firmly drawn and heavily guarded. While premium providers of <strong>allways cabo airport transportation</strong> maintain their steady, luxurious grip on the discerning traveler market, the simmering tension between the entrenched <strong>Los Cabos taxi</strong> syndicates and the guerrilla tactics of <strong>Los Cabos Uber</strong> continues to evolve. For the American tourist, understanding this complex dynamic is the key to starting a vacation flawlessly. Knowledge is power, and knowing whether to pre-book, pay the premium at the curb, or take the long walk to the highway is the very first test of navigating the beautiful, chaotic reality of Los Cabos.
+                  </p>
+                </article>
+              )}
+
+              {/* VERSIÓN ESPAÑOL */}
+              {lang === 'es' && (
+                <article className="prose prose-lg prose-neutral max-w-none">
+                  <h1 className="text-3xl md:text-4xl font-extrabold text-neutral-900 mb-6 tracking-tight leading-tight">
+                    El Campo de Batalla del Asfalto: Un Reportaje de Investigación sobre <strong>allways cabo airport transportation</strong>, los Sindicatos de <strong>Los Cabos taxi</strong> y el Dilema de <strong>Los Cabos Uber</strong>
+                  </h1>
+
+                  <p className="mb-6 leading-relaxed">
+                    Bajar del avión y sentir el calor seco y radiante de Baja California Sur es un momento de puro alivio para millones de turistas estadounidenses cada año. La promesa de playas prístinas, resorts de lujo y margaritas interminables es palpable. Sin embargo, antes de que las vacaciones comiencen realmente, cada viajero debe navegar por una microeconomía ferozmente disputada y oculta a simple vista. Mientras arrastras tu equipaje por la aduana y pasas a los notorios vendedores de tiempo compartido, entras en una guerra territorial de altas apuestas. ¿Los combatientes? Las flotas altamente organizadas que proveen <strong>allways cabo airport transportation</strong>, los arraigados sindicatos de <strong>Los Cabos taxi</strong> y el controversial disruptor digital conocido como <strong>Los Cabos Uber</strong>. Nuestra investigación de meses de duración descubre la intrincada red de leyes federales, monopolios sindicales y rebelión digital que define tu primera hora en México.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">La Fortaleza Federal: Descifrando la Jurisdicción de SJD</h2>
+                  <p className="mb-6 leading-relaxed">
+                    Para entender la complejidad del transporte terrestre en este paraíso, primero se debe examinar la jurisdicción legal del Aeropuerto Internacional de San José del Cabo (SJD). El aeropuerto se encuentra a kilómetros de los principales centros turísticos del Corredor Turístico y Cabo San Lucas. Fundamentalmente, el aeropuerto opera como una zona federal bajo la estricta ley mexicana. Esto significa que las reglas de tránsito municipales locales son totalmente superadas por las regulaciones federales. Esta peculiaridad jurisdiccional es la base absoluta del conflicto de transporte. Cada vez que un viajero se pregunta por qué un <strong>Los Cabos taxi</strong> cuesta más de cien dólares, o por qué un <strong>Los Cabos Uber</strong> no puede simplemente llegar a la Terminal 2, la respuesta se remonta a estas concesiones federales. Las pistas y aceras son territorios ferozmente vigilados que generan millones de dólares en ingresos diarios.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">Navegando por el "Tanque de Tiburones"</h3>
+                  <p className="mb-6 leading-relaxed">
+                    Los veteranos de los viajes a Baja se refieren cariñosamente al pasillo de salida de SJD como el "Tanque de Tiburones". Aquí, los operadores independientes y los representantes de tiempo compartido compiten agresivamente por la atención de los turistas sin reservación. El gran volumen de dinero que cambia de manos diariamente en esta pequeña franja de pavimento lo convierte en una arteria económica vital para todo el estado. Si no has organizado tu <strong>allways cabo airport transportation</strong> antes de aterrizar, serás bombardeado con ofertas, información contradictoria y tácticas de venta de alta presión. Operar legalmente en este espacio requiere tarifas de licencias federales exorbitantes, rigurosas verificaciones de antecedentes y membresías sindicales, haciendo de la acera un club altamente exclusivo.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">El Santuario Pre-planeado: El Ascenso de <strong>allways cabo airport transportation</strong></h2>
+                  <p className="mb-6 leading-relaxed">
+                    Para la gran mayoría de los turistas estadounidenses experimentados, el caos de la llegada se evita por completo al asegurar <strong>allways cabo airport transportation</strong> con mucha anticipación. Durante nuestros exhaustivos reportajes sobre el terreno, surgió un claro consenso tanto entre los viajeros de lujo como entre los gerentes de resorts: el tránsito privado y pre-reservado es la columna vertebral indiscutible de la logística turística de élite de la región. Las empresas que operan en este espacio mantienen flotas masivas y meticulosamente mantenidas de Suburbans de lujo, Escalades y camionetas de pasajeros privadas diseñadas para llevarte en el momento en que sales de la terminal.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">Por qué <strong>allways cabo airport transportation</strong> Domina el Mercado</h3>
+                  <p className="mb-6 leading-relaxed">
+                    El dominio de <strong>allways cabo airport transportation</strong> no es un accidente; es el resultado de un riguroso cumplimiento normativo y un servicio al cliente sin igual. Estos operadores pagan primas significativas por placas federales especialadas, lo que les permite esperar legal y pacíficamente a los pasajeros en los terrenos del aeropuerto. Cuando inviertes en <strong>allways cabo airport transportation</strong>, estás comprando la máxima tranquilidad. Un conductor uniformado y bilingüe te espera con un letrero personalizado, ofreciendo agua helada, una cerveza fría y refugio inmediato en una cabina con aire acondicionado. Debido a que cumplen con estrictos registros de mantenimiento de vehículos y pólizas de seguro obligatorias, representan la opción más segura, legalmente sólida y libre de estrés disponible en Baja California Sur.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">El Bastión Tradicional: Dentro del Monopolio de <strong>Los Cabos taxi</strong></h2>
+                  <p className="mb-6 leading-relaxed">
+                    Si pierdes tu viaje pre-reservado o decides arriesgarte a viajar sin un plan, inevitablemente caerás en manos de la red de <strong>Los Cabos taxi</strong>. Camionetas y sedanes de colores brillantes se alinean en una cola altamente orquestada y aparentemente interminable fuera de las terminales. Pero, ¿qué dicta exactamente el precio de un <strong>Los Cabos taxi</strong>? Muchos turistas experimentan una sorpresa inmediata cuando se les cotizan tarifas de $80 a $120 USD solo por un viaje estándar a un resort en Cabo San Lucas. Nuestra investigación sobre los sindicatos de <strong>Los Cabos taxi</strong> revela un sistema profundamente arraigado construido sobre derechos territoriales históricos, un inmenso poder sindical y tarifas federales fuertemente reguladas.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">La Economía Oculta de un <strong>Los Cabos taxi</strong></h3>
+                  <p className="mb-6 leading-relaxed">
+                    Un <strong>Los Cabos taxi</strong> es mucho más que un simple vehículo; es una franquicia en movimiento dentro de un poderoso sindicato heredado. Las concesiones requeridas para operar un <strong>Los Cabos taxi</strong> directamente desde la acera del aeropuerto están estrictamente limitadas en número. A menudo se transmiten de generación en generación o se venden en el mercado privado por sumas astronómicas. Por lo tanto, cuando te subes a un <strong>Los Cabos taxi</strong>, tu alta tarifa no cubre meramente la gasolina y el tiempo del conductor; está pagando una alta prima para sostener un monopolio de transporte heredado que posee derechos federales exclusivos y blindados para recoger a viajeros espontáneos y sin reserva.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">La Disrupción Digital: La Realidad de Alto Riesgo de <strong>Los Cabos Uber</strong></h2>
+                  <p className="mb-6 leading-relaxed">
+                    Entra el disruptor moderno: <strong>Los Cabos Uber</strong>. Cuando el gigante global de viajes compartidos lanzó por primera vez sus servicios en Baja California Sur, provocó una reacción inmediata, visceral y, a veces, violenta por parte de los sindicatos de transporte tradicionales. Para los turistas estadounidenses totalmente acostumbrados a tocar una aplicación para un viaje rápido de $20, el concepto de un <strong>Los Cabos Uber</strong> parecía ser un salvador milagroso de los exorbitantes costos de tránsito vacacional. Sin embargo, la realidad operativa de utilizar un <strong>Los Cabos Uber</strong> directamente en el aeropuerto es increíblemente complicada, legalmente turbia y está plagada de tensiones inesperadas.
+                  </p>
+
+                  <h3 className="text-xl font-semibold text-neutral-800 mt-8 mb-3">La Ilusión de la Comodidad: ¿Realmente Puedes Tomar un <strong>Los Cabos Uber</strong>?</h3>
+                  <p className="mb-6 leading-relaxed">
+                    Esta sigue siendo la pregunta definitiva para los viajeros conscientes de su presupuesto. Debido a que el aeropuerto es una zona federal estrictamente aplicada, y los conductores de aplicaciones independientes no poseen licencias de transporte federales millonarias, un <strong>Los Cabos Uber</strong> tiene legalmente prohibido recoger pasajeros en cualquier lugar cerca de la acera de la terminal. Si la policía federal o los inspectores de transporte sorprenden a un conductor de <strong>Los Cabos Uber</strong> intentando recoger a alguien, enfrentan multas devastadoras y la incautación inmediata del vehículo. En consecuencia, si solicitas un <strong>Los Cabos Uber</strong>, la aplicación te obligará a salir de la propiedad federal: una caminata calurosa, polvorienta y agotadora de 15 a 20 minutos con todo tu equipaje hasta la carretera principal. Si bien un <strong>Los Cabos Uber</strong> es una herramienta fantástica y rentable para moverse entre restaurantes del centro más adelante en tu viaje, depender de él para tu extracción inicial del aeropuerto es una apuesta de alto riesgo.
+                  </p>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">Guía del Viajero: Tomando la Decisión Correcta</h2>
+                  <p className="mb-4">Basándonos en nuestros exhaustivos reportajes de investigación, aquí está el desglose definitivo de cómo navegar por tu salida del aeropuerto sin convertirte en una víctima de la guerra territorial del transporte:</p>
+                  <ul className="list-disc pl-6 mb-6 space-y-2 text-neutral-700">
+                    <li><strong>Para Lujo, Seguridad y Comodidad Absolutos:</strong> Asegura <strong>allways cabo airport transportation</strong> antes de volar. Garantiza una extracción VIP y legalmente sólida desde el aeropuerto directamente al vestíbulo de tu resort, evitando por completo el caos.</li>
+                    <li><strong>Para Viajes Inmediatos No Planificados:</strong> Utiliza un <strong>Los Cabos taxi</strong> con licencia federal. Aunque indudablemente costosos, poseen el derecho legal exclusivo de recogerte inmediatamente en la acera sin un acuerdo previo.</li>
+                    <li><strong>Para Viajeros Económicos Dispuestos a Sudar:</strong> El <strong>Los Cabos Uber</strong> es una opción, pero estrictamente si estás dispuesto a arrastrar físicamente tu equipaje completamente fuera de las instalaciones federales del aeropuerto hasta la carretera principal, operando lejos de la mirada de los estrictos inspectores federales.</li>
+                  </ul>
+
+                  <h2 className="text-2xl font-bold text-neutral-900 mt-10 mb-4">Conclusión: El Futuro del Tránsito en Baja California Sur</h2>
+                  <p className="mb-6 leading-relaxed">
+                    Las líneas de batalla en el asfalto de Baja California Sur están firmemente trazadas y fuertemente custodiadas. Mientras que los proveedores premium de <strong>allways cabo airport transportation</strong> mantienen su control firme y lujoso sobre el mercado de viajeros exigentes, la tensión latente entre los arraigados sindicatos de <strong>Los Cabos taxi</strong> y las tácticas de guerrilla de <strong>Los Cabos Uber</strong> continúa evolucionando. Para el turista estadounidense, comprender esta compleja dinámica es la clave para comenzar unas vacaciones sin problemas. El conocimiento es poder, y saber si pre-reservar, pagar la prima en la acera o tomar la larga caminata hasta la carretera es la primera prueba real de navegar por la hermosa y caótica realidad de Los Cabos.
+                  </p>
+                </article>
+              )}
+
+            </section>
           </div>
         </section>
 
         {/* IMAGEN 1: SUBURBAN BALLARD SJD */}
         <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] mb-24 rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
-          <Image 
-            src="/suburban-airport-los-cabos-ballard-sjd.webp" 
-            alt="Chevrolet Suburban waiting at SJD Airport for Los Cabos Transportation" 
+          <Image
+            src="/suburban-airport-los-cabos-ballard-sjd.webp"
+            alt="Chevrolet Suburban waiting at SJD Airport for Los Cabos Transportation"
             fill
             sizes="(max-width: 768px) 100vw, 1000px"
             style={{ objectFit: 'cover' }}
@@ -99,7 +234,7 @@ export default function AllwaysCaboPage({ params }) {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-300 text-base md:text-lg leading-relaxed">
               <p>
-                {lang === 'es' 
+                {lang === 'es'
                   ? 'Si bien hay taxis disponibles en el aeropuerto, la mayoría son vehículos compactos sin suficiente espacio para grupos o equipaje voluminoso. Nuestro servicio de SUV te asegura un vehículo de tamaño completo solo para ti.'
                   : 'While regular taxis are available, most are compact vehicles lacking the space needed for groups or bulky luggage. Our SUV service ensures a full-size, premium vehicle dedicated entirely to your party.'}
               </p>
@@ -120,7 +255,7 @@ export default function AllwaysCaboPage({ params }) {
               {lang === 'es' ? 'Rutas Populares en SUV' : 'Popular SUV Transfer Routes'}
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 bg-white border border-neutral-200 rounded-[2rem] p-8 md:p-10 shadow-sm">
             {/* Columna Izquierda */}
             <ul className="space-y-4">
@@ -142,7 +277,7 @@ export default function AllwaysCaboPage({ params }) {
                 </li>
               ))}
             </ul>
-            
+
             {/* Columna Derecha */}
             <ul className="space-y-4">
               {[
@@ -167,9 +302,9 @@ export default function AllwaysCaboPage({ params }) {
 
         {/* IMAGEN 2: EXPEDITION AT NOBU */}
         <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] mb-24 rounded-[2rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] group">
-          <Image 
-            src="/private-transportation-nobu-hotel-los-cabos.webp" 
-            alt="Private SUV Transportation at Nobu Hotel Los Cabos" 
+          <Image
+            src="/private-transportation-nobu-hotel-los-cabos.webp"
+            alt="Private SUV Transportation at Nobu Hotel Los Cabos"
             fill
             sizes="(max-width: 768px) 100vw, 1000px"
             style={{ objectFit: 'cover' }}
@@ -241,13 +376,13 @@ export default function AllwaysCaboPage({ params }) {
         {/* EASY BOOKING & FLEXIBLE PAYMENT (DISCRETO Y PEQUEÑO) */}
         <section className="mb-24 text-center max-w-xl mx-auto py-6 opacity-70 hover:opacity-100 transition-opacity duration-300">
           <div className="flex justify-center items-center mb-4">
-             <Image 
-               src="/pago-tarjetas.png" 
-               alt="Visa, MasterCard, American Express, PayPal" 
-               width={160} 
-               height={40} 
-               className="object-contain"
-             />
+            <Image
+              src="/pago-tarjetas.png"
+              alt="Visa, MasterCard, American Express, PayPal"
+              width={160}
+              height={40}
+              className="object-contain"
+            />
           </div>
           <h3 className="text-lg md:text-xl font-bold text-slate-700 mb-2 tracking-tight">
             {lang === 'es' ? 'Reserva Fácil y Pago Flexible.' : 'Easy Booking & Flexible Payment.'}
@@ -260,7 +395,7 @@ export default function AllwaysCaboPage({ params }) {
         </section>
 
       </main>
-      
+
       {/* FINAL CTA FOOTER */}
       <footer className="bg-neutral-900 py-20 px-6 border-t border-neutral-800 text-center text-white">
         <h2 className="text-3xl font-semibold tracking-tight mb-8">
