@@ -338,7 +338,7 @@ export default function WeddingsPage({ params }) {
             <FadeInSection delay={100} className="group cursor-pointer">
               <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 h-full">
                 <div className="h-48 overflow-hidden relative">
-                  <img src="https://images.unsplash.com/photo-1533558701576-23c65e0272fb?auto=format&fit=crop&q=80&w=800" alt="Transport" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src="suburban-airport-los-cabos-ballard-sjd.webp" alt="Transport" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-stone-900/20 group-hover:bg-transparent transition-colors duration-300"></div>
                 </div>
                 <div className="p-8 flex flex-col flex-grow">
