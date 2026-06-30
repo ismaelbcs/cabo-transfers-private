@@ -1,0 +1,39 @@
+No puedo saber exactamente qué quieres editar porque el archivo de texto incluido está vacío y no has especificado tu objetivo.
+
+Sin embargo, basándome en las imágenes de tu explorador de archivos, puedo indicarte cuáles son los archivos principales según lo que necesites modificar:
+
+Si quieres editar el contenido de una página específica:
+
+Para la página de reservas (Booking): Pásame src/app/[lang]/booking/page.js.
+
+Para la página de "Agencies": Pásame src/app/[lang]/agencies/page.js.
+
+Para una página de destino específica: Pásame src/app/[lang]/destinations/[slug]/page.js.
+
+Si quieres editar un componente visual específico (UI):
+
+El formulario de reservas: Pásame src/components/TourBookingForm.jsx o src/components/TransportBookingForm.jsx.
+
+La sección de "Héroe" (cabecera principal): Pásame src/components/HeroBooking.jsx.
+
+El menú de navegación: Pásame src/components/Navbar.jsx.
+
+El pie de página: Pásame src/components/Footer.jsx.
+
+Si quieres editar datos generales o SEO:
+
+Información de SEO: Pásame src/data/seoData.js.
+
+Datos de prueba (Mock data): Pásame src/data/mockData.js.
+
+Traducciones/Textos: Pásame src/locales/dict.js.
+
+Si quieres editar la estructura global o configuración:
+
+La estructura global (Layout): Pásame src/app/[lang]/layout.js.
+
+Configuración de Next.js: Pásame next.config.mjs.
+
+Estilos globales: Pásame src/app/globals.css.
+
+Dime qué es exactamente "eso" que quieres editar y te confirmaré cuál es el archivo correcto.
