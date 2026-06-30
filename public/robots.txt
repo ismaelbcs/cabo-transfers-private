@@ -5,4 +5,4 @@ Allow: /
 Disallow: /politicas-de-cancelacion
 Disallow: /terms-and-conditions
 
-Sitemap: https://www.ballardtours.com/sitemap.xml
+Sitemap: https://www.caboprivateairporttransfers.com/sitemap.xml
