@@ -1,13 +1,13 @@
 // src/app/[lang]/destinations/[slug]/page.js
 'use client';
 
-import React, { use } from 'react';
+import React, { use, useState } from 'react'; // Agregamos useState
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
-  MapPin, PlaneLanding, CheckCircle, Clock, Map, ShieldCheck, 
+  MapPin, PlaneLanding, PlaneTakeoff, RefreshCcw, Compass, CheckCircle, Clock, Map, ShieldCheck, 
   Car, Users, Banknote, Calendar, Baby, ChevronRight 
-} from 'lucide-react';
+} from 'lucide-react'; // Agregamos iconos para el nuevo formulario
 
 // 1. IMPORTAMOS EL CONTEXTO (Ajusta los '../' si tu carpeta context está a otro nivel)
 import { useBooking } from '../../../../context/BookingContext';
@@ -156,6 +156,11 @@ export default function DestinationPage({ params }) {
   // 2. OBTENEMOS LAS FUNCIONES DEL CONTEXTO
   const { setReserva, setServicioSeleccionado, setPaso, setBusquedaHotelPrincipal } = useBooking();
 
+  // 3. ESTADOS LOCALES PARA EL FORMULARIO
+  const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
+  const [fechaLlegada, setFechaLlegada] = useState('');
+  const [pasajeros, setPasajeros] = useState(1);
+
   // Buscamos la info del hotel en la base de datos
   const hotel = landingPagesSEO.find(h => h.slug === slug);
 
@@ -173,6 +178,27 @@ export default function DestinationPage({ params }) {
 
   // Precios dinámicos basados en la zona del hotel
   const tarifaVehiculo = zonasPrecios.find(z => z.id === hotel.zona) || { tarifaSuburban: 80, tarifaSprinter: 110 };
+
+  // Manejador para continuar al paso 2
+  const handleContinue = (servicio) => {
+    if (setServicioSeleccionado) setServicioSeleccionado(servicio);
+    if (setReserva) {
+      setReserva(prev => ({ 
+        ...prev, 
+        hotelId: hotel.nombre, 
+        zonaId: hotel.zona,
+        tipoVehiculo: vehiculoSeleccionado,
+        fechaLlegada: fechaLlegada,
+        pasajeros: pasajeros
+      }));
+    }
+    if (setBusquedaHotelPrincipal) setBusquedaHotelPrincipal(hotel.nombre);
+    if (setPaso) setPaso(2); 
+    
+    // Redirige y sube el scroll hasta arriba
+    router.push(`/${lang}`);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <div className="animate-fade-in pb-10 bg-white font-sans selection:bg-slate-900 selection:text-white">
@@ -374,68 +400,142 @@ export default function DestinationPage({ params }) {
         </div>
 
         {/* ========================================= */}
-        {/* COLUMNA DERECHA: WIDGET DE RESERVA FIJO   */}
+        {/* COLUMNA DERECHA: WIDGET DE RESERVA INTERACTIVO */}
         {/* ========================================= */}
         <div className="lg:col-span-1 relative">
           <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-[2rem] shadow-2xl shadow-slate-200/50 sticky top-28">
-            <h3 className="text-2xl font-black text-slate-900 mb-1 tracking-tight">
-              {lang === 'es' ? 'Reserva esta Ruta' : 'Book This Route'}
-            </h3>
-            <p className="text-slate-500 mb-6 text-xs font-semibold uppercase tracking-wider">
-              {lang === 'es' ? `Vehículos para ${hotel.nombre}` : `Vehicles for ${hotel.nombre}`}
-            </p>
             
-            <div className="space-y-4 mb-6">
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center transition-colors">
-                <div>
-                  <p className="font-bold text-slate-900 text-sm">Luxury Suburban</p>
-                  <p className="text-xs text-slate-500 font-medium">{lang === 'es' ? 'Hasta 6 pax' : 'Up to 6 pax'}</p>
-                </div>
-                <span className="font-black text-slate-900 text-xl">${tarifaVehiculo.tarifaSuburban}</span>
+            {/* Cabecera del Widget */}
+            <div className="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-2">
+                <MapPin className="text-blue-600" size={24} />
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">Detalles de tu Reserva</h3>
               </div>
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center transition-colors">
-                <div>
-                  <p className="font-bold text-slate-900 text-sm">Sprinter Van</p>
-                  <p className="text-xs text-slate-500 font-medium">{lang === 'es' ? 'Hasta 10 pax' : 'Up to 10 pax'}</p>
-                </div>
-                <span className="font-black text-slate-900 text-xl">${tarifaVehiculo.tarifaSprinter}</span>
+              <div className="flex flex-col items-end">
+                 <div className="flex items-center gap-1">
+                   <ShieldCheck size={14} className="text-yellow-600" />
+                   <span className="text-[10px] font-bold text-slate-600 uppercase">Pago Seguro</span>
+                 </div>
               </div>
             </div>
 
-            <button
-              onClick={() => {
-                // 3. INYECTAMOS LA LÓGICA DE PRE-LLENADO
-                if (setServicioSeleccionado) setServicioSeleccionado('aeropuerto_hotel');
-                if (setReserva) {
-                  setReserva(prev => ({ 
-                    ...prev, 
-                    hotelId: hotel.nombre, 
-                    zonaId: hotel.zona 
-                  }));
-                }
-                if (setBusquedaHotelPrincipal) setBusquedaHotelPrincipal(hotel.nombre);
-                if (setPaso) setPaso(2); // Avanza directamente al paso 2 si tu app lo requiere
+            {/* SELECCIONA TU HOTEL */}
+            <div className="mb-6">
+              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Selecciona tu hotel</label>
+              <input 
+                type="text" 
+                value={hotel.nombre} 
+                readOnly
+                placeholder="Escribe para buscar tu hotel..." 
+                className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-slate-50 font-medium focus:outline-none cursor-not-allowed" 
+              />
+            </div>
+
+            {/* TIPO DE VEHÍCULO */}
+            <div className="mb-6">
+              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Tipo de Vehículo</label>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 
-                // Redirige y sube el scroll hasta arriba
-                router.push(`/${lang}`);
-                window.scrollTo(0, 0);
-              }}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95"
-            >
-              {lang === 'es' ? 'Cotizar y Reservar' : 'Select Details & Book'} <ChevronRight size={18} />
-            </button>
+                {/* Opcion Luxury SUV */}
+                <button 
+                  onClick={() => setVehiculoSeleccionado('suv')} 
+                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculoSeleccionado === 'suv' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                >
+                  <div className="flex justify-between items-start w-full mb-2">
+                    <span className="font-bold text-slate-900">Luxury SUV</span>
+                    <Car size={18} className={vehiculoSeleccionado === 'suv' ? 'text-blue-900' : 'text-slate-400'} />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">Elegancia y confort para familias o grupos pequeños.</p>
+                  <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold mt-auto">
+                    <Users size={12} /> MÁX 6 PAX
+                  </div>
+                </button>
 
-            <div className="mt-6 pt-6 border-t border-slate-100 space-y-3">
-              <p className="text-xs text-slate-500 font-semibold flex items-center gap-2">
-                <CheckCircle size={14} className="text-slate-900" /> {lang === 'es' ? 'Confirmación Instantánea' : 'Instant Confirmation'}
-              </p>
-              <p className="text-xs text-slate-500 font-semibold flex items-center gap-2">
-                <CheckCircle size={14} className="text-slate-900" /> {lang === 'es' ? 'Bebidas de Cortesía' : 'Complimentary Drinks'}
-              </p>
-              <p className="text-xs text-slate-500 font-semibold flex items-center gap-2">
-                <CheckCircle size={14} className="text-slate-900" /> {lang === 'es' ? 'Seguimiento de Vuelo Incluido' : 'Flight Tracking Included'}
-              </p>
+                {/* Opcion Van */}
+                <button 
+                  onClick={() => setVehiculoSeleccionado('van')} 
+                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculoSeleccionado === 'van' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                >
+                  <div className="flex justify-between items-start w-full mb-2">
+                    <span className="font-bold text-slate-900">Van</span>
+                    <Car size={18} className={vehiculoSeleccionado === 'van' ? 'text-blue-900' : 'text-slate-400'} />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">Amplitud y lujo para grupos grandes.</p>
+                  <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold mt-auto">
+                    <Users size={12} /> MÁX 10 PAX
+                  </div>
+                </button>
+
+              </div>
             </div>
+
+            {/* FECHA Y PASAJEROS */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div>
+                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Fecha de Llegada</label>
+                <div className="relative">
+                  <input 
+                    type="date" 
+                    value={fechaLlegada}
+                    onChange={(e) => setFechaLlegada(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 text-sm" 
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Pasajeros</label>
+                <div className="relative flex items-center">
+                  <div className="absolute left-4 text-slate-400 pointer-events-none"><Users size={16} /></div>
+                  <input 
+                    type="number" 
+                    min="1" 
+                    value={pasajeros}
+                    onChange={(e) => setPasajeros(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl p-4 pl-12 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 text-sm" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* BOTONES DE CONTINUAR */}
+            <div className="text-center mb-4">
+              <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Elige un servicio para continuar</span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <button 
+                onClick={() => handleContinue('aeropuerto_hotel')} 
+                className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
+              >
+                <PlaneLanding size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
+                <span className="text-xs font-bold text-slate-800 text-center">Aeropuerto → Hotel</span>
+              </button>
+              
+              <button 
+                onClick={() => handleContinue('hotel_aeropuerto')} 
+                className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
+              >
+                <PlaneTakeoff size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
+                <span className="text-xs font-bold text-slate-800 text-center">Hotel → Aeropuerto</span>
+              </button>
+
+              <button 
+                onClick={() => handleContinue('viaje_redondo')} 
+                className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
+              >
+                <RefreshCcw size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
+                <span className="text-xs font-bold text-slate-800 text-center">Viaje Redondo</span>
+              </button>
+
+              <button 
+                onClick={() => handleContinue('tours')} 
+                className="bg-[#0f172a] rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:bg-slate-800 transition-colors shadow-lg group"
+              >
+                <Compass size={24} className="text-slate-300 mb-2 group-hover:text-white transition-colors" />
+                <span className="text-xs font-bold text-white text-center">Tours y Especiales</span>
+              </button>
+            </div>
+
           </div>
         </div>
 

@@ -1,0 +1,79 @@
+REGLAS OBLIGATORIAS ANTES DE MODIFICAR MI PROYECTO
+
+Antes de realizar cualquier cambio en mi proyecto, debes seguir estas reglas sin excepción.
+
+1. Conservación del proyecto
+
+No elimines, reemplaces, renombres ni modifiques ninguna funcionalidad existente a menos que yo lo solicite explícitamente.
+
+2. Cambios mínimos
+
+Haz únicamente los cambios necesarios para cumplir mi solicitud. Evita modificar código que no esté relacionado directamente con la tarea.
+
+3. No refactorizar
+
+No reorganices archivos, no cambies la estructura del proyecto, no optimices código ni cambies estilos de programación si no te lo pido.
+
+4. Compatibilidad
+
+Todo lo que actualmente funciona debe seguir funcionando exactamente igual después de tus cambios.
+
+5. Preservar la interfaz
+
+No cambies el diseño, los colores, tamaños, posiciones, botones, formularios, iconos, menús o componentes existentes, salvo que la solicitud sea específicamente sobre ellos.
+
+6. Preservar la lógica
+
+No cambies nombres de variables, funciones, APIs, rutas, tablas, modelos, endpoints o archivos existentes, excepto cuando sea estrictamente necesario y yo lo haya autorizado.
+
+7. Base de datos
+
+Nunca elimines tablas, columnas, índices, relaciones, procedimientos o datos existentes.
+Si se requiere un cambio en la base de datos, debe hacerse mediante migraciones que sean compatibles con versiones anteriores.
+Siempre prioriza agregar antes que reemplazar.
+
+8. Código existente
+
+Respeta completamente el código ya implementado. Si necesitas agregar funcionalidad, intégrala sin romper el comportamiento actual.
+
+9. Explicación previa
+
+Antes de generar código, explica brevemente:
+
+Qué archivos modificarás.
+Por qué esos archivos.
+Qué impacto tendrá el cambio.
+Confirma que no afectará el resto del sistema.
+10. Si existe riesgo
+
+Si detectas que mi solicitud puede afectar otras partes del proyecto, NO hagas cambios automáticamente.
+Primero explícame el riesgo y espera mi aprobación.
+
+11. Si tienes dudas
+
+Nunca supongas.
+Pregúntame antes de modificar cualquier parte que no esté completamente clara.
+
+12. Entrega del código
+
+Entrega únicamente los archivos que realmente cambian.
+No reescribas archivos completos si solo cambian unas pocas líneas.
+
+13. Prioridad absoluta
+
+La prioridad número uno es NO romper funcionalidades existentes.
+
+Considera mi proyecto como si estuviera en producción con miles de usuarios. Cualquier cambio debe ser lo más pequeño, seguro y compatible posible.
+
+Después de aplicar los cambios, verifica mentalmente que:
+
+No desaparecieron botones.
+No cambió el diseño.
+No se modificó ninguna funcionalidad existente.
+No se rompieron rutas.
+No se eliminaron validaciones.
+No se alteró la base de datos existente.
+No se eliminaron componentes.
+No se modificó el comportamiento del sistema fuera de lo solicitado.
+
+Solo entonces genera el código.
