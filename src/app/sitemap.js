@@ -1,3 +1,4 @@
+import { restaurantSEOData } from '../data/restaurantSEOData';
 export default function sitemap() {
   const baseUrl = 'https://www.caboprivateairporttransfers.com';
   
@@ -508,7 +509,8 @@ export default function sitemap() {
   ];
 
   // Juntamos todas las rutas
-  const allPaths = [...mainRoutes, ...serviceRoutes, ...destinationRoutes, ...tourRoutes];
+  const restaurantRoutes = restaurantSEOData.map(r => `/restaurants/${r.slug}`);
+  const allPaths = [...mainRoutes, ...serviceRoutes, ...destinationRoutes, ...tourRoutes, ...restaurantRoutes];
 
   const sitemapEntries = [];
 
