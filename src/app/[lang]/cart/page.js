@@ -26,18 +26,68 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal (Pagado)' : 'Efectivo al llegar';
 
   const tipoServicio = item.subtitulo || 'N/A';
+  
+  // Variables especiales
+  let hotelOrigen = 'N/A';
+  let destino = 'N/A';
+  let paxEspecial = 'N/A';
+  let fechaEspecial = 'N/A';
+  let horaIdaEspecial = 'N/A';
+  let horaRegresoEspecial = 'N/A';
+  
+  const isSpecial = ['cena', 'golf', 'nightlife', 'hotel', 'especiales'].includes(item.tipoEspecial) || item.detalles || (item.config && !item.flightInfo?.aerolinea);
+  
+  if (isSpecial) {
+     if (item.detalles) {
+         hotelOrigen = item.detalles.origen || 'N/A';
+         destino = item.detalles.campoGolf || item.detalles.restaurante || item.detalles.destino || 'N/A';
+         paxEspecial = item.detalles.pasajeros || 'N/A';
+         fechaEspecial = item.detalles.fecha || 'N/A';
+         horaIdaEspecial = item.detalles.horaIda || 'N/A';
+         horaRegresoEspecial = item.detalles.horaRegreso || 'N/A';
+     } else if (item.config) {
+         hotelOrigen = item.config.cenaOrigen || item.config.golfOrigen || item.config.nightlifeOrigen || item.config.hotelOrigen || item.config.hotelId || 'N/A';
+         if (hotelOrigen !== 'N/A' && hotelOrigen.includes('|')) hotelOrigen = hotelOrigen.split('|')[0];
+         
+         destino = item.config.cenaRestauranteNombre || item.config.golfLugarNombre || item.config.nightlifeLugarNombre || item.config.hotelLugarNombre || item.config.destino || 'N/A';
+         paxEspecial = item.config.cenaPax || item.config.golfPax || item.config.nightlifePax || item.config.hotelPax || item.config.pasajeros || 'N/A';
+         fechaEspecial = item.config.cenaFecha || item.config.golfFecha || item.config.nightlifeFecha || item.config.hotelFecha || item.config.fechaLlegada || 'N/A';
+         horaIdaEspecial = item.config.cenaHora || item.config.golfHora || item.config.nightlifeHora || item.config.hotelHora || item.config.horaLlegada || item.config.horaPickUp || 'N/A';
+         horaRegresoEspecial = item.config.cenaHoraRegreso || item.config.golfHoraRegreso || item.config.nightlifeHoraRegreso || 'N/A';
+     }
+  }
+
+  // Variables regulares
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
-
   const aerolineaLlegada = item.flightInfo?.aerolinea ? `${item.flightInfo.aerolinea} (Vuelo: ${item.flightInfo.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = item.flightInfo?.hora || 'N/A';
-
   const aerolineaSalida = item.flightInfo?.aerolineaSalida ? `${item.flightInfo.aerolineaSalida} (Vuelo: ${item.flightInfo.vueloSalida || 'N/A'})` : 'N/A';
   const horaSalida = item.flightInfo?.horaSalida || 'N/A';
-
   const horaPickUp = item.flightInfo?.horaPickUp || 'N/A';
 
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
+
+  const detallesLogisticosHTML = isSpecial ? `
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelOrigen}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Para donde van:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${destino}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pax:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${paxEspecial}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Fecha:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${fechaEspecial}</td></tr>
+              <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora de recogida:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaIdaEspecial}</td></tr>
+              ${horaRegresoEspecial !== 'N/A' && horaRegresoEspecial ? `<tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora de regreso:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaRegresoEspecial}</td></tr>` : ''}
+            </table>
+  ` : `
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel / Destino:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelDestino}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td></tr>
+              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Salida Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaSalida}</td></tr>
+              <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td></tr>
+            </table>
+  `;
 
   return `
     <!DOCTYPE html>
@@ -70,21 +120,13 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             </table>
 
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">DETALLES LOGÍSTICOS</h2>
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
-              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel / Destino:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelDestino}</td></tr>
-              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
-              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
-              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
-              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td></tr>
-              <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Salida Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaSalida}</td></tr>
-              <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td></tr>
-            </table>
+            ${detallesLogisticosHTML}
 
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">RESUMEN DE PAGO</h2>
             <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; background-color: #ffffff;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr><td style="color: #64748b; font-size: 14px; padding-bottom: 15px;">Método de Pago:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; padding-bottom: 15px;">${metodoPago}</td></tr>
-                <tr><td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td><td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">$${(item.precio || 0).toFixed(2)} USD</td></tr>
+                <tr><td style="color: #1e293b; font-size: 16px; font-weight: 800;">Valor de este servicio:</td><td style="color: #213f8c; font-size: 22px; font-weight: 900; text-align: right;">${(item.precio || 0).toFixed(2)} USD</td></tr>
               </table>
             </div>
 
@@ -102,34 +144,121 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
 // =========================================================
 const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => {
   const isEs = lang === 'es';
-  const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'Pasajero';
-  const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal' : 'Efectivo/Cash';
-  const pasajeros = item.config?.pasajeros || 'N/A';
-  const pickup = item.flightInfo?.horaPickUp || item.config?.fechaLlegada || 'N/A';
+  const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || (isEs ? 'Pasajero' : 'Passenger');
+  const metodoPago = datosCliente.paymentMethod === 'paypal' ? (isEs ? 'PayPal (Pagado)' : 'PayPal (Paid)') : (isEs ? 'Efectivo al llegar' : 'Cash on arrival');
 
-  const title = isEs ? '¡Gracias por tu reserva!' : 'Thank you for your booking!';
-  const greeting = isEs ? 'Hola' : 'Hello';
-  const subtitle = isEs ? 'Tu servicio en Los Cabos está confirmado. Aquí tienes los detalles:' : 'Your service in Los Cabos is confirmed. Here are the details:';
+  const hotel = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || item.extrasEspeciales?.golfOrigen || item.extrasEspeciales?.nightlifeOrigen || 'N/A';
+  const pasajeros = item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
+  const pickup = item.flightInfo?.horaPickUp || item.extrasEspeciales?.cenaHora || item.extrasEspeciales?.hotelHora || item.extrasEspeciales?.golfHora || item.extrasEspeciales?.nightlifeHora || item.config?.hhHora || item.config?.fechaLlegada || 'N/A';
+
+  let bgStyle = `background-color: #1e3a8a;`;
+  let badgeText = isEs ? 'Confirmación Oficial' : 'Official Confirmation';
+  let headerText = isEs ? `
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">¡Gracias por reservar con nosotros!</h1>
+    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">${item.titulo || 'N/A'}</p>
+  ` : `
+    <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Thank you for booking with us!</h1>
+    <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">${item.titulo || 'N/A'}</p>
+  `;
+
+  let baseUrl = 'https://www.caboprivateairporttransfers.com';
+  let bgImg = baseUrl + '/private-transportation-sjd-airport-los-cabos-luxury.webp';
+  if (item.servicio === 'tours') bgImg = baseUrl + '/snorkeling-espiritu-santo-island-baja.webp';
+  else if (item.tipoEspecial === 'cena') bgImg = baseUrl + '/generic-restaurant-logo.webp';
+  else if (item.tipoEspecial === 'golf') bgImg = baseUrl + '/golf-pacifico-hero.webp';
+  else if (item.tipoEspecial === 'nightlife') bgImg = baseUrl + '/nightlife_email.webp';
+  else if (item.tipoEspecial === 'hotel') bgImg = baseUrl + '/hotel_to_hotel_email.webp';
+
+  bgStyle = `background: linear-gradient(to bottom, rgba(30,58,138,0.7), rgba(30,58,138,0.85)), url('${bgImg}') center/cover no-repeat;`;
+
+    headerText = isEs ? `
+      <span style="font-size: 14px; font-weight: 500; opacity: 0.9;">Gracias por reservar con nosotros tu producto de</span><br/>
+      <span style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; display: inline-block; margin-top: 5px;">${item.titulo}</span>
+    ` : `
+      <span style="font-size: 14px; font-weight: 500; opacity: 0.9;">Thank you for booking with us your</span><br/>
+      <span style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px; display: inline-block; margin-top: 5px;">${item.titulo}</span>
+    `;
+
+  const linkModificacion = `https://www.caboprivateairporttransfers.com/${lang}/modify-reservation?id=${numConfirmacion}`;
+  const linkWhatsApp = `mailto:reservationballard@gmail.com?subject=Modify Reservation ${numConfirmacion}`;
+
+  const greeting = isEs ? `Hola <strong>${nombreCliente}</strong>,` : `Hello <strong>${nombreCliente}</strong>,`;
+  const mainDesc = isEs
+    ? 'Hemos recibido tu solicitud y tu transporte/experiencia en Los Cabos está asegurado. Aquí tienes los detalles de este servicio:'
+    : 'We have received your request and your transportation/experience in Los Cabos is secured. Here are the details for this service:';
+
+  const summaryTitle = isEs ? 'Resumen del Servicio' : 'Service Summary';
+  const labelConfirm = isEs ? 'N° de Confirmación:' : 'Confirmation N°:';
+  const labelService = isEs ? 'Servicio:' : 'Service:';
+  const labelPax = isEs ? 'Pasajeros:' : 'Passengers:';
+  const labelPickup = isEs ? 'Hora Sugerida/Pick-Up:' : 'Suggested Pick-Up Time:';
+  const labelMethod = isEs ? 'Método de Pago:' : 'Payment Method:';
+  const btnModify = isEs ? '✏️ Modificar mi Reserva' : '✏️ Modify My Booking';
+  const btnChat = isEs ? '💬 Chat con el Proveedor' : '💬 Chat with Provider';
+  const footerText = isEs
+    ? 'Ballard Tours Los Cabos<br/>Si necesitas asistencia urgente, responde a este correo.'
+    : 'Ballard Tours Los Cabos<br/>If you need urgent assistance, please reply to this email.';
 
   return `
-    <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
-      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0;">
-        <div style="background-color: #10b981; padding: 30px; text-align: center; color: #ffffff;">
-          <h1 style="margin: 0; font-size: 24px;">${title}</h1>
-          <p style="margin: 5px 0 0 0; opacity: 0.9;">${item.titulo}</p>
+    <div style="font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 30px 15px; color: #1e293b; display: block; width: 100%; box-sizing: border-box;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
+        <div style="${bgStyle} padding: 40px 30px; text-align: center; color: #ffffff;">
+          <span style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(4px); color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;">${badgeText}</span><br/>
+          ${headerText}
         </div>
         <div style="padding: 30px;">
-          <p>${greeting} <strong>${nombreCliente}</strong>,</p>
-          <p>${subtitle}</p>
-          <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0 0 10px 0;"><strong>${isEs ? 'N° de Confirmación' : 'Confirmation N°'}:</strong> <span style="color:#1e3a8a; font-weight:bold;">${numConfirmacion}</span></p>
-            <p style="margin: 0 0 10px 0;"><strong>${isEs ? 'Pasajeros' : 'Passengers'}:</strong> ${pasajeros}</p>
-            <p style="margin: 0 0 10px 0;"><strong>${isEs ? 'Fecha de Servicio' : 'Service Date'}:</strong> <span style="color: #ea580c; font-weight: bold;">${pickup}</span></p>
-            <p style="margin: 0 0 15px 0;"><strong>${isEs ? 'Método de Pago' : 'Payment Method'}:</strong> ${metodoPago}</p>
-            <hr style="border: none; border-top: 1px solid #cbd5e1; margin: 15px 0;" />
-            <p style="margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a;">Total: $${(item.precio || 0).toFixed(2)} USD</p>
+          <p style="font-size: 16px; margin-top: 0; color: #334155;">${greeting}</p>
+          <p style="font-size: 15px; color: #64748b; line-height: 1.5; margin-bottom: 25px;">${mainDesc}</p>
+          
+          <h2 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 15px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">${summaryTitle}</h2>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+            <tbody>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelConfirm}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 700; color: #1e3a8a; width: 60%; text-align: right;">${numConfirmacion}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelService}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${item.subtitulo || 'N/A'}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPax}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${pasajeros}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPickup}</td>
+                <td style="padding: 10px 0; font-size: 15px; font-weight: 900; color: #ea580c; width: 60%; text-align: right;">${pickup}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 30px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tbody>
+                <tr>
+                  <td style="font-size: 14px; color: #64748b;">${labelMethod}</td>
+                  <td style="font-size: 14px; font-weight: 600; text-align: right;">${metodoPago}</td>
+                </tr>
+                <tr>
+                  <td style="font-size: 16px; font-weight: 700; padding-top: 10px; color: #1e293b;">Total:</td>
+                  <td style="font-size: 20px; font-weight: 700; text-align: right; padding-top: 10px; color: #1e3a8a;">$${(item.precio || 0).toFixed(2)} USD</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <p style="text-align: center; font-size: 12px; color: #94a3b8;">Ballard Tours Los Cabos</p>
+
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${linkModificacion}" style="display: block; background-color: #1e3a8a; color: #ffffff; text-decoration: none; padding: 14px 20px; border-radius: 8px; font-weight: bold; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(30,58,138,0.2);">
+              ${btnModify}
+            </a>
+            <a href="${linkWhatsApp}" target="_blank" style="display: block; background-color: #ffffff; color: #059669; border: 2px solid #059669; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: bold;">
+              ${btnChat}
+            </a>
+          </div>
+
+          <p style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: 30px; line-height: 1.5;">
+            ${footerText}
+          </p>
         </div>
       </div>
     </div>
@@ -142,28 +271,37 @@ export default function CheckoutPage({ params }) {
   const isEs = lang === 'es';
 
   const router = useRouter();
-  const { combo = [], eliminarDelCombo, vaciarCombo } = useCart();
-  const { appliedPromo, currentUser } = useBooking();
 
-  const [step, setStep] = useState(1);
-  const [confirmNumber, setConfirmNumber] = useState('');
+  const { combo = [], vaciarCombo, eliminarDelCombo } = useCart();
+  const { appliedPromo, currentUser, handleLogout } = useBooking();
+
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [numConfirmacion, setNumConfirmacion] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-
+  const [step, setStep] = useState(1);
   // Estados para el Modal de Promociones
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [promoInput, setPromoInput] = useState('');
   const [promoError, setPromoError] = useState('');
   const [isValidatingPromo, setIsValidatingPromo] = useState(false);
 
-  // Form data
+  // Formulario con estados dinámicos para salida y llegada
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
     notas: '', paymentMethod: 'paypal'
   });
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   const [vuelosData, setVuelosData] = useState({});
 
-  // Función para actualizar específicamente el vuelo basado en el INDICE del carrito
+  // FUSIÓN: Asignamos el vuelo basado en el índice
   const handleVueloChange = (idx, campo, valor) => {
     setVuelosData(prev => ({
       ...prev,
@@ -177,16 +315,18 @@ export default function CheckoutPage({ params }) {
   const [cuponesAplicados, setCuponesAplicados] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     const cargarCupones = () => {
-      try {
-        const guardados = localStorage.getItem('cabo_cupones');
-        if (guardados) {
+      const guardados = localStorage.getItem('cabo_cupones');
+      if (guardados) {
+        try {
           const parsed = JSON.parse(guardados);
           setCuponesAplicados(Array.isArray(parsed) ? parsed : [parsed]);
-        } else {
+        } catch (error) {
           setCuponesAplicados([]);
         }
-      } catch (e) {
+      } else {
         setCuponesAplicados([]);
       }
     };
@@ -203,7 +343,11 @@ export default function CheckoutPage({ params }) {
     };
   }, []);
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (isSuccess) {
+      window.scrollTo(0, 0);
+    }
+  }, [isSuccess]);
 
   // =========================================================
   // 🔥 LÓGICA DE VALIDACIÓN DE CÓDIGOS
@@ -367,7 +511,7 @@ export default function CheckoutPage({ params }) {
       }
 
       localStorage.removeItem('cabo_cupones');
-      setConfirmNumber(nuevoNumConfirmacion);
+      setNumConfirmacion(nuevoNumConfirmacion);
       setStep(4);
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -703,17 +847,20 @@ export default function CheckoutPage({ params }) {
                         </div>
 
                         {esAgencia ? (
-                          <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
-                            <div className="flex justify-between items-center">
-                              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-blue-600 text-white tracking-widest">
-                                {isEs ? 'DESCUENTO DE AGENCIA' : 'AGENCY DISCOUNT'}
-                              </span>
-                              <span className="font-bold text-emerald-400 text-sm">
-                                -${cantidadDescontada.toFixed(2)}
-                              </span>
-                            </div>
-                          </div>
-                        ) : hasAnyDiscount ? (
+                      <div className="flex flex-col gap-2 mt-2">
+                        <div className="flex justify-between items-center">
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded bg-blue-600 text-white tracking-widest">
+                            {isEs ? 'DESCUENTO ESPECIAL' : 'SPECIAL DISCOUNT'}
+                            <button onClick={() => { if(handleLogout) handleLogout(); window.location.reload(); }} className="ml-2 underline hover:text-red-300">
+                              (Quitar)
+                            </button>
+                          </span>
+                          <span className="font-bold text-emerald-400 text-sm">
+                            -${cantidadDescontada.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    ) : hasAnyDiscount ? (
                           <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-slate-800/50">
                             {appliedPromo && (
                               <div className="flex justify-between items-center">
@@ -866,7 +1013,7 @@ export default function CheckoutPage({ params }) {
               <div className="bg-emerald-500 rounded-[2rem] p-10 md:p-16 text-center text-white shadow-[0_20px_50px_rgba(16,185,129,0.2)] flex flex-col items-center">
                 <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-md text-emerald-500"><CheckCircle size={40} /></div>
                 <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">{isEs ? '¡Tu Combo está Confirmado!' : 'Your Combo is Confirmed!'}</h1>
-                <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl py-4 px-8 inline-block"><p className="text-3xl font-black tracking-widest">{confirmNumber}</p></div>
+                <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl py-4 px-8 inline-block"><p className="text-3xl font-black tracking-widest">{numConfirmacion}</p></div>
               </div>
               <div className="text-center mt-12">
                 <button onClick={() => { if (vaciarCombo) vaciarCombo(); router.push(`/${lang}`); }} className="bg-slate-900 text-white px-10 py-5 rounded-xl font-bold hover:bg-slate-800 transition-all text-lg shadow-md">

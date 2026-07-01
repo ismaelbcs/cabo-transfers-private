@@ -976,7 +976,7 @@ export default function DestinationPage({ params }) {
   const tarifaVehiculo = zonasPrecios.find(z => z.id === activeZona) || { tarifaSuburban: 80, tarifaSprinter: 110 };
 
   // Filtrado de hoteles para el buscador interactivo
-  const filteredHotels = hotelesBase.filter(h => h.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredHotels = hotelesBase.filter(h => searchTerm.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
 
   // Manejador para continuar al paso 2
   const handleContinue = (servicio) => {

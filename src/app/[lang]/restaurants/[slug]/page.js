@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { 
   MapPin, Clock, ShieldCheck, Car, Banknote, Calendar, ChevronRight, Info, Plus, CheckCircle, Users, Map, PlaneLanding 
 } from 'lucide-react';
+import { useCart } from '../../../../context/CartContext';
 import { useBooking } from '../../../../context/BookingContext';
 import { restaurantSEOData } from '../../../../data/restaurantSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
@@ -16,7 +17,8 @@ export default function RestaurantSeoPage({ params }) {
   const slug = resolvedParams.slug;
   const router = useRouter();
 
-  const { agregarAlCombo, setServicioSeleccionado, setPaso, reserva } = useBooking();
+  const { agregarAlCombo } = useCart();
+  const { setServicioSeleccionado, setPaso, reserva } = useBooking();
 
   const seoData = restaurantSEOData.find(item => item.slug === slug);
 
@@ -304,8 +306,8 @@ export default function RestaurantSeoPage({ params }) {
                 <input type="text" placeholder={lang === 'es' ? 'Busca tu hotel...' : 'Search your hotel...'} value={busquedaCenaOrigen} onChange={(e) => { setBusquedaCenaOrigen(e.target.value); setMostrarDropdownCena(true); if (e.target.value === '') setCenaOrigen(''); }} onFocus={() => setMostrarDropdownCena(true)} onBlur={() => setTimeout(() => setMostrarDropdownCena(false), 200)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none transition font-medium text-slate-800" />
                 {mostrarDropdownCena && (
                   <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[68px] max-h-48 overflow-y-auto text-sm font-medium">
-                    {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaCenaOrigen || '').toLowerCase())).map(hotel => (
-                      <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setCenaOrigen(`${hotel.nombre}|${zona}`); setBusquedaCenaOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownCena(false); }} className="p-3 hover:bg-slate-100 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between">
+                    {catalogoHoteles.filter(h => (busquedaCenaOrigen || '').toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w))).map((hotel, idx) => (
+                      <li key={`${hotel.id}-${idx}`} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setCenaOrigen(`${hotel.nombre}|${zona}`); setBusquedaCenaOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownCena(false); }} className="p-3 hover:bg-slate-100 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between">
                         <span>{hotel.nombre}</span><span className="text-[10px] font-bold text-slate-600 bg-slate-200 px-2 py-1 rounded ml-2">Zona {hotel.zonaId || hotel.zona || 1}</span>
                       </li>
                     ))}
@@ -376,9 +378,9 @@ export default function RestaurantSeoPage({ params }) {
                     const hotelNombre = cenaOrigen.split('|')[0];
                     const newComboItem = {
                       id: Date.now().toString(),
-                      tipo: 'cena',
-                      nombre: `Traslado a Cena: ${cenaRestauranteNombre}`,
-                      descripcion: `${hotelNombre} ↔ ${cenaRestauranteNombre} (${cenaPax} pax)`,
+                      tipoEspecial: 'cena',
+                      titulo: lang === 'es' ? `Traslado a Cena: ${cenaRestauranteNombre}` : `Dinner Transport: ${cenaRestauranteNombre}`,
+                      subtitulo: `${hotelNombre} ↔ ${cenaRestauranteNombre} (${cenaPax} pax) | Fecha: ${cenaFecha} | ${cenaHora} - ${cenaHoraRegreso}`,
                       precio: granTotalCena,
                       detalles: {
                         origen: hotelNombre,

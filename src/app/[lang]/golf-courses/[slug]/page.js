@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { 
   MapPin, Clock, ShieldCheck, Car, Banknote, Calendar, ChevronRight, Info, Plus, CheckCircle, Users, Map, PlaneLanding 
 } from 'lucide-react';
+import { useCart } from '../../../../context/CartContext';
 import { useBooking } from '../../../../context/BookingContext';
 import { golfSEOData } from '../../../../data/golfSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
@@ -16,7 +17,8 @@ export default function GolfCourseSeoPage({ params }) {
   const slug = resolvedParams.slug;
   const router = useRouter();
 
-  const { agregarAlCombo, setServicioSeleccionado, setPaso, reserva } = useBooking();
+  const { agregarAlCombo } = useCart();
+  const { setServicioSeleccionado, setPaso, reserva } = useBooking();
 
   const seoData = golfSEOData.find(item => item.slug === slug);
 
@@ -99,7 +101,7 @@ export default function GolfCourseSeoPage({ params }) {
     <div className="animate-fade-in pb-10 bg-white font-sans selection:bg-slate-900 selection:text-white">
       
       {/* 1. HERO SECTION */}
-      <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
+      <div className="relative bg-slate-950 text-white py-28 md:py-26 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
           <img src={`/${seoData.imageHero}`} alt={`${seoData.nombre} Golf Course`} className="w-full h-full object-cover opacity-40" />
         </div>
@@ -227,7 +229,7 @@ export default function GolfCourseSeoPage({ params }) {
               {t.compareTitle}
             </h2>
             <p className="mb-6 text-slate-600 text-sm md:text-base">{t.compareDesc}</p>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="bg-white p-6 rounded-2xl border-2 border-slate-900 shadow-md relative overflow-hidden">
                 <div className="absolute top-0 right-0 bg-slate-900 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">{lang === 'es' ? 'Recomendado' : 'Recommended'}</div>
                 <h4 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-2"><Car size={20} className="text-slate-500" /> {lang === 'es' ? 'Traslados Privados VIP (Nosotros)' : 'Private VIP Transfers (Us)'}</h4>
@@ -271,7 +273,7 @@ export default function GolfCourseSeoPage({ params }) {
 
         {/* RIGHT: BOOKING WIDGET */}
         <div className="lg:col-span-1 relative">
-          <div className="bg-slate-100 border border-slate-300 rounded-[2rem] shadow-2xl p-6 md:p-8 sticky top-28">
+          <div className="bg-slate-100 border border-slate-300 rounded-[2rem] shadow-2xl p-5 md:p-6 sticky top-28">
             
             {/* Cabecera del Widget (Seguridad) */}
             <div className="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
@@ -293,7 +295,7 @@ export default function GolfCourseSeoPage({ params }) {
               <p>{lang === 'es' ? 'El servicio de golf incluye un máximo de 4 horas de espera en el campo (más 1 hora de trayectos).' : 'The Golf transfer service includes a maximum of 4 hours of wait time at the course (plus 1 hour of transit).'}</p>
             </div>
 
-            <h3 className="text-2xl font-black text-slate-900 mb-6">{lang === 'es' ? 'Reserva de Campo de Golf' : 'Golf Course Transportation Booking'}</h3>
+            <h3 className="text-xl font-black text-slate-900 mb-4">{lang === 'es' ? 'Reserva de Campo de Golf' : 'Golf Course Transportation Booking'}</h3>
 
             <div className="space-y-4">
               <div className="flex flex-col relative">
@@ -301,8 +303,8 @@ export default function GolfCourseSeoPage({ params }) {
                 <input type="text" placeholder={lang === 'es' ? 'Busca tu hotel...' : 'Type to search your hotel...'} value={busquedaGolfOrigen} onChange={(e) => { setBusquedaGolfOrigen(e.target.value); setMostrarDropdownGolf(true); if (e.target.value === '') setGolfOrigen(''); }} onFocus={() => setMostrarDropdownGolf(true)} onBlur={() => setTimeout(() => setMostrarDropdownGolf(false), 200)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none transition font-medium text-slate-800" />
                 {mostrarDropdownGolf && (
                   <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[68px] max-h-48 overflow-y-auto text-sm font-medium">
-                    {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaGolfOrigen || '').toLowerCase())).map(hotel => (
-                      <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setGolfOrigen(`${hotel.nombre}|${zona}`); setBusquedaGolfOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownGolf(false); }} className="p-3 hover:bg-slate-100 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between">
+                    {catalogoHoteles.filter(h => (busquedaGolfOrigen || '').toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w))).map((hotel, idx) => (
+                      <li key={`${hotel.id}-${idx}`} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setGolfOrigen(`${hotel.nombre}|${zona}`); setBusquedaGolfOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownGolf(false); }} className="p-3 hover:bg-slate-100 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between">
                         <span>{hotel.nombre}</span><span className="text-[10px] font-bold text-slate-600 bg-slate-200 px-2 py-1 rounded ml-2">Zona {hotel.zonaId || hotel.zona || 1}</span>
                       </li>
                     ))}
@@ -373,9 +375,9 @@ export default function GolfCourseSeoPage({ params }) {
                     const hotelNombre = golfOrigen.split('|')[0];
                     const newComboItem = {
                       id: Date.now().toString(),
-                      tipo: 'golf',
-                      nombre: `Traslado a Golf: ${golfCourseNombre}`,
-                      descripcion: `${hotelNombre} ↔ ${golfCourseNombre} (${golfPax} pax)`,
+                      tipoEspecial: 'golf',
+                      titulo: lang === 'es' ? `Traslado a Golf: ${golfCourseNombre}` : `Golf Transport: ${golfCourseNombre}`,
+                      subtitulo: `${hotelNombre} ↔ ${golfCourseNombre} (${golfPax} pax) | Fecha: ${golfFecha} | ${golfHoraIda} - ${golfHoraRegreso}`,
                       precio: totalPrecioGolf,
                       detalles: {
                         origen: hotelNombre,

@@ -14,7 +14,9 @@ export function CartProvider({ children }) {
     const savedCart = localStorage.getItem('cabo_cart_items');
     if (savedCart) {
       try {
-        setCombo(JSON.parse(savedCart));
+        const parsedCart = JSON.parse(savedCart);
+        const validItems = Array.isArray(parsedCart) ? parsedCart.filter(i => i && i.titulo) : [];
+        setCombo(validItems);
       } catch (error) {
         console.error("Error leyendo el carrito:", error);
       }
@@ -30,6 +32,7 @@ export function CartProvider({ children }) {
   }, [combo, isLoaded]);
 
   const agregarAlCombo = (item) => {
+    if (!item || !item.titulo) return;
     setCombo((prev) => [...prev, item]);
   };
 

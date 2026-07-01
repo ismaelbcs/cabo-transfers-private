@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Info, Calendar, Plus, CheckCircle, ShoppingBag, Baby } from 'lucide-react';
+import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { catalogoHoteles } from '../../../data/seoData';
 
@@ -11,7 +12,8 @@ export default function TransfersPage({ params }) {
   const resolvedParams = React.use(params);
   const lang = resolvedParams?.lang || 'en';
 
-  const { agregarAlCombo, setServicioSeleccionado, setPaso, setSubCategoria } = useBooking();
+  const { agregarAlCombo } = useCart();
+  const { setServicioSeleccionado, setPaso, setSubCategoria } = useBooking();
 
   const [hotelOrigen, setHotelOrigen] = useState('');
   const [busquedaHotelOrigen, setBusquedaHotelOrigen] = useState('');
@@ -87,8 +89,8 @@ export default function TransfersPage({ params }) {
               <input type="text" placeholder={lang === 'es' ? 'Escribe para buscar tu hotel...' : 'Type to search your hotel...'} value={busquedaHotelOrigen} onChange={(e) => { setBusquedaHotelOrigen(e.target.value); setMostrarDropdownHotel(true); if (e.target.value === '') setHotelOrigen(''); }} onFocus={() => setMostrarDropdownHotel(true)} onBlur={() => setTimeout(() => setMostrarDropdownHotel(false), 200)} className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-900 outline-none transition text-gray-700" />
               {mostrarDropdownHotel && (
                 <ul className="absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-xl mt-1 top-[76px] max-h-60 overflow-y-auto">
-                  {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaHotelOrigen || '').toLowerCase())).map(hotel => (
-                    <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setHotelOrigen(`${hotel.nombre}|${zona}`); setBusquedaHotelOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownHotel(false); }} className="p-3 hover:bg-blue-50 cursor-pointer text-gray-700 border-b border-gray-100 last:border-0 transition flex justify-between">
+                  {catalogoHoteles.filter(h => (busquedaHotelOrigen || '').toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w))).map((hotel, idx) => (
+                    <li key={`${hotel.id}-${idx}`} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setHotelOrigen(`${hotel.nombre}|${zona}`); setBusquedaHotelOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownHotel(false); }} className="p-3 hover:bg-blue-50 cursor-pointer text-gray-700 border-b border-gray-100 last:border-0 transition flex justify-between">
                       <span>{hotel.nombre}</span><span className="text-xs font-bold text-blue-900 bg-blue-100 px-2 py-1 rounded-md">{lang === 'es' ? 'Zona' : 'Zone'} {hotel.zonaId || hotel.zona || 1}</span>
                     </li>
                   ))}

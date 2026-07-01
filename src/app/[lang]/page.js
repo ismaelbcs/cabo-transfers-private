@@ -492,7 +492,7 @@ export default function Home() {
     { id: 437, nombre: 'Diamante Crystal Lagoon Suites', zona: 4 }
   ];
 
-  const hotelesFiltrados = hotelesBase.filter(h => h.nombre.toLowerCase().includes(busquedaHotel.toLowerCase()));
+  const hotelesFiltrados = hotelesBase.filter(h => busquedaHotel.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
   const zonasVisibles = zonasBase.filter(z => hotelesFiltrados.some(h => h.zona === z.id));
 
   return (
@@ -917,8 +917,8 @@ export default function Home() {
                       <div className="flex-grow">
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{t?.step1?.hotels_in_zone || (lang === 'es' ? 'Hoteles en esta zona:' : 'Hotels in this zone:')}</p>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-slate-600 font-medium">
-                          {hotelesFiltrados.filter(h => h.zona === zona.id).map(hotel => (
-                            <li key={hotel.id} className="flex items-start gap-2.5">
+                          {hotelesFiltrados.filter(h => h.zona === zona.id).map((hotel, idx) => (
+                            <li key={`${hotel.id}-${idx}`} className="flex items-start gap-2.5">
                               <Check size={16} className="text-slate-900 mt-0.5 shrink-0" />
                               <span className={busquedaHotel && hotel.nombre.toLowerCase().includes(busquedaHotel.toLowerCase()) ? 'font-bold text-slate-900 bg-slate-200 px-2 py-0.5 rounded' : ''}>{hotel.nombre}</span>
                             </li>
