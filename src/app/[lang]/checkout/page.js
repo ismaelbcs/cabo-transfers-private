@@ -801,12 +801,17 @@ export default function CheckoutPage({ params }) {
 
               <div className="mb-6 space-y-4">
                 {combo.map((item, idx) => (
-                  <div key={idx} className="flex justify-between items-start border-b border-slate-100 pb-4 last:border-0 last:pb-0">
+                  <div key={idx} className="flex justify-between items-start border-b border-slate-100 pb-4 last:border-0 last:pb-0 group">
                     <div className="pr-4">
                       <p className="font-bold text-slate-800 text-sm tracking-tight">{item.titulo}</p>
                       <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1">{item.subtitulo}</p>
                     </div>
-                    <p className="font-bold text-blue-600">${(item.precio || 0).toFixed(2)}</p>
+                    <div className="flex flex-col items-end gap-2 shrink-0">
+                      <p className="font-bold text-blue-600">${(item.precio || 0).toFixed(2)}</p>
+                      <button type="button" onClick={(e) => { e.preventDefault(); eliminarDelCombo(idx); }} className="text-red-400 hover:text-red-600 text-[10px] flex items-center gap-1 font-bold bg-red-50 hover:bg-red-100 px-2 py-1 rounded-md transition-colors uppercase tracking-widest" title={isEs ? 'Eliminar servicio' : 'Remove service'}>
+                        <Trash2 size={12} /> {isEs ? 'Eliminar' : 'Remove'}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

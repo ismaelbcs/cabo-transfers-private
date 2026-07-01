@@ -278,7 +278,7 @@ export default function RestaurantSeoPage({ params }) {
 
         {/* RIGHT: BOOKING WIDGET */}
         <div className="lg:col-span-1 relative">
-          <div className="bg-slate-100 border border-slate-300 rounded-[2rem] shadow-2xl p-6 md:p-8 sticky top-28">
+          <div className="bg-slate-100 border border-slate-300 rounded-[2rem] shadow-2xl p-5 md:p-6 sticky top-28 max-w-[380px] mx-auto lg:ml-auto lg:mr-0 lg:max-w-[350px] w-full">
             
             {/* Cabecera del Widget (Seguridad) */}
             <div className="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
