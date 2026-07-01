@@ -18,7 +18,9 @@ export default function TourBookingForm({ lang = 'es' }) {
     handleParticipanteChange,
     puedeAvanzarPaso2,
     setPaso,
+    lightboxAbierto,
     setLightboxAbierto,
+    lightboxIndice,
     setLightboxIndice,
     currentUser
   } = useBooking();
@@ -116,27 +118,46 @@ export default function TourBookingForm({ lang = 'es' }) {
           <p className="text-slate-500 font-medium text-base leading-relaxed mb-8">{tr.descripcion[lang]}</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            <div className="bg-slate-50 border border-slate-100 rounded-xl p-6">
-              <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2"><CheckCircle size={18} className="text-slate-400" /> {lang === 'es' ? '¿Qué incluye?' : 'What\'s included?'}</h4>
+            <div className="bg-emerald-50/50 border border-emerald-100/80 rounded-xl p-6">
+              <h4 className="font-bold text-emerald-800 mb-4 flex items-center gap-2"><CheckCircle size={18} className="text-emerald-600" /> {lang === 'es' ? '¿Qué incluye?' : 'What\'s included?'}</h4>
               <ul className="space-y-3">
-                {tr.incluye && tr.incluye[lang] && tr.incluye[lang].map((item, idx) => (<li key={idx} className="flex items-start text-slate-600 font-medium text-sm gap-2.5"><Check size={16} className="text-slate-400 shrink-0 mt-0.5" /> {item}</li>))}
+                {tr.incluye && tr.incluye[lang] && tr.incluye[lang].map((item, idx) => (<li key={idx} className="flex items-start text-emerald-700/80 font-medium text-sm gap-2.5"><Check size={16} className="text-emerald-500 shrink-0 mt-0.5" /> {item}</li>))}
               </ul>
             </div>
-            <div className="bg-slate-50 border border-slate-100 rounded-xl p-6">
-              <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2"><Info size={18} className="text-slate-400" /> {lang === 'es' ? 'Recomendaciones' : 'Recommendations'}</h4>
+            <div className="bg-orange-50/40 border border-orange-100/80 rounded-xl p-6">
+              <h4 className="font-bold text-orange-800 mb-4 flex items-center gap-2"><AlertCircle size={18} className="text-orange-600" /> {lang === 'es' ? 'Requisitos' : 'Requirements'}</h4>
               <ul className="space-y-3">
                 {tr.requisitos && tr.requisitos[lang] && (Array.isArray(tr.requisitos[lang])
-                  ? tr.requisitos[lang].map((item, idx) => (<li key={idx} className="flex items-start text-slate-600 font-medium text-sm gap-2.5"><span className="text-slate-400 font-bold mt-0.5">•</span> {item}</li>))
-                  : <p className="text-slate-600 font-medium text-sm">{tr.requisitos[lang]}</p>
+                  ? tr.requisitos[lang].map((item, idx) => (<li key={idx} className="flex items-start text-orange-700/80 font-medium text-sm gap-2.5"><span className="text-orange-500 font-bold mt-0.5">•</span> {item}</li>))
+                  : <p className="text-orange-700/80 font-medium text-sm">{tr.requisitos[lang]}</p>
                 )}
               </ul>
             </div>
           </div>
 
-          <div className="flex justify-between items-center mt-8 pt-8 border-t border-slate-100">
+          <div className="flex justify-between items-center mt-8 pt-8 border-t border-slate-100 mb-8">
             <p className="text-slate-900 font-bold flex items-center gap-2"><Clock size={20} className="text-slate-400" /> {tr.duracion[lang]}</p>
             {tr.especial && <p className="text-xs text-slate-500 font-bold bg-slate-100 px-3 py-1.5 rounded-md border border-slate-200 uppercase tracking-wide">{lang === 'es' ? `Mínimo ${tr.minPax} personas` : `Minimum ${tr.minPax} pax`}</p>}
           </div>
+
+          {tr.galeria && tr.galeria.length > 0 && (
+            <div className="mt-8 pt-8 border-t border-slate-100">
+              <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <ImageIcon size={18} className="text-slate-400" />
+                {lang === 'es' ? 'Galería de Imágenes' : 'Image Gallery'}
+              </h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {tr.galeria.map((imgUrl, idx) => (
+                  <div key={idx} className="relative aspect-video rounded-xl overflow-hidden cursor-pointer group shadow-sm border border-slate-200/60" onClick={() => {
+                    setLightboxIndice?.(idx);
+                    setLightboxAbierto?.(true);
+                  }}>
+                    <img src={imgUrl} alt={`${tr.nombre[lang]} ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -291,6 +312,40 @@ export default function TourBookingForm({ lang = 'es' }) {
           </div>
         </div>
       </div>
+
+      {/* LIGHTBOX OVERLAY */}
+      {lightboxAbierto && tr.galeria && tr.galeria.length > 0 && (
+        <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 select-none">
+          <button onClick={() => setLightboxAbierto(false)} className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-3 rounded-full text-lg z-50">
+            ✕
+          </button>
+          
+          <button 
+            onClick={() => setLightboxIndice(prev => (prev === 0 ? tr.galeria.length - 1 : prev - 1))}
+            className="absolute left-6 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-4 rounded-full font-black text-xl z-50"
+          >
+            ❮
+          </button>
+
+          <div className="max-w-5xl max-h-[90vh] flex flex-col items-center z-40 relative">
+            <img 
+              src={tr.galeria[lightboxIndice]} 
+              alt={`${tr.nombre[lang]} ${lightboxIndice + 1}`} 
+              className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-white/10 animate-fade-in" 
+            />
+            <p className="text-white/60 text-sm mt-4 font-semibold tracking-wider">
+              {lightboxIndice + 1} / {tr.galeria.length}
+            </p>
+          </div>
+
+          <button 
+            onClick={() => setLightboxIndice(prev => (prev === tr.galeria.length - 1 ? 0 : prev + 1))}
+            className="absolute right-6 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-4 rounded-full font-black text-xl z-50"
+          >
+            ❯
+          </button>
+        </div>
+      )}
 
     </div>
   );

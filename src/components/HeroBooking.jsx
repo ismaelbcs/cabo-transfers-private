@@ -208,24 +208,27 @@ export default function HeroBooking({ lang = 'es' }) {
                     // Redirigir al Checkout si compran el tour directo desde aquí
                     router.push(`/${lang}/checkout`);
                   }}
-                  className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-slate-300 transition-all duration-300 flex flex-col"
+                  className="group bg-white rounded-[2rem] border border-slate-200/60 overflow-hidden cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-slate-300 transition-all duration-300 flex flex-col min-h-[400px]"
                 >
-                  <div className="relative h-48 overflow-hidden bg-slate-100 shrink-0">
+                  <div className="relative h-48 sm:h-52 overflow-hidden bg-slate-100 shrink-0">
                     <img src={`/${tour.imagenUrl}`} alt={tour.nombre[lang]} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-                    <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                    <div className="absolute bottom-3 left-3 bg-white px-2.5 py-1 rounded-md text-[11px] font-bold text-slate-900 flex items-center shadow-md">
-                      <Clock size={12} className="mr-1.5 text-slate-400" /> {tour.duracion[lang]}
+                    <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none"></div>
+                    <div className="absolute bottom-3 left-3 z-20 bg-white px-3 py-1.5 rounded-full text-xs font-bold text-slate-900 flex items-center shadow-md">
+                      <Clock size={14} className="mr-1.5 text-slate-400" /> {tour.duracion[lang]}
                     </div>
                   </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h4 className="font-bold text-slate-900 text-lg leading-tight mb-2 tracking-tight group-hover:text-slate-600 transition-colors">{tour.nombre[lang]}</h4>
-                    <div className="mt-auto pt-5 flex justify-between items-end border-t border-slate-100">
+                  <div className="p-6 md:p-8 flex flex-col flex-grow bg-white">
+                    <h4 className="font-bold text-slate-900 text-xl leading-tight mb-3 tracking-tight group-hover:text-slate-600 transition-colors">{tour.nombre[lang]}</h4>
+                    <p className="text-slate-500 text-sm line-clamp-2 mb-6 flex-grow font-medium leading-relaxed">
+                      {tour.descripcion[lang]}
+                    </p>
+                    <div className="mt-auto pt-6 flex justify-between items-center border-t border-slate-100">
                       <div>
-                        <p className="text-[9px] uppercase tracking-widest font-bold text-slate-400 mb-0.5">{lang === 'es' ? 'Precio desde' : 'Price from'}</p>
-                        <p className="font-black text-slate-900 text-xl">${tour.precioPx} <span className="text-xs text-slate-500 font-bold">USD</span></p>
+                        <p className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">{lang === 'es' ? 'Precio desde' : 'Price from'}</p>
+                        <p className="font-black text-slate-900 text-2xl leading-none">${tour.precioPx} <span className="text-xs text-slate-500 font-bold">USD</span></p>
                       </div>
-                      <div className="w-9 h-9 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 text-slate-900 transition-colors">
-                        <ChevronRight size={16} />
+                      <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white group-hover:border-slate-900 text-slate-900 transition-colors duration-300">
+                        <ChevronRight size={20} />
                       </div>
                     </div>
                   </div>

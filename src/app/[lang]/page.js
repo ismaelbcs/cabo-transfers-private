@@ -591,13 +591,15 @@ export default function Home() {
       {/* ===== PASO 2: FLUJO DE TOURS Y ESPECIALES ===== */}
       {paso === 2 && servicioSeleccionado === 'tours' && (
         <section className="pt-24 pb-16 bg-slate-50 min-h-screen animate-fade-in">
-          <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {reserva.tourId ? (
+            <TourBookingForm lang={lang} />
+          ) : (
+            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-            {/* COLUMNA IZQUIERDA: TARJETA BLANCA DE CONTENIDO */}
-            <div className="lg:col-span-8 bg-white border border-slate-200 rounded-[2rem] p-6 md:p-10 shadow-sm">
+              {/* COLUMNA IZQUIERDA: TARJETA BLANCA DE CONTENIDO */}
+              <div className="lg:col-span-8 bg-white border border-slate-200 rounded-[2rem] p-6 md:p-10 shadow-sm">
 
-              {/* HEADER UNIVERSAL (Título de Brújula y Botón Atrás) */}
-              {!reserva.tourId && (
+                {/* HEADER UNIVERSAL (Título de Brújula y Botón Atrás) */}
                 <div className="mb-8 border-b border-slate-100 pb-6">
                   <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2 mb-4">
                     <Compass className="text-blue-900" size={28} />
@@ -613,63 +615,62 @@ export default function Home() {
                     </button>
                   )}
                 </div>
-              )}
 
-              {/* RENDERIZADO DEL CONTENIDO DENTRO DE LA TARJETA BLANCA */}
-              {!subCategoria && !reserva.tourId && <ExperienceSelector lang={lang} />}
-              {subCategoria === 'especiales' && !reserva.tourId && <SpecialServices lang={lang} />}
-              {subCategoria === 'tours' && !reserva.tourId && (
-                <div className="-mt-8"> {/* Empuja los tours un poco hacia arriba para que se vean bien en la caja */}
-                  <FeaturedTours t={t} lang={lang} />
-                </div>
-              )}
-              {reserva.tourId && <TourBookingForm lang={lang} />}
-            </div>
-
-            {/* COLUMNA DERECHA: SIDEBAR NEGRO (Resumen de Cotización) */}
-            <div className="lg:col-span-4 sticky top-28">
-              <div className="bg-[#0f172a] rounded-[2rem] p-8 text-white shadow-xl">
-                <h3 className="text-xl font-black mb-6 border-b border-slate-700 pb-4">
-                  {lang === 'es' ? 'Resumen de Cotización' : 'Quote Summary'}
-                </h3>
-                <div className="space-y-4 mb-8">
-                  <div className="flex justify-between items-center text-sm font-bold text-slate-300 uppercase tracking-widest border-b border-slate-800 pb-2">
-                    <span>{lang === 'es' ? 'TOURS / ESPECIALES' : 'TOURS / SPECIALS'}</span>
+                {/* RENDERIZADO DEL CONTENIDO DENTRO DE LA TARJETA BLANCA */}
+                {!subCategoria && <ExperienceSelector lang={lang} />}
+                {subCategoria === 'especiales' && <SpecialServices lang={lang} />}
+                {subCategoria === 'tours' && (
+                  <div className="-mt-8"> {/* Empuja los tours un poco hacia arriba para que se vean bien en la caja */}
+                    <FeaturedTours t={t} lang={lang} />
                   </div>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-slate-400">{lang === 'es' ? 'Pasajeros:' : 'Passengers:'}</span>
-                    <span className="font-bold">{reserva?.pasajeros || 1}</span>
+                )}
+              </div>
+
+              {/* COLUMNA DERECHA: SIDEBAR NEGRO (Resumen de Cotización) */}
+              <div className="lg:col-span-4 sticky top-28">
+                <div className="bg-[#0f172a] rounded-[2rem] p-8 text-white shadow-xl">
+                  <h3 className="text-xl font-black mb-6 border-b border-slate-700 pb-4">
+                    {lang === 'es' ? 'Resumen de Cotización' : 'Quote Summary'}
+                  </h3>
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between items-center text-sm font-bold text-slate-300 uppercase tracking-widest border-b border-slate-800 pb-2">
+                      <span>{lang === 'es' ? 'TOURS / ESPECIALES' : 'TOURS / SPECIALS'}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-slate-400">{lang === 'es' ? 'Pasajeros:' : 'Passengers:'}</span>
+                      <span className="font-bold">{reserva?.pasajeros || 1}</span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="border-t border-slate-700 pt-6 mb-8">
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">
-                    {lang === 'es' ? 'Subtotal del Servicio (USD)' : 'Service Subtotal (USD)'}
-                  </p>
-                  <p className="text-4xl font-black">$0.00</p>
-                  <p className="text-xs text-slate-400 mt-2 flex items-center font-medium gap-1">
-                    <Check size={14} className="text-green-500" /> {lang === 'es' ? 'Impuestos incluidos' : 'Taxes included'}
-                  </p>
-                </div>
+                  <div className="border-t border-slate-700 pt-6 mb-8">
+                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">
+                      {lang === 'es' ? 'Subtotal del Servicio (USD)' : 'Service Subtotal (USD)'}
+                    </p>
+                    <p className="text-4xl font-black">$0.00</p>
+                    <p className="text-xs text-slate-400 mt-2 flex items-center font-medium gap-1">
+                      <Check size={14} className="text-green-500" /> {lang === 'es' ? 'Impuestos incluidos' : 'Taxes included'}
+                    </p>
+                  </div>
 
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => {
-                      if (subCategoria) setSubCategoria('');
-                      else { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0, 0); }
-                    }}
-                    className="px-6 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition flex-shrink-0"
-                  >
-                    &lt; {lang === 'es' ? 'Atrás' : 'Back'}
-                  </button>
-                  <button className="flex-1 py-4 bg-slate-800 text-slate-500 cursor-not-allowed rounded-xl font-bold transition flex items-center justify-center">
-                    {lang === 'es' ? 'Añadir a mi combo +' : 'Add to combo +'}
-                  </button>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => {
+                        if (subCategoria) setSubCategoria('');
+                        else { setServicioSeleccionado(''); setPaso(1); window.scrollTo(0, 0); }
+                      }}
+                      className="px-6 py-4 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition flex-shrink-0"
+                    >
+                      &lt; {lang === 'es' ? 'Atrás' : 'Back'}
+                    </button>
+                    <button className="flex-1 py-4 bg-slate-800 text-slate-500 cursor-not-allowed rounded-xl font-bold transition flex items-center justify-center">
+                      {lang === 'es' ? 'Añadir a mi combo +' : 'Add to combo +'}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-          </div>
+            </div>
+          )}
         </section>
       )}
       {/* ==============================================================
@@ -707,7 +708,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-full lg:w-5/12 h-72 md:h-[450px] rounded-[2rem] overflow-hidden shadow-lg shrink-0 relative group bg-slate-100">
-                  <Image src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <Image src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Private Cabo Airport Shuttle Service" fill className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                 </div>
               </div>
             </div>
@@ -730,7 +731,7 @@ export default function Home() {
               {/* Tarjeta 1: Vans / Shuttles */}
               <div className="bg-white rounded-[2rem] border border-slate-200/60 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col group">
                 <div className="h-72 overflow-hidden relative bg-slate-100">
-                  <Image src="/private-airport-transfer-sjd-pueblo-bonito-sunset-cabo.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <img src="/private-airport-transfer-sjd-pueblo-bonito-sunset-cabo.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                 </div>
                 <div className="p-8 md:p-10 flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Cabo Shuttle Services</h3>
@@ -751,7 +752,7 @@ export default function Home() {
               {/* Tarjeta 2: Luxury SUV */}
               <div className="bg-white rounded-[2rem] border border-slate-200/60 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col group">
                 <div className="h-72 overflow-hidden relative bg-slate-100">
-                  <Image src="/private-transportation-nobu-hotel-los-cabos.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                  <img src="/private-transportation-nobu-hotel-los-cabos.webp" alt="Private Cabo Airport Shuttle Service" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                 </div>
                 <div className="p-8 md:p-10 flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">Private VIP Transportation</h3>
@@ -797,7 +798,7 @@ export default function Home() {
 
                 <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col justify-center">
                   <div className="w-full h-48 bg-slate-200 rounded-xl mb-8 overflow-hidden">
-                    <Image src="/Cabo-San-Lucas-Snorkel-Tour-3.webp" alt="Cabo Tours and Activities" className="w-full h-full object-cover" />
+                    <img src="/Cabo-San-Lucas-Snorkel-Tour-3.webp" alt="Cabo Tours and Activities" className="w-full h-full object-cover" />
                   </div>
                   <h4 className="font-bold text-xl text-slate-900 mb-3 tracking-tight">{lang === 'es' ? 'Aprovecha al máximo tu visita' : 'Make the most of your visit'}</h4>
                   <p className="text-slate-500 font-medium mb-8 leading-relaxed">
@@ -980,7 +981,7 @@ export default function Home() {
 
           {/* LOGOS DE PAGO Y TEXTO BILINGÜE AL FINAL */}
           <div className="w-full flex flex-col items-center pt-8 px-4 max-w-4xl mx-auto text-center animate-fade-in">
-            <Image src="/pago-tarjetas.png" alt="Métodos de Pago" className="h-10 md:h-12 object-contain mb-8" />
+            <img src="/pago-tarjetas.png" alt="Métodos de Pago" className="h-10 md:h-12 object-contain mb-8" />
             <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-4 tracking-tight">
               {lang === 'es' ? 'Reserva Fácil y Opciones Flexibles.' : 'Easy Booking & Flexible Payment.'}
             </h3>

@@ -42,7 +42,7 @@ export default function FeaturedTours({ lang = 'es', t }) {
 
         {/* Grid de Tarjetas (Ajuste visual limpio) */}
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 -mx-4 px-4 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-          {toursActivos.slice(0, 6).map((tr) => (
+          {toursActivos.map((tr) => (
             <div 
               key={tr.id} 
               onClick={() => router.push(`/${lang}/tours/${tr.slug}`)} 
