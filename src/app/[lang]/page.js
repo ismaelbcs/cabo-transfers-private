@@ -507,7 +507,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/40 to-slate-50 z-10"></div>
 
           <div className="max-w-4xl mx-auto text-center mb-24 md:mb-10 relative z-20 mt-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tighter leading-tight drop-shadow-lg" style={{ letterSpacing: '-0.03em' }}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tighter leading-normal pb-2 drop-shadow-lg" style={{ letterSpacing: '-0.03em' }}>
               {lang === 'es' ? 'Transporte Privado y Shuttles en Los Cabos.' : <><span className="text-white">Premium Cabo Airport Shuttle</span> & Private Tours.</>}
             </h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md">
