@@ -48,7 +48,7 @@ export const landingPagesSEO = [
   // ================= ZONA 2 =================
   { slug: 'sjd-to-grand-velas', nombre: 'Grand Velas Los Cabos', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '35 km', image: 'panoramic-grand-velas-los-cabos-velas-resorts-airport-sjd-san-jose-del-cabo.jpg', desc: 'ultra-luxury all-inclusive living' },
   { slug: 'sjd-to-la-pacifica', nombre: 'La Pacifica by Hilton', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '30 km', image: 'Hilton-los-cabos-airport-sjd.webp', desc: 'a premier luxury vacation club' },
-  { slug: 'sjd-to-garza-blanca', nombre: 'Garza Blanca Resort', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '34 km', image: 'garza-blanca-resort-spa-los-cabos-airport-sjd.webp', desc: 'contemporary elegance by the sea' },
+  { slug: 'sjd-to-garza-blanca', nombre: 'Grand Velas Los Cabos', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '34 km', image: 'garza-blanca-resort-spa-los-cabos-airport-sjd.webp', desc: 'contemporary elegance by the sea' },
   { slug: 'sjd-to-dreams-los-cabos', nombre: 'Dreams Los Cabos', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '32 km', image: 'dreams-los-cabos-sjd-airport.webp', desc: 'a limitless beachfront escape' },
   { slug: 'sjd-to-hilton-los-cabos', nombre: 'Hilton Los Cabos', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '30 km', image: 'Hilton-los-cabos-airport-sjd.webp', desc: 'a premier golf and beach resort' },
   { slug: 'sjd-to-solaz', nombre: 'Solaz Los Cabos', zona: 2, zonaText: 'Tourist Corridor', tiempo: '35-40 min', dist: '33 km', image: 'solaz-los-cabos-sjd-airport-ballard.webp', desc: 'an architectural masterpiece' },
@@ -165,7 +165,7 @@ export const hotelesBase = [
   { id: 121, nombre: 'OCEAN RESIDENCE', zona: 1 },
   { id: 122, nombre: 'Querencia', zona: 1 },
   { id: 123, nombre: 'Villa Vista del Mar', zona: 1 },
-  { id: 124, nombre: 'Ocean Spirits', zona: 1 },
+  { id: 124, fontName: 'Ocean Spirits', nombre: 'Ocean Spirits', zona: 1 },
   { id: 125, nombre: 'Tropical oasis', zona: 1 },
   { id: 126, nombre: 'MariaMar Suites', zona: 1 },
   { id: 127, nombre: 'Hotel Aeropuerto Los Cabos', zona: 1 },
@@ -416,7 +416,7 @@ export const hotelesBase = [
   { id: 421, nombre: 'Villa Colina (Pedregal)', zona: 3 },
   { id: 422, nombre: 'Villa Fiesta (Pedregal)', zona: 3 },
   { id: 423, nombre: 'Villa de la Luz (Pedregal)', zona: 3 },
-  { id: 424, nombre: 'Villa Vista Ballena (Pedregal)', zona: 3 },
+  { id: 424, fontName: 'Villa Vista Ballena', nombre: 'Villa Vista Ballena (Pedregal)', zona: 3 },
   { id: 425, nombre: 'Villa Las Palmas (Pedregal)', zona: 3 },
   { id: 426, nombre: 'Villa Finisterra (Pedregal)', zona: 3 },
   { id: 427, nombre: 'Villa Sol y Luna (Pedregal)', zona: 3 },
@@ -465,7 +465,7 @@ export const hotelesBase = [
   { id: 470, nombre: 'Ventanas Fase 2', zona: 3 },
   { id: 471, nombre: 'Ventanas Fase 3', zona: 3 },
   { id: 472, nombre: 'Rancho Paraíso Estates', zona: 3 },
-  { id: 473, nombre: 'Vistalagos Residencial (Country Club)', zona: 3 },
+  { id: 473, fontName: 'Vistalagos Residencial', nombre: 'Vistalagos Residencial (Country Club)', zona: 3 },
   { id: 474, nombre: 'Plaza Náutica Condominiums', zona: 3 },
   { id: 475, nombre: 'Copacabana Condominiums', zona: 3 },
   { id: 476, nombre: 'Condominios Marina Cabo Plaza', zona: 3 },
@@ -584,7 +584,7 @@ const zonasPrecios = [
 
 export default function DestinationPage({ params }) {
   const resolvedParams = use(params);
-  const lang = resolvedParams?.lang || 'en'; // Inglés como principal por tu solicitud
+  const lang = resolvedParams?.lang || 'en'; // Inglés como principal por defecto
   const slug = resolvedParams?.slug || '';
   const router = useRouter();
 
@@ -628,8 +628,8 @@ export default function DestinationPage({ params }) {
     if (setReserva) {
       setReserva(prev => ({ 
         ...prev, 
-        hotelId: activeHotelName, // Usamos el activo, no el fijo
-        zonaId: activeZona,       // Usamos la zona activa, no la fija
+        hotelId: activeHotelName, 
+        zonaId: activeZona,       
         tipoVehiculo: vehiculoSeleccionado,
         fechaLlegada: fechaLlegada,
         pasajeros: pasajeros
@@ -843,7 +843,7 @@ export default function DestinationPage({ params }) {
         </div>
 
         {/* ========================================= */}
-        {/* COLUMNA DERECHA: WIDGET DE RESERVA INTERACTIVO */}
+        {/* COLUMNA DERECHA: WIDGET DE RESERVA INTERACTIVO INTERNACIONALIZADO */}
         {/* ========================================= */}
         <div className="lg:col-span-1 relative">
           <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-[2rem] shadow-2xl shadow-slate-200/50 sticky top-28">
@@ -852,19 +852,25 @@ export default function DestinationPage({ params }) {
             <div className="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
               <div className="flex items-center gap-2">
                 <MapPin className="text-blue-600" size={24} />
-                <h3 className="text-xl font-black text-slate-900 tracking-tight">Detalles de tu Reserva</h3>
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                  {lang === 'es' ? 'Detalles de tu Reserva' : 'Booking Details'}
+                </h3>
               </div>
               <div className="flex flex-col items-end">
                  <div className="flex items-center gap-1">
                    <ShieldCheck size={14} className="text-yellow-600" />
-                   <span className="text-[10px] font-bold text-slate-600 uppercase">Pago Seguro</span>
+                   <span className="text-[10px] font-bold text-slate-600 uppercase">
+                     {lang === 'es' ? 'Pago Seguro' : 'Secure Payment'}
+                   </span>
                  </div>
               </div>
             </div>
 
             {/* SELECCIONA TU HOTEL (BUSCADOR INTERACTIVO) */}
             <div className="mb-6 relative">
-              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Selecciona tu hotel</label>
+              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                {lang === 'es' ? 'Selecciona tu hotel' : 'Select your hotel'}
+              </label>
               <input 
                 type="text" 
                 value={searchTerm}
@@ -873,8 +879,8 @@ export default function DestinationPage({ params }) {
                   setShowDropdown(true);
                 }}
                 onFocus={() => setShowDropdown(true)}
-                onBlur={() => setTimeout(() => setShowDropdown(false), 200)} // Delay para permitir hacer clic en la lista
-                placeholder="Escribe para buscar tu hotel..." 
+                onBlur={() => setTimeout(() => setShowDropdown(false), 200)} 
+                placeholder={lang === 'es' ? 'Escribe para buscar tu hotel...' : 'Type to search your hotel...'} 
                 className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 transition-colors" 
               />
               
@@ -888,7 +894,7 @@ export default function DestinationPage({ params }) {
                         onMouseDown={() => {
                           setSearchTerm(h.nombre);
                           setActiveHotelName(h.nombre);
-                          setActiveZona(h.zona); // Actualiza la zona para cobrar el precio correcto
+                          setActiveZona(h.zona); 
                           setShowDropdown(false);
                         }} 
                         className="p-3 hover:bg-slate-50 cursor-pointer text-sm text-slate-700 border-b border-slate-50 last:border-0"
@@ -897,7 +903,9 @@ export default function DestinationPage({ params }) {
                       </li>
                     ))
                   ) : (
-                    <li className="p-3 text-sm text-slate-400">No se encontraron hoteles</li>
+                    <li className="p-3 text-sm text-slate-400">
+                      {lang === 'es' ? 'No se encontraron hoteles' : 'No hotels found'}
+                    </li>
                   )}
                 </ul>
               )}
@@ -905,7 +913,9 @@ export default function DestinationPage({ params }) {
 
             {/* TIPO DE VEHÍCULO */}
             <div className="mb-6">
-              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Tipo de Vehículo</label>
+              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                {lang === 'es' ? 'Tipo de Vehículo' : 'Vehicle Type'}
+              </label>
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 
                 {/* Opcion Luxury SUV */}
@@ -917,12 +927,13 @@ export default function DestinationPage({ params }) {
                     <span className="font-bold text-slate-900">Luxury SUV</span>
                     <Car size={18} className={vehiculoSeleccionado === 'suv' ? 'text-blue-900' : 'text-slate-400'} />
                   </div>
-                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">Elegancia y confort para familias o grupos pequeños.</p>
+                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">
+                    {lang === 'es' ? 'Elegancia y confort para familias o grupos pequeños.' : 'Elegance and comfort for families or small groups.'}
+                  </p>
                   
-                  {/* PRECIO DINÁMICO REFLEJADO AQUÍ */}
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold">
-                      <Users size={12} /> MÁX 6 PAX
+                      <Users size={12} /> {lang === 'es' ? 'MÁX 6 PAX' : 'MAX 6 PAX'}
                     </div>
                     <span className="font-black text-slate-900 text-sm">${tarifaVehiculo.tarifaSuburban}</span>
                   </div>
@@ -937,12 +948,13 @@ export default function DestinationPage({ params }) {
                     <span className="font-bold text-slate-900">Van</span>
                     <Car size={18} className={vehiculoSeleccionado === 'van' ? 'text-blue-900' : 'text-slate-400'} />
                   </div>
-                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">Amplitud y lujo para grupos grandes.</p>
+                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">
+                    {lang === 'es' ? 'Amplitud y lujo para grupos grandes.' : 'Spaciousness and luxury for large groups.'}
+                  </p>
                   
-                  {/* PRECIO DINÁMICO REFLEJADO AQUÍ */}
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold">
-                      <Users size={12} /> MÁX 10 PAX
+                      <Users size={12} /> {lang === 'es' ? 'MÁX 10 PAX' : 'MAX 10 PAX'}
                     </div>
                     <span className="font-black text-slate-900 text-sm">${tarifaVehiculo.tarifaSprinter}</span>
                   </div>
@@ -954,7 +966,9 @@ export default function DestinationPage({ params }) {
             {/* FECHA Y PASAJEROS */}
             <div className="grid grid-cols-2 gap-4 mb-8">
               <div>
-                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Fecha de Llegada</label>
+                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                  {lang === 'es' ? 'Fecha de Llegada' : 'Arrival Date'}
+                </label>
                 <div className="relative">
                   <input 
                     type="date" 
@@ -965,7 +979,9 @@ export default function DestinationPage({ params }) {
                 </div>
               </div>
               <div>
-                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">Pasajeros</label>
+                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                  {lang === 'es' ? 'Pasajeros' : 'Passengers'}
+                </label>
                 <div className="relative flex items-center">
                   <div className="absolute left-4 text-slate-400 pointer-events-none"><Users size={16} /></div>
                   <input 
@@ -981,7 +997,9 @@ export default function DestinationPage({ params }) {
 
             {/* BOTONES DE CONTINUAR */}
             <div className="text-center mb-4">
-              <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Elige un servicio para continuar</span>
+              <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">
+                {lang === 'es' ? 'Elige un servicio para continuar' : 'Choose a service to continue'}
+              </span>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -990,7 +1008,9 @@ export default function DestinationPage({ params }) {
                 className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
               >
                 <PlaneLanding size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
-                <span className="text-xs font-bold text-slate-800 text-center">Aeropuerto → Hotel</span>
+                <span className="text-xs font-bold text-slate-800 text-center">
+                  {lang === 'es' ? 'Aeropuerto → Hotel' : 'Airport → Hotel'}
+                </span>
               </button>
               
               <button 
@@ -998,7 +1018,9 @@ export default function DestinationPage({ params }) {
                 className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
               >
                 <PlaneTakeoff size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
-                <span className="text-xs font-bold text-slate-800 text-center">Hotel → Aeropuerto</span>
+                <span className="text-xs font-bold text-slate-800 text-center">
+                  {lang === 'es' ? 'Hotel → Aeropuerto' : 'Hotel → Airport'}
+                </span>
               </button>
 
               <button 
@@ -1006,7 +1028,9 @@ export default function DestinationPage({ params }) {
                 className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
               >
                 <RefreshCcw size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
-                <span className="text-xs font-bold text-slate-800 text-center">Viaje Redondo</span>
+                <span className="text-xs font-bold text-slate-800 text-center">
+                  {lang === 'es' ? 'Viaje Redondo' : 'Round Trip'}
+                </span>
               </button>
 
               <button 
@@ -1014,7 +1038,9 @@ export default function DestinationPage({ params }) {
                 className="bg-[#0f172a] rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:bg-slate-800 transition-colors shadow-lg group"
               >
                 <Compass size={24} className="text-slate-300 mb-2 group-hover:text-white transition-colors" />
-                <span className="text-xs font-bold text-white text-center">Tours y Especiales</span>
+                <span className="text-xs font-bold text-white text-center">
+                  {lang === 'es' ? 'Tours y Especiales' : 'Tours & Specials'}
+                </span>
               </button>
             </div>
 
