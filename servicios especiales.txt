@@ -1,0 +1,113 @@
+"CENAS"
+Quiero hacer una URL para servicios de cenas que este enlazado con el boton cenas y restaurantes.
+
+Quiero que el boton contenga el listado de todos los hoteles con sus zonas y que la gente pueda escribir  y que aparezcan los hoteles con los mismos caracteres que ellos pongan.
+
+Que pregunte en que area esta su restaurante y les debe aparecer una lista despegable: -San Jose del Cabo -Corredor Turistico -Cabo San Lucas -Sitio Pacifico
+
+Otro cuadro donde deben poner el nombre del restaurante
+
+otro cuadro del numero de pasjeros: 1-4    5-8    9-10
+
+otro cuadro donde pongan horas un cuadro con Hora de recogida de hotel, y otro Hora de recogida del restaurante (regrreso) 
+
+ponle opcion si quieren agregar alguna Rosa el costo extra sera de +$50 usd, botella de vino +$70usd, Vino espumoso +$70usd
+
+El precio se tendra que sacar asi, Si elijen un hotel de zona 1 y va al restaurante area: -San Jose del Cabo el costo es de $120 usd -Corredor Turistico $140 usd -Cabo San Lucas $170 usd -Sitio Pacifico $250
+Si elijen un hotel de zona 2 y va al restaurante area: -San Jose del Cabo el costo es de $140 usd -Corredor Turistico $120 usd -Cabo San Lucas $140 usd -Sitio Pacifico $220
+Si elijen un hotel de zona 3 y va al restaurante area: -San Jose del Cabo el costo es de $170 usd -Corredor Turistico $140 usd -Cabo San Lucas $120 usd -Sitio Pacifico $220
+Si elijen un hotel de zona 4 y va al restaurante area: -San Jose del Cabo el costo es de $250 usd -Corredor Turistico $220 usd -Cabo San Lucas $220 usd -Sitio Pacifico $180
+
+El precio de 1 - 4 pasajeros quedara igual, de 5 - 8 aumentara $30 usd sobre el precio base y de 9 - 10 aumentara $45 usd sobre el precio base
+
+todo debe quedar en ingles, y si le dan a la opcion EN debe cambiar todo a español. La URL el nombre tambien debe quedar en ingles.
+
+"NIGHTLIFE"
+Quiero hacer una URL para servicios de cenas que este enlazado con el boton NIGHTLIFE.
+
+Quiero que el boton contenga el listado de todos los hoteles con sus zonas y que la gente pueda escribir  y que aparezcan los hoteles con los mismos caracteres que ellos pongan.
+
+Que pregunte en que area esta la fiesta y les debe aparecer una lista despegable: -San Jose del Cabo -Corredor Turistico -Cabo San Lucas -Sitio Pacifico
+
+Otro cuadro donde deben poner el nombre del lugar.
+
+otro cuadro del numero de pasjeros: 1-4    5-8    9-10
+
+otro cuadro donde pongan horas un cuadro con Hora de recogida de hotel, y otro Hora de recogida de la fiesta (regreso) 
+
+El precio se tendra que sacar asi, Si elijen un hotel de zona 1 y va a la fiesta area: -San Jose del Cabo el costo es de $200 usd -Corredor Turistico $250 usd -Cabo San Lucas $300 usd -Sitio Pacifico $380
+Si elijen un hotel de zona 2 y va a la fiesta area: -San Jose del Cabo el costo es de $140 usd -Corredor Turistico $120 usd -Cabo San Lucas $140 usd -Sitio Pacifico $220
+Si elijen un hotel de zona 3 y va a la fiesta area: -San Jose del Cabo el costo es de $170 usd -Corredor Turistico $140 usd -Cabo San Lucas $120 usd -Sitio Pacifico $220
+Si elijen un hotel de zona 4 y va a la fiesta area: -San Jose del Cabo el costo es de $250 usd -Corredor Turistico $220 usd -Cabo San Lucas $220 usd -Sitio Pacifico $180
+
+El precio de 1 - 4 pasajeros quedara igual, de 5 - 8 aumentara $30 usd sobre el precio base y de 9 - 10 aumentara $45 usd sobre el precio base
+
+Primero debe de darle la opcion de poner la hora de recogida del hotel, no pueden poner antes la hora de regreso. De la hora de recogida del hotel pueden poner un maximo de 5 horas mas de regreso del lugar ejemplo: Hora de recogida: 08:00 pm su hora de regreso puede ser maximo 01:00 am. Ya que le daremos 1 hora que es el viaje del coche, y esa no la contamos. Y no puede poner mas horas porque excede con el horario que damos pero si puede poner menos horas. Si pone una hora que pasa de las 5 horas que damos, que le aparezca en rojo el cuadro de hora y una nota que diga que no puede exceder del horario que damos de 4 horas por servicio. Puede salir en forma de globo del cuadro de hora de regreso.
+
+todo debe quedar en ingles, y si le dan a la opcion EN debe cambiar todo a español. La URL el nombre tambien debe quedar en ingles.
+
+puedes agregar esa URL en NIGHTLIFE cuando le den clic lo manden directo a la url NIGHTLIFE por favor
+
+
+
+
+"Traslado de hotel a Hotel"
+Quiero hacer una URL para servicios de cenas que este enlazado con el boton Traslado de hotel a Hotel.
+
+Quiero que el boton contenga el listado de todos los hoteles con sus zonas y que la gente pueda escribir  y que aparezcan los hoteles con los mismos caracteres que ellos pongan.
+
+Que pregunte en que area esta su hotel a donde se moveran y les debe aparecer una lista despegable: -San Jose del Cabo -Corredor Turistico -Cabo San Lucas -Sitio Pacifico
+
+Otro cuadro donde deben poner el nombre del lugar.
+
+otro cuadro del numero de pasjeros: 1-4    5-8    9-10
+
+otro cuadro donde pongan horas un cuadro con Hora de recogida de hote. 
+
+un Calendario para que ponga en que fecha quiere su traslado
+
+El precio se tendra que sacar asi, Si elijen un hotel de zona 1 y su traslado en el area: -San Jose del Cabo el costo es de $70 usd -Corredor Turistico $80 usd -Cabo San Lucas $100 usd -Sitio Pacifico $150
+Si elijen un hotel de zona 2 y va a la fiesta area: -San Jose del Cabo el costo es de $100 usd -Corredor Turistico $70 usd -Cabo San Lucas $100 usd -Sitio Pacifico $150
+Si elijen un hotel de zona 3 y va a la fiesta area: -San Jose del Cabo el costo es de $100 usd -Corredor Turistico $100 usd -Cabo San Lucas $80 usd -Sitio Pacifico $150
+Si elijen un hotel de zona 4 y va a la fiesta area: -San Jose del Cabo el costo es de $150 usd -Corredor Turistico $150 usd -Cabo San Lucas $150 usd -Sitio Pacifico $100
+
+El precio de 1 - 4 pasajeros quedara igual, de 5 - 8 aumentara $30 usd sobre el precio base y de 9 - 10 aumentara $45 usd sobre el precio base
+
+Opciones Adicionales: Poner un cuadro de car seat, baby seat y booster, y pueden poner cuantos van a querer de cada uno, eso es cortesia (gratis).
+
+Tambien agregale un cuadro donde marquen si quieren parada de compras esa tendra un costo de $30 usd
+
+todo debe quedar en ingles, y si le dan a la opcion EN debe cambiar todo a español. La URL el nombre tambien debe quedar en ingles.
+
+puedes agregar esa URL en Traslado de hotel a Hotel cuando le den clic lo manden directo a la url transfers por favor
+
+
+
+
+"Campos de Golfs"
+
+Quiero hacer una URL para servicios de cenas que este enlazado con el boton Campos de Golfs.
+
+Quiero que el boton contenga el listado de todos los hoteles con sus zonas y que la gente pueda escribir  y que aparezcan los hoteles con los mismos caracteres que ellos pongan.
+
+Que pregunte en que area esta el campo de golf y les debe aparecer una lista despegable: -San Jose del Cabo -Corredor Turistico -Cabo San Lucas -Sitio Pacifico
+
+Otro cuadro donde deben poner el nombre del campo.
+
+otro cuadro del numero de pasjeros: 1-4    5-8    9-10
+
+otro cuadro donde pongan horas un cuadro con Hora de recogida de hotel, y otro Hora de recogida del campo (regreso) 
+
+El precio se tendra que sacar asi, Si elijen un hotel de zona 1 y va a la fiesta area: San Jose del Cabo el costo es de $160 usd -Corredor Turistico $200 usd -Cabo San Lucas $220 usd -Sitio Pacifico $250
+Si elijen un hotel de zona 2 y va a la fiesta area: -San Jose del Cabo el costo es de $200 usd -Corredor Turistico $160 usd -Cabo San Lucas $200 usd -Sitio Pacifico $250
+Si elijen un hotel de zona 3 y va a la fiesta area: -San Jose del Cabo el costo es de $220 usd -Corredor Turistico $200 usd -Cabo San Lucas $160 usd -Sitio Pacifico $250
+Si elijen un hotel de zona 4 y va a la fiesta area: -San Jose del Cabo el costo es de $250 usd -Corredor Turistico $250 usd -Cabo San Lucas $250 usd -Sitio Pacifico $180
+
+
+El precio de 1 - 4 pasajeros quedara igual, de 5 - 8 aumentara $30 usd sobre el precio base y de 9 - 10 aumentara $45 usd sobre el precio base
+
+Primero debe de darle la opcion de poner la hora de recogida del hotel, no pueden poner antes la hora de regreso. De la hora de recogida del hotel pueden poner un maximo de 5 horas mas de regreso del lugar ejemplo: Hora de recogida: 08:00 pm su hora de regreso puede ser maximo 01:00 am. Ya que le daremos 1 hora que es el viaje del coche, y esa no la contamos. Y no puede poner mas horas porque excede con el horario que damos pero si puede poner menos horas. Si pone una hora que pasa de las 5 horas que damos, que le aparezca en rojo el cuadro de hora y una nota que diga que no puede exceder del horario que damos de 4 horas por servicio. Puede salir en forma de globo del cuadro de hora de regreso.
+
+todo debe quedar en ingles, y si le dan a la opcion EN debe cambiar todo a español. La URL el nombre tambien debe quedar en ingles.
+
+puedes agregar esa URL en Campos de Golfs cuando le den clic lo manden directo a la url golf por favor.

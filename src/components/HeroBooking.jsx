@@ -8,6 +8,7 @@ import {
   Compass, ArrowLeft, Clock, ChevronRight, Utensils, Wine, Flag,
   Plus, Info, AlertCircle, Calendar, Baby, Banknote
 } from 'lucide-react';
+import Link from 'next/link';
 import { toast } from 'sonner';
 import { useBooking } from '../context/BookingContext';
 import { useCart } from '../context/CartContext';
@@ -130,21 +131,17 @@ export default function HeroBooking({ lang = 'es' }) {
     const busquedaVal = reserva.hotelId ? `${reserva.hotelId} (Zona ${reserva.zonaId || 1})` : '';
 
     if (id === 'cenas') {
-      setCenaPax(paxFormat);
-      if (origenVal) { setCenaOrigen(origenVal); setBusquedaCenaOrigen(busquedaVal); }
-      if (reserva.fechaLlegada) setCenaFecha(reserva.fechaLlegada);
-    } else if (id === 'hotel') {
-      setHotelPax(paxFormat);
-      if (origenVal) { setHotelOrigen(origenVal); setBusquedaHhOrigen(busquedaVal); }
-      if (reserva.fechaLlegada) setHotelFecha(reserva.fechaLlegada);
-    } else if (id === 'golf') {
-      setGolfPax(paxFormat);
-      if (origenVal) { setGolfOrigen(origenVal); setBusquedaGolfOrigen(busquedaVal); }
-      if (reserva.fechaLlegada) setGolfFecha(reserva.fechaLlegada);
+      router.push(`/${lang}/dinners`);
+      return;
     } else if (id === 'nightlife') {
-      setNightlifePax(paxFormat);
-      if (origenVal) { setNightlifeOrigen(origenVal); setBusquedaNightlifeOrigen(busquedaVal); }
-      if (reserva.fechaLlegada) setNightlifeFecha(reserva.fechaLlegada);
+      router.push(`/${lang}/nightlife`);
+      return;
+    } else if (id === 'hotel') {
+      router.push(`/${lang}/transfers`);
+      return;
+    } else if (id === 'golf') {
+      router.push(`/${lang}/golf`);
+      return;
     }
 
     setVistaEspecial(id);
@@ -257,6 +254,32 @@ export default function HeroBooking({ lang = 'es' }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {SERVICIOS_ESPECIALES.map((esp) => {
                     const Icono = esp.icon;
+                    const isCenas = esp.id === 'cenas';
+                    const isNightlife = esp.id === 'nightlife';
+                    const isHotel = esp.id === 'hotel';
+                    const isGolf = esp.id === 'golf';
+                    
+                    if (isCenas || isNightlife || isHotel || isGolf) {
+                      const linkHref = isCenas ? `/${lang}/dinners` : isNightlife ? `/${lang}/nightlife` : isHotel ? `/${lang}/transfers` : `/${lang}/golf`;
+                      return (
+                        <Link
+                          key={esp.id}
+                          href={linkHref}
+                          className="group bg-slate-50 border border-slate-200/60 rounded-[1.5rem] p-6 hover:bg-white hover:border-slate-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-all duration-300 cursor-pointer flex flex-col min-h-[280px]"
+                        >
+                          <div className="w-12 h-12 bg-white text-slate-900 rounded-xl flex items-center justify-center mb-6 border border-slate-200 group-hover:bg-slate-900 group-hover:text-white transition-all shadow-sm">
+                            <Icono size={20} />
+                          </div>
+                          <h4 className="text-lg font-bold text-slate-900 mb-2 leading-tight tracking-tight">{esp.titulo[lang]}</h4>
+                          <p className="text-slate-500 text-xs font-medium leading-relaxed mb-6 flex-grow">{esp.desc[lang]}</p>
+                          <div className="mt-auto flex items-center justify-between text-slate-400 font-bold text-xs uppercase tracking-widest w-full group-hover:text-slate-900 border-t border-slate-200/60 pt-4 transition-colors">
+                            {lang === 'es' ? 'Configurar' : 'Configure'}
+                            <ChevronRight size={16} />
+                          </div>
+                        </Link>
+                      );
+                    }
+
                     return (
                       <div
                         key={esp.id}
@@ -280,156 +303,7 @@ export default function HeroBooking({ lang = 'es' }) {
             ) : (
               /* SECCIÓN DE FORMULARIOS DETALLADOS DE ESPECIALES */
               <div>
-                {/* A. FORMULARIO DE CENAS */}
-                {vistaEspecial === 'cenas' && (
-                  <div className="animate-fade-in">
-                    <div className="w-full mb-8 flex justify-start">
-                      <button onClick={() => { setVistaEspecial(null); setCenaOrigen(''); setCenaDestino(''); setCenaPax('1-4'); setCenaFecha(''); setCenaRestauranteNombre(''); setCenaHoraReserva(''); setCenaHoraRegreso(''); setCenaHora(''); setBusquedaCenaOrigen(''); setReserva(prev => ({ ...prev, rosas: false, vino: false, vinoEspumoso: false })); }} className="text-slate-500 hover:text-slate-900 font-bold flex items-center text-sm transition-colors group">
-                        <ArrowLeft size={16} className="mr-1.5 group-hover:-translate-x-1 transition-transform" /> {lang === 'es' ? 'Volver a Servicios Especiales' : 'Back to Special Services'}
-                      </button>
-                    </div>
-                    {(() => {
-                      const matrizPreciosCenas = {
-                        'sjc': { '1': 120, '2': 150, '3': 170, '4': 250 },
-                        'corredor': { '1': 140, '2': 120, '3': 150, '4': 200 },
-                        'csl': { '1': 170, '2': 150, '3': 140, '4': 220 },
-                        'pacifico': { '1': 250, '2': 230, '3': 220, '4': 220 }
-                      };
-                      const recargoCenas = { '1-4': 0, '5-8': 30, '9-10': 45 };
-                      let totalPrecioCena = 0;
-                      if (cenaOrigen && cenaDestino) {
-                        const zonaSeleccionada = String(cenaOrigen.split('|')[1]) || "1";
-                        const precioBase = Number(matrizPreciosCenas[cenaDestino]?.[zonaSeleccionada] || 0);
-                        totalPrecioCena = precioBase + Number(recargoCenas[cenaPax] || 0);
-                      }
-                      const costoExtras = (reserva.rosas ? 50 : 0) + (reserva.vino ? 70 : 0) + (reserva.vinoEspumoso ? 70 : 0);
-                      const granTotalCena = totalPrecioCena > 0 ? totalPrecioCena + costoExtras : 0;
 
-                      return (
-                        <div className="bg-white border border-slate-200/60 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
-                          <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-8 flex items-start gap-4">
-                            <Info size={20} className="shrink-0 text-slate-400 mt-0.5" />
-                            <p className="text-sm font-medium text-slate-600">{lang === 'es' ? 'El servicio de traslado para cenas contempla un máximo de 3 horas de espera en el restaurante. Por favor, organiza tus horarios tomando esto en cuenta.' : 'Dinner transfer service includes a maximum of 3 hours of waiting time at the restaurant. Please plan your schedule accordingly.'}</p>
-                          </div>
-                          <div className="mb-8 border-b border-slate-100 pb-4"><h2 className="text-2xl font-bold text-slate-900 tracking-tight">{lang === 'es' ? 'Reserva de Transporte para Cenas' : 'Dinner Transportation Booking'}</h2></div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="flex flex-col relative md:col-span-2">
-                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? '¿De dónde sales?' : 'Where are you departing from?'}</label>
-                              <input type="text" placeholder={lang === 'es' ? "Escribe tu hotel..." : "Type your hotel..."} value={busquedaCenaOrigen} onChange={(e) => { setBusquedaCenaOrigen(e.target.value); setMostrarDropdownCena(true); if (e.target.value === '') setCenaOrigen(''); }} onFocus={() => setMostrarDropdownCena(true)} onBlur={() => setTimeout(() => setMostrarDropdownCena(false), 200)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
-                              {mostrarDropdownCena && (
-                                <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[80px] max-h-52 overflow-y-auto custom-scrollbar">
-                                  {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaCenaOrigen || '').toLowerCase())).map(hotel => (
-                                    <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setCenaOrigen(`${hotel.nombre}|${zona}`); setBusquedaCenaOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownCena(false); }} className="p-4 hover:bg-slate-50 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 text-sm flex justify-between items-center transition-colors" >
-                                      <span className="font-semibold">{hotel.nombre}</span><span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Zona {hotel.zonaId || hotel.zona || 1}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              )}
-                            </div>
-                            <div className="flex flex-col">
-                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? '¿Área del restaurante?' : 'Restaurant area?'}</label>
-                              <select value={cenaDestino} onChange={(e) => setCenaDestino(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all">
-                                <option value="" disabled>{lang === 'es' ? 'Selecciona área...' : 'Select area...'}</option>
-                                <option value="sjc">San José del Cabo</option>
-                                <option value="corredor">{lang === 'es' ? 'Corredor Turístico' : 'Tourist Corridor'}</option>
-                                <option value="csl">Cabo San Lucas</option>
-                                <option value="pacifico">{lang === 'es' ? 'Sitio Pacífico' : 'Pacific Side'}</option>
-                              </select>
-                            </div>
-                            <div className="flex flex-col">
-                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Nombre del Restaurante' : 'Restaurant Name'}</label>
-                              <input type="text" placeholder="Ej. Flora Farms, Acre..." value={cenaRestauranteNombre} onChange={(e) => setCenaRestauranteNombre(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
-                            </div>
-                            <div className="flex flex-col">
-                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha del Servicio' : 'Service Date'}</label>
-                              <div className="relative">
-                                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                                <input type="date" value={cenaFecha} onChange={(e) => setCenaFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
-                              </div>
-                            </div>
-                            <div className="flex flex-col">
-                              <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Pasajeros' : 'Passengers'}</label>
-                              <select value={cenaPax} onChange={(e) => setCenaPax(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all">
-                                <option value="1-4">1 - 4 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
-                                <option value="5-8">5 - 8 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
-                                <option value="9-10">9 - 10 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
-                              </select>
-                            </div>
-                            <div className="flex flex-col md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-100">
-                              <div>
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Hora Pick-up (Hotel)' : 'Pick-up (Hotel)'}</label>
-                                <input type="time" value={cenaHora} onChange={(e) => setCenaHora(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
-                              </div>
-                              <div>
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Hora Reserva' : 'Reservation Time'}</label>
-                                <input type="time" value={cenaHoraReserva} onChange={(e) => setCenaHoraReserva(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
-                              </div>
-                              <div>
-                                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Hora Regreso' : 'Return Time'}</label>
-                                <input type="time" value={cenaHoraRegreso} onChange={(e) => setCenaHoraRegreso(e.target.value)} className={`w-full p-4 rounded-xl outline-none text-sm font-medium transition-all ${calculoHorasCena.error ? 'border-2 border-red-400 bg-red-50 text-red-900 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'bg-slate-50 border border-slate-200 text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900'}`} />
-                              </div>
-                              {calculoHorasCena.error && (
-                                <div className="md:col-span-3 bg-red-50 border border-red-200 p-4 rounded-xl flex items-center gap-3 text-red-700 font-bold text-sm shadow-sm">
-                                  <AlertCircle size={18} />
-                                  <span>{lang === 'es' ? `Máximo 3 horas permitidas. Estás seleccionando: ${Math.floor(calculoHorasCena.diffMin / 60)}h ${calculoHorasCena.diffMin % 60}m.` : `Maximum 3 hours allowed. You selected: ${Math.floor(calculoHorasCena.diffMin / 60)}h ${calculoHorasCena.diffMin % 60}m.`}</span>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Extras de Cenas */}
-                            <div className="border-t border-slate-100 pt-8 mt-2 md:col-span-2">
-                              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">✨ {lang === 'es' ? 'Hazlo Especial' : 'Make it Special'}</h4>
-                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <label className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-colors ${reserva.rosas ? 'border-slate-900 bg-slate-50 shadow-sm' : 'border-slate-100 hover:border-slate-300'}`}>
-                                  <input type="checkbox" checked={reserva.rosas || false} onChange={(e) => setReserva({ ...reserva, rosas: e.target.checked })} className="w-5 h-5 accent-slate-900" />
-                                  <div className="text-2xl">🌹</div>
-                                  <div><p className="font-bold text-slate-900 text-sm leading-tight tracking-tight">{lang === 'es' ? 'Rosas' : 'Roses'} <span className="text-slate-500 block font-bold text-[10px] uppercase tracking-widest mt-1">+$50 USD</span></p></div>
-                                </label>
-                                <label className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-colors ${reserva.vino ? 'border-slate-900 bg-slate-50 shadow-sm' : 'border-slate-100 hover:border-slate-300'}`}>
-                                  <input type="checkbox" checked={reserva.vino || false} onChange={(e) => setReserva({ ...reserva, vino: e.target.checked })} className="w-5 h-5 accent-slate-900" />
-                                  <div className="text-2xl">🍷</div>
-                                  <div><p className="font-bold text-slate-900 text-sm leading-tight tracking-tight">{lang === 'es' ? 'Vino Tinto' : 'Red Wine'} <span className="text-slate-500 block font-bold text-[10px] uppercase tracking-widest mt-1">+$70 USD</span></p></div>
-                                </label>
-                                <label className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-colors ${reserva.vinoEspumoso ? 'border-slate-900 bg-slate-50 shadow-sm' : 'border-slate-100 hover:border-slate-300'}`}>
-                                  <input type="checkbox" checked={reserva.vinoEspumoso || false} onChange={(e) => setReserva({ ...reserva, vinoEspumoso: e.target.checked })} className="w-5 h-5 accent-slate-900" />
-                                  <div className="text-2xl">🥂</div>
-                                  <div><p className="font-bold text-slate-900 text-sm leading-tight tracking-tight">{lang === 'es' ? 'Espumoso' : 'Sparkling Wine'} <span className="text-slate-500 block font-bold text-[10px] uppercase tracking-widest mt-1">+$70 USD</span></p></div>
-                                </label>
-                              </div>
-                            </div>
-
-                            {/* Widget de Cierre de Cenas */}
-                            <div className="md:col-span-2 mt-6 bg-slate-900 rounded-[1.5rem] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
-                              <div className="mb-6 md:mb-0 text-center md:text-left">
-                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">{lang === 'es' ? 'Costo del servicio (USD)' : 'Service Cost (USD)'}</p>
-                                <h3 className="text-4xl font-black tracking-tighter">{granTotalCena > 0 ? `$${granTotalCena.toFixed(2)}` : '---'}</h3>
-                              </div>
-                              <button
-                                disabled={!cenaOrigen || !cenaDestino || !cenaRestauranteNombre || !cenaFecha || !cenaHora || !cenaHoraReserva || !cenaHoraRegreso || calculoHorasCena.error}
-                                onClick={() => {
-                                  agregarAlCombo({
-                                    id: `cena-${Date.now()}`,
-                                    titulo: lang === 'es' ? `Cena: ${cenaRestauranteNombre}` : `Dinner: ${cenaRestauranteNombre}`,
-                                    subtitulo: `Fecha: ${cenaFecha} | Pax: ${cenaPax} | Wait: 3h max | ${cenaHoraReserva} - ${cenaHoraRegreso}`,
-                                    precio: granTotalCena,
-                                    tipoEspecial: 'cena',
-                                    config: { cenaOrigen, cenaDestino, cenaPax, cenaFecha, cenaRestauranteNombre, cenaHora, cenaHoraReserva, cenaHoraRegreso, rosas: reserva.rosas, vino: reserva.vino, vinoEspumoso: reserva.vinoEspumoso }
-                                  });
-                                  setServicioSeleccionado('');
-                                  setVistaEspecial(null);
-                                  router.push(`/${lang}/cart`);
-                                }}
-                                className="w-full md:w-auto px-8 py-4 bg-white text-slate-900 hover:bg-slate-100 rounded-xl font-bold text-sm transition-all flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed shadow-md active:scale-95"
-                              >
-                                {lang === 'es' ? 'Añadir a mi Combo' : 'Add to Combo'} <Plus size={18} className="ml-2" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                )}
 
                 {/* B. FORMULARIO DE HOTEL A HOTEL */}
                 {vistaEspecial === 'hotel' && (

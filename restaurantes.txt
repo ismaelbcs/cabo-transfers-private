@@ -1,0 +1,62 @@
+San José del Cabo
+
+Flora Farms (Flora's Field Kitchen)
+Acre
+La Lupita Taco & Mezcal
+Los Tamarindos
+Kitchen San José del Cabo
+Don Sanchez
+Javier's (Cabo Azul Resort)
+Lumbre
+Mi Casa
+Dalton Barebo
+Chambao
+Habanero's Gastro Grill
+
+Corredor Turístico de Los Cabos
+
+Arbol (Las Ventanas al Paraíso)
+Seared (One&Only Palmilla)
+Toro Latin Kitchen & Bar
+Mezcal (Montage Los Cabos)
+Agua (One&Only Palmilla)
+Alebrije (Las Ventanas al Paraíso)
+Sunset Monalisa
+Cocina de Autor (Grand Velas)
+Comal (Chileno Bay)
+Manta (The Cape)
+AMARA
+
+Cabo San Lucas
+
+El Farallon (Waldorf Astoria Pedregal)
+Edith's
+The Office on the Beach
+Bar Esquina (Bahia Hotel)
+Los Tres Gallos
+Hacienda Cocina y Cantina (Hacienda Beach Club)
+RosaNegra
+Nick-San
+Romeo y Julieta
+Mango Deck
+Lorenzillo's
+Taboo
+
+sitio Pacífico
+
+Siempre (Pueblo Bonito Pacifica)
+Tazume (Pueblo Bonito Sunset Beach)
+Fellini's (Pueblo Bonito Rosé)
+Zao Shen (Pueblo Bonito Sunset Beach)
+Amigos Restaurant (Diamante)
+The Bistro (Pueblo Bonito Sunset Beach)
+The Woods Cabo (Diamante)
+Quivira Steakhouse (Quivira Golf Club)
+LaFrida (Pueblo Bonito Sunset Beach)
+The Market at Quivira (Pueblo Bonito)
+Izzy's Restaurant (Diamante)
+Península (Pueblo Bonito Pacifica)
+
+
+dependiendo el nombre del restaurante es el area que se pondra determinada Todos los nombres que estan debajo de San Jose del Cabo son area San Jose del Cabo, todos los restaurantes debajo de Corredor Turístico de Los Cabos son el area Corredor Turístico, todos los restaurantes debajo de Cabo San Lucas son el area Cabo San Lucas y todos los restaurantes debajo de Sito Pacifico son el area Sito Pacifico.
+Pero deja que tambien los clientes puedan modificar esa opcion. Tambien dependiendo el nombre del restaurante es el nombre que estara lleno en el cuadro de Exact Restaurant Name se pondra determinado.
