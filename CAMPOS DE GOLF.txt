@@ -1,0 +1,45 @@
+SAN JOSE DEL CABO
+
+Club Campestre San José
+Puerto Los Cabos Golf Course
+Vidanta Golf Los Cabos (anteriormente conocido como Punta Sur)
+Palmilla Golf Club (en los límites con el Corredor Turístico)
+Querencia Golf Club (Club privado)
+
+CORREDOR TURISTICO
+
+Cabo Real Golf Club
+Cabo del Sol (Cove Club y Desert Course)
+Chileno Bay Golf & Beach Club (Club privado)
+El Dorado Golf & Beach Club (Club privado)
+Twin Dolphin Club (Club privado)
+
+CABO SAN LUCAS
+
+Cabo San Lucas Country Club
+
+
+SITIO PACIFICO
+
+Quivira Golf Club (Área de Quivira / Pueblo Bonito)
+Solmar Golf Links en Rancho San Lucas
+Diamante Dunes Course (Diamante)
+El Cardonal at Diamante (Diamante)
+The Oasis Short Course (Diamante)
+
+
+hazme una carpeta para crear URL de restaurantes que tenga un diseño similar al slug de los hoteles y restaurantes, pero que ahora sea de Campos de golf, agrega informacion parecida a la informacion que utilizamos para los hoteles y restaurantes pero ahora para campos de golf. Te pasare los nombres de los  campos de golf. Quiero que has dos fotos una con el campo de golf que esa foto ira en la portada y en otro espacio de la pagina, y la otra foto con una persona jugando golf pegandole a la pelota pero que el fondo y campo tenga un toque de la tematica de cada campo de golf, el archivo debe de ser .webp. Tambien agregas la imagen de la camioneta en el lobby del hotel One&Only tambien .webp. agregas todo lo que tienen las URL de los hoteles -Punto clave -Tarifas y beneficios exclusivos -Ruta de Viaje y Logística -Comparando Opciones en Cabo Recomendado -Consejos para Reservar y Reseñas de Viajeros -Reserva en Línea Fácil y Opciones de Pago Flexibles.
+Si puedes agregale mas texto donde salga mas veces el nombre del campo de golf y tambien que me beneficie si buscan  (traducelo a ingles) Traslados en los cabos -Taxis -shuttles -Uber -Traslados privados -Traslados de lujo en los cabos -Traslados de lujo en Cabo San Lucas -Traslados de lujo en San Jose del Cabo -Traslados privados en San Jose del Cabo  -Traslados privados  Cabo San Lucas - Traslados privados en los cabos. El texto siempre tiene que hablar bien de mi transporte y poner en mal a los taxis normales y a los ubers. Las metas y seo siempre tienen que estar enfocadas a los buscadores que puse arriba pero enfocadas siempre al publico de EEUU y Canada asi que debe ser en ingles. Toda la pagina dejala en ingles y si le dan en ES que se tradusca todo a español.
+
+agregas las URL a sitemap.
+
+agrega que aparezca ese cuadro de reservar de reservas de Golf Course Transportation Booking para que puedan reservar y ya que terminen de llenarlo que lo mande al paso 2 de llenar sus datos y despues al paso 3 que es donde pagaran.
+
+dependiendo el nombre del campo de golfs es el area que se pondra determinada Todos los nombres que estan debajo de San Jose del Cabo son area San Jose del Cabo, todos los restaurantes debajo de Corredor Turístico de Los Cabos son el area Corredor Turístico, todos los restaurantes debajo de Cabo San Lucas son el area Cabo San Lucas y todos los restaurantes debajo de Sito Pacifico son el area Sito Pacifico.
+Pero deja que tambien los clientes puedan modificar esa opcion. Tambien dependiendo el nombre del campo de golfs es el nombre que estara lleno en el cuadro de Exact Golf Course Name se pondra determinado.
+
+te deje las imagenes para que agregues, y se pueda ver asi como te puse, claro acomodando lo que me hiciste.
+
+la imagen de metodo de pago se llama asi en public pago-tarjetas.png para que la pongas en todos los URL de los restaurantes, y tambien la agregues datos-seguros.png y pago-tarjetas.png en el cuadro de reservar para darle seguridad al cliente al momento de pagar se tiene que ver como en la imagen que adjunte.
+
+te dejo los campos:
