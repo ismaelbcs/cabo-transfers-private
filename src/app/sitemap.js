@@ -303,6 +303,7 @@ export default function sitemap() {
     '/destinations/sjd-to-paradisus',
     '/destinations/sjd-to-park-hyatt',
     '/destinations/sjd-to-park-royal',
+    '/destinations/sjd-to-pedregal',
     '/destinations/sjd-to-pedregal-manor',
     '/destinations/sjd-to-playa-grande',
     '/destinations/sjd-to-plaza-del-rey-residencial',
