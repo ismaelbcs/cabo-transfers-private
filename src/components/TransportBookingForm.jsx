@@ -115,7 +115,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
               />
               {mostrarDropdownHotelPrincipal && (
                 <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-2xl mt-1 top-[80px] max-h-60 overflow-y-auto">
-                  {catalogoHoteles.filter(h => h.nombre && h.nombre.toLowerCase().includes((busquedaHotelPrincipal || '').toLowerCase())).map(hotel => (
+                  {catalogoHoteles.filter(h => h.nombre && (busquedaHotelPrincipal || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, "")))).slice(0, 30).map(hotel => (
                     <li key={hotel.id || hotel.nombre} onMouseDown={() => {
                       const zona = hotel.zonaId || hotel.zona || "1";
                       setReserva({ ...reserva, hotelId: hotel.nombre, zonaId: zona });

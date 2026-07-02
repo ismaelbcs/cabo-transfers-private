@@ -5,7 +5,7 @@ import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   MapPin, Car, Users, PlaneLanding, PlaneTakeoff, RefreshCw,
-  Compass, ArrowLeft, Clock, ChevronRight, Utensils, Wine, Flag,
+  Compass, ArrowLeft, Clock, ChevronRight, Utensils, Wine, Flag, Briefcase, Heart,
   Plus, Info, AlertCircle, Calendar, Baby, Banknote
 } from 'lucide-react';
 import Link from 'next/link';
@@ -340,7 +340,7 @@ export default function HeroBooking({ lang = 'es' }) {
                               <input type="text" placeholder={lang === 'es' ? "Busca tu hotel actual..." : "Search current hotel..."} value={busquedaHhOrigen} onChange={(e) => { setBusquedaHhOrigen(e.target.value); setMostrarDropdownHotelOrigen(true); if (e.target.value === '') setHotelOrigen(''); }} onFocus={() => setMostrarDropdownHotelOrigen(true)} onBlur={() => setTimeout(() => setMostrarDropdownHotelOrigen(false), 200)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
                               {mostrarDropdownHotelOrigen && (
                                 <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[80px] max-h-52 overflow-y-auto custom-scrollbar">
-                                  {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaHhOrigen || '').toLowerCase())).map(hotel => (
+                                  {catalogoHoteles.filter(h => (busquedaHhOrigen || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, "")))).slice(0, 30).map(hotel => (
                                     <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setHotelOrigen(`${hotel.nombre}|${zona}`); setBusquedaHhOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownHotelOrigen(false); }} className="p-4 hover:bg-slate-50 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 text-sm flex justify-between items-center transition-colors" >
                                       <span className="font-semibold">{hotel.nombre}</span><span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Zona {hotel.zonaId || hotel.zona || 1}</span>
                                     </li>
@@ -449,7 +449,7 @@ export default function HeroBooking({ lang = 'es' }) {
                               <input type="text" placeholder={lang === 'es' ? "Busca tu hotel..." : "Search your hotel..."} value={busquedaGolfOrigen} onChange={(e) => { setBusquedaGolfOrigen(e.target.value); setMostrarDropdownGolfOrigen(true); if (e.target.value === '') setGolfOrigen(''); }} onFocus={() => setMostrarDropdownGolfOrigen(true)} onBlur={() => setTimeout(() => setMostrarDropdownGolfOrigen(false), 200)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
                               {mostrarDropdownGolfOrigen && (
                                 <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[80px] max-h-52 overflow-y-auto custom-scrollbar">
-                                  {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaGolfOrigen || '').toLowerCase())).map(hotel => (
+                                  {catalogoHoteles.filter(h => (busquedaGolfOrigen || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, "")))).slice(0, 30).map(hotel => (
                                     <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setGolfOrigen(`${hotel.nombre}|${zona}`); setBusquedaGolfOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownGolfOrigen(false); }} className="p-4 hover:bg-slate-50 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 text-sm flex justify-between items-center transition-colors" >
                                       <span className="font-semibold">{hotel.nombre}</span><span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Zona {hotel.zonaId || hotel.zona || 1}</span>
                                     </li>
@@ -574,7 +574,7 @@ export default function HeroBooking({ lang = 'es' }) {
                               <input type="text" placeholder={lang === 'es' ? "Busca tu hotel..." : "Search your hotel..."} value={busquedaNightlifeOrigen} onChange={(e) => { setBusquedaNightlifeOrigen(e.target.value); setMostrarDropdownNightlife(true); if (e.target.value === '') setNightlifeOrigen(''); }} onFocus={() => setMostrarDropdownNightlife(true)} onBlur={() => setTimeout(() => setMostrarDropdownNightlife(false), 200)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
                               {mostrarDropdownNightlife && (
                                 <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[80px] max-h-52 overflow-y-auto custom-scrollbar">
-                                  {catalogoHoteles.filter(h => h.nombre.toLowerCase().includes((busquedaNightlifeOrigen || '').toLowerCase())).map(hotel => (
+                                  {catalogoHoteles.filter(h => (busquedaNightlifeOrigen || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, "")))).slice(0, 30).map(hotel => (
                                     <li key={hotel.id} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setNightlifeOrigen(`${hotel.nombre}|${zona}`); setBusquedaNightlifeOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownNightlife(false); }} className="p-4 hover:bg-slate-50 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 text-sm flex justify-between items-center transition-colors" >
                                       <span className="font-semibold">{hotel.nombre}</span><span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md border border-slate-200">Zona {hotel.zonaId || hotel.zona || 1}</span>
                                     </li>
@@ -698,7 +698,7 @@ export default function HeroBooking({ lang = 'es' }) {
                 <input type="text" placeholder={lang === 'es' ? "Escribe para buscar tu hotel..." : "Type to search your hotel..."} value={busquedaHotelPrincipal} onChange={(e) => { setBusquedaHotelPrincipal(e.target.value); setMostrarDropdownHotelPrincipal(true); }} onFocus={() => setMostrarDropdownHotelPrincipal(true)} onBlur={() => setTimeout(() => setMostrarDropdownHotelPrincipal(false), 200)} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 outline-none focus:bg-white focus:ring-1 focus:ring-slate-900 focus:border-slate-900 text-slate-800 font-medium transition-all" />
                 {mostrarDropdownHotelPrincipal && (
                   <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[80px] max-h-60 overflow-y-auto custom-scrollbar">
-                    {catalogoHoteles.filter(h => h.nombre && h.nombre.toLowerCase().includes((busquedaHotelPrincipal || '').toLowerCase())).map(hotel => (
+                    {catalogoHoteles.filter(h => h.nombre && (busquedaHotelPrincipal || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, "")))).slice(0, 30).map(hotel => (
                       <li key={hotel.id || hotel.nombre} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setReserva({ ...reserva, hotelId: hotel.nombre, zonaId: zona }); setBusquedaHotelPrincipal(hotel.nombre); setMostrarDropdownHotelPrincipal(false); }} className="p-4 hover:bg-slate-50 cursor-pointer text-slate-700 border-b border-slate-100 transition-colors flex justify-between items-center" >
                         <span className="font-semibold text-sm">{hotel.nombre}</span><span className="text-[9px] font-bold uppercase text-slate-500 tracking-widest bg-slate-100 border border-slate-200 px-2 py-1 rounded-md">Zona {hotel.zonaId || hotel.zona || 1}</span>
                       </li>
@@ -823,6 +823,40 @@ export default function HeroBooking({ lang = 'es' }) {
 
               </div>
             </div>
+
+            <div className="mt-8 border-t border-slate-100 pt-8">
+              <div className="mb-6 text-center">
+                <h3 className="text-slate-900 font-bold text-lg mb-1 tracking-tight">
+                  {lang === 'es' ? 'Servicios Exclusivos' : 'Exclusive Services'}
+                </h3>
+                <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">
+                  {lang === 'es' ? 'Opciones premium' : 'Premium options'}
+                </p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href={`/${lang}/agencies`}
+                  className="group relative overflow-hidden bg-white hover:bg-slate-50 active:scale-[0.98] border border-slate-200 text-slate-800 w-full px-5 py-4 rounded-2xl font-bold transition-all duration-300 hover:shadow-md hover:border-blue-200 flex items-center justify-center gap-3 cursor-pointer"
+                >
+                  <div className="bg-blue-50 p-2 rounded-lg group-hover:scale-110 transition-transform">
+                    <Briefcase className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <span>{lang === 'es' ? 'Agencias de Viajes' : 'Travel Agencies'}</span>
+                </Link>
+
+                <Link
+                  href={`/${lang}/weddings`}
+                  className="group relative overflow-hidden bg-white hover:bg-slate-50 active:scale-[0.98] border border-slate-200 text-slate-800 w-full px-5 py-4 rounded-2xl font-bold transition-all duration-300 hover:shadow-md hover:border-pink-200 flex items-center justify-center gap-3 cursor-pointer"
+                >
+                  <div className="bg-pink-50 p-2 rounded-lg group-hover:scale-110 transition-transform">
+                    <Heart className="w-5 h-5 text-pink-500" />
+                  </div>
+                  <span>{lang === 'es' ? 'Bodas y Eventos' : 'Weddings & Events'}</span>
+                </Link>
+              </div>
+            </div>
+
           </div>
         )}
       </div>

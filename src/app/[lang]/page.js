@@ -500,15 +500,15 @@ export default function Home() {
 
       {/* ===== PASO 1: WIDGET HERO CON VIDEO DE FONDO ===== */}
       {paso === 1 && (
-        <section className="relative pt-40 pb-16 px-4 min-h-[75vh] flex flex-col justify-center animate-fade-in overflow-hidden bg-slate-950">
+        <section className="relative pt-32 pb-16 px-4 min-h-[75vh] flex flex-col justify-center animate-fade-in overflow-hidden bg-slate-950">
           <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60 z-0">
             <source src="/private-luxury-transfers-cabo-san-lucas.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/40 to-slate-50 z-10"></div>
 
-          <div className="max-w-4xl mx-auto text-center mb-24 md:mb-10 relative z-20 mt-8">
+          <div className="max-w-4xl mx-auto text-center mb-12 md:mb-8 relative z-20 mt-8">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tighter leading-normal pb-2 drop-shadow-lg" style={{ letterSpacing: '-0.03em' }}>
-              {lang === 'es' ? 'Transporte Privado y Shuttles en Los Cabos.' : <><span className="text-white">Premium Cabo Airport Shuttle</span> & Private Tours.</>}
+              {lang === 'es' ? 'TRANSPORTE PRIVADO Y SHUTTLES EN LOS CABOS.' : <><span className="text-white">PREMIUM CABO AIRPORT SHUTTLE</span> & PRIVATE TOURS.</>}
             </h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md">
               {lang === 'es' ? 'Reserva tu traslado seguro, sin filas y puerta a puerta en el Aeropuerto SJD.' : 'Reliable, safe, and private transportation from SJD Airport to your resort. Skip the taxi lines.'}
@@ -519,63 +519,8 @@ export default function Home() {
           <div className="relative z-30 w-full max-w-[85rem] mx-auto flex flex-col xl:flex-row items-center xl:items-start justify-center gap-6 px-4">
 
             {/* El recuadro blanco original (HeroBooking) */}
-            <div className="w-full xl:w-[72%]">
+            <div className="w-full max-w-5xl mx-auto">
               <HeroBooking t={t} lang={lang} />
-            </div>
-
-            {/* NUEVO PANEL LATERAL (Agrupa los botones para que no se vean sueltos) */}
-            <div className="w-full xl:w-[28%] flex flex-col xl:mt-0">
-              <div className="bg-slate-950/40 backdrop-blur-2xl border border-white/10 rounded-[2rem] p-6 sm:p-8 flex flex-col shadow-2xl w-full">
-
-                {/* Encabezado del Panel */}
-                <div className="mb-6 text-center xl:text-left border-b border-white/10 pb-4">
-                  <h3 className="text-white font-bold text-xl mb-1">
-                    {lang === 'es' ? 'Servicios Exclusivos' : 'Exclusive Services'}
-                  </h3>
-                  <p className="text-slate-300 text-sm font-medium">
-                    {lang === 'es' ? 'Descubre opciones premium' : 'Discover premium options'}
-                  </p>
-                </div>
-
-                {/* Contenedor de los Botones */}
-                <div className="flex flex-col sm:flex-row xl:flex-col gap-4">
-
-                  {/* Enlace Agencia de Viajes */}
-                  <Link
-                    href={`/${lang}/agencies`}
-                    className="group relative overflow-hidden bg-white/5 hover:bg-white/15 active:scale-[0.98] border border-white/10 text-white w-full px-5 py-4 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(255,255,255,0.08)] flex items-center gap-4 cursor-pointer"
-                  >
-                    <div className="bg-white/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-blue-500/30 transition-all duration-300 ease-out shrink-0">
-                      <Briefcase className="w-5 h-5 text-blue-300" />
-                    </div>
-                    <span className="text-sm sm:text-base tracking-wide flex-1 text-left">
-                      {lang === 'es' ? 'Agencias de Viajes' : 'Travel Agencies'}
-                    </span>
-                    <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
-
-                    {/* Animación Shimmer */}
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
-                  </Link>
-
-                  {/* Enlace Bodas */}
-                  <Link
-                    href={`/${lang}/weddings`}
-                    className="group relative overflow-hidden bg-pink-500/5 hover:bg-pink-500/15 active:scale-[0.98] border border-pink-500/20 text-white w-full px-5 py-4 rounded-2xl font-medium transition-all duration-300 ease-out hover:shadow-[0_8px_30px_rgba(236,72,153,0.12)] flex items-center gap-4 cursor-pointer"
-                  >
-                    <div className="bg-pink-500/10 p-2.5 rounded-xl group-hover:scale-110 group-hover:bg-pink-500/30 transition-all duration-300 ease-out shrink-0">
-                      <Heart className="w-5 h-5 text-pink-400 group-hover:fill-pink-400/50 transition-all duration-300 ease-out" />
-                    </div>
-                    <span className="text-sm sm:text-base tracking-wide flex-1 text-left">
-                      {lang === 'es' ? 'Bodas y Eventos' : 'Weddings & Events'}
-                    </span>
-                    <ChevronRight className="w-4 h-4 text-pink-400/40 group-hover:text-pink-400 group-hover:translate-x-1 transition-all shrink-0" />
-
-                    {/* Animación Shimmer */}
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-pink-400/10 to-transparent animate-[shimmer_3s_infinite] group-hover:animate-none"></div>
-                  </Link>
-
-                </div>
-              </div>
             </div>
           </div>
         </section>
