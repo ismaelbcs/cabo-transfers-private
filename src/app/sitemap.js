@@ -501,12 +501,17 @@ export default function sitemap() {
 
   // 4. Rutas de tours populares
   const tourRoutes = [
+    '/clear-boat',
     '/tours/atv-off-road-adventure-cabo',
     '/tours/cabo-san-lucas-snorkel-tour',
     '/tours/camel-safari-tour-cabo-san-lucas',
-    '/tours/clear-boat-tour-cabo-san-lucas-arch',
-    '/tours/espiritu-santo-island-tour-from-cabo',
-    '/tours/swim-with-whale-sharks-la-paz-cabo'
+    '/tours/espiritu-santo-island-tour-from-la-paz',
+    '/tours/pirate-ship-sunset-tour-cabo',
+    '/tours/san-jose-del-cabo-art-walk-tour',
+    '/tours/sunset-fajita-cruise-cabo',
+    '/tours/sunset-sessions-cabo-cruise',
+    '/tours/swim-with-whale-sharks-la-paz-cabo',
+    '/tours/vip-snorkeling-sea-scooter-cabo-san-lucas'
   ];
 
   // Juntamos todas las rutas
