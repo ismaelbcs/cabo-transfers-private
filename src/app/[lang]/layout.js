@@ -19,7 +19,20 @@ export async function generateMetadata({ params }) {
 
   const domain = 'https://www.caboprivateairporttransfers.com';
   // Usamos una de tus imágenes reales para la vista previa de WhatsApp/Redes
-  const ogImage = `${domain}/suburban-airport-los-cabos-ballard.webp`;
+    const ogImage = `${domain}/private-transportation-nobu-hotel-los-cabos.webp`;
+
+  const iconsConfig = {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png' }
+    ]
+  };
 
   if (lang === 'es') {
     return {
@@ -33,6 +46,7 @@ export async function generateMetadata({ params }) {
         'ballard tours'
       ],
       alternates: { canonical: `${domain}/es` },
+      icons: iconsConfig,
       openGraph: {
         title: 'Transporte Privado y Shuttle en Los Cabos',
         description: 'Reserva tu transporte privado seguro y directo desde el Aeropuerto SJD a tu hotel.',
@@ -65,6 +79,7 @@ export async function generateMetadata({ params }) {
       'Ballard Tours'
     ],
     alternates: { canonical: `${domain}/en` },
+    icons: iconsConfig,
     openGraph: {
       title: 'Cabo Airport Private Transportation & Shuttle',
       description: 'Skip the lines with our reliable Cabo airport shuttle and private transportation from SJD Airport to your resort.',
