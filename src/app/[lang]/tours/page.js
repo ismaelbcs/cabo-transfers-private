@@ -278,7 +278,7 @@ export default function ToursPage({ params }) {
           {toursList.map((tour) => (
             <Link 
               key={tour.id} 
-              href={`/${lang}/tours/${tour.slug}`} 
+              href={tour.id === 'arco' ? `/${lang}/clear-boat` : `/${lang}/tours/${tour.slug}`} 
               className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 overflow-hidden flex flex-col group transition-transform duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
             >
               <div className="relative h-60 overflow-hidden bg-slate-100">

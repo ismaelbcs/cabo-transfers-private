@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Clock, ChevronRight, Compass } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useBooking } from '../context/BookingContext';
 import { toursData } from '../data/seoData';
@@ -45,7 +46,13 @@ export default function FeaturedTours({ lang = 'es', t }) {
           {toursActivos.map((tr) => (
             <div 
               key={tr.id} 
-              onClick={() => router.push(`/${lang}/tours/${tr.slug}`)} 
+              onClick={() => {
+                if (tr.id === 'arco') {
+                  router.push(`/${lang}/clear-boat`);
+                } else {
+                  router.push(`/${lang}/tours/${tr.slug}`);
+                }
+              }} 
               className="snap-center shrink-0 w-[85vw] sm:w-[350px] lg:w-auto group cursor-pointer rounded-[2rem] overflow-hidden bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 flex flex-col min-h-[400px]"
             >
               <div className="relative h-60 overflow-hidden shrink-0 bg-slate-100">
@@ -88,9 +95,13 @@ export default function FeaturedTours({ lang = 'es', t }) {
                       ${tr.precioPx} <span className="text-xs font-bold text-slate-500">USD</span>
                     </p>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 text-slate-900 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-colors duration-300">
+                  <Link
+                    href={tr.id === 'arco' ? `/${lang}/clear-boat` : `/${lang}/tours/${tr.slug}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 text-slate-900 flex items-center justify-center hover:bg-slate-900 hover:text-white transition-colors duration-300 z-20"
+                  >
                     <ChevronRight size={20} />
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>
