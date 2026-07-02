@@ -575,7 +575,7 @@ export default function DestinationPage({ params }) {
       {/* ========================================= */}
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
-          <img src={`/${hotel.image}`} alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
+          <img src="/suburban-airport-los-cabos-ballard.webp" alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
 
@@ -647,8 +647,41 @@ export default function DestinationPage({ params }) {
             </ul>
 
             <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
+              <img src="/suburban-airport-los-cabos-ballard-sjd.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
             </div>
+            {/* Custom H2 section for Montecristo */}
+            <section className="my-12">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 tracking-tight">
+                {lang === 'es' ? 'Montecristo from cabo san lucas airport - Traslado VIP' : 'Montecristo from cabo san lucas airport - Private VIP Transport'}
+              </h2>
+              <p className="mb-4 text-slate-600 text-base md:text-lg">
+                {lang === 'es'
+                  ? 'Viajar en un servicio de Montecristo from cabo san lucas airport es sinónimo de exclusividad y relajación. Al reservar un sjd to Montecristo private shuttle con anticipación, evitas tarifas abusivas de última hora y garantizas un viaje directo de la más alta calidad. Nuestro sjd to Montecristo private shuttle te llevará cómodamente hasta la cima de la colina donde se ubican estas magníficas villas.'
+                  : 'Traveling with a professional Montecristo from cabo san lucas airport transfer is the ultimate way to start your holiday. When you book a sjd to Montecristo private shuttle with us, you lock in transparent rates and premium service, guaranteeing a flawless ride. Our sjd to Montecristo private shuttle delivers comfort and reliability directly to these stunning cliffside properties.'}
+              </p>
+              <p className="mb-6 text-slate-600 text-base md:text-lg">
+                {lang === 'es'
+                  ? 'Ya sea para un traslado redondo o sencillo, elegir un transporte Montecristo from cabo san lucas airport asegura camionetas de lujo con choferes bilingües. Tu sjd to Montecristo private shuttle está diseñado para brindarte una llegada espectacular.'
+                  : 'Whether you require a one-way transfer or a round-trip package, picking our Montecristo from cabo san lucas airport option guarantees licensed drivers and VIP luxury. Your sjd to Montecristo private shuttle is planned to offer you the ultimate arrival experience.'}
+              </p>
+
+              {/* Montecristo Hotel Image Gallery */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-montecristo.webp" alt="Montecristo Villa View" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/montecristo-transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private.webp" alt="Montecristo Pool View" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-cabo-montecristo.webp" alt="Montecristo Transport" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/cabo-transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-montecristo.webp" alt="Montecristo Luxury Entrance" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+            </section>
+
 
             <p className="mb-4 text-slate-600 text-sm md:text-base">
               {lang === 'es'

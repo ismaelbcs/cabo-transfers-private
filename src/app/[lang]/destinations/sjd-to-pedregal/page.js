@@ -575,7 +575,7 @@ export default function DestinationPage({ params }) {
       {/* ========================================= */}
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
-          <img src={`/${hotel.image}`} alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
+          <img src="/suburban-airport-los-cabos-ballard.webp" alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
 
@@ -647,8 +647,38 @@ export default function DestinationPage({ params }) {
             </ul>
 
             <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
+              <img src="/suburban-airport-los-cabos-ballard-sjd.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
             </div>
+            {/* Custom H2 section for Pedregal */}
+            <section className="my-12">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 tracking-tight">
+                {lang === 'es' ? 'sjd to pedregal private shuttle - Tu Transporte Exclusivo' : 'sjd to pedregal private shuttle - Exclusive Luxury Transportation'}
+              </h2>
+              <p className="mb-4 text-slate-600 text-base md:text-lg">
+                {lang === 'es'
+                  ? 'Para llegar con estilo y total tranquilidad a esta zona residencial tan exclusiva, un traslado sjd to pedregal private shuttle es tu mejor aliado. Al reservar tu sjd to pedregal private shuttle con nosotros, garantizas que un chofer profesional te reciba puntualmente para llevarte directamente a tu resort o villa de lujo.'
+                  : 'For a seamless and prestigious arrival at this exclusive community, booking a sjd to pedregal private shuttle is the top recommendation. Pre-booking a sjd to pedregal private shuttle in advance ensures that a professional chauffeur is waiting for you at the airport terminal to take you directly to your luxury villa or cliffside resort.'}
+              </p>
+              <p className="mb-6 text-slate-600 text-base md:text-lg">
+                {lang === 'es'
+                  ? 'Nuestros vehículos premium garantizan un sjd to pedregal private shuttle de la más alta calidad, con bebidas de cortesía y espacio amplio para tu equipaje, permitiéndote disfrutar del hermoso trayecto hacia Cabo San Lucas.'
+                  : 'Our high-end luxury SUVs and private vans deliver a sjd to pedregal private shuttle experience of unmatched standard, featuring complimentary cold beverages and generous luggage space, so you can relax on the scenic route to Cabo San Lucas.'}
+              </p>
+
+              {/* Pedregal Hotel Image Gallery */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/pedregal-transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-cabo.webp" alt="Pedregal Cabo Entrance" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-pedregal.webp" alt="Pedregal Private Shuttle" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-pedregal-villa.webp" alt="Pedregal Villa View" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+            </section>
+
 
             <p className="mb-4 text-slate-600 text-sm md:text-base">
               {lang === 'es'

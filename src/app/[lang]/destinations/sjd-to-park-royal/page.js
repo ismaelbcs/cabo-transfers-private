@@ -575,7 +575,7 @@ export default function DestinationPage({ params }) {
       {/* ========================================= */}
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
-          <img src={`/${hotel.image}`} alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
+          <img src="/suburban-airport-los-cabos-ballard.webp" alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
 
@@ -647,8 +647,38 @@ export default function DestinationPage({ params }) {
             </ul>
 
             <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
+              <img src="/suburban-airport-los-cabos-ballard-sjd.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
             </div>
+            {/* Custom H2 section for Park Royal */}
+            <section className="my-12">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 tracking-tight">
+                {lang === 'es' ? 'park royal from cabo san lucas airport - Traslados VIP' : 'park royal from cabo san lucas airport - Premium Private Transfers'}
+              </h2>
+              <p className="mb-4 text-slate-600 text-base md:text-lg">
+                {lang === 'es'
+                  ? 'Planificar tus traslados es clave para un viaje perfecto; por eso organizar tu transporte de park royal from cabo san lucas airport es tu mejor opción. Con nuestro servicio premium, evitarás las largas filas de taxi y cargos inesperados, disfrutando de un traslado park royal from cabo san lucas airport directo, seguro y sumamente cómodo.'
+                  : 'Planning your luxury transfers is key to a perfect vacation; that is why booking your park royal from cabo san lucas airport shuttle is the absolute best way to travel. With our high-end fleet, you will bypass the busy airport lines and dynamic pricing, enjoying a non‑stop park royal from cabo san lucas airport transfer designed for your ultimate comfort.'}
+              </p>
+              <p className="mb-6 text-slate-600 text-base md:text-lg">
+                {lang === 'es'
+                  ? 'Nuestra meta es ofrecerte la mejor experiencia desde el momento en que aterrizas. Al elegir un servicio de park royal from cabo san lucas airport privado con nosotros, obtendrás tarifas fijas transparentes y atención personalizada 24/7.'
+                  : 'Our priority is offering you a flawless start to your holiday. Selecting our private park royal from cabo san lucas airport option ensures a relaxing journey with transparent flat-rates and fully licensed, professional bilingual drivers.'}
+              </p>
+
+              {/* Park Royal Hotel Image Gallery */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/park-royal-transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-la-paz.webp" alt="Park Royal Resort View" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/park-royal-transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-transport.webp" alt="Park Royal Transport Services" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <div className="rounded-2xl overflow-hidden shadow-md border border-slate-150 relative group">
+                  <img src="/hotel/park-royal-transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private.webp" alt="Park Royal Front" className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+              </div>
+            </section>
+
 
             <p className="mb-4 text-slate-600 text-sm md:text-base">
               {lang === 'es'
