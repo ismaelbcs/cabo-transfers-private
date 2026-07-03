@@ -489,7 +489,7 @@ export default function DestinationPage({ params }) {
   const router = useRouter();
 
   // 2. OBTENEMOS LAS FUNCIONES DEL CONTEXTO
-  const { setReserva, setServicioSeleccionado, setPaso, setBusquedaHotelPrincipal } = useBooking();
+  const { reserva, setReserva, setServicioSeleccionado, setPaso, setBusquedaHotelPrincipal } = useBooking();
 
   // 3. DATOS DE ESTE HOTEL (ESTÁTICOS)
   const hotel = {
