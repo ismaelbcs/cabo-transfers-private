@@ -499,7 +499,7 @@ export default function DestinationPage({ params }) {
     "zonaText": "Tourist Corridor",
     "tiempo": "35-40 min",
     "dist": "32 km",
-    "image": "dreams-los-cabos-sjd-airport.webp",
+    "image": "hotel/dreams-los-cabos-sjd-airport.webp",
     "desc": "a limitless beachfront escape"
   };
 
@@ -645,14 +645,8 @@ export default function DestinationPage({ params }) {
               <li>{lang === 'es' ? 'Precio garantizado—sin tarifas ocultas ni tarifas dinámicas.' : 'Guaranteed pricing—no hidden fees, toll charges, or surge rates.'}</li>
             </ul>
 
-            {/* GALERÍA DE IMÁGENES DEL HOTEL Y TRANSPORTE */}
-            <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 h-full">
-                <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Luxury Cabo Transportation" className="w-full h-full object-cover md:max-h-[300px]" />
-              </div>
-              <div className="rounded-[2rem] overflow-hidden shadow-xl border border-slate-100 h-full">
-                <img src="/dreams-los-cabos-sjd-airport.webp" alt="Dreams Los Cabos Resort and Spa" className="w-full h-full object-cover md:max-h-[300px]" />
-              </div>
+            <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+              <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
             </div>
 
             <p className="mb-4 text-slate-600 text-sm md:text-base">
