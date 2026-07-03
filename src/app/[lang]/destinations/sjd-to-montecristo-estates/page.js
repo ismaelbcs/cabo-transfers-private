@@ -500,7 +500,7 @@ export default function DestinationPage({ params }) {
     "zonaText": "Pacific Zone",
     "tiempo": "50-60 min",
     "dist": "50 km",
-    "image": "montecristo-estates-airport-sjd.webp",
+    "image": "hotel/montecristo-estates-airport-sjd.webp",
     "desc": "opulent cliffside villas"
   };
 

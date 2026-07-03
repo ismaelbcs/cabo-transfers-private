@@ -500,7 +500,7 @@ export default function DestinationPage({ params }) {
     "zonaText": "San José del Cabo",
     "tiempo": "20-25 min",
     "dist": "15 km",
-    "image": "park-royal-homestay-los-cabos-sjd-airport.webp",
+    "image": "hotel/park-royal-homestay-los-cabos-sjd-airport.webp",
     "desc": "your home away from home"
   };
 

@@ -500,7 +500,7 @@ export default function DestinationPage({ params }) {
     "zonaText": "Cabo San Lucas",
     "tiempo": "45-50 min",
     "dist": "44 km",
-    "image": "sjd-to-pedregal-manor.webp",
+    "image": "hotel/sjd-to-pedregal-manor.webp",
     "desc": "a spectacular resort area in Cabo"
   };
 
