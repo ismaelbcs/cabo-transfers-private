@@ -505,14 +505,14 @@ export default function DestinationPage({ params }) {
   };
 
   // 4. ESTADOS LOCALES PARA EL FORMULARIO
-  const [searchTerm, setSearchTerm] = useState(hotel?.nombre || '');
-  const [activeHotelName, setActiveHotelName] = useState(hotel?.nombre || '');
-  const [activeZona, setActiveZona] = useState(hotel?.zona || 1);
+  const [searchTerm, setSearchTerm] = useState(reserva.hotelId || hotel?.nombre || '');
+  const [activeHotelName, setActiveHotelName] = useState(reserva.hotelId || hotel?.nombre || '');
+  const [activeZona, setActiveZona] = useState(reserva.zonaId || hotel?.zona || 1);
   const [showDropdown, setShowDropdown] = useState(false);
   
-  const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState(null);
-  const [fechaLlegada, setFechaLlegada] = useState('');
-  const [pasajeros, setPasajeros] = useState(1);
+  const [vehiculo, setVehiculo] = useState(reserva.vehiculo || 'suburban');
+  const [fechaLlegada, setFechaLlegada] = useState(reserva.fechaLlegada || '');
+  const [pasajeros, setPasajeros] = useState(reserva.pasajeros || 1);
 
   // Si alguien escribe una URL que no existe
   if (!hotel) {
@@ -540,7 +540,7 @@ export default function DestinationPage({ params }) {
         ...prev, 
         hotelId: activeHotelName, 
         zonaId: activeZona,       
-        tipoVehiculo: vehiculoSeleccionado,
+        vehiculo: vehiculo,
         fechaLlegada: fechaLlegada,
         pasajeros: pasajeros
       }));
@@ -860,12 +860,12 @@ export default function DestinationPage({ params }) {
                 
                 {/* Opcion Luxury SUV */}
                 <button 
-                  onClick={() => setVehiculoSeleccionado('suv')} 
-                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculoSeleccionado === 'suv' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  onClick={() => setVehiculo('suburban')} 
+                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculo === 'suburban' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
                 >
                   <div className="flex justify-between items-start w-full mb-2">
                     <span className="font-bold text-slate-900">Luxury SUV</span>
-                    <Car size={18} className={vehiculoSeleccionado === 'suv' ? 'text-blue-900' : 'text-slate-400'} />
+                    <Car size={18} className={vehiculo === 'suburban' ? 'text-blue-900' : 'text-slate-400'} />
                   </div>
                   <p className="text-[10px] text-slate-500 mb-4 leading-tight">
                     {lang === 'es' ? 'Elegancia y confort para familias o grupos pequeños.' : 'Elegance and comfort for families or small groups.'}
@@ -881,12 +881,12 @@ export default function DestinationPage({ params }) {
 
                 {/* Opcion Van */}
                 <button 
-                  onClick={() => setVehiculoSeleccionado('van')} 
-                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculoSeleccionado === 'van' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  onClick={() => setVehiculo('sprinter')} 
+                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculo === 'sprinter' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
                 >
                   <div className="flex justify-between items-start w-full mb-2">
                     <span className="font-bold text-slate-900">Van</span>
-                    <Car size={18} className={vehiculoSeleccionado === 'van' ? 'text-blue-900' : 'text-slate-400'} />
+                    <Car size={18} className={vehiculo === 'sprinter' ? 'text-blue-900' : 'text-slate-400'} />
                   </div>
                   <p className="text-[10px] text-slate-500 mb-4 leading-tight">
                     {lang === 'es' ? 'Amplitud y lujo para grupos grandes.' : 'Spaciousness and luxury for large groups.'}
@@ -964,7 +964,7 @@ export default function DestinationPage({ params }) {
               </button>
 
               <button 
-                onClick={() => handleContinue('viaje_redondo')} 
+                onClick={() => handleContinue('redondo')} 
                 className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
               >
                 <RefreshCcw size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
