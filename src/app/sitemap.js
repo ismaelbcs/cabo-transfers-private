@@ -46,6 +46,10 @@ export default function sitemap() {
 
   // 3. Rutas de destinos populares
   const destinationRoutes = [
+    '/destinations/sjd-to-dreams-los-cabos',
+    '/destinations/sjd-to-park-royal',
+    '/destinations/sjd-to-pedregal',
+    '/destinations/sjd-to-montecristo-estates',
     '/destinations/sjd-to-alegranza',
     '/destinations/sjd-to-altamira-residencial',
     '/destinations/sjd-to-altura-puerto-los-cabos',
