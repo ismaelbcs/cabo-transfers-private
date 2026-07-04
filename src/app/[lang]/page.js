@@ -935,6 +935,17 @@ export default function Home() {
                 ? 'Sitio web de reservación fácil en tres clics. Ingresa tu destino, elige tu transporte y da clic en enviar. Al final del formulario encontrarás opciones para pagar de forma segura con tarjeta, optar por pago a la llegada, o usar PayPal.'
                 : 'Three-click easy reservation website. Enter your destination, choose your shuttle type, and click submit. You can select from paying securely with a credit card, opting for payment on arrival, or using PayPal.'}
             </p>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-2 text-xs text-slate-400">
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT TRANSFERS</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT TRANSPORTATION</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">CABO TRANSPORTATION</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">CABO AIRPORT TRANSFERS</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">CABO AIRPORT TRANSPORTATION</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS TRANSFERS</a> - 
+              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS TRANSPORTATION</a>
+            </div>
           </div>
 
         </div>
