@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../../../context/CartContext';
 import { useBooking } from '../../../../context/BookingContext';
+import TrustBadges from '../../../../components/TrustBadges';
+import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 import { golfSEOData } from '../../../../data/golfSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
@@ -275,6 +277,7 @@ export default function GolfCourseSeoPage({ params }) {
 
         {/* RIGHT: BOOKING WIDGET */}
         <div className="lg:col-span-1 relative order-1 lg:order-2">
+          <UrgencyBanner lang={lang} locationName={seoData.nombre} />
           <div className="bg-slate-100 border border-slate-300 rounded-[2rem] shadow-2xl p-5 md:p-6 sticky top-28 max-w-[380px] mx-auto lg:ml-auto lg:mr-0 lg:max-w-[350px] w-full">
             
             {/* Cabecera del Widget (Seguridad) */}
@@ -404,6 +407,7 @@ export default function GolfCourseSeoPage({ params }) {
                 </button>
               </div>
 
+              <TrustBadges lang={lang} showFlightMonitoring={false} />
             </div>
           </div>
         </div>

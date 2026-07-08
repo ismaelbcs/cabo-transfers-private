@@ -11,6 +11,8 @@ import {
 
 // 1. IMPORTAMOS EL CONTEXTO
 import { useBooking } from '../../../../context/BookingContext';
+import TrustBadges from '../../../../components/TrustBadges';
+import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 
 // =========================================================
@@ -791,6 +793,7 @@ export default function DestinationPage({ params }) {
         {/* COLUMNA DERECHA: WIDGET DE RESERVA INTERACTIVO INTERNACIONALIZADO */}
         {/* ========================================= */}
         <div className="lg:col-span-1 relative order-1 lg:order-2">
+          <UrgencyBanner lang={lang} locationName={hotel.nombre} />
           <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-[2rem] shadow-2xl shadow-slate-200/50 sticky top-28">
             
             {/* Cabecera del Widget */}
@@ -989,6 +992,7 @@ export default function DestinationPage({ params }) {
               </button>
             </div>
 
+            <TrustBadges lang={lang} showFlightMonitoring={true} />
           </div>
         </div>
 
