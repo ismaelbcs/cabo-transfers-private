@@ -369,7 +369,7 @@ export default function HeroBooking({ lang = 'es' }) {
                               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha del Traslado' : 'Transfer Date'}</label>
                               <div className="relative">
                                 <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                                <input type="date" value={hotelFecha} onChange={(e) => setHotelFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="date" value={hotelFecha} onChange={(e) => setHotelFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                             </div>
                             <div className="flex flex-col">
@@ -382,7 +382,7 @@ export default function HeroBooking({ lang = 'es' }) {
                             </div>
                             <div className="flex flex-col md:col-span-2 pt-4 border-t border-slate-100">
                               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Hora Pick-up' : 'Pick-up Time'}</label>
-                              <input type="time" value={hotelHora} onChange={(e) => setHotelHora(e.target.value)} className="w-full md:w-1/3 p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                              <input type="time" value={hotelHora} onChange={(e) => setHotelHora(e.target.value)} className="w-full md:w-1/3 p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                             </div>
                             <div className="md:col-span-2 mt-6 bg-slate-900 rounded-[1.5rem] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between text-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-800">
                               <div className="mb-6 md:mb-0 text-center md:text-left">
@@ -478,7 +478,7 @@ export default function HeroBooking({ lang = 'es' }) {
                               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha del Servicio' : 'Service Date'}</label>
                               <div className="relative">
                                 <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                                <input type="date" value={golfFecha} onChange={(e) => setGolfFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="date" value={golfFecha} onChange={(e) => setGolfFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                             </div>
                             <div className="flex flex-col">
@@ -489,14 +489,14 @@ export default function HeroBooking({ lang = 'es' }) {
                                 <option value="9-10">9 - 10 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
                               </select>
                             </div>
-                            <div className="flex flex-col md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-100">
+                            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-100">
                               <div>
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Pick-up (Hotel)' : 'Pick-up (Hotel)'}</label>
-                                <input type="time" value={golfHora} onChange={(e) => setGolfHora(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="time" value={golfHora} onChange={(e) => setGolfHora(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                               <div>
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Tee Time' : 'Tee Time'}</label>
-                                <input type="time" value={golfHoraReserva} onChange={(e) => setGolfHoraReserva(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="time" value={golfHoraReserva} onChange={(e) => setGolfHoraReserva(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                               <div>
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Regreso' : 'Return Time'}</label>
@@ -603,7 +603,7 @@ export default function HeroBooking({ lang = 'es' }) {
                               <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha del Servicio' : 'Service Date'}</label>
                               <div className="relative">
                                 <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                                <input type="date" value={nightlifeFecha} onChange={(e) => setNightlifeFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="date" value={nightlifeFecha} onChange={(e) => setNightlifeFecha(e.target.value)} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                             </div>
                             <div className="flex flex-col">
@@ -614,14 +614,14 @@ export default function HeroBooking({ lang = 'es' }) {
                                 <option value="9-10">9 - 10 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
                               </select>
                             </div>
-                            <div className="flex flex-col md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-100">
+                            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-100">
                               <div>
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Pick-up (Hotel)' : 'Pick-up (Hotel)'}</label>
-                                <input type="time" value={nightlifeHora} onChange={(e) => setNightlifeHora(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="time" value={nightlifeHora} onChange={(e) => setNightlifeHora(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                               <div>
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Ingreso al club' : 'Club Entry Time'}</label>
-                                <input type="time" value={nightlifeHoraReserva} onChange={(e) => setNightlifeHoraReserva(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all" />
+                                <input type="time" value={nightlifeHoraReserva} onChange={(e) => setNightlifeHoraReserva(e.target.value)} className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm font-medium text-slate-800 focus:bg-white focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-all appearance-none min-w-0" />
                               </div>
                               <div>
                                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 block">{lang === 'es' ? 'Hora de regreso' : 'Return Time'}</label>
@@ -742,14 +742,14 @@ export default function HeroBooking({ lang = 'es' }) {
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Fecha de Llegada' : 'Arrival Date'}</label>
                 <div className="relative">
                   <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                  <input type="date" name="fechaLlegada" value={reserva.fechaLlegada || ''} onChange={handleChange} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:ring-1 focus:ring-slate-900 focus:border-slate-900 text-slate-800 font-medium transition-all" />
+                  <input type="date" name="fechaLlegada" value={reserva.fechaLlegada || ''} onChange={handleChange} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:ring-1 focus:ring-slate-900 focus:border-slate-900 text-slate-800 font-medium transition-all appearance-none min-w-0" />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{lang === 'es' ? 'Pasajeros' : 'Passengers'}</label>
                 <div className="relative">
                   <Users className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                  <input type="number" min="1" max="10" name="pasajeros" value={reserva.pasajeros || ''} onChange={handleChange} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:ring-1 focus:ring-slate-900 focus:border-slate-900 text-slate-800 font-medium transition-all" />
+                  <input type="number" min="1" max="10" name="pasajeros" value={reserva.pasajeros || ''} onChange={handleChange} className="w-full pl-10 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:bg-white focus:ring-1 focus:ring-slate-900 focus:border-slate-900 text-slate-800 font-medium transition-all appearance-none min-w-0" />
                 </div>
               </div>
             </div>
