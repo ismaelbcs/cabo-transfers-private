@@ -13,6 +13,7 @@ import {
 import { useBooking } from '../../../../context/BookingContext';
 import TrustBadges from '../../../../components/TrustBadges';
 import FAQAccordion from '../../../../components/FAQAccordion';
+import TrustedPartners from '../../../../components/TrustedPartners';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 
@@ -1044,6 +1045,8 @@ export default function DestinationPage({ params }) {
           </p>
         </div>
       </div>
+
+      <TrustedPartners lang={lang} className="mb-12 rounded-2xl mx-4 max-w-7xl lg:mx-auto" />
 
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-12">
 

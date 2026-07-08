@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import { useBooking } from '../context/BookingContext';
 import { useCart } from '../context/CartContext';
+import TrustBadges from './TrustBadges';
 import { catalogoHoteles, toursData } from '../data/seoData';
 
 // Constante de vehículos para el formulario principal
@@ -859,6 +860,13 @@ export default function HeroBooking({ lang = 'es' }) {
 
           </div>
         )}
+
+        {/* ========================================= */}
+        {/* TRUST BADGES PARA EL HERO PRINCIPAL */}
+        {/* ========================================= */}
+        <div className="mt-8">
+          <TrustBadges lang={lang} showFlightMonitoring={true} />
+        </div>
       </div>
     </div>
   );

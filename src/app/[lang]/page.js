@@ -29,6 +29,8 @@ import TrustAndReviews from '../../components/TrustAndReviews';
 import ExperienceSelector from '../../components/ExperienceSelector';
 import SpecialServices from '../../components/SpecialServices';
 import { FAQSection } from '../../components/FAQSection'; // Asegúrate de la ruta
+import TrustedPartners from '../../components/TrustedPartners';
+import UrgencyBanner from '../../components/UrgencyBanner';
 import { dict } from '../../locales/dict';
 
 export default function Home() {
@@ -520,10 +522,16 @@ export default function Home() {
 
             {/* El recuadro blanco original (HeroBooking) */}
             <div className="w-full max-w-5xl mx-auto">
+              <UrgencyBanner lang={lang} locationName="Los Cabos" />
               <HeroBooking t={t} lang={lang} />
             </div>
           </div>
         </section>
+      )}
+
+      {/* ===== PARTNERS LOGOS (SÓLO VISIBLES EN EL PASO 1) ===== */}
+      {paso === 1 && (
+        <TrustedPartners lang={lang} />
       )}
 
       {/* ===== PASO 2: FLUJO DE TRANSPORTE ===== */}

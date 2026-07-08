@@ -11,6 +11,7 @@ import { useBooking } from '../../../../context/BookingContext';
 import TrustBadges from '../../../../components/TrustBadges';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
 import FAQAccordion from '../../../../components/FAQAccordion';
+import TrustedPartners from '../../../../components/TrustedPartners';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 import { golfSEOData } from '../../../../data/golfSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
@@ -126,6 +127,8 @@ export default function GolfCourseSeoPage({ params }) {
           </p>
         </div>
       </div>
+
+      <TrustedPartners lang={lang} className="mb-12 rounded-2xl mx-4 max-w-7xl lg:mx-auto" />
 
       {/* 2. MAIN CONTENT GRID */}
       <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-12">
