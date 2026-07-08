@@ -700,9 +700,9 @@ export const toursData = [
     edadMinima: 5,
     activo: true,
     slug: 'vip-snorkeling-sea-scooter-cabo-san-lucas',
-    imagenUrl: 'snorkeling-trip-cabo-san-lucas.webp', 
+    imagenUrl: 'los-cabos-snorkeling-tour.webp', 
     galeria: [
-      "/snorkeling-trip-cabo-san-lucas.webp",
+      "/Cabo-San-Lucas-Snorkel-Tour-1.webp",
       "/los-cabos-snorkeling-tour.webp",
     ],
     nombre: {
