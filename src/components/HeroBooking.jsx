@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { useBooking } from '../context/BookingContext';
 import { useCart } from '../context/CartContext';
 import TrustBadges from './TrustBadges';
+import UrgencyBanner from './UrgencyBanner';
 import { catalogoHoteles, toursData } from '../data/seoData';
 
 // Constante de vehículos para el formulario principal
@@ -180,6 +181,7 @@ export default function HeroBooking({ lang = 'es' }) {
 
   return (
     <div className="relative z-30 max-w-4xl mx-auto px-4 -mt-24 mb-16">
+      <UrgencyBanner lang={lang} locationName="Los Cabos" />
       <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] p-6 md:p-10 border border-slate-200/60 transition-all duration-300">
 
         {servicioSeleccionado === 'tours' ? (

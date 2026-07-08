@@ -522,7 +522,6 @@ export default function Home() {
 
             {/* El recuadro blanco original (HeroBooking) */}
             <div className="w-full max-w-5xl mx-auto">
-              <UrgencyBanner lang={lang} locationName="Los Cabos" />
               <HeroBooking t={t} lang={lang} />
             </div>
           </div>
