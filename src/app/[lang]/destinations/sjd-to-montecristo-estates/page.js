@@ -599,7 +599,7 @@ export default function DestinationPage({ params }) {
         {/* ========================================= */}
         {/* COLUMNA PRINCIPAL DE CONTENIDO            */}
         {/* ========================================= */}
-        <div className="lg:col-span-2 space-y-12 text-slate-700 text-lg leading-relaxed">
+        <div className="lg:col-span-2 space-y-12 text-slate-700 text-lg leading-relaxed order-2 lg:order-1">
 
           {/* Intro */}
           <section>
@@ -788,7 +788,7 @@ export default function DestinationPage({ params }) {
         {/* ========================================= */}
         {/* COLUMNA DERECHA: WIDGET DE RESERVA INTERACTIVO INTERNACIONALIZADO */}
         {/* ========================================= */}
-        <div className="lg:col-span-1 relative">
+        <div className="lg:col-span-1 relative order-1 lg:order-2">
           <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-[2rem] shadow-2xl shadow-slate-200/50 sticky top-28">
             
             {/* Cabecera del Widget */}
