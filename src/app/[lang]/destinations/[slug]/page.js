@@ -11,6 +11,7 @@ import {
 
 // 1. IMPORTAMOS EL CONTEXTO
 import { useBooking } from '../../../../context/BookingContext';
+import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 
 // =========================================================
 // 🏨 BASE DE DATOS DE HOTELES (LANDING PAGES SEO)
@@ -1034,7 +1035,8 @@ export default function DestinationPage({ params }) {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tight leading-tight text-white drop-shadow-md">
             {lang === 'es' ? `Transporte Privado a ${hotel.nombre}` : `SJD Airport Transportation to ${hotel.nombre}`}
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 font-medium">
+          <HeroReviewsBadge lang={lang} />
+          <p className="text-lg md:text-xl text-slate-300 font-medium mt-4">
             {lang === 'es' ? 'Servicio Exclusivo en Luxury SUV y Sprinter' : 'Exclusive Private Transportation & Luxury SUV Service'}
           </p>
         </div>

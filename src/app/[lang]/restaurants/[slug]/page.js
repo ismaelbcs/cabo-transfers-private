@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../../../context/CartContext';
 import { useBooking } from '../../../../context/BookingContext';
+import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 import { restaurantSEOData } from '../../../../data/restaurantSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
 
@@ -122,7 +123,8 @@ export default function RestaurantSeoPage({ params }) {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tight leading-tight text-white drop-shadow-md">
             {t.title}
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 font-medium">
+          <HeroReviewsBadge lang={lang} />
+          <p className="text-lg md:text-xl text-slate-300 font-medium mt-4">
             {lang === 'es' ? 'Servicio Exclusivo en Luxury SUV y Sprinter' : 'Exclusive Private Transportation & Luxury SUV Service'}
           </p>
         </div>
