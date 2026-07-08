@@ -10,6 +10,7 @@ import { useCart } from '../../../../context/CartContext';
 import { useBooking } from '../../../../context/BookingContext';
 import TrustBadges from '../../../../components/TrustBadges';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
+import FAQAccordion from '../../../../components/FAQAccordion';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 import { restaurantSEOData } from '../../../../data/restaurantSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
@@ -277,6 +278,9 @@ export default function RestaurantSeoPage({ params }) {
               <img src="/pago-tarjetas.png" alt="Payment Methods" className="h-10 object-contain hover:scale-105 transition-transform duration-300" />
             </div>
           </section>
+
+          {/* FAQ SECTION */}
+          <FAQAccordion type="restaurant" locationName={seoData.nombre} lang={lang} />
 
         </div>
 

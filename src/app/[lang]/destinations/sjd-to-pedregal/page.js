@@ -13,6 +13,7 @@ import {
 import { useBooking } from '../../../../context/BookingContext';
 import TrustBadges from '../../../../components/TrustBadges';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
+import FAQAccordion from '../../../../components/FAQAccordion';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 
 // =========================================================
@@ -783,6 +784,9 @@ export default function DestinationPage({ params }) {
               </p>
             </div>
           </section>
+
+          {/* FAQ SECTION */}
+          <FAQAccordion type="hotel" locationName={hotel.nombre} lang={lang} />
 
         </div>
 

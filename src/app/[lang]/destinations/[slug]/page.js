@@ -12,6 +12,7 @@ import {
 // 1. IMPORTAMOS EL CONTEXTO
 import { useBooking } from '../../../../context/BookingContext';
 import TrustBadges from '../../../../components/TrustBadges';
+import FAQAccordion from '../../../../components/FAQAccordion';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 
@@ -1199,6 +1200,9 @@ export default function DestinationPage({ params }) {
               </p>
             </div>
           </section>
+
+          {/* FAQ SECTION */}
+          <FAQAccordion type="hotel" locationName={hotel.nombre} lang={lang} />
 
         </div>
 
