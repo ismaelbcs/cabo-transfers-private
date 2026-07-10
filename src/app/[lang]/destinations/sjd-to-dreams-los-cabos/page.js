@@ -885,7 +885,7 @@ export default function DestinationPage({ params }) {
             </div>
 
             {/* FECHA Y PASAJEROS */}
-            <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <div>
                 <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
                   {lang === 'es' ? 'Fecha de Llegada' : 'Arrival Date'}
@@ -946,21 +946,11 @@ export default function DestinationPage({ params }) {
 
               <button 
                 onClick={() => handleContinue('redondo')} 
-                className="border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
+                className="col-span-2 border border-slate-200 rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:border-blue-900 hover:bg-slate-50 transition-colors bg-white group"
               >
                 <RefreshCcw size={24} className="text-slate-400 mb-2 group-hover:text-blue-900 transition-colors" />
                 <span className="text-xs font-bold text-slate-800 text-center">
                   {lang === 'es' ? 'Viaje Redondo' : 'Round Trip'}
-                </span>
-              </button>
-
-              <button 
-                onClick={() => handleContinue('tours')} 
-                className="bg-[#0f172a] rounded-xl py-4 px-2 flex flex-col items-center justify-center hover:bg-slate-800 transition-colors shadow-lg group"
-              >
-                <Compass size={24} className="text-slate-300 mb-2 group-hover:text-white transition-colors" />
-                <span className="text-xs font-bold text-white text-center">
-                  {lang === 'es' ? 'Tours y Especiales' : 'Tours & Specials'}
                 </span>
               </button>
             </div>
