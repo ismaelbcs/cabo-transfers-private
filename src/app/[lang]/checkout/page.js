@@ -55,6 +55,8 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   // Variables regulares
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
+  const fechaLlegada = item.config?.fechaLlegada || 'N/A';
+  const fechaSalida = item.config?.fechaSalida || 'N/A';
   const aerolineaLlegada = item.flightInfo?.aerolinea ? `${item.flightInfo.aerolinea} (Vuelo: ${item.flightInfo.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = item.flightInfo?.hora || 'N/A';
   const aerolineaSalida = item.flightInfo?.aerolineaSalida ? `${item.flightInfo.aerolineaSalida} (Vuelo: ${item.flightInfo.vueloSalida || 'N/A'})` : 'N/A';
@@ -76,8 +78,10 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel / Destino:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelDestino}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
+              ${fechaLlegada !== 'N/A' && fechaLlegada ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Fecha de Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${fechaLlegada}</td></tr>` : ''}
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
+              ${fechaSalida !== 'N/A' && fechaSalida ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Fecha de Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${fechaSalida}</td></tr>` : ''}
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Salida Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaSalida}</td></tr>
               <tr><td style="color: #ea580c; font-size: 14px; font-weight: 800; width: 40%; padding-bottom: 14px;">Hora Pick-Up / Servicio:</td><td style="color: #ea580c; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaPickUp}</td></tr>
@@ -144,6 +148,8 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
 
   const hotel = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || item.extrasEspeciales?.golfOrigen || item.extrasEspeciales?.nightlifeOrigen || 'N/A';
   const pasajeros = item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
+  const fechaLlegada = item.config?.fechaLlegada || item.extrasEspeciales?.fecha || item.extrasEspeciales?.cenaFecha || item.extrasEspeciales?.hotelFecha || item.extrasEspeciales?.golfFecha || item.extrasEspeciales?.nightlifeFecha || 'N/A';
+  const fechaSalida = item.config?.fechaSalida || 'N/A';
   const pickup = item.flightInfo?.horaPickUp || item.extrasEspeciales?.cenaHora || item.extrasEspeciales?.hotelHora || item.extrasEspeciales?.golfHora || item.extrasEspeciales?.nightlifeHora || item.config?.hhHora || item.config?.fechaLlegada || 'N/A';
 
   let bgStyle = `background-color: #1e3a8a;`;
@@ -186,6 +192,8 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const labelConfirm = isEs ? 'N° de Confirmación:' : 'Confirmation N°:';
   const labelService = isEs ? 'Servicio:' : 'Service:';
   const labelPax = isEs ? 'Pasajeros:' : 'Passengers:';
+  const labelFechaLlegada = isEs ? 'Fecha de Llegada:' : 'Arrival Date:';
+  const labelFechaSalida = isEs ? 'Fecha de Salida:' : 'Departure Date:';
   const labelPickup = isEs ? 'Hora Sugerida/Pick-Up:' : 'Suggested Pick-Up Time:';
   const labelMethod = isEs ? 'Método de Pago:' : 'Payment Method:';
   const btnModify = isEs ? '✏️ Modificar mi Reserva' : '✏️ Modify My Booking';
@@ -220,6 +228,14 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
                 <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPax}</td>
                 <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${pasajeros}</td>
               </tr>
+              ${fechaLlegada !== 'N/A' && fechaLlegada ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelFechaLlegada}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${fechaLlegada}</td>
+              </tr>` : ''}
+              ${fechaSalida !== 'N/A' && fechaSalida ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelFechaSalida}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${fechaSalida}</td>
+              </tr>` : ''}
               <tr style="border-bottom: 1px solid #f8fafc;">
                 <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPickup}</td>
                 <td style="padding: 10px 0; font-size: 15px; font-weight: 900; color: #ea580c; width: 60%; text-align: right;">${pickup}</td>
