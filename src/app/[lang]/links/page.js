@@ -132,7 +132,7 @@ export default function LinkInBioPage({ params }) {
   );
 
   const googleReview = (
-    <a href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank" rel="noopener noreferrer" className="group relative w-full bg-white rounded-[32px] p-7 flex flex-col items-center text-center emil-shadow emil-inner-ring animate-tasteful delay-200 emil-interactive hover:-translate-y-1 hover:emil-shadow-hover">
+    <a href="https://g.page/r/CYogd8iYqsEMEAE/review" target="_blank" rel="noopener noreferrer" className="group relative w-full bg-white rounded-[32px] p-7 flex flex-col items-center text-center emil-shadow emil-inner-ring animate-tasteful delay-200 emil-interactive hover:-translate-y-1 hover:emil-shadow-hover">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-50 rounded-t-[32px]"></div>
       <div className="absolute top-4 right-4 bg-zinc-50 text-zinc-300 p-2.5 rounded-full emil-interactive group-hover:bg-zinc-100 group-hover:text-zinc-900 group-hover:translate-x-1 group-hover:-translate-y-1">
         <ArrowRight size={18} />
