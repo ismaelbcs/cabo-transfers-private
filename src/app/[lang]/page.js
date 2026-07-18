@@ -30,6 +30,7 @@ import ExperienceSelector from '../../components/ExperienceSelector';
 import SpecialServices from '../../components/SpecialServices';
 import { FAQSection } from '../../components/FAQSection'; // Asegúrate de la ruta
 import TrustedPartners from '../../components/TrustedPartners';
+import GoogleReviews from '../../components/GoogleReviews';
 import UrgencyBanner from '../../components/UrgencyBanner';
 import { dict } from '../../locales/dict';
 
@@ -502,17 +503,19 @@ export default function Home() {
 
       {/* ===== PASO 1: WIDGET HERO CON VIDEO DE FONDO ===== */}
       {paso === 1 && (
-        <section className="relative pt-32 pb-16 px-4 min-h-[75vh] flex flex-col justify-center animate-fade-in overflow-hidden bg-slate-950">
-          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60 z-0">
-            <source src="/private-luxury-transfers-cabo-san-lucas.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-900/40 to-slate-50 z-10"></div>
+        <section className="relative pt-32 pb-16 px-4 flex flex-col justify-start animate-fade-in bg-white">
+          <div className="absolute top-0 left-0 w-full h-[60vh] bg-slate-950 overflow-hidden z-0 rounded-b-3xl md:rounded-b-[4rem]">
+            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60">
+              <source src="/private-luxury-transfers-cabo-san-lucas.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-900/50 to-transparent z-10"></div>
+          </div>
 
-          <div className="max-w-4xl mx-auto text-center mb-12 md:mb-8 relative z-20 mt-8">
+          <div className="max-w-4xl mx-auto text-center mb-8 relative z-20 mt-4 md:mt-8">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tighter leading-normal pb-2 drop-shadow-lg" style={{ letterSpacing: '-0.03em' }}>
               {lang === 'es' ? 'TRANSPORTE PRIVADO Y SHUTTLES EN LOS CABOS.' : <><span className="text-white">PREMIUM CABO AIRPORT SHUTTLE</span> & PRIVATE TOURS.</>}
             </h1>
-            <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md">
+            <p className="text-lg md:text-xl text-slate-200 max-w-2xl mx-auto font-medium leading-relaxed drop-shadow-md">
               {lang === 'es' ? 'Reserva tu traslado seguro, sin filas y puerta a puerta en el Aeropuerto SJD.' : 'Reliable, safe, and private transportation from SJD Airport to your resort. Skip the taxi lines.'}
             </p>
           </div>
@@ -531,6 +534,11 @@ export default function Home() {
       {/* ===== PARTNERS LOGOS (SÓLO VISIBLES EN EL PASO 1) ===== */}
       {paso === 1 && (
         <TrustedPartners lang={lang} />
+      )}
+
+      {/* ===== GOOGLE REVIEWS (SÓLO VISIBLES EN EL PASO 1) ===== */}
+      {paso === 1 && (
+        <GoogleReviews lang={lang} />
       )}
 
       {/* ===== PASO 2: FLUJO DE TRANSPORTE ===== */}
