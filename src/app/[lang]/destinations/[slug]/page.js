@@ -16,6 +16,7 @@ import FAQAccordion from '../../../../components/FAQAccordion';
 import TrustedPartners from '../../../../components/TrustedPartners';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
+import GoogleReviewsWidget from '../../../../components/GoogleReviewsWidget';
 
 // =========================================================
 // 🏨 BASE DE DATOS DE HOTELES (LANDING PAGES SEO)
@@ -1066,6 +1067,9 @@ export default function DestinationPage({ params }) {
                 : `Planning a trip to Cabo San Lucas or San Jose del Cabo? Ensuring smooth airport transportation from Cabo Airport to your hotel is crucial. When considering Cabo Airport transportation to ${hotel.nombre}, a top resort located in ${hotel.zonaText}, you shouldn't leave logistics to chance. Your luxurious stay and ${hotel.desc} awaits your arrival.`}
             </p>
           </section>
+
+          {/* GOOGLE REVIEWS WIDGET */}
+          <GoogleReviewsWidget lang={lang} />
 
           {/* KEY TAKEAWAYS (Diseño limpio y moderno) */}
           <section className="bg-slate-50 border border-slate-200 p-8 rounded-2xl my-10 shadow-sm relative overflow-hidden">

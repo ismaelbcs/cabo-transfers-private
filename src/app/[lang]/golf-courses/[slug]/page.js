@@ -13,6 +13,7 @@ import UrgencyBanner from '../../../../components/UrgencyBanner';
 import FAQAccordion from '../../../../components/FAQAccordion';
 import TrustedPartners from '../../../../components/TrustedPartners';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
+import GoogleReviewsWidget from '../../../../components/GoogleReviewsWidget';
 import { golfSEOData } from '../../../../data/golfSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
 
@@ -148,6 +149,9 @@ export default function GolfCourseSeoPage({ params }) {
               {t.keyPointDesc}
             </p>
           </section>
+
+          {/* GOOGLE REVIEWS WIDGET */}
+          <GoogleReviewsWidget lang={lang} />
 
           {/* KEY TAKEAWAYS */}
           <section className="bg-slate-50 border border-slate-200 p-8 rounded-2xl my-10 shadow-sm relative overflow-hidden">
