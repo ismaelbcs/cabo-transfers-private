@@ -4,13 +4,13 @@ import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { MapPin, ShieldCheck, Car, Users, PlaneLanding, PlaneTakeoff, RefreshCcw } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
-import { catalogoHoteles } from '../data/seoData';
+import { hotelesBase } from '../app/[lang]/destinations/[slug]/page';
 import TrustBadges from './TrustBadges';
 import UrgencyBanner from './UrgencyBanner';
 
 export default function GenericDestinationBooking({ lang = 'es', locationName = 'Los Cabos' }) {
   const router = useRouter();
-  const { setReserva, setPaso, setBusquedaHotelPrincipal } = useBooking();
+  const { setReserva, setPaso, setBusquedaHotelPrincipal, setServicioSeleccionado } = useBooking();
   
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
@@ -22,9 +22,10 @@ export default function GenericDestinationBooking({ lang = 'es', locationName = 
   const [pasajeros, setPasajeros] = useState('1-4');
   
   const filteredHotels = useMemo(() => {
-    if (!searchTerm) return catalogoHoteles;
-    const lower = searchTerm.toLowerCase();
-    return catalogoHoteles.filter(h => h.nombre.toLowerCase().includes(lower));
+    if (!searchTerm) return hotelesBase;
+    return hotelesBase.filter(h => 
+      searchTerm.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w))
+    );
   }, [searchTerm]);
 
   const handleContinue = (tipoServicio) => {
@@ -40,15 +41,17 @@ export default function GenericDestinationBooking({ lang = 'es', locationName = 
       vehiculo: vehiculo,
       fechaLlegada: fechaLlegada,
       pasajeros: pasajeros,
+      hotelId: activeHotelName,
       lugarDestino: activeHotelName,
       lugarDestinoNombre: activeHotelName,
       zonaId: activeZona,
     }));
     
+    if (setServicioSeleccionado) setServicioSeleccionado(tipoServicio);
     if (setBusquedaHotelPrincipal) setBusquedaHotelPrincipal(activeHotelName);
     
     if (setPaso) setPaso(2); 
-    router.push(`/${lang}`);
+    router.push(`/${lang}/booking`);
     window.scrollTo(0, 0);
   };
 
