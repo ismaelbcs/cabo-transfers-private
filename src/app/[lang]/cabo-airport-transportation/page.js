@@ -1,4 +1,7 @@
 import React from 'react';
+import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
+import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
+import GenericDestinationBooking from '../../../components/GenericDestinationBooking';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
@@ -58,7 +61,10 @@ export default function CaboTransportationPage({ params }) {
         </div>
       </header>
 
-      <main className="px-6 mx-auto max-w-4xl pb-24">
+      <main className="px-4 mx-auto max-w-7xl pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+        {/* COLUMNA IZQUIERDA (CONTENIDO) */}
+        <div className="lg:col-span-8 order-2 lg:order-1">
 
         {/* TEXTO SEO SÚPER EXTENSO PARA DOMINAR GOOGLE */}
         <section className="mb-20">
@@ -71,6 +77,10 @@ export default function CaboTransportationPage({ params }) {
                 ? 'Cuando aterrizas en Baja California Sur, lo último de lo que quieres preocuparte es de navegar por redes de transporte local. Ya sea que viajes para una escapada romántica, un retiro corporativo o unas vacaciones familiares, nuestras soluciones de Shuttle y traslados privados están hechas a tu medida. Evitamos las caóticas filas de taxis afuera del aeropuerto SJD, ofreciéndote una experiencia de bienvenida personalizada (Meet and Greet) en la terminal.'
                 : 'When you land in Baja California Sur, the last thing you want to worry about is navigating complex local transportation networks. Whether you are traveling for a romantic getaway, a corporate retreat, or a family vacation, our highly rated Cabo Airport Shuttle and private transfer solutions are tailored exactly to your needs. We bypass the chaotic taxi lines outside SJD airport, offering you a personalized meet-and-greet experience.'}
             </p>
+            <div className="my-10">
+              <GoogleReviewsWidget lang={lang} />
+              <CustomerPhotosWidget lang={lang} />
+            </div>
             <p className="mb-6">
               {lang === 'es'
                 ? 'Elegir el transporte adecuado en el Aeropuerto de Los Cabos marca el tono de todo tu viaje. Nos especializamos en lujo punto a punto, empleando solo choferes totalmente certificados, bilingües y altamente capacitados. Monitoreamos el estado de tu vuelo en tiempo real, lo que significa que las llegadas anticipadas o los vuelos retrasados se acomodan sin problemas y sin tarifas de espera ocultas.'
@@ -422,6 +432,15 @@ export default function CaboTransportationPage({ params }) {
               : 'Pay securely online with a credit card, opt for cash on arrival, or use PayPal to secure your booking.'}
           </p>
         </section>
+
+              </div>
+
+        {/* COLUMNA DERECHA (RESERVA) */}
+        <div className="lg:col-span-4 order-1 lg:order-2">
+          <div className="sticky top-28">
+            <GenericDestinationBooking lang={lang} locationName={lang === 'es' ? 'Los Cabos' : 'Los Cabos'} />
+          </div>
+        </div>
 
       </main>
 

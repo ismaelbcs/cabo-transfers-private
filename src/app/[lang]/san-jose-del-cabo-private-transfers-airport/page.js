@@ -1,4 +1,7 @@
 import React from 'react';
+import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
+import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
+import GenericDestinationBooking from '../../../components/GenericDestinationBooking';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
@@ -53,7 +56,10 @@ export default function CaboSuvServicePage({ params }) {
                 </div>
             </header>
 
-            <main className="px-6 mx-auto max-w-4xl pb-24">
+            <main className="px-4 mx-auto max-w-7xl pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+        {/* COLUMNA IZQUIERDA (CONTENIDO) */}
+        <div className="lg:col-span-8 order-2 lg:order-1">
 
                 {/* TEXTO SEO ADAPTADO A SUV */}
                 <section className="mb-20">
@@ -66,6 +72,10 @@ export default function CaboSuvServicePage({ params }) {
                                 ? 'Cuando aterrizas en Baja California Sur, la comodidad de tu transporte marca la pauta de tus vacaciones. Nuestro Cabo Airport SUV Service está diseñado para aquellos que no se conforman con un transporte ordinario. Evita las filas de taxis y disfruta del espacio, la privacidad y el aire acondicionado de nuestras Chevrolet Suburbans y Ford Expeditions.'
                                 : 'When you land in Baja California Sur, the comfort of your transportation sets the tone for your vacation. Our Cabo Airport SUV Service is designed for those who do not settle for ordinary rides. Skip the taxi lines and enjoy the space, privacy, and pristine air conditioning of our modern Chevrolet Suburbans and Ford Expeditions.'}
                         </p>
+            <div className="my-10">
+              <GoogleReviewsWidget lang={lang} />
+              <CustomerPhotosWidget lang={lang} />
+            </div>
                         <p className="mb-6">
                             {lang === 'es'
                                 ? 'Nuestras SUV de lujo son la opción perfecta para familias, ejecutivos o pequeños grupos de amigos que llevan equipaje extra, palos de golf o simplemente desean viajar con el mayor nivel de confort en Los Cabos. Además, te recibimos con bebidas frías de cortesía en el interior.'
@@ -287,7 +297,16 @@ export default function CaboSuvServicePage({ params }) {
                     </p>
                 </section>
 
-            </main>
+                    </div>
+
+        {/* COLUMNA DERECHA (RESERVA) */}
+        <div className="lg:col-span-4 order-1 lg:order-2">
+          <div className="sticky top-28">
+            <GenericDestinationBooking lang={lang} locationName={lang === 'es' ? 'Los Cabos' : 'Los Cabos'} />
+          </div>
+        </div>
+
+      </main>
 
             {/* FINAL CTA FOOTER */}
             <footer className="bg-neutral-900 py-20 px-6 border-t border-neutral-800 text-center text-white">
