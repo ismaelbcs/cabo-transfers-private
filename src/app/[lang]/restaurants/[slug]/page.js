@@ -14,6 +14,7 @@ import TrustedPartners from '../../../../components/TrustedPartners';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 import GoogleReviewsWidget from '../../../../components/GoogleReviewsWidget';
+import CustomerPhotosWidget from '../../../../components/CustomerPhotosWidget';
 import { restaurantSEOData } from '../../../../data/restaurantSEOData';
 import { catalogoHoteles } from '../../../../data/seoData';
 
@@ -158,6 +159,7 @@ export default function RestaurantSeoPage({ params }) {
 
           {/* GOOGLE REVIEWS WIDGET */}
           <GoogleReviewsWidget lang={lang} />
+          <CustomerPhotosWidget lang={lang} />
 
           {/* KEY TAKEAWAYS (Diseño limpio y moderno) */}
           <section className="bg-slate-50 border border-slate-200 p-8 rounded-2xl my-10 shadow-sm relative overflow-hidden">

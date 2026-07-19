@@ -17,6 +17,7 @@ import TrustedPartners from '../../../../components/TrustedPartners';
 import UrgencyBanner from '../../../../components/UrgencyBanner';
 import HeroReviewsBadge from '../../../../components/HeroReviewsBadge';
 import GoogleReviewsWidget from '../../../../components/GoogleReviewsWidget';
+import CustomerPhotosWidget from '../../../../components/CustomerPhotosWidget';
 
 // =========================================================
 // 🏨 BASE DE DATOS DE HOTELES (LANDING PAGES SEO)
@@ -623,6 +624,7 @@ export default function DestinationPage({ params }) {
 
           {/* GOOGLE REVIEWS WIDGET */}
           <GoogleReviewsWidget lang={lang} />
+          <CustomerPhotosWidget lang={lang} />
 
           {/* KEY TAKEAWAYS (Diseño limpio y moderno) */}
           <section className="bg-slate-50 border border-slate-200 p-8 rounded-2xl my-10 shadow-sm relative overflow-hidden">
