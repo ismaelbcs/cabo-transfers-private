@@ -10,8 +10,20 @@ const BookingContext = createContext();
 
 export function BookingProvider({ children }) {
   // --- ESTADOS ORIGINALES ---
-  const [paso, setPaso] = useState(1);
-  const [servicioSeleccionado, setServicioSeleccionado] = useState('');
+  const [paso, setPaso] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('cabo_paso');
+      return saved ? JSON.parse(saved) : 1;
+    }
+    return 1;
+  });
+  const [servicioSeleccionado, setServicioSeleccionado] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('cabo_servicio');
+      return saved ? JSON.parse(saved) : '';
+    }
+    return '';
+  });
   const [subCategoria, setSubCategoria] = useState('');
   const [vistaEspecial, setVistaEspecial] = useState(null);
   const [imagenTourDestacada, setImagenTourDestacada] = useState('');
@@ -24,11 +36,30 @@ export function BookingProvider({ children }) {
   const [lightboxIndice, setLightboxIndice] = useState(0);
 
   // 🛠 MODIFICADO: Se agregaron hotelId y zonaId para que la reserva sepa a dónde va
-  const [reserva, setReserva] = useState({
-    tourId: '', hotelId: '', zonaId: null, pasajeros: 1, fechaLlegada: '', fechaSalida: '',
-    carSeat: 0, babySeat: 0, boosterSeat: 0, shoppingStop: false,
-    participantes: [{ nombre: '', edad: '' }], comentarios: ''
+  const [reserva, setReserva] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = sessionStorage.getItem('cabo_reserva');
+      if (saved) return JSON.parse(saved);
+    }
+    return {
+      tourId: '', hotelId: '', zonaId: null, pasajeros: 1, fechaLlegada: '', fechaSalida: '',
+      carSeat: 0, babySeat: 0, boosterSeat: 0, shoppingStop: false,
+      participantes: [{ nombre: '', edad: '' }], comentarios: ''
+    };
   });
+
+  // Sincronizar con sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem('cabo_paso', JSON.stringify(paso));
+  }, [paso]);
+
+  useEffect(() => {
+    sessionStorage.setItem('cabo_servicio', JSON.stringify(servicioSeleccionado));
+  }, [servicioSeleccionado]);
+
+  useEffect(() => {
+    sessionStorage.setItem('cabo_reserva', JSON.stringify(reserva));
+  }, [reserva]);
 
   // --- 👥 NUEVOS ESTADOS DE AUTENTICACIÓN (BILINGÜE) ---
   const [currentUser, setCurrentUser] = useState(() => {

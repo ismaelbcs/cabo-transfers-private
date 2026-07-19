@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { MapPin, Car, Users, Baby, ShoppingBag, CheckCircle, ChevronLeft, Plus } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
@@ -19,6 +19,12 @@ export default function TransportBookingForm({ lang = 'es' }) {
 
   const [busquedaHotelPrincipal, setBusquedaHotelPrincipal] = useState(reserva.hotelId || '');
   const [mostrarDropdownHotelPrincipal, setMostrarDropdownHotelPrincipal] = useState(false);
+
+  useEffect(() => {
+    if (reserva.hotelId) {
+      setBusquedaHotelPrincipal(reserva.hotelId);
+    }
+  }, [reserva.hotelId]);
 
   const handleChange = (e) => setReserva(prev => ({ ...prev, [e.target.name]: e.target.value }));
 

@@ -19,7 +19,7 @@ export default function GenericDestinationBooking({ lang = 'es', locationName = 
   
   const [vehiculo, setVehiculo] = useState('suburban');
   const [fechaLlegada, setFechaLlegada] = useState('');
-  const [pasajeros, setPasajeros] = useState('1-4');
+  const [pasajeros, setPasajeros] = useState(1);
   
   const filteredHotels = useMemo(() => {
     if (!searchTerm) return hotelesBase;
