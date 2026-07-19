@@ -539,12 +539,12 @@ export default function Home() {
 
       {/* ===== GOOGLE REVIEWS Y FOTOS (SÓLO VISIBLES EN EL PASO 1) ===== */}
       {paso === 1 && (
-        <>
+        <div className="w-full bg-slate-50">
           <GoogleReviews lang={lang} />
-          <div className="max-w-7xl mx-auto px-4 w-full">
+          <div className="max-w-7xl mx-auto px-4 w-full pb-12">
             <CustomerPhotosWidget lang={lang} />
           </div>
-        </>
+        </div>
       )}
 
       {/* ===== PASO 2: FLUJO DE TRANSPORTE ===== */}
