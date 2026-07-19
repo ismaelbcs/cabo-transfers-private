@@ -31,6 +31,7 @@ import SpecialServices from '../../components/SpecialServices';
 import { FAQSection } from '../../components/FAQSection'; // Asegúrate de la ruta
 import TrustedPartners from '../../components/TrustedPartners';
 import GoogleReviews from '../../components/GoogleReviews';
+import CustomerPhotosWidget from '../../components/CustomerPhotosWidget';
 import UrgencyBanner from '../../components/UrgencyBanner';
 import { dict } from '../../locales/dict';
 
@@ -536,9 +537,14 @@ export default function Home() {
         <TrustedPartners lang={lang} />
       )}
 
-      {/* ===== GOOGLE REVIEWS (SÓLO VISIBLES EN EL PASO 1) ===== */}
+      {/* ===== GOOGLE REVIEWS Y FOTOS (SÓLO VISIBLES EN EL PASO 1) ===== */}
       {paso === 1 && (
-        <GoogleReviews lang={lang} />
+        <>
+          <GoogleReviews lang={lang} />
+          <div className="max-w-7xl mx-auto px-4 w-full">
+            <CustomerPhotosWidget lang={lang} />
+          </div>
+        </>
       )}
 
       {/* ===== PASO 2: FLUJO DE TRANSPORTE ===== */}
