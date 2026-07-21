@@ -50,30 +50,31 @@ export default function UrgencyBanner({ lang = 'es', locationName = '' }) {
   return (
     <div className="flex flex-col gap-4 mt-0 mb-5">
       {/* Help Banner */}
-      <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 flex flex-row items-center justify-between gap-4">
-        <div className="flex flex-col gap-1.5 flex-1">
+      <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="flex flex-col gap-2 flex-1">
           <h3 className="text-sm md:text-base font-black text-slate-900 leading-tight">
             {lang === 'es' ? '¿Necesitas ayuda con tu reserva?' : 'Need help with your booking?'}
           </h3>
           <p className="text-slate-600 text-xs md:text-sm">
-            {lang === 'es' ? 'Manda SMS al' : 'Send SMS to'}{' '}
+            {lang === 'es' ? 'Manda SMS al' : 'Send SMS to'}
+            <br className="hidden sm:block" />
             <a 
               href="sms:+526241393497" 
               onClick={() => {
                 navigator.clipboard.writeText('+526241393497');
                 alert(lang === 'es' ? 'Número copiado: +526241393497' : 'Number copied: +526241393497');
               }}
-              className="font-bold text-blue-600 hover:text-blue-800 underline active:scale-95 transition-transform inline-block mt-0.5"
+              className="font-bold text-blue-600 hover:text-blue-800 underline active:scale-95 transition-transform inline-block mt-1 sm:mt-1.5 text-sm md:text-base"
             >
               +52 624 139 3497
             </a>
           </p>
         </div>
-        <div className="flex-shrink-0 bg-slate-50 p-1 rounded-xl border border-slate-100">
+        <div className="flex-shrink-0 bg-white p-1.5 rounded-xl border-2 border-slate-100 shadow-sm">
           <img 
             src={lang === 'es' ? '/qr-es.png' : '/qr-en.png'} 
             alt={lang === 'es' ? 'QR de Contacto' : 'Contact QR'} 
-            className="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg"
+            className="w-28 h-28 md:w-36 md:h-36 object-contain rounded-lg"
           />
         </div>
       </div>
