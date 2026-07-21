@@ -795,6 +795,381 @@ export default function DestinationPage({ params }) {
           </section>
 
           {/* FAQ SECTION */}
+                    {/* NUEVO CONTENIDO SEO (BILINGÜE) */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm mt-12 mb-10 space-y-8">
+            {/* Bloque 1 */}
+            <div>
+              <h2 className="text-2xl font-black text-slate-900 mb-4">
+                {lang === 'es' ? `¿Por qué elegir transporte privado hacia ${hotel.nombre}?` : `Why choose private transportation to ${hotel.nombre}?`}
+              </h2>
+              <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                {lang === 'es' 
+                  ? `Comenzar tus vacaciones de la mejor manera significa evitar largas filas, esperas innecesarias y transporte compartido. Nuestro servicio de transporte privado desde el Aeropuerto Internacional de Los Cabos (SJD) hasta ${hotel.nombre} está diseñado para ofrecer una experiencia cómoda, segura y completamente personalizada desde el momento en que aterrizas.` 
+                  : `Starting your vacation the right way means avoiding long lines, unnecessary waiting, and shared transportation. Our private transportation service from Los Cabos International Airport (SJD) to ${hotel.nombre} is designed to offer a comfortable, safe, and completely personalized experience from the moment you land.`}
+              </p>
+              <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                {lang === 'es'
+                  ? `Al reservar tu transporte privado hacia ${hotel.nombre}, uno de nuestros conductores monitorea el estado de tu vuelo en tiempo real para asegurarse de recibirte incluso si tu vuelo presenta retrasos o llega antes de lo previsto. Esto significa que nunca tendrás que preocuparte por buscar transporte al llegar al aeropuerto.`
+                  : `When you book your private transportation to ${hotel.nombre}, one of our drivers monitors your flight status in real time to ensure they are there to greet you even if your flight is delayed or arrives earlier than expected. This means you will never have to worry about finding transportation upon arriving at the airport.`}
+              </p>
+              <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium text-slate-800">
+                {lang === 'es' 
+                  ? `Nuestro objetivo es que el trayecto hacia ${hotel.nombre} sea parte de tus vacaciones y no simplemente un traslado.` 
+                  : `Our goal is for the journey to ${hotel.nombre} to be a part of your vacation and not just a transfer.`}
+              </p>
+            </div>
+
+            {/* Bloque 2 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Transporte directo a ${hotel.nombre}` : `Direct transportation to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Después de un vuelo largo, lo último que deseas es esperar a otros pasajeros o realizar múltiples paradas antes de llegar a tu alojamiento. Con Ballard Tours disfrutarás de un traslado completamente privado hacia ${hotel.nombre}, sin compartir el vehículo con otros viajeros.`
+                    : `After a long flight, the last thing you want is to wait for other passengers or make multiple stops before reaching your accommodation. With Ballard Tours, you will enjoy a completely private transfer to ${hotel.nombre}, without sharing the vehicle with other travelers.`}
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Tu conductor te estará esperando en el aeropuerto con instrucciones claras de encuentro y te llevará directamente hasta la recepción de ${hotel.nombre}. No existen rutas compartidas, cambios de vehículo ni tiempos de espera adicionales.`
+                    : `Your driver will be waiting for you at the airport with clear meeting instructions and will take you directly to the reception of ${hotel.nombre}. There are no shared routes, vehicle changes, or additional waiting times.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Servicio personalizado a ${hotel.nombre}` : `Personalized service to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Cada reserva incluye atención personalizada desde el momento en que confirmas tu traslado. Nuestro equipo permanece disponible por WhatsApp para responder cualquier duda relacionada con tu llegada a ${hotel.nombre}, cambios de vuelo, modificaciones de horario o solicitudes especiales.`
+                    : `Each reservation includes personalized attention from the moment you confirm your transfer. Our team remains available via WhatsApp to answer any questions related to your arrival at ${hotel.nombre}, flight changes, schedule modifications, or special requests.`}
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Si necesitas agregar una parada para comprar bebidas, alimentos, medicamentos o cualquier otro artículo antes de llegar a ${hotel.nombre}, podemos incluirla durante tu recorrido.`
+                    : `If you need to add a stop to buy drinks, groceries, medication, or any other item before arriving at ${hotel.nombre}, we can include it during your trip.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Listas (Vehículos y Conductores) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <Car className="text-slate-400" size={20}/> 
+                  {lang === 'es' ? `Vehículos de lujo para tu traslado a ${hotel.nombre}` : `Luxury vehicles for your transfer to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-4 text-sm">
+                  {lang === 'es' 
+                    ? `Disponemos de vehículos modernos y perfectamente mantenidos para brindar el mejor servicio de transporte hacia ${hotel.nombre}. Nuestra flotilla incluye:` 
+                    : `We have modern and perfectly maintained vehicles to provide the best transportation service to ${hotel.nombre}. Our fleet includes:`}
+                </p>
+                <ul className="space-y-2 mb-4">
+                  {(lang === 'es' ? [
+                    'Luxury SUVs para hasta 6 pasajeros.',
+                    'Mercedes Sprinter para grupos grandes.',
+                    'Vehículos con aire acondicionado.',
+                    'Espacio amplio para equipaje.',
+                    'Asientos cómodos.',
+                    'Agua embotellada y cervezas de cortesía.',
+                    'Sillas para bebé sin costo adicional.'
+                  ] : [
+                    'Luxury SUVs for up to 6 passengers.',
+                    'Mercedes Sprinter for large groups.',
+                    'Air-conditioned vehicles.',
+                    'Ample luggage space.',
+                    'Comfortable seating.',
+                    'Complimentary bottled water and beers.',
+                    'Baby car seats at no additional cost.'
+                  ]).map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                      <CheckCircle size={16} className="text-blue-600 mt-0.5 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-slate-600 text-sm">
+                  {lang === 'es' 
+                    ? `Todos nuestros vehículos son limpiados y desinfectados constantemente para garantizar un viaje seguro hasta ${hotel.nombre}.` 
+                    : `All our vehicles are constantly cleaned and sanitized to guarantee a safe trip to ${hotel.nombre}.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <ShieldCheck className="text-slate-400" size={20}/> 
+                  {lang === 'es' ? 'Conductores profesionales' : 'Professional drivers'}
+                </h3>
+                <p className="text-slate-600 mb-4 text-sm">
+                  {lang === 'es' 
+                    ? `Todos nuestros operadores cuentan con amplia experiencia transportando visitantes hacia ${hotel.nombre} y otros hoteles de Los Cabos. Nuestros choferes son:` 
+                    : `All our operators have extensive experience transporting visitors to ${hotel.nombre} and other hotels in Los Cabos. Our drivers are:`}
+                </p>
+                <ul className="space-y-2 mb-4">
+                  {(lang === 'es' ? [
+                    'Bilingües y puntuales.',
+                    'Uniformados y amables.',
+                    'Con licencia federal.',
+                    'Con amplio conocimiento turístico.'
+                  ] : [
+                    'Bilingual and punctual.',
+                    'Uniformed and friendly.',
+                    'Federally licensed.',
+                    'Knowledgeable about local tourism.'
+                  ]).map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                      <CheckCircle size={16} className="text-blue-600 mt-0.5 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-slate-600 text-sm">
+                  {lang === 'es' 
+                    ? `Durante el trayecto hacia ${hotel.nombre} podrán responder preguntas sobre restaurantes, playas, actividades, tours y recomendaciones para disfrutar al máximo tu estancia.` 
+                    : `During the trip to ${hotel.nombre}, they can answer questions about restaurants, beaches, activities, tours, and recommendations to fully enjoy your stay.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Ventajas y Aterrizaje */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Ventajas del transporte privado a ${hotel.nombre}` : `Advantages of private transportation to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-4 text-sm">
+                  {lang === 'es' 
+                    ? `Reservar un transporte privado hacia ${hotel.nombre} ofrece numerosos beneficios:` 
+                    : `Booking a private transportation to ${hotel.nombre} offers numerous benefits:`}
+                </p>
+                <div className="columns-2 gap-4 text-sm text-slate-700 mb-4">
+                  <ul className="space-y-1">
+                    {(lang === 'es' ? [
+                      'Sin esperas.',
+                      'Sin compartir.',
+                      'Atención personalizada.',
+                      'Tarifas fijas y claras.',
+                      'Seguimiento de vuelo.',
+                      'Atención por WhatsApp.',
+                      'Servicio puerta a puerta.',
+                      `Llegada directa a ${hotel.nombre}.`
+                    ] : [
+                      'No wait times.',
+                      'No sharing.',
+                      'Personalized attention.',
+                      'Clear, flat rates.',
+                      'Flight tracking.',
+                      'WhatsApp support.',
+                      'Door-to-door service.',
+                      `Direct arrival at ${hotel.nombre}.`
+                    ]).map((item, i) => (
+                      <li key={i}>• {item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <p className="text-slate-600 text-sm font-medium">
+                  {lang === 'es' 
+                    ? `Miles de viajeros prefieren reservar con anticipación su transporte hacia ${hotel.nombre} para evitar inconvenientes durante su llegada.` 
+                    : `Thousands of travelers prefer to book their transportation to ${hotel.nombre} in advance to avoid any inconvenience upon arrival.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? '¿Qué sucede cuando aterrizas en Los Cabos?' : 'What happens when you land in Los Cabos?'}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Una vez que aterrices en el Aeropuerto Internacional de Los Cabos, solo tendrás que seguir nuestras sencillas instrucciones de encuentro.` 
+                    : `Once you land at Los Cabos International Airport, you only need to follow our simple meeting instructions.`}
+                </p>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Nuestro conductor estará listo para recibirte y ayudarte con tu equipaje antes de iniciar el viaje hacia ${hotel.nombre}. No tendrás que negociar tarifas con taxis ni buscar transporte disponible.` 
+                    : `Our driver will be ready to greet you and help with your luggage before starting the trip to ${hotel.nombre}. You won't have to negotiate rates with taxis or look for available transportation.`}
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+                  {lang === 'es' 
+                    ? `Todo estará previamente organizado para que llegues a ${hotel.nombre} de forma rápida y cómoda.` 
+                    : `Everything will be pre-arranged so you arrive at ${hotel.nombre} quickly and comfortably.`}
+                </p>
+              </div>
+            </div>
+
+            <hr className="border-slate-100" />
+
+            {/* Casos de uso */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? 'Servicio disponible los 365 días del año' : 'Service available 365 days a year'}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Operamos todos los días del año, incluyendo fines de semana y días festivos. Sin importar si tu vuelo llega temprano por la mañana o durante la noche, siempre tendrás un conductor disponible para llevarte hasta ${hotel.nombre}. Nuestro servicio funciona las 24 horas.` 
+                    : `We operate every day of the year, including weekends and holidays. Regardless of whether your flight arrives early in the morning or late at night, you will always have a driver available to take you to ${hotel.nombre}. Our service operates 24/7.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Transporte para familias que visitan ${hotel.nombre}` : `Transportation for families visiting ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Si viajas con niños pequeños, ofrecemos sillas para bebé y booster seats sin costo adicional. Las familias que se hospedan en ${hotel.nombre} suelen elegir nuestro servicio por la comodidad de viajar directamente al hotel sin interrupciones. Además, nuestros vehículos cuentan con espacio suficiente para carriolas, maletas y equipaje adicional.` 
+                    : `If you are traveling with small children, we offer baby car seats and booster seats at no additional cost. Families staying at ${hotel.nombre} often choose our service for the convenience of traveling directly to the hotel without interruptions. In addition, our vehicles have enough space for strollers, suitcases, and extra luggage.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? 'Transporte para grupos' : 'Transportation for groups'}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Si viajas con amigos, familiares o compañeros de trabajo, nuestras Mercedes Sprinter permiten transportar grupos completos hacia ${hotel.nombre}. Viajar todos juntos hace que el traslado sea mucho más cómodo y económico que dividirse en varios taxis. También ofrecemos transporte para bodas, convenciones y eventos especiales realizados en ${hotel.nombre}.` 
+                    : `If you travel with friends, family, or coworkers, our Mercedes Sprinter vans allow us to transport entire groups to ${hotel.nombre}. Traveling all together makes the transfer much more comfortable and cost-effective than splitting into multiple taxis. We also offer transportation for weddings, conventions, and special events held at ${hotel.nombre}.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Transporte de regreso desde ${hotel.nombre} al aeropuerto` : `Return transportation from ${hotel.nombre} to the airport`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `No solo realizamos traslados desde el aeropuerto hacia ${hotel.nombre}, también organizamos tu regreso al Aeropuerto Internacional de Los Cabos. Al reservar viaje redondo, tu transporte desde ${hotel.nombre} queda programado desde el primer día. Monitoreamos el tráfico y las condiciones de tu vuelo para salir con suficiente anticipación y asegurar tu llegada puntual al aeropuerto.` 
+                    : `Not only do we provide transfers from the airport to ${hotel.nombre}, but we also organize your return to Los Cabos International Airport. When booking a round trip, your transportation from ${hotel.nombre} is scheduled from day one. We monitor traffic and flight conditions to leave with plenty of time and ensure your punctual arrival at the airport.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Más que un traslado & Reserva */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-blue-50/50 p-6 md:p-8 rounded-2xl border border-blue-100 mt-6">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? 'Más que un traslado' : 'More than just a transfer'}
+                </h3>
+                <p className="text-slate-600 mb-4 text-sm">
+                  {lang === 'es' 
+                    ? `Además del transporte hacia ${hotel.nombre}, Ballard Tours ofrece servicios adicionales para que aproveches al máximo tu visita a Los Cabos. Entre ellos encontrarás:` 
+                    : `Besides transportation to ${hotel.nombre}, Ballard Tours offers additional services for you to make the most out of your visit to Los Cabos. Among them you will find:`}
+                </p>
+                <ul className="columns-2 gap-4 text-sm text-slate-700 mb-4 space-y-1">
+                  {(lang === 'es' ? [
+                    'Tours al Arco.',
+                    'Paseos en camello.',
+                    'Aventuras en ATV.',
+                    'Paseos en barco.',
+                    'Snorkel y pesca.',
+                    'Transporte a restaurantes.',
+                    'Traslados privados entre hoteles.',
+                    'Excursiones de día completo.',
+                    'Transporte para bodas.'
+                  ] : [
+                    'Tours to the Arch.',
+                    'Camel rides.',
+                    'ATV adventures.',
+                    'Boat trips.',
+                    'Snorkeling and fishing.',
+                    'Transportation to restaurants.',
+                    'Private transfers between hotels.',
+                    'Full-day excursions.',
+                    'Wedding transportation.'
+                  ]).map((item, i) => (
+                    <li key={i}>• {item}</li>
+                  ))}
+                </ul>
+                <p className="text-slate-600 text-sm">
+                  {lang === 'es' 
+                    ? `Muchos huéspedes de ${hotel.nombre} aprovechan nuestros servicios para desplazarse cómodamente por Los Cabos durante toda su estancia.` 
+                    : `Many guests at ${hotel.nombre} take advantage of our services to move comfortably around Los Cabos during their entire stay.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Reserva hoy tu transporte hacia ${hotel.nombre}` : `Book your transportation to ${hotel.nombre} today`}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm leading-relaxed">
+                  {lang === 'es' 
+                    ? `Reservar tu transporte privado hacia ${hotel.nombre} es rápido, sencillo y completamente seguro. Solo necesitas indicar: Fecha de llegada, Número de vuelo, Hora estimada, Número de pasajeros, Cantidad de equipaje, y Solicitudes especiales.` 
+                    : `Booking your private transportation to ${hotel.nombre} is fast, easy, and completely secure. You only need to provide: Arrival date, Flight number, Estimated time, Number of passengers, Luggage count, and Special requests.`}
+                </p>
+                <p className="text-slate-600 mb-3 text-sm leading-relaxed">
+                  {lang === 'es' 
+                    ? `Nuestro equipo confirmará tu reserva y permanecerá disponible antes, durante y después de tu traslado hacia ${hotel.nombre}.` 
+                    : `Our team will confirm your reservation and remain available before, during, and after your transfer to ${hotel.nombre}.`}
+                </p>
+                <p className="text-slate-800 text-sm font-semibold leading-relaxed">
+                  {lang === 'es' 
+                    ? `Miles de viajeros nacionales e internacionales ya han confiado en Ballard Tours para su transporte privado hacia ${hotel.nombre}, disfrutando de un servicio confiable, puntual y con la comodidad que merecen desde el primer minuto de sus vacaciones.` 
+                    : `Thousands of national and international travelers have already trusted Ballard Tours for their private transportation to ${hotel.nombre}, enjoying a reliable, punctual service with the comfort they deserve from the first minute of their vacation.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Bloques de SEO finales */}
+            <div className="space-y-6 pt-6 border-t border-slate-100 mt-6">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Seguridad y Tranquilidad en tu Camino a ${hotel.nombre}` : `Safety and Peace of Mind on your Way to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `La seguridad es nuestra máxima prioridad durante tu traslado hacia ${hotel.nombre}. Sabemos que viajar a un nuevo destino puede generar incertidumbre, pero al reservar nuestro servicio privado, te garantizamos un trayecto hacia ${hotel.nombre} completamente seguro. Nuestros vehículos cuentan con seguros de cobertura amplia y cumplen con todas las estrictas normativas federales de turismo en México. Así, desde que dejas el aeropuerto hasta que pisas el lobby de ${hotel.nombre}, puedes relajarte sabiendo que estás en manos de auténticos expertos.` 
+                    : `Safety is our top priority during your transfer to ${hotel.nombre}. We know that traveling to a new destination can generate uncertainty, but by booking our private service, we guarantee a completely safe journey to ${hotel.nombre}. Our vehicles have comprehensive insurance coverage and comply with all strict federal tourism regulations in Mexico. So, from the moment you leave the airport until you step into the lobby of ${hotel.nombre}, you can relax knowing you are in the hands of true experts.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Evita las Tarifas Dinámicas y Taxis de Último Minuto hacia ${hotel.nombre}` : `Avoid Surge Pricing and Last-Minute Taxis to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Tomar un taxi en el aeropuerto o depender de aplicaciones de viaje compartido para llegar a ${hotel.nombre} puede resultar en tiempos de espera interminables y tarifas dinámicas exorbitantes, especialmente en temporada alta. Al reservar tu transporte anticipado hacia ${hotel.nombre} con nosotros, aseguras una tarifa fija, sin sorpresas ni cargos ocultos. El precio que cotizas para tu traslado a ${hotel.nombre} es el precio final que pagas, lo que te permite administrar mejor el presupuesto de tus vacaciones en ${hotel.nombre}.` 
+                    : `Taking a taxi at the airport or relying on rideshare apps to get to ${hotel.nombre} can result in endless wait times and exorbitant surge pricing, especially during high season. By booking your transportation to ${hotel.nombre} in advance with us, you secure a flat rate, with no surprises or hidden fees. The price you are quoted for your transfer to ${hotel.nombre} is the final price you pay, allowing you to better manage your vacation budget at ${hotel.nombre}.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Escapadas Románticas, Aniversarios y Lunas de Miel en ${hotel.nombre}` : `Romantic Getaways, Anniversaries and Honeymoons at ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Los Cabos es un destino de romance por excelencia. Si has elegido ${hotel.nombre} para celebrar tu luna de miel, una pedida de mano o un aniversario especial, tu llegada debe ser espectacular. Ofrecemos opciones preferenciales en el transporte hacia ${hotel.nombre} para sorprender a tu pareja desde el primer instante. Iniciar tu escapada romántica en ${hotel.nombre} a bordo de una SUV de lujo le dará ese toque inolvidable y exclusivo a tu viaje. Imagina brindar y relajarte en el trayecto directo hacia ${hotel.nombre} sin interrupciones.` 
+                    : `Los Cabos is the ultimate romantic destination. If you have chosen ${hotel.nombre} to celebrate your honeymoon, a marriage proposal, or a special anniversary, your arrival should be spectacular. We offer preferential options in transportation to ${hotel.nombre} to surprise your partner from the very first moment. Starting your romantic getaway at ${hotel.nombre} aboard a luxury SUV will give your trip that unforgettable and exclusive touch. Imagine toasting and relaxing on the direct journey to ${hotel.nombre} without interruptions.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Viajes Corporativos, Eventos y Convenciones en ${hotel.nombre}` : `Corporate Trips, Events and Conventions at ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Si visitas Los Cabos por motivos de negocios, congresos o retiros corporativos y te hospedas en ${hotel.nombre}, brindamos la puntualidad y el profesionalismo que el sector ejecutivo exige. Nuestro servicio de transporte privado hacia ${hotel.nombre} permite a los ejecutivos y directivos aprovechar el tiempo de traslado para relajarse, hacer llamadas o preparar reuniones importantes antes de su registro en ${hotel.nombre}. Mantenemos absoluta discreción, ofrecemos un servicio impecable y emitimos la facturación necesaria para tus gastos de transporte a ${hotel.nombre}.` 
+                    : `If you are visiting Los Cabos for business reasons, congresses, or corporate retreats and are staying at ${hotel.nombre}, we provide the punctuality and professionalism that the executive sector demands. Our private transportation service to ${hotel.nombre} allows executives and managers to take advantage of travel time to relax, make calls, or prepare for important meetings before checking into ${hotel.nombre}. We maintain absolute discretion, offer impeccable service, and issue the necessary billing for your transportation expenses to ${hotel.nombre}.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Flexibilidad Absoluta para tu Viaje a ${hotel.nombre}` : `Absolute Flexibility for your Trip to ${hotel.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Entendemos que la logística de los viajes aéreos puede ser impredecible hoy en día. Por eso, tu reservación de transporte hacia ${hotel.nombre} cuenta con total respaldo y flexibilidad. Si tu aerolínea cambia tu vuelo a última hora o decides modificar la fecha de tu check-in en ${hotel.nombre}, nuestro equipo de soporte por WhatsApp te ayudará a reprogramar tu transporte a ${hotel.nombre} sin complicaciones. Solo mantente en contacto con nosotros y ajustaremos el itinerario para asegurar que tu vehículo privado te espere puntual para llevarte a ${hotel.nombre}.` 
+                    : `We understand that airline travel logistics can be unpredictable nowadays. That's why your transportation reservation to ${hotel.nombre} is fully backed and flexible. If your airline changes your flight at the last minute or you decide to modify your check-in date at ${hotel.nombre}, our WhatsApp support team will help you reschedule your transportation to ${hotel.nombre} hassle-free. Just keep in touch with us and we will adjust the itinerary to ensure your private vehicle is waiting punctually to take you to ${hotel.nombre}.`}
+                </p>
+              </div>
+              <div className="bg-slate-900 text-white p-6 md:p-8 rounded-2xl shadow-lg mt-8">
+                <h3 className="text-xl font-bold mb-3">
+                  {lang === 'es' ? `¿Por qué los huéspedes de ${hotel.nombre} nos recomiendan?` : `Why do guests of ${hotel.nombre} recommend us?`}
+                </h3>
+                <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-0">
+                  {lang === 'es' 
+                    ? `A lo largo de los años, hemos llevado a cientos de huéspedes completamente satisfechos hacia ${hotel.nombre}. Las reseñas de nuestros clientes destacan siempre la limpieza impecable de los vehículos, la calidez y amabilidad de nuestros operadores, y la eficiencia para llegar rápido a ${hotel.nombre}. El "boca a boca" y las recomendaciones directas de quienes ya se han hospedado en ${hotel.nombre} nos respaldan como la opción número uno de transportación en Los Cabos. Nos enorgullece ser el socio de confianza para quienes buscan la ruta más cómoda, rápida y premium hacia ${hotel.nombre}.` 
+                    : `Over the years, we have taken hundreds of completely satisfied guests to ${hotel.nombre}. Our customer reviews consistently highlight the impeccable cleanliness of the vehicles, the warmth and friendliness of our operators, and the efficiency of getting to ${hotel.nombre} quickly. Word of mouth and direct recommendations from those who have already stayed at ${hotel.nombre} back us up as the number one transportation option in Los Cabos. We are proud to be the trusted partner for those looking for the most comfortable, fast, and premium route to ${hotel.nombre}.`}
+                </p>
+              </div>
+            </div>
+          </section>
+          
           <FAQAccordion type="hotel" locationName={hotel.nombre} lang={lang} />
 
         </div>
