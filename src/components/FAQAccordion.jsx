@@ -86,10 +86,28 @@ export default function FAQAccordion({ type = 'hotel', locationName = '', lang =
     ],
     golf: [
       {
-        q: lang === 'es' ? `¿El vehículo tiene suficiente espacio para mis palos de golf al ir a ${locationName}?` : `Does the vehicle have enough space for my golf clubs when going to ${locationName}?`,
+        q: lang === 'es' ? \`¿El vehículo tiene suficiente espacio o transportan fundas rígidas de viaje hacia \${locationName}?\` : \`Does the vehicle have enough space or transport hard-shell travel bags to \${locationName}?\`,
         a: lang === 'es'
-          ? '¡Por supuesto! Nuestros traslados son privados y utilizamos SUVs espaciosas y vans tipo Sprinter, perfectas para acomodar cómodamente a tu grupo y todo su equipo de golf.'
-          : 'Absolutely! Our transfers are private, and we use spacious SUVs and Sprinter vans, perfect for comfortably accommodating your group and all your golf gear.'
+          ? \`¡Por supuesto! Ya sea que traigas tus propias bolsas rígidas de viaje desde el aeropuerto o rentes palos de golf en la ciudad, nuestros traslados privados en espaciosas SUVs y vans Sprinter proveen muchísimo espacio de carga para transportar todo tu equipo hacia \${locationName} de forma segura.\`
+          : \`Absolutely! Whether you are bringing your own professional hard-case travel bags from the airport or picking up rental clubs in town, our luxury transportation to \${locationName} has the massive cargo space required to transport all your gear safely and securely.\`
+      },
+      {
+        q: lang === 'es' ? \`¿Qué pasa si nuestro ritmo de juego en \${locationName} toma más de 4 horas?\` : \`What if our pace of play at \${locationName} takes longer than 4 hours?\`,
+        a: lang === 'es'
+          ? \`Sabemos que el ritmo de juego puede variar. Tu chofer para tu regreso desde \${locationName} monitoreará el tiempo y permanecerá cerca. Tómate tu tiempo para disfrutar de los hermosos fairways en \${locationName}; estaremos listos para ti en cuanto termines tu juego.\`
+          : \`Pace of play can vary depending on the day, and we fully expect that. Your driver for your return transportation from \${locationName} will monitor the time and remain nearby. Take your time enjoying the beautiful fairways at \${locationName}; we will be ready whenever you finish your game.\`
+      },
+      {
+        q: lang === 'es' ? \`¿Podemos parar por un café o desayuno camino a \${locationName}?\` : \`Can we stop for coffee or breakfast on the way to \${locationName}?\`,
+        a: lang === 'es'
+          ? \`¡Sí! Si tienes un tee time muy temprano en \${locationName}, solo avisa a nuestro equipo de reservas con anticipación. Podemos organizar fácilmente una breve parada para café o desayuno camino a \${locationName} para asegurarnos de que tengas energía suficiente para los primeros 9 hoyos.\`
+          : \`Yes! If you have an early morning tee time at \${locationName}, just let our reservation team know in advance. We can easily arrange a quick stop for coffee or breakfast on your way to \${locationName} to make sure you are fueled up for the front nine.\`
+      },
+      {
+        q: lang === 'es' ? \`¿Exactamente en dónde nos dejan al llegar a \${locationName}?\` : \`Where exactly do you drop us off when we arrive at \${locationName}?\`,
+        a: lang === 'es'
+          ? \`Nuestros choferes locales conocen a la perfección el diseño de todos los campos en Los Cabos. Proveemos entrega VIP directa exactamente en el área de entrega de bolsas de \${locationName}, asegurando que el personal de \${locationName} pueda asistirte inmediatamente para descargar tus palos.\`
+          : \`Our local chauffeurs are highly familiar with the specific layouts of all Los Cabos courses. We provide direct VIP drop-off at the exact \${locationName} bag drop area, ensuring the \${locationName} staff can immediately assist you with unloading your clubs.\`
       },
       {
         q: lang === 'es' ? '¿Qué pasa si mi tee time cambia o se cancela?' : 'What happens if my tee time changes or is canceled?',
@@ -98,7 +116,7 @@ export default function FAQAccordion({ type = 'hotel', locationName = '', lang =
           : 'You have the peace of mind of free cancellation up to 24 hours before the service. Just let us know and we will adjust the logistics.'
       },
       {
-        q: lang === 'es' ? '¿Qué incluye el servicio hacia el campo de golf?' : 'What is included in the service to the golf course?',
+        q: lang === 'es' ? \`¿Qué incluye el servicio hacia \${locationName}?\` : \`What is included in the service to \${locationName}?\`,
         a: lang === 'es'
           ? 'Todos nuestros traslados de golf incluyen chofer bilingüe, aire acondicionado y bebidas de cortesía para mantenerte hidratado antes de salir al campo.'
           : 'All our golf transfers include a bilingual driver, air conditioning, and complimentary drinks to keep you hydrated before hitting the course.'

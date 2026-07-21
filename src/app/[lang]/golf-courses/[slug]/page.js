@@ -284,6 +284,292 @@ export default function GolfCourseSeoPage({ params }) {
           </section>
 
           {/* FAQ SECTION */}
+                    {/* NUEVO CONTENIDO SEO DE GOLF (BILINGÜE) */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm mt-12 mb-10 space-y-8">
+            {/* Intro */}
+            <div>
+              <h2 className="text-2xl font-black text-slate-900 mb-4">
+                {lang === 'es' ? `Transporte Privado a ${seoData.nombre}` : `Private Transportation to ${seoData.nombre}`}
+              </h2>
+              <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                {lang === 'es' 
+                  ? `Disfruta de transporte privado de lujo a ${seoData.nombre}, uno de los principales destinos de golf en Los Cabos. Ya sea que tengas un tee time temprano en la mañana o una ronda por la tarde, Ballard Tours ofrece transporte confiable, cómodo y puntual a ${seoData.nombre} desde cualquier hotel, resort, villa o residencia privada.` 
+                  : `Enjoy luxury private transportation to ${seoData.nombre}, one of the premier golf destinations in Los Cabos. Whether you have an early morning tee time or an afternoon round, Ballard Tours offers reliable, comfortable, and punctual transportation to ${seoData.nombre} from any hotel, resort, villa, or private residence.`}
+              </p>
+              <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                {lang === 'es'
+                  ? `Nuestros choferes profesionales aseguran que llegues a ${seoData.nombre} relajado, a tiempo y listo para disfrutar de una de las mejores experiencias de golf en Baja California Sur.`
+                  : `Our professional chauffeurs ensure you arrive at ${seoData.nombre} relaxed, on time, and ready to enjoy one of the finest golf experiences in Baja California Sur.`}
+              </p>
+            </div>
+
+            {/* Vehículos y Por qué Reservar */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Transporte de Lujo a ${seoData.nombre}` : `Luxury Transportation to ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Viajar a ${seoData.nombre} debe ser tan disfrutable como jugar en el campo mismo. Nuestro servicio de transporte de lujo a ${seoData.nombre} incluye SUVs premium y Mercedes Sprinter Vans diseñadas para máxima comodidad, privacidad y conveniencia.`
+                    : `Traveling to ${seoData.nombre} should be as enjoyable as playing the course itself. Our luxury transportation service to ${seoData.nombre} includes premium SUVs and Mercedes Sprinter Vans designed for maximum comfort, privacy, and convenience.`}
+                </p>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Ya sea que viajes solo o con un grupo de golf, nuestro transporte a ${seoData.nombre} proporciona el nivel más alto de servicio.`
+                    : `Whether you're traveling alone or with a golf group, our transportation to ${seoData.nombre} provides the highest level of service.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Transporte del Aeropuerto de Los Cabos a ${seoData.nombre}` : `Transportation from Los Cabos Airport to ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `¿Necesitas transporte directamente desde el Aeropuerto Internacional de Los Cabos (SJD) a ${seoData.nombre}? Nuestro servicio de transporte del aeropuerto te permite ir directamente de tu vuelo a ${seoData.nombre} o a tu hotel antes de tu tee time programado.`
+                    : `Need transportation directly from Los Cabos International Airport (SJD) to ${seoData.nombre}? Our airport transportation service allows you to go directly from your flight to ${seoData.nombre} or to your hotel before your scheduled tee time.`}
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Monitoreamos tu vuelo en tiempo real y ajustamos los tiempos de recogida si tu vuelo se retrasa, asegurando que tu transporte a ${seoData.nombre} esté siempre listo cuando llegues.`
+                    : `We monitor your flight in real time and adjust pickup times if your flight is delayed, ensuring your transportation to ${seoData.nombre} is always ready when you arrive.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Listas Inclusiones */}
+            <div className="bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100">
+              <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <ShieldCheck className="text-slate-400" size={20}/> 
+                {lang === 'es' ? `Cada viaje a ${seoData.nombre} incluye:` : `Every ride to ${seoData.nombre} includes:`}
+              </h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+                {(lang === 'es' ? [
+                  'Vehículo privado de lujo',
+                  'Chofer profesional bilingüe',
+                  'Transporte con aire acondicionado',
+                  'Agua embotellada de cortesía',
+                  'Cerveza de cortesía',
+                  'Asientos espaciosos',
+                  'Mucho espacio para equipaje y equipo',
+                  'Servicio puerta a puerta'
+                ] : [
+                  'Private luxury vehicle',
+                  'Professional bilingual chauffeur',
+                  'Air-conditioned transportation',
+                  'Complimentary bottled water',
+                  'Complimentary beer',
+                  'Spacious seating',
+                  'Plenty of luggage space',
+                  'Door-to-door service'
+                ]).map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
+                    <CheckCircle size={16} className="text-blue-600 mt-0.5 shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Del Hotel al Golf y Viaje Redondo */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Transporte de tu Hotel a ${seoData.nombre}` : `Hotel to ${seoData.nombre} Transportation`}
+                </h3>
+                <p className="text-slate-600 mb-3 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Proveemos transporte privado a ${seoData.nombre} desde cada resort importante en Los Cabos, incluyendo Cabo San Lucas, San José del Cabo, el Corredor Turístico, Palmilla, Puerto Los Cabos, Diamante y East Cape.`
+                    : `We provide private transportation to ${seoData.nombre} from every major resort in Los Cabos, including Cabo San Lucas, San José del Cabo, the Tourist Corridor, Palmilla, Puerto Los Cabos, Diamante, and East Cape.`}
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+                  {lang === 'es'
+                    ? `En lugar de alquilar un auto o depender de taxis, reserva transporte privado a ${seoData.nombre} y disfruta de una experiencia sin estrés de principio a fin.`
+                    : `Instead of renting a car or relying on taxis, reserve private transportation to ${seoData.nombre} and enjoy a stress-free experience from pickup to drop-off.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Transporte Redondo a ${seoData.nombre}` : `Round Trip Transportation to ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 mb-4 text-sm md:text-base leading-relaxed">
+                  {lang === 'es'
+                    ? `Muchos golfistas prefieren reservar transporte redondo a ${seoData.nombre}. Tu chofer te recogerá en tu hotel, te conducirá directamente a ${seoData.nombre}, y regresará a la hora programada para llevarte de vuelta después de tu ronda.`
+                    : `Many golfers prefer booking round-trip transportation to ${seoData.nombre}. Your chauffeur will pick you up at your hotel, drive you directly to ${seoData.nombre}, and return at the scheduled time to take you back after your round.`}
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
+                  {lang === 'es'
+                    ? `No hay necesidad de buscar transporte después de terminar tu juego. Tu transporte de regreso desde ${seoData.nombre} ya está arreglado.`
+                    : `There's no need to search for transportation after finishing your game. Your return transportation from ${seoData.nombre} is already arranged.`}
+                </p>
+              </div>
+            </div>
+
+            <hr className="border-slate-100" />
+
+            {/* Espacio para palos de golf y grupos */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Transporte para Palos de Golf` : `Golf Club Transportation`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Viajar con palos de golf requiere espacio extra y manejo cuidadoso. Nuestras SUVs de lujo y Sprinter Vans proveen muchísimo espacio para bolsas de golf, equipaje y pertenencias personales. Ya sea que viajes con una bolsa de golf o con un grupo entero de torneo, el transporte a ${seoData.nombre} es cómodo y seguro.` 
+                    : `Traveling with golf clubs requires extra space and careful handling. Our luxury SUVs and Sprinter Vans provide plenty of room for golf bags, luggage, and personal belongings. Whether you're traveling with one golf bag or an entire tournament group, transportation to ${seoData.nombre} is comfortable and secure.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Perfecto para Grupos de Golf` : `Perfect for Golf Groups`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Ballard Tours se especializa en transporte para grupos de golf que visitan Los Cabos. Ya sea que viajes con amigos, socios de negocios, o participando en un torneo de golf, el transporte a ${seoData.nombre} puede acomodar grupos de todo tamaño. Nuestras Mercedes Sprinter Vans son ideales para fiestas de golf grandes, mientras que nuestras SUVs de lujo son perfectas para grupos más pequeños.` 
+                    : `Ballard Tours specializes in transportation for golf groups visiting Los Cabos. Whether you're traveling with friends, business partners, or participating in a golf tournament, transportation to ${seoData.nombre} can accommodate groups of every size. Our Mercedes Sprinter Vans are ideal for larger golf parties, while our luxury SUVs are perfect for smaller groups.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">
+                  {lang === 'es' ? `Servicio de Chofer Profesional a ${seoData.nombre}` : `Professional Chauffeur Service to ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  {lang === 'es' 
+                    ? `Nuestros choferes con licencia están familiarizados con cada campo de golf importante en Los Cabos, incluyendo ${seoData.nombre}. Conocen las rutas más rápidas, condiciones actuales del tráfico, y las mejores ubicaciones de recogida. Cada servicio de transporte a ${seoData.nombre} está diseñado para asegurar llegadas puntuales y que nunca pierdas tu tee time.` 
+                    : `Our licensed chauffeurs are familiar with every major golf course in Los Cabos, including ${seoData.nombre}. They know the quickest routes, current traffic conditions, and the best pickup locations. Every transportation service to ${seoData.nombre} is designed to ensure punctual arrivals so you never miss your tee time.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Puntos Avanzados SEO */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-50 p-6 md:p-8 rounded-2xl border border-slate-100">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Confiabilidad por la Mañana para tu Tee Time en ${seoData.nombre}` : `Early Morning Reliability for Your ${seoData.nombre} Tee Time`}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {lang === 'es' 
+                    ? `Muchos golfistas prefieren los primeros tee times del día para evitar el calor del mediodía en Baja y disfrutar de greens impecables. Cuando reservas transporte temprano a ${seoData.nombre}, la puntualidad absoluta no es solo un lujo; es una necesidad. Nuestros conductores profesionales llegan a tu hotel temprano, listos para cargar tus pesadas bolsas. Nunca tendrás que esperar ansiosamente un taxi a las 6:00 AM. Tu viaje privado a ${seoData.nombre} asegura que tengas mucho tiempo para registrarte en la pro shop, calentar y embocar algunos putts de práctica antes de que comience tu ronda en ${seoData.nombre}.` 
+                    : `Many golfers prefer the first tee times of the day to beat the midday Baja heat and enjoy pristine greens. When you book early morning transportation to ${seoData.nombre}, absolute punctuality is not just a luxury; it is a necessity. Our professional drivers arrive at your hotel early, ready to load your heavy bags. You will never have to wait anxiously for a taxi at 6:00 AM. Your private ride to ${seoData.nombre} ensures you have plenty of time to check in at the pro shop, warm up at the driving range, and sink a few practice putts before your round at ${seoData.nombre} begins.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `La Experiencia del "Hoyo 19" y Transporte Seguro desde ${seoData.nombre}` : `The "19th Hole" Experience and Safe Transportation from ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {lang === 'es' 
+                    ? `Después de unos desafiantes 18 hoyos en ${seoData.nombre}, no hay nada mejor que visitar la casa club para almorzar, tomar cócteles de celebración y compartir historias. Cuando aseguras transporte redondo a ${seoData.nombre}, puedes disfrutar completamente la experiencia del "hoyo 19" de forma segura. Deja que nuestro equipo se encargue de conducir mientras tú te relajas. Tu chofer estará esperando justo afuera de la casa club de ${seoData.nombre} para llevarte de regreso a tu resort.` 
+                    : `After a challenging 18 holes at ${seoData.nombre}, there is nothing better than visiting the clubhouse for lunch, celebratory cocktails, and swapping stories about your best shots. When you secure round-trip transportation to ${seoData.nombre}, you can fully enjoy the "19th hole" experience safely. Let our team handle the driving while you relax. Your chauffeur will be waiting right outside the ${seoData.nombre} clubhouse to take you back to your resort. You will never have to worry about navigating unfamiliar roads after a few drinks at ${seoData.nombre}.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Evita las Molestias de Alquilar un Auto en tu Camino a ${seoData.nombre}` : `Skip the Rental Car Hassle on Your Way to ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {lang === 'es' 
+                    ? `Alquilar un vehículo solo para llevar a tu grupo a ${seoData.nombre} puede ser innecesariamente estresante y caro. Meter cuatro juegos de bolsas de golf en el baúl de un auto de alquiler estándar es casi imposible. Las SUVs de lujo y vans Sprinter que utilizamos para nuestro transporte a ${seoData.nombre} están diseñadas específicamente con amplio espacio de carga para manejar equipo extragrande sin esfuerzo. Evita las filas de alquiler, tarifas ocultas de seguro y dolores de cabeza de navegación. Nuestro transporte VIP a ${seoData.nombre} te deja justo en el área de entrega de bolsas de ${seoData.nombre}.` 
+                    : `Renting a vehicle just to get your group to ${seoData.nombre} can be unnecessarily stressful and expensive. Fitting four sets of oversized golf bags into a standard rental car trunk is nearly impossible. The luxury SUVs and Sprinter vans used for our transportation to ${seoData.nombre} are specifically designed with ample cargo space to handle oversized equipment effortlessly. Skip the rental desk lines, hidden insurance fees, and navigation headaches. Our VIP transportation to ${seoData.nombre} drops you right at the bag drop area of ${seoData.nombre}.`}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-3">
+                  {lang === 'es' ? `Eventos Corporativos, Torneos y Grupos en ${seoData.nombre}` : `Corporate Outings, Tournaments, and Group Events at ${seoData.nombre}`}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {lang === 'es' 
+                    ? `¿Estás organizando un retiro corporativo, un torneo de caridad o una gran despedida de soltero en ${seoData.nombre}? La logística de grupo puede hacer triunfar o fracasar el evento. Ballard Tours provee transporte fluido para grupos a ${seoData.nombre}. Podemos despachar múltiples Mercedes Sprinter Vans para transportar a todo tu grupo simultáneamente. Aseguramos que todo tu grupo llegue a ${seoData.nombre} al mismo tiempo, creando una experiencia unificada, profesional y sin estrés para cada jugador que asista a ${seoData.nombre}.` 
+                    : `Are you organizing a corporate retreat, a charity tournament, or a large bachelor party outing at ${seoData.nombre}? Group logistics can make or break the event. Ballard Tours provides seamless group transportation to ${seoData.nombre}. We can dispatch multiple Mercedes Sprinter Vans to transport your entire roster simultaneously. We ensure your whole party arrives at ${seoData.nombre} together, creating a unified, professional, and stress-free experience for every player attending ${seoData.nombre}.`}
+                </p>
+              </div>
+            </div>
+
+            {/* Comparación de Opciones Table */}
+            <div className="overflow-x-auto my-6">
+              <table className="w-full text-sm text-left text-slate-600 border border-slate-200 rounded-lg overflow-hidden">
+                <thead className="text-xs text-slate-700 uppercase bg-slate-100">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">{lang === 'es' ? 'Característica' : 'Feature'}</th>
+                    <th scope="col" className="px-6 py-3">{lang === 'es' ? `Viaje Privado Ballard Tours a ${seoData.nombre}` : `Ballard Tours Private Ride to ${seoData.nombre}`}</th>
+                    <th scope="col" className="px-6 py-3">{lang === 'es' ? 'Taxis Estándar / Autos de Alquiler' : 'Standard Taxis / Rental Cars'}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="bg-white border-b border-slate-100">
+                    <td className="px-6 py-4 font-bold">{lang === 'es' ? 'Espacio para Equipo' : 'Equipment Space'}</td>
+                    <td className="px-6 py-4 text-green-700 font-medium">{lang === 'es' ? `Espacio de baúl garantizado para bolsas de ${seoData.nombre}` : `Guaranteed oversized trunk space for ${seoData.nombre} bags`}</td>
+                    <td className="px-6 py-4 text-red-700">{lang === 'es' ? 'Frecuentemente muy pequeños para acomodar múltiples bolsas de viaje de golf' : 'Often too small to fit multiple golf travel bags'}</td>
+                  </tr>
+                  <tr className="bg-white border-b border-slate-100">
+                    <td className="px-6 py-4 font-bold">{lang === 'es' ? 'Puntualidad' : 'Punctuality'}</td>
+                    <td className="px-6 py-4 text-green-700 font-medium">{lang === 'es' ? `Pre-agendado para coincidir perfectamente con tu tee time en ${seoData.nombre}` : `Pre-scheduled to perfectly match your ${seoData.nombre} tee time`}</td>
+                    <td className="px-6 py-4 text-red-700">{lang === 'es' ? 'Disponibilidad poco confiable, especialmente temprano por la mañana' : 'Unreliable availability, especially for early mornings'}</td>
+                  </tr>
+                  <tr className="bg-white border-b border-slate-100">
+                    <td className="px-6 py-4 font-bold">{lang === 'es' ? 'Protocolo de Bajada' : 'Drop-off Protocol'}</td>
+                    <td className="px-6 py-4 text-green-700 font-medium">{lang === 'es' ? `Servicio VIP directo a la entrega de bolsas y pro shop de ${seoData.nombre}` : `Direct VIP service to the ${seoData.nombre} bag drop & pro shop`}</td>
+                    <td className="px-6 py-4 text-red-700">{lang === 'es' ? 'Auto-estacionamiento y caminar largas distancias con equipo pesado' : 'Self-parking and walking long distances with heavy gear'}</td>
+                  </tr>
+                  <tr className="bg-white">
+                    <td className="px-6 py-4 font-bold">{lang === 'es' ? 'Después de la Ronda' : 'After the Round'}</td>
+                    <td className="px-6 py-4 text-green-700 font-medium">{lang === 'es' ? `Chofer espera disponible para tu regreso de ${seoData.nombre}` : `Driver waits on standby for your return from ${seoData.nombre}`}</td>
+                    <td className="px-6 py-4 text-red-700">{lang === 'es' ? 'Deberás pedir un taxi o conducir cansado después de caminar 18 hoyos' : 'Must hail a cab or drive back tired after walking 18 holes'}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Por qué Elegir Transporte Privado al GOLF & Keywords */}
+            <div className="bg-slate-900 text-white p-6 md:p-8 rounded-2xl shadow-lg mt-8">
+              <h3 className="text-xl font-bold mb-3">
+                {lang === 'es' ? `¿Por qué Elegir Transporte Privado a ${seoData.nombre}?` : `Why Choose Private Transportation to ${seoData.nombre}?`}
+              </h3>
+              <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-4">
+                {lang === 'es' 
+                  ? `Miles de golfistas eligen a Ballard Tours cada año para su transporte a ${seoData.nombre} debido a nuestra confiabilidad y excepcional servicio al cliente. Elegir nuestro transporte privado a ${seoData.nombre} ofrece muchas ventajas:` 
+                  : `Thousands of golfers choose Ballard Tours every year for transportation to ${seoData.nombre} because of our reliability and exceptional customer service. Choosing private transportation to ${seoData.nombre} offers many advantages:`}
+              </p>
+              <div className="columns-2 gap-4 text-sm text-slate-300 mb-6">
+                <ul className="space-y-1 font-medium">
+                  {(lang === 'es' ? [
+                    'Servicio directo',
+                    'Sin transporte compartido',
+                    'Sin esperar a otros pasajeros',
+                    'Tarifas fijas',
+                    'Conductores profesionales',
+                    'Vehículos de lujo',
+                    'Asientos cómodos',
+                    'Espacio extra para palos de golf',
+                    'Aire acondicionado',
+                    'Bebidas de cortesía',
+                    'Tiempos de recogida flexibles',
+                    'Servicio personalizado'
+                  ] : [
+                    'Direct service',
+                    'No shared transportation',
+                    'No waiting for other passengers',
+                    'Flat-rate pricing',
+                    'Professional drivers',
+                    'Luxury vehicles',
+                    'Comfortable seating',
+                    'Extra room for golf clubs',
+                    'Air conditioning',
+                    'Complimentary beverages',
+                    'Flexible pickup times',
+                    'Personalized service'
+                  ]).map((item, i) => (
+                    <li key={i}>• {item}</li>
+                  ))}
+                </ul>
+              </div>
+              <p className="text-slate-300 text-sm md:text-base leading-relaxed font-bold">
+                {lang === 'es' 
+                  ? `Además del transporte a ${seoData.nombre}, también ofrecemos traslados al aeropuerto, restaurantes y más. Reserva hoy tu transporte a ${seoData.nombre}. Permítenos mostrarte por qué somos la mejor opción para: Transportation to ${seoData.nombre}, Private transportation to ${seoData.nombre}, Golf transportation Los Cabos, Luxury transportation to ${seoData.nombre}, How to get to ${seoData.nombre}, Golf course transportation, Chauffeur service to ${seoData.nombre}, Round trip transportation to ${seoData.nombre}, Airport transportation to ${seoData.nombre}, Transportation from hotel to ${seoData.nombre}, Golf tee time transportation, y Private driver to ${seoData.nombre}.` 
+                  : `Besides transportation to ${seoData.nombre}, we also offer airport transfers, restaurant rides, and more. Reserve your transportation to ${seoData.nombre} today. Let us show you why we are the top choice for: Transportation to ${seoData.nombre}, Private transportation to ${seoData.nombre}, Golf transportation Los Cabos, Luxury transportation to ${seoData.nombre}, How to get to ${seoData.nombre}, Golf course transportation, Chauffeur service to ${seoData.nombre}, Round trip transportation to ${seoData.nombre}, Airport transportation to ${seoData.nombre}, Transportation from hotel to ${seoData.nombre}, Golf tee time transportation, and Private driver to ${seoData.nombre}.`}
+              </p>
+            </div>
+          </section>
           <FAQAccordion type="golf" locationName={seoData.nombre} lang={lang} />
 
         </div>
