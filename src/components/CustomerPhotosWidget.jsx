@@ -13,8 +13,8 @@ export default function CustomerPhotosWidget({ lang = 'es' }) {
     }
   };
 
-  const photos = Array.from({ length: 8 }, (_, i) => 
-    `/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-${i + 1}.webp`
+  const photos = Array.from({ length: 12 }, (_, i) => 
+    \`/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-\${i + 1}.webp\`
   );
 
   const nextPhoto = () => {
