@@ -73,6 +73,38 @@ export default function TransportBookingForm({ lang = 'es' }) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
+      {/* BANNER DE AYUDA Y QR */}
+      <div className="mb-8 bg-white border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col gap-3">
+          <h3 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">
+            {lang === 'es' ? '¿Necesitas ayuda con tu reserva?' : 'Need help with your booking?'}
+          </h3>
+          <p className="text-slate-600 text-lg md:text-xl flex items-center gap-2 flex-wrap">
+            {lang === 'es' ? 'Manda SMS al' : 'Send SMS to'}
+            <a 
+              href="sms:+526241393497" 
+              onClick={() => {
+                navigator.clipboard.writeText('+526241393497');
+                alert(lang === 'es' ? 'Número copiado al portapapeles: +526241393497' : 'Number copied to clipboard: +526241393497');
+              }}
+              className="font-black text-blue-600 hover:text-blue-800 underline flex items-center gap-2 transition-colors bg-blue-50 px-3 py-1.5 rounded-lg active:scale-95"
+            >
+              +52 624 139 3497
+            </a>
+            <span className="text-sm text-slate-400 font-bold ml-1">
+              {lang === 'es' ? '(Click para copiar / enviar SMS)' : '(Click to copy / send SMS)'}
+            </span>
+          </p>
+        </div>
+        <div className="flex-shrink-0 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+          <img 
+            src={lang === 'es' ? '/qr-es.png' : '/qr-en.png'} 
+            alt={lang === 'es' ? 'Código QR de Contacto' : 'Contact QR Code'} 
+            className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-xl"
+          />
+        </div>
+      </div>
+
       <div className="flex flex-col lg:flex-row gap-8">
 
         {/* FORMULARIO IZQUIERDO */}
