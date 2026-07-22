@@ -162,6 +162,66 @@ export default function CaboAirportTransportationPage({ params }) {
                     </Link>
                 </div>
                 
+                {/* TRANSPORTATION OPTIONS SECTION */}
+                <section className="mb-20">
+                    <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
+                        {lang === 'es' ? 'Entendiendo el Transporte en Los Cabos (SJD)' : 'Los Cabos (SJD) Airport and Cabo San Lucas Transportation; Understanding'}
+                    </h2>
+                    <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
+                        <p className="mb-6">
+                            {lang === 'es'
+                                ? 'El Aeropuerto de Cabo (SJD), también conocido como Aeropuerto Internacional de Los Cabos, es la puerta principal a Cabo San Lucas. Atiende a millones de pasajeros cada año. Después de aterrizar, las opciones eficientes de transporte del aeropuerto de Cabo pueden llevarte rápidamente a tu destino final.'
+                                : 'Cabo (SJD) Airport, also known as Los Cabos International Airport, is the main gateway to Cabo San Lucas. It serves millions of passengers every year. After landing, efficient cabo airport transport options can swiftly get you to your final destination in Cabo.'}
+                        </p>
+                        <p className="mb-6">
+                            {lang === 'es'
+                                ? 'Aquí tienes un vistazo rápido a tus opciones de transporte:'
+                                : 'Here’s a quick look at your transportation options:'}
+                        </p>
+                        <ul className="list-disc pl-6 mb-6 space-y-2 text-neutral-700">
+                            <li><strong>{lang === 'es' ? 'Traslados Privados' : 'Private Shuttles'}:</strong> {lang === 'es' ? 'Directo y personalizado (un servicio popular de CABO PRIVATE TRANSPORTATION).' : 'Direct and personalized (a popular cabo shuttle service).'}</li>
+                            <li><strong>{lang === 'es' ? 'Traslados Compartidos' : 'Shared Shuttles'}:</strong> {lang === 'es' ? 'Económicos y sociables.' : 'Cost-effective and sociable (shared shuttle Cabo options).'}</li>
+                            <li><strong>{lang === 'es' ? 'Taxis' : 'Taxis'}:</strong> {lang === 'es' ? 'Convenientes pero más costosos.' : 'Convenient yet pricier (including a typical cabo airport taxi).'}</li>
+                        </ul>
+                        
+                        <h3 className="text-xl font-bold mt-10 mb-4 text-neutral-900">
+                            {lang === 'es' ? 'Comparando Servicios de Transporte: Consejos para elegir' : 'Comparing Shuttle Services: Tips for Choosing the Best Option'}
+                        </h3>
+                        <p className="mb-6">
+                            {lang === 'es'
+                                ? 'Elegir el servicio de traslado adecuado puede mejorar tu experiencia de viaje. Al comparar proveedores de traslados en Cabo San Lucas, es esencial evaluar los servicios en función de precios y transparencia, opiniones de clientes, comodidades ofrecidas (como Wi-Fi y aire acondicionado) y opciones de reserva flexibles.'
+                                : 'Choosing the right CABO PRIVATE TRANSPORTATION airport shuttle service can enhance your travel experience. To make an informed choice, focus on pricing and transparency, customer reviews and ratings, and offered amenities like Wi-Fi and air-conditioning.'}
+                        </p>
+                        
+                        <h3 className="text-xl font-bold mt-10 mb-4 text-neutral-900">
+                            {lang === 'es' ? 'Preguntas Frecuentes (FAQ)' : 'Frequently Asked Questions about Cabo Airport Shuttles'}
+                        </h3>
+                        <div className="space-y-4 mb-6">
+                            <p>
+                                <strong>{lang === 'es' ? '¿Cuál es la mejor manera de reservar?' : 'What is the best way to book a shuttle?'}</strong><br />
+                                {lang === 'es' ? 'Reservar en línea en CABO PRIVATE TRANSPORTATION es a menudo lo más conveniente. Garantiza el mejor precio y disponibilidad.' : 'Online booking is often the most convenient. It ensures you get the best price and availability.'}
+                            </p>
+                            <p>
+                                <strong>{lang === 'es' ? '¿Están disponibles 24/7?' : 'Are Cabo airport shuttles available 24/7?'}</strong><br />
+                                {lang === 'es' ? 'Sí, la mayoría de nuestros servicios operan todo el día, adaptándonos a tus vuelos.' : 'Most services operate around the clock. Check their availability, especially for late-night or early-morning transfers.'}
+                            </p>
+                            <p>
+                                <strong>{lang === 'es' ? '¿Qué hago si mi vuelo se retrasa?' : 'What should I do if my flight is delayed?'}</strong><br />
+                                {lang === 'es' ? 'Comunícate inmediatamente con nuestro equipo. Acomodaremos los retrasos de los vuelos con horarios actualizados de recogida.' : 'Contact the shuttle service immediately. We will accommodate flight delays with updated pickup times.'}
+                            </p>
+                        </div>
+                        
+                        <h3 className="text-xl font-bold mt-10 mb-4 text-neutral-900">
+                            {lang === 'es' ? 'Conclusión: Comienza tu viaje sin estrés' : 'Conclusion: Start Your Cabo Trip Stress-Free'}
+                        </h3>
+                        <p className="mb-6">
+                            {lang === 'es'
+                                ? 'Elegir el transporte correcto marca la pauta de tu viaje. Optar por CABO PRIVATE TRANSPORTATION garantiza una experiencia sin complicaciones desde el momento en que aterrizas en el aeropuerto SJD. Con el transporte adecuado, puedes comenzar tu viaje en Cabo sintiéndote renovado y listo para explorar.'
+                                : 'Choosing the right airport shuttle sets the tone for your Cabo journey. Opting for a reliable service ensures a hassle-free experience from the moment you land at SJD Airport. With the right shuttle, you can start your Cabo trip feeling refreshed and ready for exploration.'}
+                        </p>
+                    </div>
+                </section>
+
                 <section className="mb-20">
                     <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
                         {lang === 'es' ? 'Cómo Reservar Paso a Paso' : 'How to Book: Step-by-Step Guide'}
