@@ -63,13 +63,13 @@ export default function CaboAirportTransportationPage({ params }) {
 
                 <section className="mb-20">
                     <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-6">
-                        {lang === 'es' ? 'Traslados desde el Aeropuerto de Los Cabos (SJD)' : 'Cabo Airport Shuttles from Los Cabos (SJD) Airport'}
+                        {lang === 'es' ? 'Traslados: Tu SJD Airport Shuttle' : 'Your SJD Airport Shuttle from Los Cabos'}
                     </h2>
                     <div className="prose prose-lg text-neutral-600 prose-p:leading-relaxed max-w-none">
                         <p className="mb-6">
                             {lang === 'es'
-                                ? 'Cabo San Lucas es un destino de ensueño para muchos viajeros, con sus impresionantes playas y su vibrante vida nocturna que atrae a visitantes de todo el mundo. Al planificar cómo moverse, muchos viajeros eligen los servicios de CABO PRIVATE TRANSPORTATION desde el aeropuerto SJD para acceder rápidamente a los hoteles y villas de Los Cabos. Debido a estrictas regulaciones en esta zona federal, las aplicaciones de viajes compartidos como Uber no pueden recogerte directamente desde la acera de llegadas de la terminal. Para asegurarte la mejor experiencia posible, considera nuestras opciones de transporte.'
-                                : 'Cabo San Lucas is a dream destination for many travelers. Its stunning beaches and vibrant nightlife attract visitors from around the world. Due to strict regulations in this federal zone, rideshare apps like Uber cannot pick you up directly from the terminal arrivals curb. When planning how you’ll get around, many visitors consider CABO PRIVATE TRANSPORTATION from SJD Airport to reach Los Cabos hotels and villas quickly. This award-winning service is recognized as one of the safest and most reliable transportation options.'}
+                                ? 'Cabo San Lucas es un destino de ensueño para muchos viajeros. Al planificar cómo moverse, muchos viajeros eligen los servicios de CABO PRIVATE TRANSPORTATION como su SJD airport shuttle preferido para acceder rápidamente a los hoteles. Debido a estrictas regulaciones, las aplicaciones de viajes compartidos como Uber no pueden recogerte directamente. Para asegurarte la mejor experiencia posible, considera reservar tu SJD airport shuttle privado con nosotros.'
+                                : 'Cabo San Lucas is a dream destination. Due to strict regulations, rideshare apps like Uber cannot pick you up directly from the terminal arrivals curb. When planning how you’ll get around, many visitors consider CABO PRIVATE TRANSPORTATION as their premium SJD airport shuttle to reach Los Cabos hotels quickly. Our SJD airport shuttle is recognized as one of the safest and most reliable transportation options.'}
                         </p>
             <div className="my-10">
               <GoogleReviewsWidget lang={lang} />
@@ -77,29 +77,29 @@ export default function CaboAirportTransportationPage({ params }) {
             </div>
                         <p className="mb-6">
                             {lang === 'es'
-                                ? 'Llegar al Aeropuerto de Los Cabos (SJD) es el primer paso en tu aventura en Cabo. Nuestros servicios de transporte compartidos y privados ofrecen una solución conveniente para llegar a tu alojamiento.'
-                                : 'Arriving at Los Cabos (SJD) Airport is the first step in your Cabo adventure. CABO PRIVATE TRANSPORTATION shuttles provide a convenient solution to reach your accommodation through private transfers and other reliable options.'}
+                                ? 'Llegar al Aeropuerto de Los Cabos (SJD) es el primer paso. Nuestro SJD airport shuttle ofrece una solución conveniente para llegar a tu alojamiento.'
+                                : 'Arriving at Los Cabos (SJD) Airport is the first step in your Cabo adventure. A dedicated SJD airport shuttle provides a convenient solution to reach your accommodation.'}
                         </p>
                         
                         <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mt-10 mb-6">
                             {lang === 'es'
-                                ? 'Traslados desde SJD Internacional a los Resorts – Tarifas y Reservas'
-                                : 'Cabo Mexico Airport Shuttles from SJD to Los Cabos Resorts – Rates & Booking'}
+                                ? 'Reserva tu SJD Airport Shuttle a los Resorts'
+                                : 'SJD Airport Shuttle to Los Cabos Resorts – Rates & Booking'}
                         </h2>
                         
                         <ul className="list-disc pl-6 mb-6 space-y-2 text-neutral-700">
-                            <li>{lang === 'es' ? 'Traslado exclusivo sin escalas directamente del aeropuerto SJD a la puerta de tu Resort.' : 'Exclusive, non-stop transfer directly from SJD airport to Los Cabos Resorts door to door exclusive service.'}</li>
-                            <li>{lang === 'es' ? 'Salida flexible — tu horario, tu traslado.' : 'Flexible departure—your schedule, your transfer.'}</li>
-                            <li>{lang === 'es' ? 'Vehículos modernos y cómodos con choferes bilingües certificados.' : 'Modern, comfortable vehicles with licensed bilingual drivers.'}</li>
-                            <li>{lang === 'es' ? 'Precios garantizados — sin tarifas ocultas.' : 'Guaranteed pricing—no hidden fees or surge rates.'}</li>
-                            <li>{lang === 'es' ? 'Asientos para niños disponibles pre-reservando.' : 'Children’s car seats are required to be available pre-book.'}</li>
-                            <li>{lang === 'es' ? 'Paradas para compras deben reservarse con anticipación.' : 'Grocery stops are required to be pre-booked.'}</li>
+                            <li>{lang === 'es' ? 'SJD airport shuttle exclusivo sin escalas directamente a tu Resort.' : 'Exclusive, non-stop SJD airport shuttle directly to your Los Cabos Resort.'}</li>
+                            <li>{lang === 'es' ? 'Salida flexible para tu SJD airport shuttle.' : 'Flexible departure for your SJD airport shuttle.'}</li>
+                            <li>{lang === 'es' ? 'El mejor SJD airport shuttle con choferes bilingües.' : 'The best SJD airport shuttle with licensed bilingual drivers.'}</li>
+                            <li>{lang === 'es' ? 'SJD airport shuttle con precios garantizados — sin tarifas ocultas.' : 'Guaranteed pricing for your SJD airport shuttle—no hidden fees.'}</li>
+                            <li>{lang === 'es' ? 'Asientos para niños disponibles en nuestro SJD airport shuttle.' : 'Children’s car seats are available in our SJD airport shuttle.'}</li>
+                            <li>{lang === 'es' ? 'Paradas para compras en tu SJD airport shuttle.' : 'Grocery stops can be added to your SJD airport shuttle.'}</li>
                         </ul>
 
                         <p className="mb-6">
                             {lang === 'es'
-                                ? 'Una de las mejores partes de organizar un transporte desde el Aeropuerto a tu resort con anticipación es asegurar una tarifa asequible. Nuestro servicio ofrece una tarifa plana de $80 USD por un viaje sencillo (cubre hasta 5 pasajeros). Si reservas un viaje de ida y vuelta, el costo total es de solo $140 USD. Reservar hoy garantiza tu tranquilidad.'
-                                : 'One of the best parts of organizing a shuttle from Cabo Airport to Los Cabos Resorts in advance is locking in an affordable rate. Our service offers a flat rate of $80 USD for a one-way trip (this vehicle rate covers up to 5 passengers). If you book a round-trip, the total cost is only $140 USD. Reserve today to ensure a smooth start to your vacation.'}
+                                ? 'Asegurar tu SJD airport shuttle con anticipación garantiza una tarifa asequible. Nuestro SJD airport shuttle ofrece una tarifa plana de $80 USD por viaje (hasta 5 pasajeros). Un SJD airport shuttle de ida y vuelta cuesta $140 USD. Reservar tu SJD airport shuttle hoy garantiza tu tranquilidad.'
+                                : 'Booking your SJD airport shuttle in advance locks in an affordable rate. Our SJD airport shuttle offers a flat rate of $80 USD for a one-way trip. A round-trip SJD airport shuttle is only $140 USD. Reserve your SJD airport shuttle today.'}
                         </p>
 
                     </div>
