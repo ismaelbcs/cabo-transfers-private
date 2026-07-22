@@ -194,9 +194,33 @@ export default function CaboAirportTransportationPage({ params }) {
                         </p>
                         
                         <h3 className="text-xl font-bold mt-10 mb-4 text-neutral-900">
-                            {lang === 'es' ? 'Preguntas Frecuentes (FAQ)' : 'Frequently Asked Questions about Cabo Airport Shuttles'}
+                            {lang === 'es' ? 'Preguntas Frecuentes (FAQ) sobre SJD Airport Shuttle' : 'Frequently Asked Questions about SJD Airport Shuttle'}
                         </h3>
                         <div className="space-y-4 mb-6">
+                            <p>
+                                <strong>{lang === 'es' ? '¿Cuál es el SJD airport shuttle más confiable?' : 'What is the most reliable SJD airport shuttle?'}</strong><br />
+                                {lang === 'es' 
+                                    ? 'CABO PRIVATE TRANSPORTATION ofrece el servicio de SJD airport shuttle más confiable y mejor calificado, asegurando un viaje cómodo desde el Aeropuerto Internacional de Los Cabos directamente a tu resort.' 
+                                    : 'CABO PRIVATE TRANSPORTATION offers the most reliable and highly-rated SJD airport shuttle service, ensuring a seamless and comfortable ride from Los Cabos International Airport directly to your resort.'}
+                            </p>
+                            <p>
+                                <strong>{lang === 'es' ? '¿Cuánto cuesta un SJD airport shuttle?' : 'How much does an SJD airport shuttle cost?'}</strong><br />
+                                {lang === 'es' 
+                                    ? 'Los precios varían, pero nuestro SJD shuttle privado de tarifa fija garantiza que no habrá cargos ocultos, convirtiéndolo en la opción más rentable y segura.' 
+                                    : 'SJD airport shuttle prices vary, but our flat-rate private SJD shuttle guarantees no hidden fees, making it the most cost-effective and secure choice.'}
+                            </p>
+                            <p>
+                                <strong>{lang === 'es' ? '¿Dónde encuentro mi SJD airport shuttle al aterrizar?' : 'Where do I find my SJD airport shuttle after landing?'}</strong><br />
+                                {lang === 'es' 
+                                    ? 'Después de pasar aduanas y salir de la terminal, el chofer de tu SJD airport shuttle te estará esperando con un letrero personalizado. Te ayudamos a esquivar a los vendedores de tiempos compartidos para ir directo a tu vehículo.' 
+                                    : 'After passing through customs and exiting the terminal, your SJD airport shuttle driver will be waiting for you outside with a personalized sign. We help you bypass timeshare vendors and go straight to your vehicle.'}
+                            </p>
+                            <p>
+                                <strong>{lang === 'es' ? '¿Puedo reservar un SJD airport shuttle el mismo día?' : 'Can I book an SJD airport shuttle on the same day?'}</strong><br />
+                                {lang === 'es' 
+                                    ? 'Recomendamos encarecidamente pre-reservar tu SJD airport shuttle en línea para garantizar disponibilidad y las mejores tarifas, aunque puedes contactarnos para viajes de último minuto.' 
+                                    : 'We strongly recommend pre-booking your SJD airport shuttle online to guarantee availability and secure the best rates, although you can contact us for last-minute rides.'}
+                            </p>
                             <p>
                                 <strong>{lang === 'es' ? '¿Cuál es la mejor manera de reservar?' : 'What is the best way to book a shuttle?'}</strong><br />
                                 {lang === 'es' ? 'Reservar en línea en CABO PRIVATE TRANSPORTATION es a menudo lo más conveniente. Garantiza el mejor precio y disponibilidad.' : 'Online booking is often the most convenient. It ensures you get the best price and availability.'}
