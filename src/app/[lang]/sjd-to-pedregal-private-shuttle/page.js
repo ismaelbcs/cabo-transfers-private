@@ -56,6 +56,20 @@ export default function SJDToPedregalPrivateShuttlePage({ params }) {
                 </div>
             </header>
 
+            {/* FOTO DE PORTADA / COVER PHOTO */}
+            <div className="px-4 mx-auto max-w-7xl mb-16">
+                <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl">
+                    <Image
+                        src="/Waldorf-Astoria-Los-Cabos-Pedregal-ballard-sjd-transportation-transporting-cabo.webp"
+                        alt="Waldorf Astoria Los Cabos Pedregal SJD to Pedregal Private Shuttle"
+                        fill
+                        priority
+                        sizes="(max-width: 1280px) 100vw, 1280px"
+                        style={{ objectFit: 'cover' }}
+                    />
+                </div>
+            </div>
+
             <main className="px-4 mx-auto max-w-7xl pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12">
 
         {/* COLUMNA IZQUIERDA (CONTENIDO) */}
