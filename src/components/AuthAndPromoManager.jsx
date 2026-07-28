@@ -197,22 +197,22 @@ export default function AuthAndPromoManager({ lang = 'es', currentUser, setCurre
     }
   };
 
-  useEffect(() => {
-    if (localUser) return;
-    const detonarPopup = () => { setShowPromoModal(true); window.removeEventListener('scroll', vigilarScroll); clearTimeout(temporizador); };
-    const vigilarScroll = () => { if (window.scrollY > 400) detonarPopup(); };
+  // useEffect(() => {
+  //   if (localUser) return;
+  //   const detonarPopup = () => { setShowPromoModal(true); window.removeEventListener('scroll', vigilarScroll); clearTimeout(temporizador); };
+  //   const vigilarScroll = () => { if (window.scrollY > 400) detonarPopup(); };
 
-    window.addEventListener('scroll', vigilarScroll);
-    const temporizador = setTimeout(() => { detonarPopup(); }, 6000);
+  //   window.addEventListener('scroll', vigilarScroll);
+  //   const temporizador = setTimeout(() => { detonarPopup(); }, 6000);
 
-    return () => { window.removeEventListener('scroll', vigilarScroll); clearTimeout(temporizador); };
-  }, [localUser]);
+  //   return () => { window.removeEventListener('scroll', vigilarScroll); clearTimeout(temporizador); };
+  // }, [localUser]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const codigoPromoUrl = params.get('promo');
-    if (codigoPromoUrl) { setPromoInput(codigoPromoUrl.toUpperCase()); setShowPromoModal(true); }
-  }, []);
+  // useEffect(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const codigoPromoUrl = params.get('promo');
+  //   if (codigoPromoUrl) { setPromoInput(codigoPromoUrl.toUpperCase()); setShowPromoModal(true); }
+  // }, []);
 
   if (!isMounted) return null;
 
