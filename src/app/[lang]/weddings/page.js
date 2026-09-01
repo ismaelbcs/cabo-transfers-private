@@ -6,6 +6,7 @@ import { Send, CheckCircle, HeartHandshake, ChevronDown, Car, Map, Sparkles } fr
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { dict as globalDict } from '../../../locales/dict';
+import { sendEmail } from '../../../utils/sendEmail';
 
 // ============================================================================
 // DICCIONARIO LOCAL PARA LA PÁGINA DE BODAS
@@ -188,26 +189,35 @@ export default function WeddingsPage({ params }) {
       .map(key => t.services[key] || key)
       .join(', ');
 
+    const emailSubject = `NUEVA SOLICITUD DE BODA: ${formData.nombre} - ${formData.fecha}`;
+    const emailHtml = `
+      <div style="font-family: sans-serif; padding: 20px;">
+        <h2>Solicitud de Boda / Evento</h2>
+        <p><strong>Organizador/Novios:</strong> ${formData.nombre}</p>
+        <p><strong>Correo:</strong> ${formData.email}</p>
+        <p><strong>WhatsApp:</strong> ${formData.telefono}</p>
+        <p><strong>Fecha del Evento:</strong> ${formData.fecha}</p>
+        <p><strong>Lugar:</strong> ${formData.lugar}</p>
+        <p><strong>Invitados a transportar:</strong> ${formData.invitados}</p>
+        <p><strong>Servicios de Interés:</strong> ${serviciosSeleccionados || 'Ninguno especificado'}</p>
+        <h3>Visión / Comentarios:</h3>
+        <p>${formData.comentario}</p>
+      </div>
+    `;
+
     try {
       await addDoc(collection(db, "correos"), {
         to: "reservationballard@gmail.com",
         message: {
-          subject: `NUEVA SOLICITUD DE BODA: ${formData.nombre} - ${formData.fecha}`,
-          html: `
-            <div style="font-family: sans-serif; padding: 20px;">
-              <h2>Solicitud de Boda / Evento</h2>
-              <p><strong>Organizador/Novios:</strong> ${formData.nombre}</p>
-              <p><strong>Correo:</strong> ${formData.email}</p>
-              <p><strong>WhatsApp:</strong> ${formData.telefono}</p>
-              <p><strong>Fecha del Evento:</strong> ${formData.fecha}</p>
-              <p><strong>Lugar:</strong> ${formData.lugar}</p>
-              <p><strong>Invitados a transportar:</strong> ${formData.invitados}</p>
-              <p><strong>Servicios de Interés:</strong> ${serviciosSeleccionados || 'Ninguno especificado'}</p>
-              <h3>Visión / Comentarios:</h3>
-              <p>${formData.comentario}</p>
-            </div>
-          `
+          subject: emailSubject,
+          html: emailHtml
         }
+      });
+
+      sendEmail({
+        to: "reservationballard@gmail.com",
+        subject: emailSubject,
+        html: emailHtml
       });
       
       setEnviado(true);

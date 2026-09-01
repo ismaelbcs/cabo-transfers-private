@@ -6,6 +6,7 @@ import { Phone, MessageCircle, Send, User, BookOpen, CheckCircle, Mail, Car, Arr
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { FAQSection } from '../../../components/FAQSection'; 
+import { sendEmail } from '../../../utils/sendEmail'; 
 
 export default function ContactPage({ params }) {
   const resolvedParams = use(params);
@@ -87,29 +88,39 @@ export default function ContactPage({ params }) {
     e.preventDefault();
     setEnviando(true);
 
+    const emailSubject = `NUEVO MENSAJE WEB: ${formData.asunto} - ${formData.nombre}`;
+    const emailHtml = `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #fafafa; padding: 40px; color: #111827;">
+        <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; padding: 40px; border: 1px solid #eaeaea; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
+          <h2 style="color: #111827; margin-top: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.5px;">Nuevo Mensaje Web</h2>
+          <div style="margin-top: 24px; margin-bottom: 24px; border-bottom: 1px solid #eaeaea; padding-bottom: 24px;">
+            <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Cliente:</strong> ${formData.nombre}</p>
+            <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Correo:</strong> <a href="mailto:${formData.email}" style="color: #2563eb; text-decoration: none;">${formData.email}</a></p>
+            <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Asunto:</strong> ${formData.asunto}</p>
+          </div>
+          <h3 style="color: #111827; font-size: 14px; font-weight: 500; margin-bottom: 8px;">Mensaje:</h3>
+          <div style="background-color: #f9fafb; padding: 20px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; color: #374151;">
+            ${formData.comentario}
+          </div>
+        </div>
+      </div>
+    `;
+
     try {
       await addDoc(collection(db, "correos"), {
         to: "reservationballard@gmail.com",
         message: {
-          subject: `NUEVO MENSAJE WEB: ${formData.asunto} - ${formData.nombre}`,
-          html: `
-            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #fafafa; padding: 40px; color: #111827;">
-              <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; padding: 40px; border: 1px solid #eaeaea; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
-                <h2 style="color: #111827; margin-top: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.5px;">Nuevo Mensaje Web</h2>
-                <div style="margin-top: 24px; margin-bottom: 24px; border-bottom: 1px solid #eaeaea; padding-bottom: 24px;">
-                  <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Cliente:</strong> ${formData.nombre}</p>
-                  <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Correo:</strong> <a href="mailto:${formData.email}" style="color: #2563eb; text-decoration: none;">${formData.email}</a></p>
-                  <p style="font-size: 14px; color: #666; margin: 4px 0;"><strong>Asunto:</strong> ${formData.asunto}</p>
-                </div>
-                <h3 style="color: #111827; font-size: 14px; font-weight: 500; margin-bottom: 8px;">Mensaje:</h3>
-                <div style="background-color: #f9fafb; padding: 20px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; color: #374151;">
-                  ${formData.comentario}
-                </div>
-              </div>
-            </div>
-          `
+          subject: emailSubject,
+          html: emailHtml
         }
       });
+
+      sendEmail({
+        to: "reservationballard@gmail.com",
+        subject: emailSubject,
+        html: emailHtml
+      });
+
       setEnviado(true);
       // Limpiamos también el campo email al terminar
       setFormData({ nombre: '', email: '', asunto: '', comentario: '' });

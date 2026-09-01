@@ -6,6 +6,7 @@ import { Send, CheckCircle, Briefcase, ChevronDown, Shield, Star, Globe } from '
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { dict as globalDict } from '../../../locales/dict';
+import { sendEmail } from '../../../utils/sendEmail';
 
 // ============================================================================
 // DICCIONARIO LOCAL PARA LA PÁGINA DE AGENCIAS
@@ -122,22 +123,31 @@ export default function AgenciesPage({ params }) {
     e.preventDefault();
     setEnviando(true);
     
+    const emailSubject = `NUEVA SOLICITUD DE AGENCIA: ${formData.agencia}`;
+    const emailHtml = `
+      <div style="font-family: sans-serif; padding: 20px;">
+        <h2>Solicitud de Convenio - Agencia de Viajes</h2>
+        <p><strong>Agencia:</strong> ${formData.agencia}</p>
+        <p><strong>Correo:</strong> ${formData.email}</p>
+        <p><strong>¿Cómo nos encontró?:</strong> ${formData.como}</p>
+        <h3>Comentarios:</h3>
+        <p>${formData.comentario}</p>
+      </div>
+    `;
+
     try {
       await addDoc(collection(db, "correos"), {
         to: "reservationballard@gmail.com",
         message: {
-          subject: `NUEVA SOLICITUD DE AGENCIA: ${formData.agencia}`,
-          html: `
-            <div style="font-family: sans-serif; padding: 20px;">
-              <h2>Solicitud de Convenio - Agencia de Viajes</h2>
-              <p><strong>Agencia:</strong> ${formData.agencia}</p>
-              <p><strong>Correo:</strong> ${formData.email}</p>
-              <p><strong>¿Cómo nos encontró?:</strong> ${formData.como}</p>
-              <h3>Comentarios:</h3>
-              <p>${formData.comentario}</p>
-            </div>
-          `
+          subject: emailSubject,
+          html: emailHtml
         }
+      });
+
+      sendEmail({
+        to: "reservationballard@gmail.com",
+        subject: emailSubject,
+        html: emailHtml
       });
       
       setEnviado(true);

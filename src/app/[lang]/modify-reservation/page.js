@@ -4,6 +4,7 @@ import React, { useState, useEffect, use } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
+import { sendEmail } from '../../../utils/sendEmail';
 import Link from 'next/link';
 
 export default function ModifyReservationPage({ params }) {
@@ -138,32 +139,50 @@ export default function ModifyReservationPage({ params }) {
       
       // Trigger Email Notification
       const adminEmailDoc = `${id}_mod_${Date.now()}`;
+      const subjectAdminMod = `⚠️ MODIFICACIÓN: Reserva ${id} actualizada por cliente`;
+      const htmlAdminMod = `<h1>El cliente ha modificado la reserva ${id}</h1>
+             <p>Por favor revise el panel de administración para ver los nuevos detalles.</p>
+             <p>Nuevos valores introducidos:</p>
+             <ul>
+               <li>Fecha: ${fecha}</li>
+               <li>Pasajeros: ${pasajeros}</li>
+               <li>Destino: ${destino}</li>
+               <li>Hora Ida: ${horaIda}</li>
+               <li>Hora Regreso: ${horaRegreso}</li>
+             </ul>
+             `;
+
       await setDoc(doc(db, "correos", adminEmailDoc), {
         to: "reservationballard@gmail.com",
         message: {
-          subject: `⚠️ MODIFICACIÓN: Reserva ${id} actualizada por cliente`,
-          html: `<h1>El cliente ha modificado la reserva ${id}</h1>
-                 <p>Por favor revise el panel de administración para ver los nuevos detalles.</p>
-                 <p>Nuevos valores introducidos:</p>
-                 <ul>
-                   <li>Fecha: ${fecha}</li>
-                   <li>Pasajeros: ${pasajeros}</li>
-                   <li>Destino: ${destino}</li>
-                   <li>Hora Ida: ${horaIda}</li>
-                   <li>Hora Regreso: ${horaRegreso}</li>
-                 </ul>
-                 `
+          subject: subjectAdminMod,
+          html: htmlAdminMod
         }
+      });
+
+      sendEmail({
+        to: "reservationballard@gmail.com",
+        subject: subjectAdminMod,
+        html: htmlAdminMod
       });
       
       if (reserva.cliente?.email) {
         const clientEmailDoc = `${id}_mod_client_${Date.now()}`;
+        const subjectClientMod = isEs ? `Confirmación de Modificación: Reserva ${id}` : `Modification Confirmation: Booking ${id}`;
+        const htmlClientMod = isEs ? `<h1>Tu reserva ha sido modificada con éxito</h1><p>Hemos actualizado tu reserva <b>${id}</b>.</p>` : `<h1>Your booking was successfully modified</h1><p>We have updated your booking <b>${id}</b>.</p>`;
+
         await setDoc(doc(db, "correos", clientEmailDoc), {
           to: reserva.cliente.email,
           message: {
-            subject: isEs ? `Confirmación de Modificación: Reserva ${id}` : `Modification Confirmation: Booking ${id}`,
-            html: isEs ? `<h1>Tu reserva ha sido modificada con éxito</h1><p>Hemos actualizado tu reserva <b>${id}</b>.</p>` : `<h1>Your booking was successfully modified</h1><p>We have updated your booking <b>${id}</b>.</p>`
+            subject: subjectClientMod,
+            html: htmlClientMod
           }
+        });
+
+        sendEmail({
+          to: reserva.cliente.email,
+          subject: subjectClientMod,
+          html: htmlClientMod
         });
       }
 

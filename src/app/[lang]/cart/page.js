@@ -15,6 +15,7 @@ import { toursData } from '../../../data/seoData';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { doc, setDoc, collection, addDoc, updateDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../../firebase';
+import { sendEmail } from '../../../utils/sendEmail';
 
 // =========================================================
 // 1. GENERADOR DE PLANTILLA HTML PARA ADMIN
@@ -464,21 +465,41 @@ export default function CheckoutPage({ params }) {
 
       for (const item of comboFinalConVuelos) {
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
+        const subjectCliente = isEs ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`;
+        const htmlCliente = generarHtmlCorreoCliente(item, datosFinalesCliente, nuevoNumConfirmacion, lang);
+
         await setDoc(doc(db, "correos", docIdCliente), {
           to: formData.email,
           message: {
-            subject: isEs ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`,
-            html: generarHtmlCorreoCliente(item, datosFinalesCliente, nuevoNumConfirmacion, lang)
+            subject: subjectCliente,
+            html: htmlCliente
           }
         });
 
+        // Envío directo inmediato por Next.js API
+        sendEmail({
+          to: formData.email,
+          subject: subjectCliente,
+          html: htmlCliente
+        });
+
         const docIdAdmin = `${nuevoNumConfirmacion}_admin_${index}`;
+        const subjectAdmin = `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`;
+        const htmlAdmin = generarHtmlCorreoAdmin(item, datosFinalesCliente, nuevoNumConfirmacion);
+
         await setDoc(doc(db, "correos", docIdAdmin), {
           to: "reservationballard@gmail.com",
           message: {
-            subject: `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`,
-            html: generarHtmlCorreoAdmin(item, datosFinalesCliente, nuevoNumConfirmacion)
+            subject: subjectAdmin,
+            html: htmlAdmin
           }
+        });
+
+        // Envío directo inmediato por Next.js API
+        sendEmail({
+          to: "reservationballard@gmail.com",
+          subject: subjectAdmin,
+          html: htmlAdmin
         });
 
         index++;
