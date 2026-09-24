@@ -779,7 +779,20 @@ export default function DestinationPage({ params }) {
             </p>
 
             <div className="my-8 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img src={`/${hotel.image}`} alt={hotel.nombre} className="w-full h-auto object-cover max-h-[400px]" />
+              <img 
+                src={hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp'} 
+                alt={hotel.nombre} 
+                className="w-full h-auto object-cover max-h-[400px]" 
+                onError={(e) => {
+                  if (!e.currentTarget.dataset.fallbackTried) {
+                    e.currentTarget.dataset.fallbackTried = '1';
+                    e.currentTarget.src = `/hotel/${hotel.image?.replace(/^hotel\//, '')}`;
+                  } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                    e.currentTarget.dataset.fallbackTried = '2';
+                    e.currentTarget.src = '/private-transportation-sjd-airport-los-cabos-luxury.webp';
+                  }
+                }}
+              />
             </div>
 
             <ul className="list-disc pl-5 space-y-3 text-slate-700 text-sm md:text-base mb-8">

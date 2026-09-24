@@ -581,7 +581,20 @@ export default function DestinationPage({ params }) {
       {/* ========================================= */}
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
-          <img src={`/${hotel.image}`} alt={`Airport transfer to ${hotel.nombre}`} className="w-full h-full object-cover opacity-30" />
+          <img 
+            src={hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp'} 
+            alt={`Airport transfer to ${hotel.nombre}`} 
+            className="w-full h-full object-cover opacity-30" 
+            onError={(e) => {
+              if (!e.currentTarget.dataset.fallbackTried) {
+                e.currentTarget.dataset.fallbackTried = '1';
+                e.currentTarget.src = `/hotel/${hotel.image?.replace(/^hotel\//, '')}`;
+              } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                e.currentTarget.dataset.fallbackTried = '2';
+                e.currentTarget.src = '/private-transportation-sjd-airport-los-cabos-luxury.webp';
+              }
+            }}
+          />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
 
@@ -745,7 +758,20 @@ export default function DestinationPage({ params }) {
             </p>
 
             <div className="my-8 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img src={`/${hotel.image}`} alt={hotel.nombre} className="w-full h-auto object-cover max-h-[400px]" />
+              <img 
+                src={hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp'} 
+                alt={hotel.nombre} 
+                className="w-full h-auto object-cover max-h-[400px]" 
+                onError={(e) => {
+                  if (!e.currentTarget.dataset.fallbackTried) {
+                    e.currentTarget.dataset.fallbackTried = '1';
+                    e.currentTarget.src = `/hotel/${hotel.image?.replace(/^hotel\//, '')}`;
+                  } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                    e.currentTarget.dataset.fallbackTried = '2';
+                    e.currentTarget.src = '/private-transportation-sjd-airport-los-cabos-luxury.webp';
+                  }
+                }}
+              />
             </div>
 
             <ul className="list-disc pl-5 space-y-3 text-slate-700 text-sm md:text-base mb-8">

@@ -195,9 +195,18 @@ export default function HyattZivaDestinationPage({ params }) {
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
           <img 
-            src={`/${hotel.image}`} 
+            src={hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp'} 
             alt="Hyatt Ziva Los Cabos Transportation & Airport Shuttle" 
             className="w-full h-full object-cover opacity-35" 
+            onError={(e) => {
+              if (!e.currentTarget.dataset.fallbackTried) {
+                e.currentTarget.dataset.fallbackTried = '1';
+                e.currentTarget.src = `/hotel/${hotel.image?.replace(/^hotel\//, '')}`;
+              } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                e.currentTarget.dataset.fallbackTried = '2';
+                e.currentTarget.src = '/private-transportation-sjd-airport-los-cabos-luxury.webp';
+              }
+            }}
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/40 z-10"></div>
