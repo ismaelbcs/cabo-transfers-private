@@ -61,6 +61,8 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   // Variables regulares
   const hotelDestino = item.config?.hotelId || 'N/A';
   const pasajeros = item.config?.pasajeros || '1';
+  const fechaLlegada = item.config?.fechaLlegada || item.config?.fecha || item.config?.fechaTour || item.detalles?.fecha || 'N/A';
+  const fechaSalida = item.config?.fechaSalida || item.config?.fechaRegreso || item.detalles?.fechaRegreso || item.detalles?.fechaSalida || 'N/A';
   const aerolineaLlegada = item.flightInfo?.aerolinea ? `${item.flightInfo.aerolinea} (Vuelo: ${item.flightInfo.vuelo || 'N/A'})` : 'N/A';
   const horaLlegada = item.flightInfo?.hora || 'N/A';
   const aerolineaSalida = item.flightInfo?.aerolineaSalida ? `${item.flightInfo.aerolineaSalida} (Vuelo: ${item.flightInfo.vueloSalida || 'N/A'})` : 'N/A';
@@ -82,6 +84,8 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hotel / Destino:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${hotelDestino}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Pasajeros Totales:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${pasajeros}</td></tr>
+              ${fechaLlegada !== 'N/A' && fechaLlegada ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Fecha del Servicio:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${fechaLlegada}</td></tr>` : ''}
+              ${fechaSalida !== 'N/A' && fechaSalida ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Fecha de Regreso:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${fechaSalida}</td></tr>` : ''}
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Llegada:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaLlegada}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Hora Llegada Vuelo:</td><td style="color: #1e3a8a; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${horaLlegada}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Aerolínea Salida:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${aerolineaSalida}</td></tr>
@@ -148,9 +152,54 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || (isEs ? 'Pasajero' : 'Passenger');
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? (isEs ? 'PayPal (Pagado)' : 'PayPal (Paid)') : (isEs ? 'Efectivo al llegar' : 'Cash on arrival');
 
+  const esRedondo =
+    item.servicio === 'redondo' ||
+    (item.titulo && /redondo|round\s*trip/i.test(item.titulo)) ||
+    (item.subtitulo && /redondo|round\s*trip/i.test(item.subtitulo));
+
   const hotel = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || item.extrasEspeciales?.golfOrigen || item.extrasEspeciales?.nightlifeOrigen || 'N/A';
   const pasajeros = item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
-  const pickup = item.flightInfo?.horaPickUp || item.extrasEspeciales?.cenaHora || item.extrasEspeciales?.hotelHora || item.extrasEspeciales?.golfHora || item.extrasEspeciales?.nightlifeHora || item.config?.hhHora || item.config?.fechaLlegada || 'N/A';
+
+  const fechaServicio = 
+    item.config?.fechaLlegada || 
+    item.config?.fecha || 
+    item.config?.fechaTour || 
+    item.detalles?.fecha || 
+    item.config?.cenaFecha || 
+    item.config?.golfFecha || 
+    item.config?.nightlifeFecha || 
+    item.config?.hotelFecha || 
+    item.extrasEspeciales?.fecha || 
+    item.extrasEspeciales?.cenaFecha || 
+    item.extrasEspeciales?.hotelFecha || 
+    item.extrasEspeciales?.golfFecha || 
+    item.extrasEspeciales?.nightlifeFecha || 
+    'N/A';
+
+  const fechaRegreso = 
+    item.config?.fechaSalida || 
+    item.config?.fechaRegreso || 
+    item.detalles?.fechaRegreso || 
+    item.detalles?.fechaSalida || 
+    item.extrasEspeciales?.fechaRegreso || 
+    item.extrasEspeciales?.fechaSalida || 
+    'N/A';
+
+  const pickup = 
+    item.flightInfo?.horaPickUp || 
+    item.flightInfo?.hora || 
+    item.extrasEspeciales?.cenaHora || 
+    item.extrasEspeciales?.hotelHora || 
+    item.extrasEspeciales?.golfHora || 
+    item.extrasEspeciales?.nightlifeHora || 
+    item.config?.hhHora || 
+    item.config?.horaPickUp || 
+    item.config?.hora || 
+    item.config?.horaLlegada || 
+    'N/A';
+
+  const aerolineaLlegada = item.flightInfo?.aerolinea ? `${item.flightInfo.aerolinea}${item.flightInfo.vuelo ? ` (${item.flightInfo.vuelo})` : ''}${item.flightInfo.hora ? ` - ${item.flightInfo.hora}` : ''}` : '';
+  const aerolineaSalida = item.flightInfo?.aerolineaSalida ? `${item.flightInfo.aerolineaSalida}${item.flightInfo.vueloSalida ? ` (${item.flightInfo.vueloSalida})` : ''}${item.flightInfo.horaSalida ? ` - ${item.flightInfo.horaSalida}` : ''}` : '';
 
   let bgStyle = `background-color: #1e3a8a;`;
   let badgeText = isEs ? 'Confirmación Oficial' : 'Official Confirmation';
@@ -192,6 +241,8 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const labelConfirm = isEs ? 'N° de Confirmación:' : 'Confirmation N°:';
   const labelService = isEs ? 'Servicio:' : 'Service:';
   const labelPax = isEs ? 'Pasajeros:' : 'Passengers:';
+  const labelFechaServicio = isEs ? 'Fecha del Servicio:' : 'Service Date:';
+  const labelFechaRegreso = isEs ? 'Fecha de Regreso:' : 'Return Date:';
   const labelPickup = isEs ? 'Hora Sugerida/Pick-Up:' : 'Suggested Pick-Up Time:';
   const labelMethod = isEs ? 'Método de Pago:' : 'Payment Method:';
   const btnModify = isEs ? '✏️ Modificar mi Reserva' : '✏️ Modify My Booking';
@@ -226,10 +277,26 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
                 <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPax}</td>
                 <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${pasajeros}</td>
               </tr>
-              <tr style="border-bottom: 1px solid #f8fafc;">
+              ${fechaServicio !== 'N/A' && fechaServicio ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelFechaServicio}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${fechaServicio}</td>
+              </tr>` : ''}
+              ${(esRedondo || (fechaRegreso !== 'N/A' && fechaRegreso)) && fechaRegreso !== 'N/A' && fechaRegreso ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelFechaRegreso}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${fechaRegreso}</td>
+              </tr>` : ''}
+              ${aerolineaLlegada ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${isEs ? 'Vuelo de Llegada:' : 'Arrival Flight:'}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${aerolineaLlegada}</td>
+              </tr>` : ''}
+              ${aerolineaSalida ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${isEs ? 'Vuelo de Salida / Regreso:' : 'Return / Departure Flight:'}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${aerolineaSalida}</td>
+              </tr>` : ''}
+              ${pickup !== 'N/A' && pickup ? `<tr style="border-bottom: 1px solid #f8fafc;">
                 <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPickup}</td>
                 <td style="padding: 10px 0; font-size: 15px; font-weight: 900; color: #ea580c; width: 60%; text-align: right;">${pickup}</td>
-              </tr>
+              </tr>` : ''}
             </tbody>
           </table>
 
