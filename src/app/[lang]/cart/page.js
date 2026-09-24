@@ -70,6 +70,9 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const horaPickUp = item.flightInfo?.horaPickUp || 'N/A';
 
   const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
+  const hotelAsunto = hotelDestino !== 'N/A' && hotelDestino ? hotelDestino : (destino !== 'N/A' && destino ? destino : (item.titulo || 'Servicio'));
+  const mailSubject = `SERVICIO: ${hotelAsunto} - Reserva #${numConfirmacion}`;
+  const mailtoLink = correoCliente !== 'N/A' ? `mailto:${correoCliente}?subject=${encodeURIComponent(mailSubject)}` : '#';
 
   const detallesLogisticosHTML = isSpecial ? `
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
@@ -135,7 +138,10 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               </table>
             </div>
 
-            <a href="${wpLink}" style="display: block; width: 100%; text-align: center; border: 2px solid #213f8c; color: #213f8c; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 30px;">💬 Contactar con el Cliente</a>
+            <div style="margin-top: 30px;">
+              <a href="${wpLink}" style="display: block; width: 100%; box-sizing: border-box; text-align: center; border: 2px solid #16a34a; background-color: #ffffff; color: #15803d; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 12px;">💬 Contactar por WhatsApp</a>
+              <a href="${mailtoLink}" style="display: block; width: 100%; box-sizing: border-box; text-align: center; background-color: #213f8c; color: #ffffff; text-decoration: none; padding: 14px 0; border-radius: 8px; font-weight: bold; font-size: 16px;">✉️ Contactar por Correo Electrónico</a>
+            </div>
           </td>
         </tr>
       </table>
@@ -507,7 +513,7 @@ export default function CheckoutPage({ params }) {
   const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
     setIsProcessing(true);
     const metodoReal = metodoOverride || formData.paymentMethod;
-    const nuevoNumConfirmacion = Math.random().toString(36).substring(2, 10).toUpperCase();
+    const nuevoNumConfirmacion = Math.floor(10000000 + Math.random() * 90000000).toString();
     const datosFinalesCliente = { ...formData, paymentMethod: metodoReal };
 
     // FUSIÓN: Asignamos el vuelo en base al índice para garantizar que si hay 2 productos iguales, tengan sus propios vuelos
