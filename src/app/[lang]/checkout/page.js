@@ -11,6 +11,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { doc, setDoc, getDoc, updateDoc, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../../firebase';
 import { sendEmail } from '../../../utils/sendEmail';
+import PhoneInputWithCountry from '../../../components/PhoneInputWithCountry';
 
 // =========================================================
 // 1. GENERADOR DE PLANTILLA HTML PARA ADMIN
@@ -18,7 +19,20 @@ import { sendEmail } from '../../../utils/sendEmail';
 const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || 'N/A';
   const correoCliente = datosCliente.email || 'N/A';
-  const telefonoCliente = datosCliente.telefono || 'N/A';
+  const rawTelefono = datosCliente.telefono || 'N/A';
+  const ladaCliente = datosCliente.lada || '';
+  const paisCliente = datosCliente.pais || '';
+
+  // Formato claro de teléfono con LADA y País
+  let telefonoCliente = rawTelefono;
+  if (rawTelefono !== 'N/A') {
+    if (ladaCliente && !rawTelefono.startsWith('+') && !rawTelefono.startsWith(ladaCliente)) {
+      telefonoCliente = `${ladaCliente} ${rawTelefono}`;
+    }
+    if (paisCliente) {
+      telefonoCliente = `${telefonoCliente} (${paisCliente})`;
+    }
+  }
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? 'PayPal (Pagado)' : 'Efectivo al llegar';
 
   const tipoServicio = item.subtitulo || 'N/A';
@@ -64,7 +78,13 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   const horaSalida = item.flightInfo?.horaSalida || 'N/A';
   const horaPickUp = item.flightInfo?.horaPickUp || 'N/A';
 
-  const wpLink = telefonoCliente !== 'N/A' ? `https://wa.me/${telefonoCliente.replace(/\D/g, '')}` : '#';
+  const ladaDigits = (ladaCliente || '').replace(/\D/g, '');
+  const telDigits = (rawTelefono !== 'N/A' ? rawTelefono : '').replace(/\D/g, '');
+  let wpPhone = telDigits;
+  if (ladaDigits && !telDigits.startsWith(ladaDigits)) {
+    wpPhone = `${ladaDigits}${telDigits}`;
+  }
+  const wpLink = wpPhone ? `https://wa.me/${wpPhone}` : '#';
   const hotelAsunto = hotelDestino !== 'N/A' && hotelDestino ? hotelDestino : (destino !== 'N/A' && destino ? destino : (item.titulo || 'Servicio'));
   const mailSubject = `SERVICIO: ${hotelAsunto} - Reserva #${numConfirmacion}`;
   const mailtoLink = correoCliente !== 'N/A' ? `mailto:${correoCliente}?subject=${encodeURIComponent(mailSubject)}` : '#';
@@ -119,6 +139,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
             <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Nombre Completo:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${nombreCliente}</td></tr>
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Teléfono:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${telefonoCliente}</td></tr>
+              ${(paisCliente || ladaCliente) ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">País / LADA:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${paisCliente || 'N/A'}${ladaCliente ? ` (${ladaCliente})` : ''}</td></tr>` : ''}
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo Electrónico:</td><td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px; text-decoration: underline;">${correoCliente}</td></tr>
             </table>
 
@@ -152,6 +173,9 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const isEs = lang === 'es';
   const nombreCliente = `${datosCliente.nombre || ''} ${datosCliente.apellidos || ''}`.trim() || (isEs ? 'Pasajero' : 'Passenger');
   const metodoPago = datosCliente.paymentMethod === 'paypal' ? (isEs ? 'PayPal (Pagado)' : 'PayPal (Paid)') : (isEs ? 'Efectivo al llegar' : 'Cash on arrival');
+  const telefonoClienteDisplay = datosCliente.telefono
+    ? `${datosCliente.lada ? `${datosCliente.lada} ` : ''}${datosCliente.telefono}${datosCliente.pais ? ` (${datosCliente.pais})` : ''}`
+    : '';
 
   const esRedondo =
     item.servicio === 'redondo' ||
@@ -298,6 +322,10 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
                 <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${labelPickup}</td>
                 <td style="padding: 10px 0; font-size: 15px; font-weight: 900; color: #ea580c; width: 60%; text-align: right;">${pickup}</td>
               </tr>` : ''}
+              ${telefonoClienteDisplay ? `<tr style="border-bottom: 1px solid #f8fafc;">
+                <td style="padding: 10px 0; font-size: 14px; color: #64748b; width: 40%;">${isEs ? 'Teléfono / WhatsApp:' : 'Phone / WhatsApp:'}</td>
+                <td style="padding: 10px 0; font-size: 14px; font-weight: 600; color: #1e293b; width: 60%; text-align: right;">${telefonoClienteDisplay}</td>
+              </tr>` : ''}
             </tbody>
           </table>
 
@@ -358,6 +386,9 @@ export default function CheckoutPage({ params }) {
   // Formulario con estados dinámicos para salida y llegada
   const [formData, setFormData] = useState({
     nombre: '', apellidos: '', email: '', telefono: '',
+    lada: isEs ? '+52' : '+1',
+    pais: isEs ? 'México' : 'United States',
+    paisCode: isEs ? 'MX' : 'US',
     notas: '', paymentMethod: 'paypal'
   });
   const [vuelosData, setVuelosData] = useState({});
@@ -777,10 +808,21 @@ export default function CheckoutPage({ params }) {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-[11px] font-black text-slate-900 uppercase tracking-widest mb-2 block">{isEs ? 'Teléfono' : 'Phone Number'}</label>
-                    <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                      <input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-300 rounded-xl outline-none text-slate-900 font-bold" />
-                    </div>
+                    <PhoneInputWithCountry
+                      value={formData.telefono}
+                      onChange={handleChange}
+                      selectedCountry={formData.paisCode}
+                      onCountryChange={(c) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          lada: c.dialCode,
+                          pais: isEs ? c.nameEs : c.name,
+                          paisCode: c.code
+                        }));
+                      }}
+                      isEs={isEs}
+                      required
+                    />
                   </div>
                 </div>
               </div>

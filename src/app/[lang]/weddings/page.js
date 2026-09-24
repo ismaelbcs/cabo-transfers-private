@@ -7,6 +7,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { dict as globalDict } from '../../../locales/dict';
 import { sendEmail } from '../../../utils/sendEmail';
+import PhoneInputWithCountry from '../../../components/PhoneInputWithCountry';
 
 // ============================================================================
 // DICCIONARIO LOCAL PARA LA PÁGINA DE BODAS
@@ -172,7 +173,11 @@ export default function WeddingsPage({ params }) {
   const t = globalDict[lang]?.weddings || localDict[lang].weddings;
 
   const [formData, setFormData] = useState({
-    nombre: '', email: '', telefono: '', fecha: '', lugar: '', invitados: '',
+    nombre: '', email: '', telefono: '',
+    lada: lang === 'es' ? '+52' : '+1',
+    pais: lang === 'es' ? 'México' : 'United States',
+    paisCode: lang === 'es' ? 'MX' : 'US',
+    fecha: '', lugar: '', invitados: '',
     servicios: { guestTransport: false, vipTransport: false, photoVideo: false, makeup: false, tours: false },
     comentario: ''
   });
@@ -190,12 +195,23 @@ export default function WeddingsPage({ params }) {
       .join(', ');
 
     const emailSubject = `NUEVA SOLICITUD DE BODA: ${formData.nombre} - ${formData.fecha}`;
+    const lada = formData.lada || '';
+    const pais = formData.pais || '';
+    let telefonoFormateado = formData.telefono || '';
+    if (lada && !telefonoFormateado.startsWith('+') && !telefonoFormateado.startsWith(lada)) {
+      telefonoFormateado = `${lada} ${telefonoFormateado}`;
+    }
+    if (pais) {
+      telefonoFormateado = `${telefonoFormateado} (${pais})`;
+    }
+
     const emailHtml = `
       <div style="font-family: sans-serif; padding: 20px;">
         <h2>Solicitud de Boda / Evento</h2>
         <p><strong>Organizador/Novios:</strong> ${formData.nombre}</p>
         <p><strong>Correo:</strong> ${formData.email}</p>
-        <p><strong>WhatsApp:</strong> ${formData.telefono}</p>
+        <p><strong>WhatsApp / Teléfono:</strong> ${telefonoFormateado}</p>
+        ${(pais || lada) ? `<p><strong>País / LADA:</strong> ${pais || 'N/A'}${lada ? ` (${lada})` : ''}</p>` : ''}
         <p><strong>Fecha del Evento:</strong> ${formData.fecha}</p>
         <p><strong>Lugar:</strong> ${formData.lugar}</p>
         <p><strong>Invitados a transportar:</strong> ${formData.invitados}</p>
@@ -223,7 +239,11 @@ export default function WeddingsPage({ params }) {
       setEnviado(true);
       setTimeout(() => setEnviado(false), 8000);
       setFormData({
-        nombre: '', email: '', telefono: '', fecha: '', lugar: '', invitados: '',
+        nombre: '', email: '', telefono: '',
+        lada: lang === 'es' ? '+52' : '+1',
+        pais: lang === 'es' ? 'México' : 'United States',
+        paisCode: lang === 'es' ? 'MX' : 'US',
+        fecha: '', lugar: '', invitados: '',
         servicios: { guestTransport: false, vipTransport: false, photoVideo: false, makeup: false, tours: false },
         comentario: ''
       });
@@ -427,8 +447,23 @@ export default function WeddingsPage({ params }) {
                     
                     <div className="relative group">
                       <label className="block text-[10px] font-bold text-stone-400 mb-1 uppercase tracking-widest">{t.phone}</label>
-                      <input required type="tel" name="telefono" value={formData.telefono} onChange={handleChange} 
-                        className="w-full bg-transparent border-b-2 border-stone-200 py-2 focus:border-rose-400 outline-none transition-colors text-stone-800 placeholder-stone-300" placeholder={t.phonePh} />
+                      <PhoneInputWithCountry
+                        variant="underline"
+                        value={formData.telefono}
+                        onChange={handleChange}
+                        selectedCountry={formData.paisCode}
+                        onCountryChange={(c) => {
+                          setFormData(prev => ({
+                            ...prev,
+                            lada: c.dialCode,
+                            pais: lang === 'es' ? c.nameEs : c.name,
+                            paisCode: c.code
+                          }));
+                        }}
+                        isEs={lang === 'es'}
+                        placeholder={t.phonePh}
+                        required
+                      />
                     </div>
                     
                     <div className="relative group">
