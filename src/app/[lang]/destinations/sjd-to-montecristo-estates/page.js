@@ -512,9 +512,9 @@ export default function DestinationPage({ params }) {
   };
 
   // 4. ESTADOS LOCALES PARA EL FORMULARIO
-  const [searchTerm, setSearchTerm] = useState(reserva.hotelId || hotel?.nombre || '');
-  const [activeHotelName, setActiveHotelName] = useState(reserva.hotelId || hotel?.nombre || '');
-  const [activeZona, setActiveZona] = useState(reserva.zonaId || hotel?.zona || 1);
+  const [searchTerm, setSearchTerm] = useState(hotel?.nombre || '');
+  const [activeHotelName, setActiveHotelName] = useState(hotel?.nombre || '');
+  const [activeZona, setActiveZona] = useState(hotel?.zona || 3);
   const [showDropdown, setShowDropdown] = useState(false);
   
   const [vehiculo, setVehiculo] = useState(reserva.vehiculo || 'suburban');

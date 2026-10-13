@@ -32,10 +32,9 @@ const hotelData = {
 
 const zonasPrecios = [
   { id: 1, tarifaSuburban: 80, tarifaSprinter: 110 },
-  { id: 2, tarifaSuburban: 90, tarifaSprinter: 125 },
-  { id: 3, tarifaSuburban: 100, tarifaSprinter: 135 },
-  { id: 4, tarifaSuburban: 120, tarifaSprinter: 160 },
-  { id: 5, tarifaSuburban: 155, tarifaSprinter: 195 },
+  { id: 2, tarifaSuburban: 90, tarifaSprinter: 120 },
+  { id: 3, tarifaSuburban: 110, tarifaSprinter: 140 },
+  { id: 4, tarifaSuburban: 140, tarifaSprinter: 160 }
 ];
 
 export const hotelesBase = [
@@ -67,15 +66,15 @@ export default function HyattZivaDestinationPage({ params }) {
   const { reserva, setReserva, setServicioSeleccionado, setPaso, setBusquedaHotelPrincipal } = useBooking();
 
   const hotel = hotelData;
-  const tarifaVehiculo = zonasPrecios.find(z => z.id === 1) || { tarifaSuburban: 80, tarifaSprinter: 110 };
-
-  const [searchTerm, setSearchTerm] = useState(reserva.hotelId || hotel.nombre);
-  const [activeHotelName, setActiveHotelName] = useState(reserva.hotelId || hotel.nombre);
-  const [activeZona, setActiveZona] = useState(reserva.zonaId || hotel.zona);
+  const [searchTerm, setSearchTerm] = useState(hotel.nombre);
+  const [activeHotelName, setActiveHotelName] = useState(hotel.nombre);
+  const [activeZona, setActiveZona] = useState(hotel.zona);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [vehiculo, setVehiculo] = useState(reserva.vehiculo || 'suburban');
+  const [vehiculo, setVehiculo] = useState('suburban');
   const [fechaLlegada, setFechaLlegada] = useState(reserva.fechaLlegada || '');
   const [pasajeros, setPasajeros] = useState(reserva.pasajeros || 1);
+
+  const tarifaVehiculo = zonasPrecios.find(z => z.id === activeZona) || { tarifaSuburban: 80, tarifaSprinter: 110 };
 
   const filteredHotels = hotelesBase.filter(h => 
     searchTerm.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w))
@@ -580,17 +579,58 @@ export default function HyattZivaDestinationPage({ params }) {
               )}
             </div>
 
-            {/* PRECIO EN VIVO */}
-            <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-6 text-center">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-                {isEs ? 'Tarifa Sencilla Desde (1-6 pax)' : 'One-Way Private Rate (1-6 pax)'}
-              </p>
-              <p className="text-3xl font-black text-blue-900 tracking-tight">
-                ${tarifaVehiculo.tarifaSuburban} USD
-              </p>
-              <p className="text-[11px] font-semibold text-emerald-600 mt-1">
-                ✓ {isEs ? 'Impuestos y peajes incluidos' : 'All taxes, tolls & drinks included'}
-              </p>
+            {/* TIPO DE VEHÍCULO */}
+            <div className="mb-6">
+              <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                {isEs ? 'Tipo de Vehículo' : 'Vehicle Type'}
+              </label>
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                
+                {/* Opcion Luxury SUV */}
+                <button 
+                  type="button"
+                  onClick={() => setVehiculo('suburban')} 
+                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculo === 'suburban' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                >
+                  <div className="flex justify-between items-start w-full mb-2">
+                    <span className="font-bold text-slate-900">Luxury SUV</span>
+                    <Car size={18} className={vehiculo === 'suburban' ? 'text-blue-900' : 'text-slate-400'} />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">
+                    {isEs ? 'Elegancia y confort para familias o grupos pequeños.' : 'Elegance and comfort for families or small groups.'}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold">
+                      <Users size={12} /> {isEs ? 'MÁX 6 PAX' : 'MAX 6 PAX'}
+                    </div>
+                    <span className="font-black text-slate-900 text-sm">${tarifaVehiculo.tarifaSuburban}</span>
+                  </div>
+                </button>
+
+                {/* Opcion Van */}
+                <button 
+                  type="button"
+                  onClick={() => setVehiculo('sprinter')} 
+                  className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${vehiculo === 'sprinter' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                >
+                  <div className="flex justify-between items-start w-full mb-2">
+                    <span className="font-bold text-slate-900">Van</span>
+                    <Car size={18} className={vehiculo === 'sprinter' ? 'text-blue-900' : 'text-slate-400'} />
+                  </div>
+                  <p className="text-[10px] text-slate-500 mb-4 leading-tight">
+                    {isEs ? 'Amplitud y lujo para grupos grandes.' : 'Spaciousness and luxury for large groups.'}
+                  </p>
+                  
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold">
+                      <Users size={12} /> {isEs ? 'MÁX 10 PAX' : 'MAX 10 PAX'}
+                    </div>
+                    <span className="font-black text-slate-900 text-sm">${tarifaVehiculo.tarifaSprinter}</span>
+                  </div>
+                </button>
+
+              </div>
             </div>
 
             {/* FORMULARIO RÁPIDO */}

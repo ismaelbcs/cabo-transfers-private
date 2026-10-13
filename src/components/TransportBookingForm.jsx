@@ -45,10 +45,10 @@ export default function TransportBookingForm({ lang = 'es' }) {
   }
 
   const multiplicadorViaje = servicioSeleccionado === 'redondo' ? 2 : 1;
-  const descuentoRedondo = (servicioSeleccionado === 'redondo' && tarifaBase > 0) ? 20 : 0;
+  const descuentoRedondo = (servicioSeleccionado === 'redondo' && (tarifaBase * 2) === 220) ? 20 : 0;
   const precioShopping = reserva.shoppingStop ? 30 : 0;
   
-  // Total con descuento aplicado solo en viaje redondo
+  // Total con descuento aplicado solo en viaje redondo de $220 (quedando en $200)
   const totalReal = Math.max(0, (tarifaBase * multiplicadorViaje) - descuentoRedondo + precioShopping);
 
   const formularioCompleto = reserva.hotelId && reserva.fechaLlegada && (servicioSeleccionado !== 'redondo' || reserva.fechaSalida);
