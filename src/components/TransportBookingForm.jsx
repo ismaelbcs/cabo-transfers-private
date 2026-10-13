@@ -45,10 +45,11 @@ export default function TransportBookingForm({ lang = 'es' }) {
   }
 
   const multiplicadorViaje = servicioSeleccionado === 'redondo' ? 2 : 1;
+  const descuentoRedondo = (servicioSeleccionado === 'redondo' && tarifaBase > 0) ? 20 : 0;
   const precioShopping = reserva.shoppingStop ? 30 : 0;
   
-  // Reemplaza la matemática por esta línea simple:
-  const totalReal = (tarifaBase * multiplicadorViaje) + precioShopping;
+  // Total con descuento aplicado solo en viaje redondo
+  const totalReal = Math.max(0, (tarifaBase * multiplicadorViaje) - descuentoRedondo + precioShopping);
 
   const formularioCompleto = reserva.hotelId && reserva.fechaLlegada && (servicioSeleccionado !== 'redondo' || reserva.fechaSalida);
 
@@ -280,8 +281,14 @@ export default function TransportBookingForm({ lang = 'es' }) {
                 <span className="font-bold text-white uppercase text-[10px] tracking-widest bg-slate-800 px-3 py-1 rounded-lg">{reserva.vehiculo}</span>
               </div>
 
-              {(reserva.carSeat > 0 || reserva.babySeat > 0 || reserva.boosterSeat > 0 || reserva.shoppingStop) && (
+              {(reserva.carSeat > 0 || reserva.babySeat > 0 || reserva.boosterSeat > 0 || reserva.shoppingStop || descuentoRedondo > 0) && (
                 <div className="pt-4 border-t border-slate-800 space-y-3 mt-4">
+                  {descuentoRedondo > 0 && (
+                    <div className="flex justify-between text-emerald-400 font-bold">
+                      <span>{lang === 'es' ? 'Descuento Viaje Redondo:' : 'Round Trip Discount:'}</span>
+                      <span className="bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 px-2 py-0.5 rounded text-xs font-bold">-$20 USD</span>
+                    </div>
+                  )}
                   {reserva.carSeat > 0 && <div className="flex justify-between text-slate-400"><span>- Car Seat:</span> <span className="text-white bg-slate-800 px-2 py-0.5 rounded text-xs">{reserva.carSeat} ({lang === 'es' ? 'Gratis' : 'Free'})</span></div>}
                   {reserva.babySeat > 0 && <div className="flex justify-between text-slate-400"><span>- Baby Seat:</span> <span className="text-white bg-slate-800 px-2 py-0.5 rounded text-xs">{reserva.babySeat} ({lang === 'es' ? 'Gratis' : 'Free'})</span></div>}
                   {reserva.boosterSeat > 0 && <div className="flex justify-between text-slate-400"><span>- Booster Seat:</span> <span className="text-white bg-slate-800 px-2 py-0.5 rounded text-xs">{reserva.boosterSeat} ({lang === 'es' ? 'Gratis' : 'Free'})</span></div>}
