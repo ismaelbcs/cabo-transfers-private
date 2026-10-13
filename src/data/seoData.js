@@ -1099,8 +1099,8 @@ export const catalogoHoteles = [
 
 // 2. Datos de Zonas (Lo que antes era INITIAL_ZONAS)
 export const zonasData = [
-  { id: 1, nombre: 'San José del Cabo', tarifaSuburban: 85, tarifaSprinter: 120 },
-  { id: 2, nombre: 'Corredor Turístico', tarifaSuburban: 100, tarifaSprinter: 140 },
-  { id: 3, nombre: 'Cabo San Lucas', tarifaSuburban: 120, tarifaSprinter: 160 },
-  { id: 4, nombre: 'Pacífico / Quivira', tarifaSuburban: 140, tarifaSprinter: 180 },
+  { id: 1, nombre: 'San José del Cabo', tarifaSuburban: 80, tarifaSprinter: 110 },
+  { id: 2, nombre: 'Corredor Turístico', tarifaSuburban: 90, tarifaSprinter: 120 },
+  { id: 3, nombre: 'Cabo San Lucas', tarifaSuburban: 110, tarifaSprinter: 140 },
+  { id: 4, nombre: 'Pacífico / Quivira', tarifaSuburban: 140, tarifaSprinter: 160 },
 ];
