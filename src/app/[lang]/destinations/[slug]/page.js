@@ -1220,7 +1220,11 @@ export default function DestinationPage({ params }) {
             </ul>
 
             <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img src="/private-transportation-sjd-airport-los-cabos-luxury.webp" alt="Luxury Cabo Transportation" className="w-full h-auto object-cover max-h-[400px]" />
+              <img 
+                src={isZona5 ? "/suburban-airport-los-cabos-ballard.webp" : "/private-transportation-sjd-airport-los-cabos-luxury.webp"} 
+                alt="Luxury Cabo Transportation" 
+                className="w-full h-auto object-cover max-h-[400px]" 
+              />
             </div>
 
             <p className="mb-4 text-slate-600 text-sm md:text-base">
@@ -1304,29 +1308,24 @@ export default function DestinationPage({ params }) {
                 : `Booking transportation from Cabo Airport to ${hotel.nombre} can be simple with the right approach. Pre-booking online is highly advised, especially in peak seasons.`}
             </p>
 
-            <div className="my-8 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img 
-                src={isZona5 
-                  ? '/suburban-airport-los-cabos-ballard.webp' 
-                  : (hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp')
-                } 
-                alt={hotel.nombre} 
-                className="w-full h-auto object-cover max-h-[400px]" 
-                onError={(e) => {
-                  if (isZona5) {
-                    e.currentTarget.src = '/suburban-airport-los-cabos-ballard.webp';
-                    return;
-                  }
-                  if (!e.currentTarget.dataset.fallbackTried) {
-                    e.currentTarget.dataset.fallbackTried = '1';
-                    e.currentTarget.src = `/hotel/${hotel.image?.replace(/^hotel\//, '')}`;
-                  } else if (e.currentTarget.dataset.fallbackTried === '1') {
-                    e.currentTarget.dataset.fallbackTried = '2';
-                    e.currentTarget.src = '/private-transportation-sjd-airport-los-cabos-luxury.webp';
-                  }
-                }}
-              />
-            </div>
+            {!isZona5 && (
+              <div className="my-8 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <img 
+                  src={hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp'} 
+                  alt={hotel.nombre} 
+                  className="w-full h-auto object-cover max-h-[400px]" 
+                  onError={(e) => {
+                    if (!e.currentTarget.dataset.fallbackTried) {
+                      e.currentTarget.dataset.fallbackTried = '1';
+                      e.currentTarget.src = `/hotel/${hotel.image?.replace(/^hotel\//, '')}`;
+                    } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                      e.currentTarget.dataset.fallbackTried = '2';
+                      e.currentTarget.src = '/private-transportation-sjd-airport-los-cabos-luxury.webp';
+                    }
+                  }}
+                />
+              </div>
+            )}
 
             <ul className="list-disc pl-5 space-y-3 text-slate-700 text-sm md:text-base mb-8">
               <li><strong>{lang === 'es' ? 'Credenciales:' : 'Credentials:'}</strong> {lang === 'es' ? 'Asegúrate de que la compañía tenga licencia federal, lo que les permite cargar dentro del aeropuerto.' : 'Ensure the company is federally licensed, which allows them to pick up inside the airport terminal.'}</li>
