@@ -4,7 +4,7 @@ export const dict = {
   en: {
     seoTitle: "Cabo Airport Shuttle & Private Transportation | Book Online",
     seoDesc: "The best Airport Shuttle Los Cabos and private Taxi airport cabo. Reliable, safe, and luxury Cabo Airport Shuttle services. Book your transportation today.",
-    nav: { home: "Home", rates: "Rates & Zones", fleet: "Fleet", experiences: "Experiences", login: "LOGIN" },
+    nav: { home: "Home", rates: "Rates & Zones", fleet: "Fleet", experiences: "Experiences", login: "Login" },
     hero: {
       title: "Cabo Airport Shuttle & Private Transportation",
       subtitle: "Book your safe, no-lines, door-to-door Airport Shuttle Los Cabos directly to your hotel or villa.",
@@ -113,7 +113,7 @@ export const dict = {
   es: {
     seoTitle: "Transporte Privado y Shuttles en Los Cabos | Reserva Online",
     seoDesc: "El mejor transporte desde el aeropuerto de Los Cabos. Seguro, confiable y de lujo. Reserva tu traslado hoy.",
-    nav: { home: "Inicio", rates: "Tarifas y Zonas", fleet: "Flotas", experiences: "Experiencias", login: "VICENTE" },
+    nav: { home: "Inicio", rates: "Tarifas y Zonas", fleet: "Flotas", experiences: "Experiencias", login: "Iniciar Sesión" },
     hero: {
       title: "Transporte Privado y Shuttles en Los Cabos",
       subtitle: "Reserva tu traslado seguro, sin filas y puerta a puerta en el Aeropuerto SJD.",
