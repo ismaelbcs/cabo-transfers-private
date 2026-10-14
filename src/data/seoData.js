@@ -455,6 +455,58 @@ export const landingPagesSEO = [
   { slug: 'sjd-to-the-st-regis-residences-los-cabos', nombre: 'The St. Regis Residences Los Cabos', zona: 4, zonaText: 'Pacific Zone', tiempo: '50-60 min', dist: '50 km', image: 'sjd-to-the-st-regis-residences-los-cabos.webp', desc: 'a serene oasis on the Pacific' },
   { slug: 'sjd-to-the-villas-at-rancho-san-lucas', nombre: 'The Villas at Rancho San Lucas', zona: 4, zonaText: 'Pacific Zone', tiempo: '50-60 min', dist: '50 km', image: 'sjd-to-the-villas-at-rancho-san-lucas.webp', desc: 'a serene oasis on the Pacific' },
 
+  // ================= ZONA 5: TODOS SANTOS, PESCADERO, LOS BARRILES, BUENA VISTA, LA RIBERA =================
+  // Los Barriles - Hoteles
+  { slug: 'sjd-to-hotel-palmas-de-cortez', nombre: 'Hotel Palmas De Cortez', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-hotel-palmas-de-cortez.webp', desc: 'legendary beachfront fishing resort in Los Barriles', mapQuery: 'Hotel Palmas De Cortez, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-hotel-playa-del-sol', nombre: 'Hotel Playa del Sol', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-hotel-playa-del-sol.webp', desc: 'tranquil beachfront getaway in East Cape', mapQuery: 'Hotel Playa del Sol, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-punta-pescadero-paradise-hotel-villas', nombre: 'Punta Pescadero Paradise Hotel & Villas', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 35 min', dist: '125 km', image: 'sjd-to-punta-pescadero-paradise-hotel-villas.webp', desc: 'secluded paradise perched over the Sea of Cortez', mapQuery: 'Punta Pescadero Paradise Hotel & Villas, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-los-barriles-hotel', nombre: 'Los Barriles Hotel', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '109 km', image: 'sjd-to-los-barriles-hotel.webp', desc: 'charming boutique hotel in the heart of Los Barriles', mapQuery: 'Los Barriles Hotel, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-hotel-hondo-boutique-hotel', nombre: 'Hotel Hondo (Boutique Hotel)', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-hotel-hondo-boutique-hotel.webp', desc: 'stylish boutique stay in Los Barriles', mapQuery: 'Hotel Hondo, Los Barriles, Baja California Sur' },
+  // Los Barriles - Villas y Rentas Vacacionales
+  { slug: 'sjd-to-casa-cielo-los-barriles', nombre: 'Casa Cielo (Los Barriles)', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-casa-cielo-los-barriles.webp', desc: 'spectacular ocean view vacation villa in Los Barriles', mapQuery: 'Casa Cielo, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-casa-alta-vista', nombre: 'Casa Alta Vista', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-casa-alta-vista.webp', desc: 'panoramic sea views luxury villa in Los Barriles', mapQuery: 'Casa Alta Vista, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-ora-casita', nombre: 'Ora Casita', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-ora-casita.webp', desc: 'peaceful coastal retreat in Los Barriles', mapQuery: 'Ora Casita, Los Barriles, Baja California Sur' },
+  { slug: 'sjd-to-casita-cacti', nombre: 'Casita Cacti', zona: 5, zonaText: 'Los Barriles', tiempo: '1 hr 15 min', dist: '110 km', image: 'sjd-to-casita-cacti.webp', desc: 'charming desert and sea casita in Los Barriles', mapQuery: 'Casita Cacti, Los Barriles, Baja California Sur' },
+
+  // Buena Vista - Hoteles
+  { slug: 'sjd-to-buena-vista-oceanfront-hot-springs-resort', nombre: 'Buena Vista Oceanfront & Hot Springs Resort', zona: 5, zonaText: 'Buena Vista', tiempo: '1 hr 10 min', dist: '105 km', image: 'sjd-to-buena-vista-oceanfront-hot-springs-resort.webp', desc: 'historic hot springs oceanfront resort in Buena Vista', mapQuery: 'Buena Vista Oceanfront & Hot Springs Resort, Buena Vista, Baja California Sur' },
+  // Buena Vista - Villas y Rentas Vacacionales
+  { slug: 'sjd-to-luxury-casa-alma-del-cabo', nombre: 'Luxury Casa Alma del Cabo', zona: 5, zonaText: 'Buena Vista', tiempo: '1 hr 10 min', dist: '105 km', image: 'sjd-to-luxury-casa-alma-del-cabo.webp', desc: 'exclusive luxury beachfront residence in Buena Vista', mapQuery: 'Casa Alma del Cabo, Buena Vista, Baja California Sur' },
+  { slug: 'sjd-to-la-casa-del-beto', nombre: 'La Casa del Beto', zona: 5, zonaText: 'Buena Vista', tiempo: '1 hr 10 min', dist: '105 km', image: 'sjd-to-la-casa-del-beto.webp', desc: 'cozy authentic vacation rental in Buena Vista', mapQuery: 'La Casa del Beto, Buena Vista, Baja California Sur' },
+
+  // La Ribera - Hoteles
+  { slug: 'sjd-to-four-seasons-resort-los-cabos-at-costa-palmas', nombre: 'Four Seasons Resort Los Cabos at Costa Palmas', zona: 5, zonaText: 'La Ribera', tiempo: '45-55 min', dist: '68 km', image: 'sjd-to-four-seasons-resort-los-cabos-at-costa-palmas.webp', desc: 'ultra-luxury haven on the calm East Cape shores', mapQuery: 'Four Seasons Resort Los Cabos at Costa Palmas, La Ribera, Baja California Sur' },
+  // La Ribera - Villas y Rentas Vacacionales
+  { slug: 'sjd-to-casa-marlin-azul', nombre: 'Casa Marlin Azul', zona: 5, zonaText: 'La Ribera', tiempo: '45-55 min', dist: '68 km', image: 'sjd-to-casa-marlin-azul.webp', desc: 'private beachfront villa in La Ribera East Cape', mapQuery: 'Casa Marlin Azul, La Ribera, Baja California Sur' },
+  { slug: 'sjd-to-villas-costa-palmas', nombre: 'Villas Costa Palmas', zona: 5, zonaText: 'La Ribera', tiempo: '45-55 min', dist: '68 km', image: 'sjd-to-villas-costa-palmas.webp', desc: 'premier estate villas in exclusive Costa Palmas community', mapQuery: 'Costa Palmas, La Ribera, Baja California Sur' },
+
+  // El Pescadero (incluyendo Playa Los Cerritos) - Hoteles
+  { slug: 'sjd-to-cerritos-surf-town-beach-hotel-spa', nombre: 'Cerritos Surf Town Beach Hotel & Spa', zona: 5, zonaText: 'El Pescadero / Cerritos', tiempo: '1 hr 10 min', dist: '95 km', image: 'sjd-to-cerritos-surf-town-beach-hotel-spa.webp', desc: 'premier beachfront surf hotel and spa at Cerritos Beach', mapQuery: 'Cerritos Surf Town Beach Hotel & Spa, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-cerritos-beach-inn', nombre: 'Cerritos Beach Inn', zona: 5, zonaText: 'El Pescadero / Cerritos', tiempo: '1 hr 10 min', dist: '95 km', image: 'sjd-to-cerritos-beach-inn.webp', desc: 'intimate oceanfront inn right on Cerritos Beach', mapQuery: 'Cerritos Beach Inn, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-mayan-secret-boutique-hotel', nombre: 'Mayan Secret Boutique Hotel', zona: 5, zonaText: 'El Pescadero / Cerritos', tiempo: '1 hr 10 min', dist: '96 km', image: 'sjd-to-mayan-secret-boutique-hotel.webp', desc: 'bohemian sanctuary tucked in El Pescadero', mapQuery: 'Mayan Secret Boutique Hotel, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-pescadero-palace', nombre: 'Pescadero Palace', zona: 5, zonaText: 'El Pescadero', tiempo: '1 hr 10 min', dist: '97 km', image: 'sjd-to-pescadero-palace.webp', desc: 'luxury oceanfront retreat in El Pescadero', mapQuery: 'Pescadero Palace, El Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-olas-de-cerritos', nombre: 'Olas de Cerritos', zona: 5, zonaText: 'El Pescadero / Cerritos', tiempo: '1 hr 10 min', dist: '95 km', image: 'sjd-to-olas-de-cerritos.webp', desc: 'relaxed surf haven steps from Playa Los Cerritos', mapQuery: 'Olas de Cerritos, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-rancho-pescadero', nombre: 'Rancho Pescadero', zona: 5, zonaText: 'El Pescadero', tiempo: '1 hr 10 min', dist: '98 km', image: 'sjd-to-rancho-pescadero.webp', desc: 'world-renowned luxury wellness resort in El Pescadero', mapQuery: 'Rancho Pescadero, El Pescadero, Baja California Sur' },
+  // El Pescadero - Villas y Rentas Vacacionales
+  { slug: 'sjd-to-villas-de-cerritos-beach', nombre: 'Villas de Cerritos Beach', zona: 5, zonaText: 'El Pescadero / Cerritos', tiempo: '1 hr 10 min', dist: '95 km', image: 'sjd-to-villas-de-cerritos-beach.webp', desc: 'comfortable vacation community villas at Cerritos Beach', mapQuery: 'Villas de Cerritos Beach, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-cerritos-surf-residences', nombre: 'Cerritos Surf Residences', zona: 5, zonaText: 'El Pescadero / Cerritos', tiempo: '1 hr 10 min', dist: '95 km', image: 'sjd-to-cerritos-surf-residences.webp', desc: 'contemporary surf residences overlooking Playa Cerritos', mapQuery: 'Cerritos Surf Residences, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-casitas-el-dorado', nombre: 'Casitas El Dorado', zona: 5, zonaText: 'El Pescadero', tiempo: '1 hr 10 min', dist: '96 km', image: 'sjd-to-casitas-el-dorado.webp', desc: 'charming rustic casitas near the coast in El Pescadero', mapQuery: 'Casitas El Dorado, Pescadero, Baja California Sur' },
+  { slug: 'sjd-to-villas-pescadero', nombre: 'Villas Pescadero', zona: 5, zonaText: 'El Pescadero', tiempo: '1 hr 10 min', dist: '97 km', image: 'sjd-to-villas-pescadero.webp', desc: 'spacious vacation villas in tranquil El Pescadero', mapQuery: 'Villas Pescadero, El Pescadero, Baja California Sur' },
+
+  // Todos Santos - Hoteles
+  { slug: 'sjd-to-hotel-san-cristobal', nombre: 'Hotel San Cristóbal', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '108 km', image: 'sjd-to-hotel-san-cristobal.webp', desc: 'iconic Bunkhouse luxury beachfront hotel at Punta Lobos', mapQuery: 'Hotel San Cristóbal, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-paradero-todos-santos', nombre: 'Paradero Todos Santos', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 15 min', dist: '105 km', image: 'sjd-to-paradero-todos-santos.webp', desc: 'award-winning architectural luxury experience resort', mapQuery: 'Paradero Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-hotel-california', nombre: 'Hotel California', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-hotel-california.webp', desc: 'legendary historic hotel in downtown Todos Santos', mapQuery: 'Hotel California, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-guaycura-boutique-hotel-beach-club-spa', nombre: 'Guaycura Boutique Hotel Beach Club & Spa', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-guaycura-boutique-hotel-beach-club-spa.webp', desc: 'historic elegance and oceanfront beach club in Todos Santos', mapQuery: 'Guaycura Boutique Hotel Beach Club & Spa, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-villa-santa-cruz', nombre: 'Villa Santa Cruz', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 30 min', dist: '116 km', image: 'sjd-to-villa-santa-cruz.webp', desc: 'luxury boutique beachfront villa and hotel in Todos Santos', mapQuery: 'Villa Santa Cruz, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-the-todos-santos-inn', nombre: 'The Todos Santos Inn', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-the-todos-santos-inn.webp', desc: 'historic 19th-century hacienda inn in Todos Santos', mapQuery: 'The Todos Santos Inn, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-hacienda-todos-los-santos', nombre: 'Hacienda Todos Los Santos', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '111 km', image: 'sjd-to-hacienda-todos-los-santos.webp', desc: 'secluded tropical oasis boutique hotel in Todos Santos', mapQuery: 'Hacienda Todos Los Santos, Todos Santos, Baja California Sur' },
+  // Todos Santos - Villas y Rentas Vacacionales
+  { slug: 'sjd-to-los-colibris-casitas', nombre: 'Los Colibris Casitas', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-los-colibris-casitas.webp', desc: 'hillside casitas with panoramic Pacific views in Todos Santos', mapQuery: 'Los Colibris Casitas, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-villas-la-mar', nombre: 'Villas La Mar', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 25 min', dist: '112 km', image: 'sjd-to-villas-la-mar.webp', desc: 'dramatic cliffside ocean view villas in Todos Santos', mapQuery: 'Villas La Mar, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-sole-caliente', nombre: 'Sole Caliente', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-sole-caliente.webp', desc: 'bohemian luxury casitas and stay in Todos Santos', mapQuery: 'Sole Caliente, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-perro-surfero', nombre: 'Perro Surfero', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-perro-surfero.webp', desc: 'co-living eco-boutique hotel in Todos Santos', mapQuery: 'Perro Surfero, Todos Santos, Baja California Sur' },
+  { slug: 'sjd-to-villas-del-mar-todos-santos', nombre: 'Villas del Mar (Todos Santos)', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'sjd-to-villas-del-mar-todos-santos.webp', desc: 'serene coastal villas in Todos Santos', mapQuery: 'Villas del Mar, Todos Santos, Baja California Sur' },
 
 ];
 
@@ -1094,6 +1146,45 @@ export const catalogoHoteles = [
   { id: 436, nombre: 'Rancho San Lucas Private Estates', zona: 4 }, { id: 429, nombre: 'Rolling Hills Estates', zona: 4 }, { id: 428, nombre: 'The Residences at Grand Solmar Pacific Dunes', zona: 4 }, { id: 410, nombre: 'The St. Regis Los Cabos at Quivira', zona: 4 }, { id: 416, nombre: 'The St. Regis Residences Los Cabos', zona: 4 }, 
   { id: 427, nombre: 'The Villas at Rancho San Lucas', zona: 4 }, { id: 401, nombre: 'Waldorf Astoria Los Cabos Pedregal', zona: 4 }, 
 
+  // ZONA 5
+  { id: 601, nombre: 'Hotel Palmas De Cortez', zona: 5 },
+  { id: 602, nombre: 'Hotel Playa del Sol', zona: 5 },
+  { id: 603, nombre: 'Punta Pescadero Paradise Hotel & Villas', zona: 5 },
+  { id: 604, nombre: 'Los Barriles Hotel', zona: 5 },
+  { id: 605, nombre: 'Hotel Hondo (Boutique Hotel)', zona: 5 },
+  { id: 606, nombre: 'Casa Cielo (Los Barriles)', zona: 5 },
+  { id: 607, nombre: 'Casa Alta Vista', zona: 5 },
+  { id: 608, nombre: 'Ora Casita', zona: 5 },
+  { id: 609, nombre: 'Casita Cacti', zona: 5 },
+  { id: 610, nombre: 'Buena Vista Oceanfront & Hot Springs Resort', zona: 5 },
+  { id: 611, nombre: 'Luxury Casa Alma del Cabo', zona: 5 },
+  { id: 612, nombre: 'La Casa del Beto', zona: 5 },
+  { id: 613, nombre: 'Four Seasons Resort Los Cabos at Costa Palmas', zona: 5 },
+  { id: 614, nombre: 'Casa Marlin Azul', zona: 5 },
+  { id: 615, nombre: 'Villas Costa Palmas', zona: 5 },
+  { id: 616, nombre: 'Cerritos Surf Town Beach Hotel & Spa', zona: 5 },
+  { id: 617, nombre: 'Cerritos Beach Inn', zona: 5 },
+  { id: 618, nombre: 'Mayan Secret Boutique Hotel', zona: 5 },
+  { id: 619, nombre: 'Pescadero Palace', zona: 5 },
+  { id: 620, nombre: 'Olas de Cerritos', zona: 5 },
+  { id: 621, nombre: 'Rancho Pescadero', zona: 5 },
+  { id: 622, nombre: 'Villas de Cerritos Beach', zona: 5 },
+  { id: 623, nombre: 'Cerritos Surf Residences', zona: 5 },
+  { id: 624, nombre: 'Casitas El Dorado', zona: 5 },
+  { id: 625, nombre: 'Villas Pescadero', zona: 5 },
+  { id: 626, nombre: 'Hotel San Cristóbal', zona: 5 },
+  { id: 627, nombre: 'Paradero Todos Santos', zona: 5 },
+  { id: 628, nombre: 'Hotel California', zona: 5 },
+  { id: 629, nombre: 'Guaycura Boutique Hotel Beach Club & Spa', zona: 5 },
+  { id: 630, nombre: 'Villa Santa Cruz', zona: 5 },
+  { id: 631, nombre: 'The Todos Santos Inn', zona: 5 },
+  { id: 632, nombre: 'Hacienda Todos Los Santos', zona: 5 },
+  { id: 633, nombre: 'Los Colibris Casitas', zona: 5 },
+  { id: 634, nombre: 'Villas La Mar', zona: 5 },
+  { id: 635, nombre: 'Sole Caliente', zona: 5 },
+  { id: 636, nombre: 'Perro Surfero', zona: 5 },
+  { id: 637, nombre: 'Villas del Mar (Todos Santos)', zona: 5 }
+
 ].sort((a, b) => a.nombre.localeCompare(b.nombre));
 
 
@@ -1103,4 +1194,5 @@ export const zonasData = [
   { id: 2, nombre: 'Corredor Turístico', tarifaSuburban: 90, tarifaSprinter: 120 },
   { id: 3, nombre: 'Cabo San Lucas', tarifaSuburban: 110, tarifaSprinter: 140 },
   { id: 4, nombre: 'Pacífico / Quivira', tarifaSuburban: 140, tarifaSprinter: 160 },
+  { id: 5, nombre: 'Zona 5: Todos Santos / El Pescadero / Los Barriles', tarifaSuburban: 300, tarifaSprinter: 380, roundTripSuburban: 580, roundTripSprinter: 740 },
 ];

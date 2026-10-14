@@ -45,10 +45,21 @@ export default function TransportBookingForm({ lang = 'es' }) {
   }
 
   const multiplicadorViaje = servicioSeleccionado === 'redondo' ? 2 : 1;
-  const descuentoRedondo = (servicioSeleccionado === 'redondo' && (tarifaBase * 2) === 220) ? 20 : 0;
+  let descuentoRedondo = 0;
+  if (servicioSeleccionado === 'redondo') {
+    if (zonaSeleccionada?.id === 5) {
+      descuentoRedondo = 20;
+    } else if (zonaSeleccionada?.roundTripSuburban && reserva.vehiculo === 'suburban') {
+      descuentoRedondo = Math.max(0, (tarifaBase * 2) - zonaSeleccionada.roundTripSuburban);
+    } else if (zonaSeleccionada?.roundTripSprinter && reserva.vehiculo !== 'suburban') {
+      descuentoRedondo = Math.max(0, (tarifaBase * 2) - zonaSeleccionada.roundTripSprinter);
+    } else if ((tarifaBase * 2) === 220) {
+      descuentoRedondo = 20;
+    }
+  }
   const precioShopping = reserva.shoppingStop ? 30 : 0;
   
-  // Total con descuento aplicado solo en viaje redondo de $220 (quedando en $200)
+  // Total con descuento aplicado en viaje redondo
   const totalReal = Math.max(0, (tarifaBase * multiplicadorViaje) - descuentoRedondo + precioShopping);
 
   const formularioCompleto = reserva.hotelId && reserva.fechaLlegada && (servicioSeleccionado !== 'redondo' || reserva.fechaSalida);
@@ -286,7 +297,7 @@ export default function TransportBookingForm({ lang = 'es' }) {
                   {descuentoRedondo > 0 && (
                     <div className="flex justify-between text-emerald-400 font-bold">
                       <span>{lang === 'es' ? 'Descuento Viaje Redondo:' : 'Round Trip Discount:'}</span>
-                      <span className="bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 px-2 py-0.5 rounded text-xs font-bold">-$20 USD</span>
+                      <span className="bg-emerald-950/80 border border-emerald-800/80 text-emerald-300 px-2 py-0.5 rounded text-xs font-bold">-${descuentoRedondo} USD</span>
                     </div>
                   )}
                   {reserva.carSeat > 0 && <div className="flex justify-between text-slate-400"><span>- Car Seat:</span> <span className="text-white bg-slate-800 px-2 py-0.5 rounded text-xs">{reserva.carSeat} ({lang === 'es' ? 'Gratis' : 'Free'})</span></div>}

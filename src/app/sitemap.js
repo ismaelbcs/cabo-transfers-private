@@ -499,9 +499,46 @@ export default function sitemap() {
     '/destinations/sjd-to-waldorf-astoria',
     '/destinations/sjd-to-waldorf-astoria-private-villas',
     '/destinations/sjd-to-westin-los-cabos',
-    '/destinations/sjd-to-zadun'
+    '/destinations/sjd-to-zadun',
 
-
+    // ZONA 5: TODOS SANTOS, EL PESCADERO, LOS BARRILES, BUENA VISTA, LA RIBERA
+    '/destinations/sjd-to-hotel-palmas-de-cortez',
+    '/destinations/sjd-to-hotel-playa-del-sol',
+    '/destinations/sjd-to-punta-pescadero-paradise-hotel-villas',
+    '/destinations/sjd-to-los-barriles-hotel',
+    '/destinations/sjd-to-hotel-hondo-boutique-hotel',
+    '/destinations/sjd-to-casa-cielo-los-barriles',
+    '/destinations/sjd-to-casa-alta-vista',
+    '/destinations/sjd-to-ora-casita',
+    '/destinations/sjd-to-casita-cacti',
+    '/destinations/sjd-to-buena-vista-oceanfront-hot-springs-resort',
+    '/destinations/sjd-to-luxury-casa-alma-del-cabo',
+    '/destinations/sjd-to-la-casa-del-beto',
+    '/destinations/sjd-to-four-seasons-resort-los-cabos-at-costa-palmas',
+    '/destinations/sjd-to-casa-marlin-azul',
+    '/destinations/sjd-to-villas-costa-palmas',
+    '/destinations/sjd-to-cerritos-surf-town-beach-hotel-spa',
+    '/destinations/sjd-to-cerritos-beach-inn',
+    '/destinations/sjd-to-mayan-secret-boutique-hotel',
+    '/destinations/sjd-to-pescadero-palace',
+    '/destinations/sjd-to-olas-de-cerritos',
+    '/destinations/sjd-to-rancho-pescadero',
+    '/destinations/sjd-to-villas-de-cerritos-beach',
+    '/destinations/sjd-to-cerritos-surf-residences',
+    '/destinations/sjd-to-casitas-el-dorado',
+    '/destinations/sjd-to-villas-pescadero',
+    '/destinations/sjd-to-hotel-san-cristobal',
+    '/destinations/sjd-to-paradero-todos-santos',
+    '/destinations/sjd-to-hotel-california',
+    '/destinations/sjd-to-guaycura-boutique-hotel-beach-club-spa',
+    '/destinations/sjd-to-villa-santa-cruz',
+    '/destinations/sjd-to-the-todos-santos-inn',
+    '/destinations/sjd-to-hacienda-todos-los-santos',
+    '/destinations/sjd-to-los-colibris-casitas',
+    '/destinations/sjd-to-villas-la-mar',
+    '/destinations/sjd-to-sole-caliente',
+    '/destinations/sjd-to-perro-surfero',
+    '/destinations/sjd-to-villas-del-mar-todos-santos'
   ];
 
   // 4. Rutas de tours populares

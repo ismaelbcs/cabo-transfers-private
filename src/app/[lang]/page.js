@@ -58,7 +58,8 @@ export default function Home() {
     { id: 1, nombre: 'San José del Cabo', tarifaSuburban: 80, tarifaSprinter: 110 },
     { id: 2, nombre: 'Tourist Corridor', tarifaSuburban: 90, tarifaSprinter: 120 },
     { id: 3, nombre: 'Cabo San Lucas', tarifaSuburban: 110, tarifaSprinter: 140 },
-    { id: 4, nombre: 'Pacific Zone', tarifaSuburban: 140, tarifaSprinter: 160 }
+    { id: 4, nombre: 'Pacific Zone', tarifaSuburban: 140, tarifaSprinter: 160 },
+    { id: 5, nombre: lang === 'es' ? 'Zona 5 (Todos Santos / El Pescadero / Los Barriles)' : 'Zone 5 (Todos Santos / El Pescadero / Los Barriles)', tarifaSuburban: 300, tarifaSprinter: 380 }
   ];
 
   const hotelesBase = [
@@ -493,7 +494,46 @@ export default function Home() {
     { id: 434, nombre: 'Copala Casas', zona: 4 },
     { id: 435, nombre: 'Diamante Lagoon Penthouses', zona: 4 },
     { id: 436, nombre: 'Rancho San Lucas Private Estates', zona: 4 },
-    { id: 437, nombre: 'Diamante Crystal Lagoon Suites', zona: 4 }
+    { id: 437, nombre: 'Diamante Crystal Lagoon Suites', zona: 4 },
+
+    // ZONA 5: TODOS SANTOS, EL PESCADERO, LOS BARRILES, BUENA VISTA, LA RIBERA
+    { id: 601, nombre: 'Hotel Palmas De Cortez', zona: 5 },
+    { id: 602, nombre: 'Hotel Playa del Sol', zona: 5 },
+    { id: 603, nombre: 'Punta Pescadero Paradise Hotel & Villas', zona: 5 },
+    { id: 604, nombre: 'Los Barriles Hotel', zona: 5 },
+    { id: 605, nombre: 'Hotel Hondo (Boutique Hotel)', zona: 5 },
+    { id: 606, nombre: 'Casa Cielo (Los Barriles)', zona: 5 },
+    { id: 607, nombre: 'Casa Alta Vista', zona: 5 },
+    { id: 608, nombre: 'Ora Casita', zona: 5 },
+    { id: 609, nombre: 'Casita Cacti', zona: 5 },
+    { id: 610, nombre: 'Buena Vista Oceanfront & Hot Springs Resort', zona: 5 },
+    { id: 611, nombre: 'Luxury Casa Alma del Cabo', zona: 5 },
+    { id: 612, nombre: 'La Casa del Beto', zona: 5 },
+    { id: 613, nombre: 'Four Seasons Resort Los Cabos at Costa Palmas', zona: 5 },
+    { id: 614, nombre: 'Casa Marlin Azul', zona: 5 },
+    { id: 615, nombre: 'Villas Costa Palmas', zona: 5 },
+    { id: 616, nombre: 'Cerritos Surf Town Beach Hotel & Spa', zona: 5 },
+    { id: 617, nombre: 'Cerritos Beach Inn', zona: 5 },
+    { id: 618, nombre: 'Mayan Secret Boutique Hotel', zona: 5 },
+    { id: 619, nombre: 'Pescadero Palace', zona: 5 },
+    { id: 620, nombre: 'Olas de Cerritos', zona: 5 },
+    { id: 621, nombre: 'Rancho Pescadero', zona: 5 },
+    { id: 622, nombre: 'Villas de Cerritos Beach', zona: 5 },
+    { id: 623, nombre: 'Cerritos Surf Residences', zona: 5 },
+    { id: 624, nombre: 'Casitas El Dorado', zona: 5 },
+    { id: 625, nombre: 'Villas Pescadero', zona: 5 },
+    { id: 626, nombre: 'Hotel San Cristóbal', zona: 5 },
+    { id: 627, nombre: 'Paradero Todos Santos', zona: 5 },
+    { id: 628, nombre: 'Hotel California', zona: 5 },
+    { id: 629, nombre: 'Guaycura Boutique Hotel Beach Club & Spa', zona: 5 },
+    { id: 630, nombre: 'Villa Santa Cruz', zona: 5 },
+    { id: 631, nombre: 'The Todos Santos Inn', zona: 5 },
+    { id: 632, nombre: 'Hacienda Todos Los Santos', zona: 5 },
+    { id: 633, nombre: 'Los Colibris Casitas', zona: 5 },
+    { id: 634, nombre: 'Villas La Mar', zona: 5 },
+    { id: 635, nombre: 'Sole Caliente', zona: 5 },
+    { id: 636, nombre: 'Perro Surfero', zona: 5 },
+    { id: 637, nombre: 'Villas del Mar (Todos Santos)', zona: 5 }
   ];
 
   const hotelesFiltrados = hotelesBase.filter(h => busquedaHotel.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
