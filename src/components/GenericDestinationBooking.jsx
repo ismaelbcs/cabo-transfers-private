@@ -58,12 +58,12 @@ export default function GenericDestinationBooking({ lang = 'es', locationName = 
   const getTarifa = (vehiculoType) => {
     if (!activeZona) return lang === 'es' ? 'Elige destino' : 'Select dest';
     const tarifas = {
-      1: { suburban: 85, sprinter: 105 },
-      2: { suburban: 95, sprinter: 115 },
-      3: { suburban: 105, sprinter: 130 },
-      4: { suburban: 140, sprinter: 165 },
-      5: { suburban: 160, sprinter: 185 },
-      6: { suburban: 195, sprinter: 220 }
+      1: { suburban: 80, sprinter: 110 },
+      2: { suburban: 90, sprinter: 120 },
+      3: { suburban: 110, sprinter: 140 },
+      4: { suburban: 140, sprinter: 160 },
+      5: { suburban: 300, sprinter: 380 },
+      6: { suburban: 500, sprinter: 600 }
     };
     const t = tarifas[activeZona]?.[vehiculoType];
     return t ? `$${t}` : '--';

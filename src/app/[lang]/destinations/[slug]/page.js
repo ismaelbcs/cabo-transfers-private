@@ -530,6 +530,53 @@ export const landingPagesSEO = [
   { slug: 'sjd-to-perro-surfero', nombre: 'Perro Surfero', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'co-living eco-boutique hotel in Todos Santos', mapQuery: 'Perro Surfero, Todos Santos, Baja California Sur' },
   { slug: 'sjd-to-villas-del-mar-todos-santos', nombre: 'Villas del Mar (Todos Santos)', zona: 5, zonaText: 'Todos Santos', tiempo: '1 hr 20 min', dist: '110 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'serene coastal villas in Todos Santos', mapQuery: 'Villas del Mar, Todos Santos, Baja California Sur' },
 
+  // ================= ZONA 6: LA PAZ =================
+  { slug: 'sjd-to-casa-luna-la-paz', nombre: 'Casa Luna', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'peaceful private rental getaway in La Paz', mapQuery: 'Casa Luna, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-casa-isla-tortuga-la-paz', nombre: 'Casa Isla Tortuga', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'charming private coastal home in La Paz', mapQuery: 'Casa Isla Tortuga, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-casa-moderna-la-paz-bcs', nombre: 'Casa Moderna La Paz BCS', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'contemporary stylish residence in La Paz', mapQuery: 'Casa Moderna, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-casa-altamar-la-paz', nombre: 'Casa Altamar', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'scenic coastal villa in La Paz', mapQuery: 'Casa Altamar, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-house-with-private-pool-for-family-use-la-paz', nombre: 'House With Private Pool For Family Use', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'spacious family vacation home with private pool in La Paz', mapQuery: 'House With Private Pool, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-bonita-casa-centrica-la-paz', nombre: 'Bonita Casa Céntrica', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'cozy downtown vacation house in La Paz', mapQuery: 'Bonita Casa Céntrica, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-cabanas-rusticas-la-paz', nombre: 'Cabañas Rústicas (SS 3A, SS 5A, SS 9C)', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'rustic eco-friendly cabins in La Paz', mapQuery: 'Cabañas Rústicas, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-casa-colibri-la-paz', nombre: 'Casa Colibrí', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'peaceful private retreat in La Paz', mapQuery: 'Casa Colibrí, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-el-aposento-alto-la-paz', nombre: 'El Aposento Alto', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'panoramic scenic vacation home in La Paz', mapQuery: 'El Aposento Alto, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-salvatierra-home-la-paz', nombre: 'Salvatierra Home', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'comfortable residential stay in La Paz', mapQuery: 'Salvatierra Home, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-casa-navarro-la-paz', nombre: 'Casa Navarro', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'welcoming vacation residence in La Paz', mapQuery: 'Casa Navarro, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-sunset-apartment-la-paz', nombre: 'Sunset Apartment', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'modern sunset view apartment in La Paz', mapQuery: 'Sunset Apartment, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-v-1pb-la-paz', nombre: 'V-1pb', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'exclusive private vacation unit in La Paz', mapQuery: 'V-1pb, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-marina-penthouse-ocean-view-la-paz', nombre: 'Marina Penthouse Ocean View', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'luxury marina penthouse with stunning ocean views in La Paz', mapQuery: 'Marina Penthouse Ocean View, Marina CostaBaja, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-lylas-casita-la-paz', nombre: 'Lyla´s Casita', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'charming boutique casita in La Paz', mapQuery: 'Lyla Casita, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-baja-club-hotel', nombre: 'Baja Club Hotel', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'iconic beachfront boutique hotel on the La Paz malecon', mapQuery: 'Baja Club Hotel, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-indigo-la-paz-puerta-cortes', nombre: 'Hotel Indigo La Paz Puerta Cortés', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 20 min', dist: '185 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'luxury beachfront resort at Puerta Cortés in La Paz', mapQuery: 'Hotel Indigo La Paz Puerta Cortés, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-posada-de-las-flores-la-paz', nombre: 'Posada de las Flores La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'historic colonial boutique posada on the La Paz waterfront', mapQuery: 'Posada de las Flores, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-costa-baja-resort-spa', nombre: 'Costa Baja Resort & Spa', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 20 min', dist: '185 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'premier five-star marina and golf resort in La Paz', mapQuery: 'Costa Baja Resort & Spa, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-catedral-la-paz', nombre: 'Hotel Catedral La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'elegant contemporary hotel in the historic heart of La Paz', mapQuery: 'Hotel Catedral La Paz, Baja California Sur' },
+  { slug: 'sjd-to-marea-la-paz', nombre: 'Marea La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'luxury beachfront eco-resort on the tranquil shores of La Paz', mapQuery: 'Marea La Paz, Baja California Sur' },
+  { slug: 'sjd-to-seven-crown-la-paz-centro-historico', nombre: 'Seven Crown La Paz Centro Histórico', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'modern hotel in downtown historic La Paz', mapQuery: 'Seven Crown La Paz Centro Histórico, Baja California Sur' },
+  { slug: 'sjd-to-seven-crown-la-paz-malecon', nombre: 'Seven Crown La Paz Malecon', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'vibrant waterfront hotel overlooking the La Paz boardwalk', mapQuery: 'Seven Crown La Paz Malecon, Baja California Sur' },
+  { slug: 'sjd-to-hotel-la-concha-beach-resort-la-paz', nombre: 'Hotel La Concha Beach Resort', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 20 min', dist: '185 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'classic beachfront resort with calm Sea of Cortez waters', mapQuery: 'Hotel La Concha Beach Resort, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-marina-la-paz', nombre: 'Hotel Marina', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'relaxed harborfront hotel with marina views in La Paz', mapQuery: 'Hotel Marina La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hyatt-place-la-paz', nombre: 'Hyatt Place La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 20 min', dist: '185 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'upscale marina hotel at Puerta Cortés with stunning bay views', mapQuery: 'Hyatt Place La Paz, Baja California Sur' },
+  { slug: 'sjd-to-city-express-by-marriott-la-paz', nombre: 'City Express by Marriott La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'convenient modern hotel close to the beach and boardwalk', mapQuery: 'City Express by Marriott La Paz, Baja California Sur' },
+  { slug: 'sjd-to-one-la-paz', nombre: 'One La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'comfortable smart hotel in central downtown La Paz', mapQuery: 'One La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-perla-la-paz', nombre: 'Hotel Perla La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'historic legendary hotel right on the vibrant La Paz boardwalk', mapQuery: 'Hotel Perla, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-los-arcos-la-paz', nombre: 'Hotel Los Arcos (en zona centro/malecón)', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'iconic malecón hotel location in downtown La Paz', mapQuery: 'Hotel Los Arcos, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-posada-luna-sol-la-paz', nombre: 'Posada Luna Sol', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'welcoming boutique inn and pool retreat in La Paz', mapQuery: 'Posada Luna Sol, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-aquamarina-la-paz', nombre: 'Hotel Aquamarina', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'waterfront hotel overlooking the bay of La Paz', mapQuery: 'Hotel Aquamarina, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-miramar-la-paz', nombre: 'Hotel Miramar La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'convenient malecón hotel with bay views in La Paz', mapQuery: 'Hotel Miramar, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-mediterrane-la-paz', nombre: 'Hotel Mediterrane', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'charming Mediterranean style boutique hotel in downtown La Paz', mapQuery: 'Hotel Mediterrane, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-pekin-la-paz', nombre: 'Hotel Pekin', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'practical and accessible city accommodation in La Paz', mapQuery: 'Hotel Pekin, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-hblue-la-paz', nombre: 'Hotel HBlue', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'stylish modern boutique hotel with rooftop terrace in La Paz', mapQuery: 'Hotel HBlue, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-casa-al-mar-hotel-boutique-la-paz', nombre: 'Casa al Mar Hotel Boutique', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'intimate oceanfront boutique hotel on the malecon of La Paz', mapQuery: 'Casa al Mar Hotel Boutique, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-maioris-la-paz', nombre: 'Hotel Maioris La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 25 min', dist: '190 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'peaceful resort hotel on the scenic hills overlooking La Paz bay', mapQuery: 'Hotel Maioris La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-san-carlos-la-paz', nombre: 'Hotel San Carlos', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'traditional downtown stay with friendly service in La Paz', mapQuery: 'Hotel San Carlos, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-maria-bonita-la-paz', nombre: 'Hotel María Bonita', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'charming authentic Mexican boutique hotel in La Paz', mapQuery: 'Hotel María Bonita, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-cuauhtemoc-la-paz', nombre: 'Hotel Cuauhtémoc', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'central downtown lodging in La Paz', mapQuery: 'Hotel Cuauhtémoc, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-posada-santa-fe-la-paz', nombre: 'Posada Santa Fe', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'quiet and cozy posada retreat in La Paz', mapQuery: 'Posada Santa Fe, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-lorimar-la-paz', nombre: 'Hotel Lorimar', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '180 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'cozy and welcoming boutique hotel steps from the malecon in La Paz', mapQuery: 'Hotel Lorimar, La Paz, Baja California Sur' },
+  { slug: 'sjd-to-hotel-zar-la-paz', nombre: 'Hotel Zar La Paz', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 15 min', dist: '175 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'functional modern hotel ideal for travelers in La Paz', mapQuery: 'Hotel Zar La Paz, Baja California Sur' },
+  { slug: 'sjd-to-orchid-house-baja', nombre: 'Orchid House Baja', zona: 6, zonaText: 'La Paz', tiempo: '2 hr 20 min', dist: '185 km', image: 'suburban-airport-los-cabos-ballard-sjd.webp', desc: 'exclusive boutique luxury hotel villa nestled on the coast in La Paz', mapQuery: 'Orchid House Baja, La Paz, Baja California Sur' },
+
 ];
 
 // Base completa de hoteles para el buscador interactivo
@@ -1023,7 +1070,54 @@ export const hotelesBase = [
   { id: 634, nombre: 'Villas La Mar', zona: 5 },
   { id: 635, nombre: 'Sole Caliente', zona: 5 },
   { id: 636, nombre: 'Perro Surfero', zona: 5 },
-  { id: 637, nombre: 'Villas del Mar (Todos Santos)', zona: 5 }
+  { id: 637, nombre: 'Villas del Mar (Todos Santos)', zona: 5 },
+
+  // ZONA 6: LA PAZ
+  { id: 701, nombre: 'Casa Luna', zona: 6 },
+  { id: 702, nombre: 'Casa Isla Tortuga', zona: 6 },
+  { id: 703, nombre: 'Casa Moderna La Paz BCS', zona: 6 },
+  { id: 704, nombre: 'Casa Altamar', zona: 6 },
+  { id: 705, nombre: 'House With Private Pool For Family Use', zona: 6 },
+  { id: 706, nombre: 'Bonita Casa Céntrica', zona: 6 },
+  { id: 707, nombre: 'Cabañas Rústicas (SS 3A, SS 5A, SS 9C)', zona: 6 },
+  { id: 708, nombre: 'Casa Colibrí', zona: 6 },
+  { id: 709, nombre: 'El Aposento Alto', zona: 6 },
+  { id: 710, nombre: 'Salvatierra Home', zona: 6 },
+  { id: 711, nombre: 'Casa Navarro', zona: 6 },
+  { id: 712, nombre: 'Sunset Apartment', zona: 6 },
+  { id: 713, nombre: 'V-1pb', zona: 6 },
+  { id: 714, nombre: 'Marina Penthouse Ocean View', zona: 6 },
+  { id: 715, nombre: 'Lyla´s Casita', zona: 6 },
+  { id: 716, nombre: 'Baja Club Hotel', zona: 6 },
+  { id: 717, nombre: 'Hotel Indigo La Paz Puerta Cortés', zona: 6 },
+  { id: 718, nombre: 'Posada de las Flores La Paz', zona: 6 },
+  { id: 719, nombre: 'Costa Baja Resort & Spa', zona: 6 },
+  { id: 720, nombre: 'Hotel Catedral La Paz', zona: 6 },
+  { id: 721, nombre: 'Marea La Paz', zona: 6 },
+  { id: 722, nombre: 'Seven Crown La Paz Centro Histórico', zona: 6 },
+  { id: 723, nombre: 'Seven Crown La Paz Malecon', zona: 6 },
+  { id: 724, nombre: 'Hotel La Concha Beach Resort', zona: 6 },
+  { id: 725, nombre: 'Hotel Marina', zona: 6 },
+  { id: 726, nombre: 'Hyatt Place La Paz', zona: 6 },
+  { id: 727, nombre: 'City Express by Marriott La Paz', zona: 6 },
+  { id: 728, nombre: 'One La Paz', zona: 6 },
+  { id: 729, nombre: 'Hotel Perla La Paz', zona: 6 },
+  { id: 730, nombre: 'Hotel Los Arcos (en zona centro/malecón)', zona: 6 },
+  { id: 731, nombre: 'Posada Luna Sol', zona: 6 },
+  { id: 732, nombre: 'Hotel Aquamarina', zona: 6 },
+  { id: 733, nombre: 'Hotel Miramar La Paz', zona: 6 },
+  { id: 734, nombre: 'Hotel Mediterrane', zona: 6 },
+  { id: 735, nombre: 'Hotel Pekin', zona: 6 },
+  { id: 736, nombre: 'Hotel HBlue', zona: 6 },
+  { id: 737, nombre: 'Casa al Mar Hotel Boutique', zona: 6 },
+  { id: 738, nombre: 'Hotel Maioris La Paz', zona: 6 },
+  { id: 739, nombre: 'Hotel San Carlos', zona: 6 },
+  { id: 740, nombre: 'Hotel María Bonita', zona: 6 },
+  { id: 741, nombre: 'Hotel Cuauhtémoc', zona: 6 },
+  { id: 742, nombre: 'Posada Santa Fe', zona: 6 },
+  { id: 743, nombre: 'Hotel Lorimar', zona: 6 },
+  { id: 744, nombre: 'Hotel Zar La Paz', zona: 6 },
+  { id: 745, nombre: 'Orchid House Baja', zona: 6 }
 
 
 ];
@@ -1034,7 +1128,8 @@ const zonasPrecios = [
   { id: 2, tarifaSuburban: 90, tarifaSprinter: 120, roundTripSuburban: 180, roundTripSprinter: 240 },
   { id: 3, tarifaSuburban: 110, tarifaSprinter: 140, roundTripSuburban: 200, roundTripSprinter: 280 },
   { id: 4, tarifaSuburban: 140, tarifaSprinter: 160, roundTripSuburban: 280, roundTripSprinter: 320 },
-  { id: 5, tarifaSuburban: 300, tarifaSprinter: 380, roundTripSuburban: 580, roundTripSprinter: 740 }
+  { id: 5, tarifaSuburban: 300, tarifaSprinter: 380, roundTripSuburban: 580, roundTripSprinter: 740 },
+  { id: 6, tarifaSuburban: 500, tarifaSprinter: 600, roundTripSuburban: 980, roundTripSprinter: 1170 }
 ];
 
 export default function DestinationPage({ params }) {
@@ -1049,6 +1144,8 @@ export default function DestinationPage({ params }) {
   // 3. BUSCAMOS EL HOTEL INICIAL BASADO EN LA URL
   const hotel = landingPagesSEO.find(h => h.slug === slug);
   const isZona5 = Number(hotel?.zona) === 5;
+  const isZona6 = Number(hotel?.zona) === 6;
+  const isLongDistance = isZona5 || isZona6;
 
   // 4. ESTADOS LOCALES PARA EL FORMULARIO
   const [searchTerm, setSearchTerm] = useState(hotel?.nombre || reserva.hotelId || '');
@@ -1122,14 +1219,14 @@ export default function DestinationPage({ params }) {
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
           <img 
-            src={isZona5 
+            src={isLongDistance 
               ? '/suburban-airport-los-cabos-ballard-sjd.webp' 
               : (hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp')
             } 
             alt={`Airport transfer to ${hotel.nombre}`} 
             className="w-full h-full object-cover opacity-30" 
             onError={(e) => {
-              if (isZona5) {
+              if (isLongDistance) {
                 e.currentTarget.src = '/suburban-airport-los-cabos-ballard-sjd.webp';
                 return;
               }
@@ -1221,7 +1318,7 @@ export default function DestinationPage({ params }) {
 
             <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
               <img 
-                src={isZona5 ? "/suburban-airport-los-cabos-ballard.webp" : "/private-transportation-sjd-airport-los-cabos-luxury.webp"} 
+                src={isLongDistance ? "/suburban-airport-los-cabos-ballard.webp" : "/private-transportation-sjd-airport-los-cabos-luxury.webp"} 
                 alt="Luxury Cabo Transportation" 
                 className="w-full h-auto object-cover max-h-[400px]" 
               />

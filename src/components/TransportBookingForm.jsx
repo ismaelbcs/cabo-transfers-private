@@ -47,12 +47,12 @@ export default function TransportBookingForm({ lang = 'es' }) {
   const multiplicadorViaje = servicioSeleccionado === 'redondo' ? 2 : 1;
   let descuentoRedondo = 0;
   if (servicioSeleccionado === 'redondo') {
-    if (zonaSeleccionada?.id === 5) {
-      descuentoRedondo = 20;
-    } else if (zonaSeleccionada?.roundTripSuburban && reserva.vehiculo === 'suburban') {
+    if (zonaSeleccionada?.roundTripSuburban && reserva.vehiculo === 'suburban') {
       descuentoRedondo = Math.max(0, (tarifaBase * 2) - zonaSeleccionada.roundTripSuburban);
     } else if (zonaSeleccionada?.roundTripSprinter && reserva.vehiculo !== 'suburban') {
       descuentoRedondo = Math.max(0, (tarifaBase * 2) - zonaSeleccionada.roundTripSprinter);
+    } else if (zonaSeleccionada?.id === 5) {
+      descuentoRedondo = 20;
     } else if ((tarifaBase * 2) === 220) {
       descuentoRedondo = 20;
     }

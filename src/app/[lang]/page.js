@@ -59,7 +59,8 @@ export default function Home() {
     { id: 2, nombre: 'Tourist Corridor', tarifaSuburban: 90, tarifaSprinter: 120 },
     { id: 3, nombre: 'Cabo San Lucas', tarifaSuburban: 110, tarifaSprinter: 140 },
     { id: 4, nombre: 'Pacific Zone', tarifaSuburban: 140, tarifaSprinter: 160 },
-    { id: 5, nombre: lang === 'es' ? 'Zona 5 (Todos Santos / El Pescadero / Los Barriles)' : 'Zone 5 (Todos Santos / El Pescadero / Los Barriles)', tarifaSuburban: 300, tarifaSprinter: 380 }
+    { id: 5, nombre: lang === 'es' ? 'Zona 5 (Todos Santos / El Pescadero / Los Barriles)' : 'Zone 5 (Todos Santos / El Pescadero / Los Barriles)', tarifaSuburban: 300, tarifaSprinter: 380 },
+    { id: 6, nombre: lang === 'es' ? 'Zona 6: La Paz' : 'Zone 6: La Paz', tarifaSuburban: 500, tarifaSprinter: 600 }
   ];
 
   const hotelesBase = [
@@ -533,7 +534,54 @@ export default function Home() {
     { id: 634, nombre: 'Villas La Mar', zona: 5 },
     { id: 635, nombre: 'Sole Caliente', zona: 5 },
     { id: 636, nombre: 'Perro Surfero', zona: 5 },
-    { id: 637, nombre: 'Villas del Mar (Todos Santos)', zona: 5 }
+    { id: 637, nombre: 'Villas del Mar (Todos Santos)', zona: 5 },
+
+    // ZONA 6: LA PAZ
+    { id: 701, nombre: 'Casa Luna', zona: 6 },
+    { id: 702, nombre: 'Casa Isla Tortuga', zona: 6 },
+    { id: 703, nombre: 'Casa Moderna La Paz BCS', zona: 6 },
+    { id: 704, nombre: 'Casa Altamar', zona: 6 },
+    { id: 705, nombre: 'House With Private Pool For Family Use', zona: 6 },
+    { id: 706, nombre: 'Bonita Casa Céntrica', zona: 6 },
+    { id: 707, nombre: 'Cabañas Rústicas (SS 3A, SS 5A, SS 9C)', zona: 6 },
+    { id: 708, nombre: 'Casa Colibrí', zona: 6 },
+    { id: 709, nombre: 'El Aposento Alto', zona: 6 },
+    { id: 710, nombre: 'Salvatierra Home', zona: 6 },
+    { id: 711, nombre: 'Casa Navarro', zona: 6 },
+    { id: 712, nombre: 'Sunset Apartment', zona: 6 },
+    { id: 713, nombre: 'V-1pb', zona: 6 },
+    { id: 714, nombre: 'Marina Penthouse Ocean View', zona: 6 },
+    { id: 715, nombre: 'Lyla´s Casita', zona: 6 },
+    { id: 716, nombre: 'Baja Club Hotel', zona: 6 },
+    { id: 717, nombre: 'Hotel Indigo La Paz Puerta Cortés', zona: 6 },
+    { id: 718, nombre: 'Posada de las Flores La Paz', zona: 6 },
+    { id: 719, nombre: 'Costa Baja Resort & Spa', zona: 6 },
+    { id: 720, nombre: 'Hotel Catedral La Paz', zona: 6 },
+    { id: 721, nombre: 'Marea La Paz', zona: 6 },
+    { id: 722, nombre: 'Seven Crown La Paz Centro Histórico', zona: 6 },
+    { id: 723, nombre: 'Seven Crown La Paz Malecon', zona: 6 },
+    { id: 724, nombre: 'Hotel La Concha Beach Resort', zona: 6 },
+    { id: 725, nombre: 'Hotel Marina', zona: 6 },
+    { id: 726, nombre: 'Hyatt Place La Paz', zona: 6 },
+    { id: 727, nombre: 'City Express by Marriott La Paz', zona: 6 },
+    { id: 728, nombre: 'One La Paz', zona: 6 },
+    { id: 729, nombre: 'Hotel Perla La Paz', zona: 6 },
+    { id: 730, nombre: 'Hotel Los Arcos (en zona centro/malecón)', zona: 6 },
+    { id: 731, nombre: 'Posada Luna Sol', zona: 6 },
+    { id: 732, nombre: 'Hotel Aquamarina', zona: 6 },
+    { id: 733, nombre: 'Hotel Miramar La Paz', zona: 6 },
+    { id: 734, nombre: 'Hotel Mediterrane', zona: 6 },
+    { id: 735, nombre: 'Hotel Pekin', zona: 6 },
+    { id: 736, nombre: 'Hotel HBlue', zona: 6 },
+    { id: 737, nombre: 'Casa al Mar Hotel Boutique', zona: 6 },
+    { id: 738, nombre: 'Hotel Maioris La Paz', zona: 6 },
+    { id: 739, nombre: 'Hotel San Carlos', zona: 6 },
+    { id: 740, nombre: 'Hotel María Bonita', zona: 6 },
+    { id: 741, nombre: 'Hotel Cuauhtémoc', zona: 6 },
+    { id: 742, nombre: 'Posada Santa Fe', zona: 6 },
+    { id: 743, nombre: 'Hotel Lorimar', zona: 6 },
+    { id: 744, nombre: 'Hotel Zar La Paz', zona: 6 },
+    { id: 745, nombre: 'Orchid House Baja', zona: 6 }
   ];
 
   const hotelesFiltrados = hotelesBase.filter(h => busquedaHotel.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));

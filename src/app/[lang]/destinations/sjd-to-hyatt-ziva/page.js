@@ -35,7 +35,8 @@ const zonasPrecios = [
   { id: 2, tarifaSuburban: 90, tarifaSprinter: 120 },
   { id: 3, tarifaSuburban: 110, tarifaSprinter: 140 },
   { id: 4, tarifaSuburban: 140, tarifaSprinter: 160 },
-  { id: 5, tarifaSuburban: 300, tarifaSprinter: 380 }
+  { id: 5, tarifaSuburban: 300, tarifaSprinter: 380 },
+  { id: 6, tarifaSuburban: 500, tarifaSprinter: 600 }
 ];
 
 export const hotelesBase = [
