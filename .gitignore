@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Google API Credentials & Logs
+service_account*.json*
+*service-account*.json
+google-key.json
+google-credentials.json
+indexing-history.json
+daily-indexing.log
+
