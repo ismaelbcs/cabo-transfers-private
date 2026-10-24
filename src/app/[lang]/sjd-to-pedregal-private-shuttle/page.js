@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'SJD to Pedregal Private Shuttle | CABO PRIVATE TRANSPORTATION',
-        description: 'Transporte privado y seguro. Reserva el mejor sjd to pedregal private shuttle para el inicio perfecto de tu viaje a Pedregal, Cabo San Lucas.',
-        keywords: 'sjd to pedregal private shuttle',
-    };
-    return {
-        title: 'SJD to Pedregal Private Shuttle | CABO PRIVATE TRANSPORTATION',
-        description: 'Safe and private transportation. Book the best sjd to pedregal private shuttle for the perfect start to your trip to Pedregal, Cabo San Lucas.',
-        keywords: 'sjd to pedregal private shuttle',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/sjd-to-pedregal-private-shuttle',
+      title: "SJD to Pedregal Private Shuttle | CABO PRIVATE TRANSPORTATION",
+      description: "Transporte privado y seguro. Reserva el mejor sjd to pedregal private shuttle para el inicio perfecto de tu viaje a Pedregal, Cabo San Lucas.",
+      keywords: "sjd to pedregal private shuttle"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/sjd-to-pedregal-private-shuttle',
+    title: "SJD to Pedregal Private Shuttle | CABO PRIVATE TRANSPORTATION",
+    description: "Safe and private transportation. Book the best sjd to pedregal private shuttle for the perfect start to your trip to Pedregal, Cabo San Lucas.",
+    keywords: "sjd to pedregal private shuttle"
+  });
 }
 
 export default function SJDToPedregalPrivateShuttlePage({ params }) {

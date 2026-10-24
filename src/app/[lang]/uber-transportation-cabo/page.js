@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Mejor que Uber Transportation Cabo | Traslados Privados SJD',
-    description: 'La opción superior a Uber Transportation Cabo. Choferes bilingües esperándote con letrero dentro del aeropuerto. Sin caminatas, sin cancelaciones.',
-    keywords: 'uber transportation cabo, transporte los cabos vs uber, SJD transfers',
-  };
-  return {
-    title: 'Better Than Uber Transportation Cabo | Private SJD Transfers',
-    description: 'The superior choice to Uber Transportation Cabo. Bilingual drivers waiting inside the airport with a sign. No walking off-property, no cancellations.',
-    keywords: 'uber transportation cabo, private driver cabo vs uber, SJD airport authorized transportation',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/uber-transportation-cabo',
+      title: "Mejor que Uber Transportation Cabo | Traslados Privados SJD",
+      description: "La opción superior a Uber Transportation Cabo. Choferes bilingües esperándote con letrero dentro del aeropuerto. Sin caminatas, sin cancelaciones.",
+      keywords: "uber transportation cabo, transporte los cabos vs uber, SJD transfers"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/uber-transportation-cabo',
+    title: "Better Than Uber Transportation Cabo | Private SJD Transfers",
+    description: "The superior choice to Uber Transportation Cabo. Bilingual drivers waiting inside the airport with a sign. No walking off-property, no cancellations.",
+    keywords: "uber transportation cabo, private driver cabo vs uber, SJD airport authorized transportation"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

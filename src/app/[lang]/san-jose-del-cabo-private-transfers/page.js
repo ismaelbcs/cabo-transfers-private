@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'San Jose del Cabo Private Transfers | Traslados Rápidos y Seguros',
-        description: 'San Jose del Cabo Private Transfers. Llega a tu hotel en la zona hotelera de San José en minutos con nuestra flota de lujo desde el aeropuerto SJD.',
-        keywords: 'San Jose del Cabo Private Transfers, Transporte SJD a San Jose del Cabo, Traslados San Jose del Cabo',
-    };
-    return {
-        title: 'San Jose del Cabo Private Transfers | Reliable SJD Shuttle',
-        description: 'Quick and safe San Jose del Cabo Private Transfers. Get from the SJD airport to your San Jose del Cabo resort in minutes with our luxury fleet.',
-        keywords: 'San Jose del Cabo Private Transfers, SJD to San Jose del Cabo, private shuttle San Jose del Cabo',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/san-jose-del-cabo-private-transfers',
+      title: "San Jose del Cabo Private Transfers | Traslados Rápidos y Seguros",
+      description: "San Jose del Cabo Private Transfers. Llega a tu hotel en la zona hotelera de San José en minutos con nuestra flota de lujo desde el aeropuerto SJD.",
+      keywords: "San Jose del Cabo Private Transfers, Transporte SJD a San Jose del Cabo, Traslados San Jose del Cabo"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/san-jose-del-cabo-private-transfers',
+    title: "San Jose del Cabo Private Transfers | Reliable SJD Shuttle",
+    description: "Quick and safe San Jose del Cabo Private Transfers. Get from the SJD airport to your San Jose del Cabo resort in minutes with our luxury fleet.",
+    keywords: "San Jose del Cabo Private Transfers, SJD to San Jose del Cabo, private shuttle San Jose del Cabo"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'Cabo San Lucas Private Transfers | Servicio Directo SJD',
-        description: '¿Buscas Cabo San Lucas Private Transfers? Ofrecemos transporte directo y de primer nivel desde el aeropuerto SJD hasta cualquier resort en Cabo.',
-        keywords: 'Cabo San Lucas Private Transfers, Transporte VIP Cabo, Traslado aeropuerto Cabo San Lucas',
-    };
-    return {
-        title: 'Cabo San Lucas Private Transfers | Direct SJD Airport Service',
-        description: 'Looking for Cabo San Lucas Private Transfers? We provide top-tier, direct transportation from the airport to your Cabo San Lucas hotel or villa.',
-        keywords: 'Cabo San Lucas Private Transfers, transportation to Cabo San Lucas, private car service Cabo, SJD shuttle',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/cabo-san-lucas-private-transfers',
+      title: "Cabo San Lucas Private Transfers | Servicio Directo SJD",
+      description: "¿Buscas Cabo San Lucas Private Transfers? Ofrecemos transporte directo y de primer nivel desde el aeropuerto SJD hasta cualquier resort en Cabo.",
+      keywords: "Cabo San Lucas Private Transfers, Transporte VIP Cabo, Traslado aeropuerto Cabo San Lucas"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/cabo-san-lucas-private-transfers',
+    title: "Cabo San Lucas Private Transfers | Direct SJD Airport Service",
+    description: "Looking for Cabo San Lucas Private Transfers? We provide top-tier, direct transportation from the airport to your Cabo San Lucas hotel or villa.",
+    keywords: "Cabo San Lucas Private Transfers, transportation to Cabo San Lucas, private car service Cabo, SJD shuttle"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

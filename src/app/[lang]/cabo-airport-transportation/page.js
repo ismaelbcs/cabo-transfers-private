@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,21 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
 
   if (lang === 'es') {
-    return {
-      title: 'Transporte Premium en Aeropuerto de Los Cabos | Cabo Shuttle',
-      description: 'Reserva tu transporte privado y shuttle en el Aeropuerto de Los Cabos (SJD). Traslados seguros, sin filas de taxi, a hoteles como Hyatt Ziva, Nobu y Hard Rock.',
-      keywords: 'Transporte Aeropuerto Los Cabos, Shuttle Los Cabos, Taxi Aeropuerto SJD, Transporte privado Cabo San Lucas, Traslados SJD a hotel, Camionetas Los Cabos',
-    };
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/cabo-airport-transportation',
+      title: "Transporte Premium en Aeropuerto de Los Cabos | Cabo Shuttle",
+      description: "Reserva tu transporte privado y shuttle en el Aeropuerto de Los Cabos (SJD). Traslados seguros, sin filas de taxi, a hoteles como Hyatt Ziva, Nobu y Hard Rock.",
+      keywords: "Transporte Aeropuerto Los Cabos, Shuttle Los Cabos, Taxi Aeropuerto SJD, Transporte privado Cabo San Lucas, Traslados SJD a hotel, Camionetas Los Cabos"
+    });
   }
 
-  return {
-    title: 'Premium Cabo Airport Transportation & Shuttle Services',
-    description: 'Experience seamless Cabo Airport Transportation and Cabo Airport Shuttle services. Book your private transportation from SJD Airport to Hyatt Ziva, Paradisus, Nobu, and more.',
-    keywords: 'Cabo Airport Transportation, Cabo Airport Shuttle, SJD Airport Taxi, Private Transportation Cabo, Cabo San Lucas Airport Transfers, VIP Cabo Transportation',
-  };
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/cabo-airport-transportation',
+    title: "Premium Cabo Airport Transportation & Shuttle Services",
+    description: "Experience seamless Cabo Airport Transportation and Cabo Airport Shuttle services. Book your private transportation from SJD Airport to Hyatt Ziva, Paradisus, Nobu, and more.",
+    keywords: "Cabo Airport Transportation, Cabo Airport Shuttle, SJD Airport Taxi, Private Transportation Cabo, Cabo San Lucas Airport Transfers, VIP Cabo Transportation"
+  });
 }
 
 export default function CaboTransportationPage({ params }) {

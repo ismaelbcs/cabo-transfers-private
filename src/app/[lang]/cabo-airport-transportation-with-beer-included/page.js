@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'Transporte en Cabo con Cerveza Incluida | Shuttle Aeropuerto SJD',
-        description: 'Reserva tu transporte privado desde el aeropuerto SJD con cerveza fría de cortesía incluida. Comienza tus vacaciones en Los Cabos desde que te subes.',
-        keywords: 'Transporte Cabo cerveza incluida, SJD airport shuttle con bebidas, Transporte privado Cabo San Lucas cerveza',
-    };
-    return {
-        title: 'Cabo Airport Transportation With Beer Included | Cold Drinks',
-        description: 'Book the best Cabo Airport transportation with complimentary cold beer included. Start your Los Cabos vacation the right way as soon as you land.',
-        keywords: 'Cabo Airport transportation with beer included, SJD airport shuttle cold drinks, Cabo private transfers beer',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/cabo-airport-transportation-with-beer-included',
+      title: "Transporte en Cabo con Cerveza Incluida | Shuttle Aeropuerto SJD",
+      description: "Reserva tu transporte privado desde el aeropuerto SJD con cerveza fría de cortesía incluida. Comienza tus vacaciones en Los Cabos desde que te subes.",
+      keywords: "Transporte Cabo cerveza incluida, SJD airport shuttle con bebidas, Transporte privado Cabo San Lucas cerveza"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/cabo-airport-transportation-with-beer-included',
+    title: "Cabo Airport Transportation With Beer Included | Cold Drinks",
+    description: "Book the best Cabo Airport transportation with complimentary cold beer included. Start your Los Cabos vacation the right way as soon as you land.",
+    keywords: "Cabo Airport transportation with beer included, SJD airport shuttle cold drinks, Cabo private transfers beer"
+  });
 }
 
 export default function CaboBeerIncludedPage({ params }) {

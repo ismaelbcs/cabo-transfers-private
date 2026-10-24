@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Alternativa a Uber Cabo | Transporte Seguro en Aeropuerto SJD',
-    description: '¿Pensando en usar Uber Cabo en el aeropuerto? Las regulaciones no les permiten entrar a la terminal. Evita caminar bajo el sol y reserva nuestro transporte privado legal.',
-    keywords: 'uber cabo, uber en los cabos, uber aeropuerto SJD, transporte seguro cabo san lucas',
-  };
-  return {
-    title: 'Uber Cabo Alternative | Safe & Legal SJD Airport Transfers',
-    description: 'Planning to use Uber Cabo at the airport? Regulations prevent them from picking up at the terminal. Skip the long walk in the sun and book our legal, private shuttle.',
-    keywords: 'uber cabo, does uber work in cabo, uber sjd airport, alternative to uber los cabos',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/uber-cabo',
+      title: "Alternativa a Uber Cabo | Transporte Seguro en Aeropuerto SJD",
+      description: "¿Pensando en usar Uber Cabo en el aeropuerto? Las regulaciones no les permiten entrar a la terminal. Evita caminar bajo el sol y reserva nuestro transporte privado legal.",
+      keywords: "uber cabo, uber en los cabos, uber aeropuerto SJD, transporte seguro cabo san lucas"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/uber-cabo',
+    title: "Uber Cabo Alternative | Safe & Legal SJD Airport Transfers",
+    description: "Planning to use Uber Cabo at the airport? Regulations prevent them from picking up at the terminal. Skip the long walk in the sun and book our legal, private shuttle.",
+    keywords: "uber cabo, does uber work in cabo, uber sjd airport, alternative to uber los cabos"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

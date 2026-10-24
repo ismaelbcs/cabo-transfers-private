@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Alternativa a Taxi Airport Cabo | Transporte Privado VIP',
-    description: '¿Buscas un Taxi Airport Cabo? Evita los taxímetros y largas filas. Reserva nuestro transporte privado con tarifa fija garantizada.',
-    keywords: 'taxi airport cabo, taxi aeropuerto cabo, precio taxi aeropuerto los cabos, alternativa taxi SJD',
-  };
-  return {
-    title: 'Taxi Airport Cabo Alternative | Flat-Rate Private Transfers',
-    description: 'Looking for a Taxi Airport Cabo? Skip the running meters and long lines. Book our private transportation with a guaranteed flat rate.',
-    keywords: 'taxi airport cabo, cabo airport taxi rates, alternative to taxi cabo, flat rate SJD transfers',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/taxi-airport-cabo',
+      title: "Alternativa a Taxi Airport Cabo | Transporte Privado VIP",
+      description: "¿Buscas un Taxi Airport Cabo? Evita los taxímetros y largas filas. Reserva nuestro transporte privado con tarifa fija garantizada.",
+      keywords: "taxi airport cabo, taxi aeropuerto cabo, precio taxi aeropuerto los cabos, alternativa taxi SJD"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/taxi-airport-cabo',
+    title: "Taxi Airport Cabo Alternative | Flat-Rate Private Transfers",
+    description: "Looking for a Taxi Airport Cabo? Skip the running meters and long lines. Book our private transportation with a guaranteed flat rate.",
+    keywords: "taxi airport cabo, cabo airport taxi rates, alternative to taxi cabo, flat rate SJD transfers"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

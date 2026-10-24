@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Hyatt Ziva Los Cabos Transportation | Traslados Directos',
-    description: 'Reserva tu Hyatt Ziva Los Cabos Transportation. Servicio privado y directo desde el Aeropuerto SJD hasta el lobby del Hyatt Ziva en San José del Cabo.',
-    keywords: 'hyatt ziva los cabos transportation, transporte hyatt ziva los cabos, SJD to hyatt ziva, traslados hyatt ziva',
-  };
-  return {
-    title: 'Hyatt Ziva Los Cabos Transportation | Direct SJD Airport Shuttle',
-    description: 'Book your Hyatt Ziva Los Cabos Transportation. Private and direct service from SJD Airport straight to the lobby of the Hyatt Ziva resort.',
-    keywords: 'hyatt ziva los cabos transportation, SJD airport to hyatt ziva, hyatt ziva cabo shuttle, private transfer hyatt ziva',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/hyatt-ziva-los-cabos-transportation',
+      title: "Hyatt Ziva Los Cabos Transportation | Traslados Directos",
+      description: "Reserva tu Hyatt Ziva Los Cabos Transportation. Servicio privado y directo desde el Aeropuerto SJD hasta el lobby del Hyatt Ziva en San José del Cabo.",
+      keywords: "hyatt ziva los cabos transportation, transporte hyatt ziva los cabos, SJD to hyatt ziva, traslados hyatt ziva"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/hyatt-ziva-los-cabos-transportation',
+    title: "Hyatt Ziva Los Cabos Transportation | Direct SJD Airport Shuttle",
+    description: "Book your Hyatt Ziva Los Cabos Transportation. Private and direct service from SJD Airport straight to the lobby of the Hyatt Ziva resort.",
+    keywords: "hyatt ziva los cabos transportation, SJD airport to hyatt ziva, hyatt ziva cabo shuttle, private transfer hyatt ziva"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

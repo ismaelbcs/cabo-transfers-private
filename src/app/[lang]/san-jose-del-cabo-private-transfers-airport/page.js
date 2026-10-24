@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'San Jose del Cabo Private Transfers Airport | Servicio VIP',
-        description: 'Reserva tu servicio San Jose del Cabo Private Transfers Airport. Bienvenida personalizada (Meet & Greet), tarifas fijas y vehículos premium.',
-        keywords: 'San Jose del Cabo Private Transfers Airport, Aeropuerto SJD traslados, Transporte privado Aeropuerto San Jose',
-    };
-    return {
-        title: 'San Jose del Cabo Private Transfers Airport | Meet & Greet VIP',
-        description: 'Book your San Jose del Cabo Private Transfers Airport service. Professional meet-and-greet, flat rates, and luxury vehicles for a perfect arrival.',
-        keywords: 'San Jose del Cabo Private Transfers Airport, San Jose del Cabo airport transfers, SJD private car service',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/san-jose-del-cabo-private-transfers-airport',
+      title: "San Jose del Cabo Private Transfers Airport | Servicio VIP",
+      description: "Reserva tu servicio San Jose del Cabo Private Transfers Airport. Bienvenida personalizada (Meet & Greet), tarifas fijas y vehículos premium.",
+      keywords: "San Jose del Cabo Private Transfers Airport, Aeropuerto SJD traslados, Transporte privado Aeropuerto San Jose"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/san-jose-del-cabo-private-transfers-airport',
+    title: "San Jose del Cabo Private Transfers Airport | Meet & Greet VIP",
+    description: "Book your San Jose del Cabo Private Transfers Airport service. Professional meet-and-greet, flat rates, and luxury vehicles for a perfect arrival.",
+    keywords: "San Jose del Cabo Private Transfers Airport, San Jose del Cabo airport transfers, SJD private car service"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {
