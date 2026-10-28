@@ -1244,6 +1244,16 @@ export default function DestinationPage({ params }) {
   // Filtrado de hoteles para el buscador interactivo
   const filteredHotels = hotelesBase.filter(h => searchTerm.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
 
+  // Hoteles relacionados en la misma zona para enlazado interno SEO
+  const sameZoneHotels = landingPagesSEO.filter(
+    h => h.slug !== hotel.slug && (h.zona === hotel.zona || h.zonaText === hotel.zonaText)
+  );
+  const currentHotelIndex = landingPagesSEO.findIndex(h => h.slug === hotel.slug);
+  const rotationOffset = (currentHotelIndex + 1) % (sameZoneHotels.length || 1);
+  const relatedHotels = sameZoneHotels.length > 6
+    ? [...sameZoneHotels.slice(rotationOffset), ...sameZoneHotels.slice(0, rotationOffset)].slice(0, 6)
+    : sameZoneHotels;
+
   // Manejador para continuar al paso 2
   const handleContinue = (servicio) => {
     if (setServicioSeleccionado) setServicioSeleccionado(servicio);
@@ -2200,6 +2210,90 @@ export default function DestinationPage({ params }) {
       {/* ========================================= */}
       <div className="max-w-6xl mx-auto px-4 pb-16 mt-10">
         
+        {/* HOTELES RELACIONADOS EN LA MISMA ZONA (INTERLINKING SEO) */}
+        {relatedHotels.length > 0 && (
+          <div className="mb-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+              <div>
+                <span className="text-xs font-extrabold text-blue-900 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100 inline-block mb-3">
+                  {lang === 'es' ? 'Destinos Cercanos' : 'Nearby Destinations'}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                  {lang === 'es' 
+                    ? `Otros traslados y hoteles en ${hotel.zonaText}` 
+                    : `Other Popular Transfers & Hotels in ${hotel.zonaText}`}
+                </h2>
+                <p className="text-slate-500 text-sm mt-1 max-w-2xl font-medium">
+                  {lang === 'es'
+                    ? `Descubre opciones de transporte privado con chofer bilingüe y tarifas fijas a otros resorts y residencias en la zona de ${hotel.zonaText}.`
+                    : `Discover private airport transfer options with bilingual drivers and flat rates to other resorts and residences in ${hotel.zonaText}.`}
+                </p>
+              </div>
+              <Link 
+                href={`/${lang}/transfers`}
+                className="text-xs font-bold text-blue-900 hover:text-blue-700 flex items-center gap-1 shrink-0 group self-start md:self-auto"
+              >
+                <span>{lang === 'es' ? 'Ver todos los traslados' : 'View all transfers'}</span>
+                <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedHotels.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`/${lang}/destinations/${item.slug}`}
+                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-900/40 transition-all duration-300 flex flex-col justify-between"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img 
+                      src={item.image ? (item.image.startsWith('http') || item.image.startsWith('/') ? item.image : `/${item.image}`) : '/suburban-airport-los-cabos-ballard.webp'} 
+                      alt={`Transfer to ${item.nombre}`} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        if (!e.currentTarget.dataset.fallbackTried) {
+                          e.currentTarget.dataset.fallbackTried = '1';
+                          e.currentTarget.src = `/hotel/${item.image?.replace(/^hotel\//, '')}`;
+                        } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                          e.currentTarget.dataset.fallbackTried = '2';
+                          e.currentTarget.src = '/suburban-airport-los-cabos-ballard.webp';
+                        }
+                      }}
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-900/80 backdrop-blur-md text-white border border-white/10">
+                        {item.zonaText}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-5 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-base group-hover:text-blue-900 transition-colors line-clamp-1 mb-2">
+                        {item.nombre}
+                      </h3>
+                      <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mb-4">
+                        <span className="flex items-center gap-1">
+                          <Clock size={13} className="text-slate-400" /> {item.tiempo}
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <MapPin size={13} className="text-slate-400" /> {item.dist}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-900">
+                      <span>{lang === 'es' ? 'Ver información y tarifas' : 'View rates & transfer'}</span>
+                      <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Beneficios Footer */}
         <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-slate-200/40 border border-slate-200 mb-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">
