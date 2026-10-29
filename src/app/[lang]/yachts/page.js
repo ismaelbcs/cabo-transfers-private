@@ -367,76 +367,55 @@ export default function YachtsPage({ params }) {
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-600 selection:text-white">
       
       {/* ======================================================== */}
-      {/* HERO BANNER AL ESTILO DE LAS PÁGINAS DE HOTELES         */}
       {/* ======================================================== */}
-      <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 px-4 overflow-hidden rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-xl bg-slate-950 text-white mb-8">
+      {/* HERO BANNER - TEMA CLARO Y ELEGANTE                      */}
+      {/* ======================================================== */}
+      <div className="relative pt-28 pb-14 md:pt-32 md:pb-16 px-4 bg-gradient-to-b from-blue-50/80 via-white to-slate-50 border-b border-slate-200/90 mb-10 overflow-hidden">
         
-        {/* Imagen de Fondo del Hero */}
-        <div className="absolute inset-0">
-          <img 
-            src={fotosGaleria[fotoActiva].src} 
-            alt={fotosGaleria[fotoActiva].titleEn} 
-            className="w-full h-full object-cover opacity-40 transition-all duration-700 ease-out"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
-
-        <div className="relative max-w-5xl mx-auto text-center z-20">
+        <div className="relative max-w-5xl mx-auto text-center z-10">
           
           {/* Breadcrumb e Indicadores */}
-          <div className="flex flex-wrap justify-center items-center gap-2 mb-6 text-xs text-slate-300">
-            <Link href={`/${lang}`} className="hover:text-white transition flex items-center gap-1 font-semibold">
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-4 text-xs text-slate-500 font-semibold">
+            <Link href={`/${lang}`} className="hover:text-blue-600 transition flex items-center gap-1">
               <span>←</span> {isEs ? 'Inicio' : 'Home'}
             </Link>
             <span>/</span>
-            <span className="text-slate-300 font-medium">{isEs ? 'Yates de Lujo' : 'Luxury Yachts'}</span>
+            <span className="text-slate-500">{isEs ? 'Yates de Lujo' : 'Luxury Yachts'}</span>
             <span>/</span>
-            <span className="text-blue-300 font-bold">116ft Azimut-Benetti "Capella"</span>
+            <span className="text-blue-900 font-extrabold">116ft Azimut-Benetti "Capella"</span>
           </div>
 
-          <div className="flex justify-center items-center gap-4 mb-4 text-slate-400">
-            <Ship size={26} className="text-blue-400" />
-            <span className="border-t border-dashed border-slate-600 w-16"></span>
-            <MapPin size={26} className="text-amber-400" />
+          <div className="flex justify-center items-center gap-4 mb-3 text-slate-400">
+            <Ship size={24} className="text-blue-900" />
+            <span className="border-t border-dashed border-slate-300 w-16"></span>
+            <MapPin size={24} className="text-amber-500" />
           </div>
 
-          {/* Título Principal con la misma tipografía institucional de hoteles */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tight leading-tight text-white drop-shadow-md">
+          {/* Título Principal */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 tracking-tight leading-tight text-slate-900">
             {isEs ? 'Renta de Yate Privado Capella 116ft' : '116 Ft Azimut-Benetti "Capella"'}
           </h1>
           
           <HeroReviewsBadge lang={lang} />
 
-          <p className="text-base sm:text-lg md:text-xl text-slate-200 font-medium mt-4 max-w-3xl mx-auto drop-shadow">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 font-medium mt-3 max-w-3xl mx-auto leading-relaxed">
             {isEs 
               ? 'Calidad, máximo lujo y excelencia italiana para navegar las aguas de Los Cabos. La embarcación en la que todos desean estar.'
               : 'Quality, luxury, and Italian excellence for cruising Baja’s deep blue seas. The vessel everybody wishes they were on.'
             }
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
-            <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-bold uppercase tracking-wider">
-              {isEs ? '1 de solo 3 en el mundo' : '1 of only 3 ever built worldwide'}
-            </span>
-            <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-wider">
-              {isEs ? 'Chef Privado y Tripulación de 7' : 'Full Crew of 7 + Private Chef'}
-            </span>
-            <span className="px-3 py-1 rounded-full bg-white/10 text-slate-200 border border-white/20 text-xs font-bold uppercase tracking-wider">
-              Marina Cabo San Lucas
-            </span>
-          </div>
-
           {/* Selector de Galería de Fotos Reales con Visor Grande */}
-          <div className="mt-8 pt-6 border-t border-slate-800/80">
-            <div className="flex items-center justify-between mb-4 text-xs text-slate-300">
-              <span className="font-bold flex items-center gap-1.5 text-sm text-white">
-                <CameraIcon size={16} className="text-blue-400" />
+          <div className="mt-8 pt-6 border-t border-slate-200">
+            <div className="flex items-center justify-between mb-4 text-xs text-slate-600">
+              <span className="font-extrabold flex items-center gap-1.5 text-sm sm:text-base text-slate-900">
+                <CameraIcon size={18} className="text-blue-600" />
                 {isEs ? 'Fotos Reales del Yate Capella' : 'Real Yacht Capella Photos'}
               </span>
               <button 
                 type="button"
                 onClick={() => setLightboxAbierto(true)}
-                className="text-blue-300 hover:text-white font-semibold transition flex items-center gap-1 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full border border-white/10"
+                className="text-blue-900 hover:text-blue-700 font-bold transition flex items-center gap-1.5 bg-white hover:bg-blue-50 px-3.5 py-1.5 rounded-full border border-slate-200 shadow-2xs"
               >
                 <Maximize2 size={13} />
                 {isEs ? 'Ver en pantalla completa' : 'View full screen'}
@@ -444,8 +423,8 @@ export default function YachtsPage({ params }) {
             </div>
 
             {/* VISOR PRINCIPAL DE FOTO GRANDE (CAMBIA AL DAR CLIC A CUALQUIER FOTO) */}
-            <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-slate-900 group mb-4">
-              <div className="relative aspect-[16/9] sm:aspect-[16/9] md:h-[480px] w-full overflow-hidden">
+            <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-200/90 bg-slate-900 group mb-4">
+              <div className="relative aspect-[16/9] sm:aspect-[16/9] md:h-[480px] w-full overflow-hidden bg-slate-100">
                 <img 
                   key={fotosGaleria[fotoActiva].src}
                   src={fotosGaleria[fotoActiva].src} 
@@ -454,7 +433,7 @@ export default function YachtsPage({ params }) {
                 />
                 
                 {/* Gradiente inferior para legibilidad */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
 
                 {/* Flecha Anterior */}
                 <button 
@@ -463,7 +442,7 @@ export default function YachtsPage({ params }) {
                     e.stopPropagation();
                     setFotoActiva(prev => (prev === 0 ? fotosGaleria.length - 1 : prev - 1));
                   }}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-xs flex items-center justify-center transition border border-white/20 z-20 cursor-pointer shadow-lg active:scale-95"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white text-slate-900 shadow-lg flex items-center justify-center transition border border-slate-200 z-20 cursor-pointer active:scale-95"
                   aria-label="Previous Photo"
                 >
                   <ChevronLeft size={24} />
@@ -476,7 +455,7 @@ export default function YachtsPage({ params }) {
                     e.stopPropagation();
                     setFotoActiva(prev => (prev === fotosGaleria.length - 1 ? 0 : prev + 1));
                   }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-xs flex items-center justify-center transition border border-white/20 z-20 cursor-pointer shadow-lg active:scale-95"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white text-slate-900 shadow-lg flex items-center justify-center transition border border-slate-200 z-20 cursor-pointer active:scale-95"
                   aria-label="Next Photo"
                 >
                   <ChevronRight size={24} />
@@ -484,20 +463,20 @@ export default function YachtsPage({ params }) {
 
                 {/* Badge superior contador */}
                 <div className="absolute top-4 left-4 z-20 pointer-events-none">
-                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-md">
+                  <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-slate-900 text-xs font-black border border-slate-200 shadow-md">
                     {fotoActiva + 1} / {fotosGaleria.length}
                   </span>
                 </div>
 
                 {/* Leyenda y descripción de la foto sobre la imagen */}
                 <div className="absolute bottom-4 left-4 right-4 text-left z-20">
-                  <span className="inline-block px-2.5 py-0.5 rounded bg-blue-600/90 text-white text-[11px] font-black uppercase tracking-wider mb-1">
+                  <span className="inline-block px-2.5 py-0.5 rounded bg-blue-600 text-white text-[11px] font-black uppercase tracking-wider mb-1 shadow-xs">
                     {isEs ? 'Foto Activa' : 'Active Photo'}
                   </span>
                   <h3 className="text-base sm:text-xl md:text-2xl font-black text-white drop-shadow-md">
                     {isEs ? fotosGaleria[fotoActiva].titleEs : fotosGaleria[fotoActiva].titleEn}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-200 drop-shadow line-clamp-2 mt-0.5 max-w-2xl">
+                  <p className="text-xs sm:text-sm text-slate-100 drop-shadow line-clamp-2 mt-0.5 max-w-2xl">
                     {isEs ? fotosGaleria[fotoActiva].descEs : fotosGaleria[fotoActiva].descEn}
                   </p>
                 </div>
@@ -505,16 +484,16 @@ export default function YachtsPage({ params }) {
             </div>
 
             {/* MINIATURAS INTERACTIVAS */}
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
               {fotosGaleria.map((foto, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => setFotoActiva(idx)}
-                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all cursor-pointer bg-white ${
                     fotoActiva === idx 
-                      ? 'border-blue-400 ring-4 ring-blue-500/50 scale-[1.04] shadow-[0_0_15px_rgba(56,189,248,0.5)] z-10' 
-                      : 'border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600'
+                      ? 'border-blue-600 ring-4 ring-blue-500/25 scale-[1.04] shadow-md z-10' 
+                      : 'border-slate-200 opacity-70 hover:opacity-100 hover:border-slate-400'
                   }`}
                 >
                   <img src={foto.src} alt={foto.titleEn} className="w-full h-full object-cover" />
