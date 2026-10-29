@@ -102,6 +102,18 @@ export default function SpecialServices({ lang = 'es' }) {
             </div>
           </Link>
 
+          <Link href={`/${lang}/cabo-yacht-charters`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-amber-500 hover:shadow-md transition flex flex-col h-full group bg-gradient-to-br from-white to-amber-50/30">
+            <div className="w-10 h-10 bg-amber-50 text-amber-700 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors text-xl">⚓</div>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-lg font-bold text-slate-900">{lang === 'es' ? 'Yates de Lujo' : 'Luxury Yachts'}</h3>
+              <span className="text-[10px] bg-amber-400 text-slate-950 font-extrabold px-2 py-0.5 rounded-full">Capella 116'</span>
+            </div>
+            <p className="text-sm text-slate-500 flex-grow mb-6">{lang === 'es' ? 'Superyate exclusivo con chef privado, jacuzzi y barra libre en el Arco.' : 'Exclusive superyacht with private chef, jacuzzi, and open bar at Land’s End.'}</p>
+            <div className="text-amber-800 font-bold text-sm flex items-center justify-between group-hover:text-amber-600">
+              {lang === 'es' ? 'Ver Yates y Tarifas' : 'View Yacht & Rates'} <span className="text-lg leading-none">&rsaquo;</span>
+            </div>
+          </Link>
+
           <a href={`/${lang}/agencies`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-blue-500 hover:shadow-md transition flex flex-col h-full group">
             <div className="w-10 h-10 bg-blue-50 text-blue-900 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors text-xl">💼</div>
             <h3 className="text-lg font-bold text-slate-900 mb-2">Agencias de Viajes</h3>
