@@ -21,6 +21,7 @@ export default function sitemap() {
     '/nightlife', // Traslados para vida nocturna y clubs
     '/weddings', // Transporte para bodas y eventos
     '/golf', // Traslados a campos de golf
+    '/yachts', // Renta exclusiva de yates de lujo en Los Cabos (Capella 116ft)
     '/cabo-yacht-charters', // Renta de yates de lujo en Cabo San Lucas
     '/yachts/capella', // Yate Capella 116ft Azimut-Benetti
     '/agencies', // Portal para agencias de viajes

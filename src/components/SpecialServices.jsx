@@ -102,7 +102,7 @@ export default function SpecialServices({ lang = 'es' }) {
             </div>
           </Link>
 
-          <Link href={`/${lang}/cabo-yacht-charters`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-amber-500 hover:shadow-md transition flex flex-col h-full group bg-gradient-to-br from-white to-amber-50/30">
+          <Link href={`/${lang}/yachts`} className="border border-slate-200 rounded-2xl p-6 cursor-pointer hover:border-amber-500 hover:shadow-md transition flex flex-col h-full group bg-gradient-to-br from-white to-amber-50/30">
             <div className="w-10 h-10 bg-amber-50 text-amber-700 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors text-xl">⚓</div>
             <div className="flex items-center gap-2 mb-1">
               <h3 className="text-lg font-bold text-slate-900">{lang === 'es' ? 'Yates de Lujo' : 'Luxury Yachts'}</h3>
