@@ -196,46 +196,76 @@ export default function YachtsPage({ params }) {
 
   const fotosGaleria = [
     {
+      src: '/yachts/capella-exterior-cruising.jpg',
+      titleEn: '116 Ft Azimut-Benetti Capella Cruising Cabo Waters',
+      titleEs: 'Superyate Capella de 116 pies navegando en las aguas de Los Cabos',
+      descEn: 'One of only three ever built worldwide, cruising the deep blue Sea of Cortez.',
+      descEs: 'Uno de solo tres jamás construidos en el mundo, navegando el Mar de Cortés.',
+      labelEn: 'Cruising',
+      labelEs: 'Navegación'
+    },
+    {
       src: '/yachts/capella-exterior-profile.jpg',
-      titleEn: '116 Ft Azimut-Benetti Capella Profile at Land’s End Cliffs',
-      titleEs: 'Silueta del Superyate Capella de 116 pies navegando en los acantilados de Finisterra',
-      descEn: 'Graceful tri-deck Italian design, one of only three ever built worldwide.',
-      descEs: 'Elegante diseño italiano de tres cubiertas, uno de solo tres modelos jamás construidos.'
+      titleEn: 'Capella Profile at Land’s End Cliffs',
+      titleEs: 'Silueta del Capella frente a los acantilados de Finisterra',
+      descEn: 'Graceful tri-deck Italian design and lines off the iconic Cabo coastline.',
+      descEs: 'Elegante diseño italiano de tres cubiertas frente a la costa de Cabo.',
+      labelEn: 'Profile',
+      labelEs: 'Silueta'
+    },
+    {
+      src: '/yachts/capella-flybridge-bar.jpg',
+      titleEn: 'Upper Flybridge Bar & Alfresco Cocktail Lounge',
+      titleEs: 'Bar en Cubierta Superior Flybridge y Salón de Cócteles al Aire Libre',
+      descEn: 'Circular wet bar with open sea views, premium spirits, and sunset seating.',
+      descEs: 'Wet bar circular con vistas al mar abierto, coctelería premium y asientos lounge.',
+      labelEn: 'Sky Bar',
+      labelEs: 'Sky Bar'
     },
     {
       src: '/yachts/capella-flybridge-jacuzzi.jpg',
-      titleEn: 'Upper Flybridge Deck with Jacuzzi & Lounge',
-      titleEs: 'Cubierta Superior Flybridge con Jacuzzi y Amplia Zona Lounge',
+      titleEn: 'Upper Flybridge Deck with 8-Person Jacuzzi & Lounge',
+      titleEs: 'Cubierta Superior Flybridge con Jacuzzi para 8 Personas y Lounge',
       descEn: '8-person heated jacuzzi surrounded by teak deck, plush pillows, and open sea views.',
-      descEs: 'Jacuzzi para ocho personas rodeado de cubierta de teca, cojines de lujo y vista al mar abierto.'
+      descEs: 'Jacuzzi para ocho personas rodeado de cubierta de teca, cojines de lujo y vista al mar abierto.',
+      labelEn: 'Jacuzzi',
+      labelEs: 'Jacuzzi'
+    },
+    {
+      src: '/yachts/capella-main-salon.jpg',
+      titleEn: 'Open-Plan Main Salon with Circular Bar & Formal Dining',
+      titleEs: 'Salón Principal de Concepto Abierto con Bar Circular y Comedor Formal',
+      descEn: 'Spacious salon with hand-crafted cherry wood, plush lounge sofas, and formal dining.',
+      descEs: 'Espacioso salón con maderas finas de cerezo, sillones lounge y comedor formal.',
+      labelEn: 'Main Salon',
+      labelEs: 'Salón'
+    },
+    {
+      src: '/yachts/capella-master-stateroom.jpg',
+      titleEn: 'Master Stateroom Suite with King Bed & Cherry Wood',
+      titleEs: 'Camarote Principal Suite con Cama King y Maderas Finas',
+      descEn: 'Full-beam master suite decorated with impeccable Italian craftsmanship.',
+      descEs: 'Suite principal full-beam decorada con impecable artesanía italiana.',
+      labelEn: 'Master Suite',
+      labelEs: 'Suite King'
     },
     {
       src: '/yachts/capella-bow-sunpad.jpg',
-      titleEn: 'Expansive Bow Sunbathing Pad with Cocktails',
-      titleEs: 'Amplio Asoleadero en Proa con Cojines y Bandeja de Cócteles',
+      titleEn: 'Expansive Bow Sunbathing Pad',
+      titleEs: 'Amplio Asoleadero en Proa con Cojines de Lujo',
       descEn: 'Ideal for sun lounging with fresh drinks by day and romantic stargazing by night.',
-      descEs: 'Ideal para tomar el sol con cócteles de día y admirar las estrellas por la noche.'
-    },
-    {
-      src: '/yachts/capella-stateroom-suite.jpg',
-      titleEn: 'Luxury Stateroom Suite with Cherry Wood & King Bed',
-      titleEs: 'Camarote Suite de Lujo con Maderas Finas y Cama King',
-      descEn: 'Spacious stateroom decorated with impeccable Italian taste and en-suite marble bath.',
-      descEs: 'Espacioso camarote decorado con impecable gusto italiano y baño de mármol privado.'
+      descEs: 'Ideal para tomar el sol de día y admirar las estrellas por la noche.',
+      labelEn: 'Bow Sunpad',
+      labelEs: 'Proa'
     },
     {
       src: '/yachts/capella-mosaic-companionway.jpg',
       titleEn: 'Hand-Laid Mosaic Tile Companionway',
       titleEs: 'Pasillo Principal con Mosaicos Artesanales Hechos a Mano',
       descEn: 'Stunning artisan tile mosaic companionway accented with polished cherry wood.',
-      descEs: 'Impresionante pasillo de mosaicos artesanales con acentos en madera de cerezo pulida.'
-    },
-    {
-      src: '/yachts/capella-salon.jpg',
-      titleEn: 'Open-Plan Main Salon with Wet Bar & Formal Dining for 10',
-      titleEs: 'Salón Principal con Wet Bar y Comedor Formal para 10 Personas',
-      descEn: 'Airy salon with panoramic windows, plush leather sofas, and full bar service.',
-      descEs: 'Salón con ventanales panorámicos, sillones de piel y servicio de bar completo.'
+      descEs: 'Impresionante pasillo de mosaicos artesanales con acentos en madera de cerezo pulida.',
+      labelEn: 'Mosaic Tile',
+      labelEs: 'Mosaicos'
     }
   ];
 
@@ -374,39 +404,47 @@ export default function YachtsPage({ params }) {
         
         <div className="relative max-w-5xl mx-auto text-center z-10">
           
-          {/* Breadcrumb e Indicadores */}
-          <div className="flex flex-wrap justify-center items-center gap-2 mb-4 text-xs text-slate-500 font-semibold">
-            <Link href={`/${lang}`} className="hover:text-blue-600 transition flex items-center gap-1">
-              <span>←</span> {isEs ? 'Inicio' : 'Home'}
-            </Link>
-            <span>/</span>
-            <span className="text-slate-500">{isEs ? 'Yates de Lujo' : 'Luxury Yachts'}</span>
-            <span>/</span>
-            <span className="text-blue-900 font-extrabold">116ft Azimut-Benetti "Capella"</span>
+          {/* ======================================================== */}
+          {/* CUADRO ELEGANTE ACORDE A LA TEMÁTICA PARA RESALTAR LETRAS */}
+          {/* ======================================================== */}
+          <div className="max-w-4xl mx-auto bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-[0_10px_35px_-5px_rgba(15,23,42,0.08)] border border-blue-100/80 text-center relative overflow-hidden mb-8">
+            {/* Acento superior náutico */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-700 via-blue-600 to-amber-500"></div>
+
+            {/* Breadcrumb e Indicadores */}
+            <div className="flex flex-wrap justify-center items-center gap-2 mb-4 text-xs text-slate-500 font-semibold">
+              <Link href={`/${lang}`} className="hover:text-blue-600 transition flex items-center gap-1">
+                <span>←</span> {isEs ? 'Inicio' : 'Home'}
+              </Link>
+              <span>/</span>
+              <span className="text-slate-400">{isEs ? 'Yates de Lujo' : 'Luxury Yachts'}</span>
+              <span>/</span>
+              <span className="text-blue-900 font-extrabold">116ft Azimut-Benetti "Capella"</span>
+            </div>
+
+            <div className="flex justify-center items-center gap-4 mb-3 text-slate-400">
+              <Ship size={24} className="text-blue-900" />
+              <span className="border-t border-dashed border-slate-300 w-16"></span>
+              <MapPin size={24} className="text-amber-500" />
+            </div>
+
+            {/* Título Principal */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 tracking-tight leading-tight text-slate-900">
+              {isEs ? 'Renta de Yate Privado Capella 116ft' : '116 Ft Azimut-Benetti "Capella"'}
+            </h1>
+            
+            <HeroReviewsBadge lang={lang} />
+
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 font-medium mt-3 max-w-2xl mx-auto leading-relaxed">
+              {isEs 
+                ? 'Calidad, máximo lujo y excelencia italiana para navegar las aguas de Los Cabos. La embarcación en la que todos desean estar.'
+                : 'Quality, luxury, and Italian excellence for cruising Baja’s deep blue seas. The vessel everybody wishes they were on.'
+              }
+            </p>
           </div>
-
-          <div className="flex justify-center items-center gap-4 mb-3 text-slate-400">
-            <Ship size={24} className="text-blue-900" />
-            <span className="border-t border-dashed border-slate-300 w-16"></span>
-            <MapPin size={24} className="text-amber-500" />
-          </div>
-
-          {/* Título Principal */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 tracking-tight leading-tight text-slate-900">
-            {isEs ? 'Renta de Yate Privado Capella 116ft' : '116 Ft Azimut-Benetti "Capella"'}
-          </h1>
-          
-          <HeroReviewsBadge lang={lang} />
-
-          <p className="text-base sm:text-lg md:text-xl text-slate-600 font-medium mt-3 max-w-3xl mx-auto leading-relaxed">
-            {isEs 
-              ? 'Calidad, máximo lujo y excelencia italiana para navegar las aguas de Los Cabos. La embarcación en la que todos desean estar.'
-              : 'Quality, luxury, and Italian excellence for cruising Baja’s deep blue seas. The vessel everybody wishes they were on.'
-            }
-          </p>
 
           {/* Selector de Galería de Fotos Reales con Visor Grande */}
-          <div className="mt-8 pt-6 border-t border-slate-200">
+          <div className="mt-4 pt-6 border-t border-slate-200">
             <div className="flex items-center justify-between mb-4 text-xs text-slate-600">
               <span className="font-extrabold flex items-center gap-1.5 text-sm sm:text-base text-slate-900">
                 <CameraIcon size={18} className="text-blue-600" />
@@ -484,7 +522,7 @@ export default function YachtsPage({ params }) {
             </div>
 
             {/* MINIATURAS INTERACTIVAS */}
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-2.5">
               {fotosGaleria.map((foto, idx) => (
                 <button
                   key={idx}
@@ -499,12 +537,7 @@ export default function YachtsPage({ params }) {
                   <img src={foto.src} alt={foto.titleEn} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1">
                     <span className="text-[10px] font-bold text-white truncate drop-shadow w-full text-center">
-                      {idx === 0 && (isEs ? 'Exterior' : 'Profile')}
-                      {idx === 1 && (isEs ? 'Jacuzzi' : 'Flybridge')}
-                      {idx === 2 && (isEs ? 'Proa' : 'Bow Sunpad')}
-                      {idx === 3 && (isEs ? 'Camarote' : 'Stateroom')}
-                      {idx === 4 && (isEs ? 'Mosaicos' : 'Mosaic Tile')}
-                      {idx === 5 && (isEs ? 'Salón' : 'Main Salon')}
+                      {isEs ? foto.labelEs : foto.labelEn}
                     </span>
                   </div>
                 </button>
