@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'Private Transfers Los Cabos | Transporte Seguro Aeropuerto SJD',
-        description: 'El mejor servicio de Private Transfers Los Cabos. Evita las filas de taxi y disfruta de un viaje directo y cómodo a tu hotel.',
-        keywords: 'Private Transfers Los Cabos, Transporte Aeropuerto Los Cabos, Traslados privados SJD',
-    };
-    return {
-        title: 'Private Transfers Los Cabos | Direct SJD Airport to Hotel',
-        description: 'Top-rated Private Transfers Los Cabos. Avoid taxi lines and enjoy a direct, comfortable ride from the airport straight to your resort lobby.',
-        keywords: 'Private Transfers Los Cabos, Los Cabos private transportation, airport transfers Los Cabos, Cabo shuttle',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/private-transfers-los-cabos',
+      title: "Private Transfers Los Cabos | Transporte Seguro Aeropuerto SJD",
+      description: "El mejor servicio de Private Transfers Los Cabos. Evita las filas de taxi y disfruta de un viaje directo y cómodo a tu hotel.",
+      keywords: "Private Transfers Los Cabos, Transporte Aeropuerto Los Cabos, Traslados privados SJD"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/private-transfers-los-cabos',
+    title: "Private Transfers Los Cabos | Direct SJD Airport to Hotel",
+    description: "Top-rated Private Transfers Los Cabos. Avoid taxi lines and enjoy a direct, comfortable ride from the airport straight to your resort lobby.",
+    keywords: "Private Transfers Los Cabos, Los Cabos private transportation, airport transfers Los Cabos, Cabo shuttle"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

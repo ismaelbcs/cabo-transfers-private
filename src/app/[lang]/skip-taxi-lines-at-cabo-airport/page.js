@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'Evita las Filas de Taxis en el Aeropuerto de Cabo | SJD Transfers',
-        description: 'Sáltate las filas de taxis en el aeropuerto de Cabo San Lucas. Reserva tu transporte privado VIP con anticipación y ve directo a tu hotel.',
-        keywords: 'Evitar filas taxi Cabo, Skip taxi lines Cabo airport, Transporte VIP SJD',
-    };
-    return {
-        title: 'Skip Taxi Lines at Cabo Airport | Pre-booked VIP Transfers',
-        description: 'Don’t wait in the sun. Skip taxi lines at Cabo Airport by pre-booking our private VIP transportation. Meet and greet service included.',
-        keywords: 'Skip taxi lines at Cabo airport, fast exit SJD airport, pre-book Cabo transportation',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/skip-taxi-lines-at-cabo-airport',
+      title: "Evita las Filas de Taxis en el Aeropuerto de Cabo | SJD Transfers",
+      description: "Sáltate las filas de taxis en el aeropuerto de Cabo San Lucas. Reserva tu transporte privado VIP con anticipación y ve directo a tu hotel.",
+      keywords: "Evitar filas taxi Cabo, Skip taxi lines Cabo airport, Transporte VIP SJD"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/skip-taxi-lines-at-cabo-airport',
+    title: "Skip Taxi Lines at Cabo Airport | Pre-booked VIP Transfers",
+    description: "Don’t wait in the sun. Skip taxi lines at Cabo Airport by pre-booking our private VIP transportation. Meet and greet service included.",
+    keywords: "Skip taxi lines at Cabo airport, fast exit SJD airport, pre-book Cabo transportation"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Airport Los Cabos SJD | Transporte y Traslados Oficiales',
-    description: 'Reserva tu transporte seguro desde el Airport Los Cabos SJD. Evita las filas y viaja con choferes certificados en vehículos premium.',
-    keywords: 'airport los cabos sjd, SJD airport, traslados SJD, transporte aeropuerto SJD',
-  };
-  return {
-    title: 'Airport Los Cabos SJD | Official Transportation & Transfers',
-    description: 'Book your safe transportation from Airport Los Cabos SJD. Skip the lines and travel with certified drivers in premium vehicles.',
-    keywords: 'airport los cabos sjd, SJD airport transfers, cabo airport transportation',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/airport-los-cabos-sjd',
+      title: "Airport Los Cabos SJD | Transporte y Traslados Oficiales",
+      description: "Reserva tu transporte seguro desde el Airport Los Cabos SJD. Evita las filas y viaja con choferes certificados en vehículos premium.",
+      keywords: "airport los cabos sjd, SJD airport, traslados SJD, transporte aeropuerto SJD"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/airport-los-cabos-sjd',
+    title: "Airport Los Cabos SJD | Official Transportation & Transfers",
+    description: "Book your safe transportation from Airport Los Cabos SJD. Skip the lines and travel with certified drivers in premium vehicles.",
+    keywords: "airport los cabos sjd, SJD airport transfers, cabo airport transportation"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

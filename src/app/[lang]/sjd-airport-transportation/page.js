@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'SJD Airport Transportation | Traslados Privados San José del Cabo',
-        description: 'Reserva la mejor SJD Airport Transportation. Servicio seguro, cómodo y de lujo desde el Aeropuerto Internacional de San José del Cabo hacia tu hotel.',
-        keywords: 'SJD Airport Transportation, San Jose del Cabo airport transfers, Transporte SJD Los Cabos',
-    };
-    return {
-        title: 'Reliable SJD Airport Transportation | Los Cabos Private Shuttle',
-        description: 'Book the most reliable SJD Airport Transportation. Safe, comfortable, and luxury transfers from San Jose del Cabo International Airport to your resort.',
-        keywords: 'SJD Airport Transportation, SJD airport shuttle, San Jose del Cabo transfers, Airport SJD to hotel',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/sjd-airport-transportation',
+      title: "SJD Airport Transportation | Traslados Privados San José del Cabo",
+      description: "Reserva la mejor SJD Airport Transportation. Servicio seguro, cómodo y de lujo desde el Aeropuerto Internacional de San José del Cabo hacia tu hotel.",
+      keywords: "SJD Airport Transportation, San Jose del Cabo airport transfers, Transporte SJD Los Cabos"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/sjd-airport-transportation',
+    title: "Reliable SJD Airport Transportation | Los Cabos Private Shuttle",
+    description: "Book the most reliable SJD Airport Transportation. Safe, comfortable, and luxury transfers from San Jose del Cabo International Airport to your resort.",
+    keywords: "SJD Airport Transportation, SJD airport shuttle, San Jose del Cabo transfers, Airport SJD to hotel"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

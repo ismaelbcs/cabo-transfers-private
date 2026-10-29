@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-      title: 'Trans Cabo Airport Private Transportation | Traslados Premium',
-      description: 'La mejor alternativa en Trans Cabo Airport Private Transportation. Viajes directos, tarifas fijas y camionetas de lujo esperándote en la terminal.',
-      keywords: 'trans cabo airport private transportation, trans cabo shuttle, transporte aeropuerto cabo san lucas',
-    };
-  return {
-    title: 'Trans Cabo Airport Private Transportation | Premium VIP Service',
-    description: 'The top alternative for Trans Cabo Airport Private Transportation. Direct rides, flat rates, and luxury SUVs waiting for you at the SJD terminal.',
-    keywords: 'trans cabo airport private transportation, transcabo alternative, SJD VIP transportation',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/trans-cabo-airport-private-transportation',
+      title: "Trans Cabo Airport Private Transportation | Traslados Premium",
+      description: "La mejor alternativa en Trans Cabo Airport Private Transportation. Viajes directos, tarifas fijas y camionetas de lujo esperándote en la terminal.",
+      keywords: "trans cabo airport private transportation, trans cabo shuttle, transporte aeropuerto cabo san lucas"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/trans-cabo-airport-private-transportation',
+    title: "Trans Cabo Airport Private Transportation | Premium VIP Service",
+    description: "The top alternative for Trans Cabo Airport Private Transportation. Direct rides, flat rates, and luxury SUVs waiting for you at the SJD terminal.",
+    keywords: "trans cabo airport private transportation, transcabo alternative, SJD VIP transportation"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

@@ -1,15 +1,53 @@
 @import "tailwindcss";
 
+/* ========================================================= */
+/* ✒️ FUENTES OFICIALES DE ULTRA-LUJO (MONTAGE & SANS PREMIUM) */
+/* ========================================================= */
+@font-face {
+  font-family: 'Spezia';
+  src: url('/fonts/SpeziaWeb-Regular.woff2') format('woff2');
+  font-weight: 300 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spezia';
+  src: url('/fonts/SpeziaWeb-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Spezia';
+  src: url('/fonts/SpeziaWeb-SemiBold.woff2') format('woff2');
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GaramondNova';
+  src: url('/fonts/GaramondNova.woff2') format('woff2');
+  font-weight: 300 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-spezia: 'Spezia', 'SpeziaWeb', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-garamond: 'GaramondNova', 'Garamond-Nova-Pro', Georgia, serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Spezia', 'SpeziaWeb', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-spezia: 'Spezia', 'SpeziaWeb', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'GaramondNova', 'Garamond-Nova-Pro', Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,8 +65,20 @@ html, body {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Spezia', 'SpeziaWeb', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+.font-montage {
+  font-family: 'Spezia', 'SpeziaWeb', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.font-montage-serif {
+  font-family: 'GaramondNova', 'Garamond-Nova-Pro', Georgia, serif;
+}
+
 @keyframes gradient-x {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }

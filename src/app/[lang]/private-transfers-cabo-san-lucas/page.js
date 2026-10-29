@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'Private Transfers Cabo San Lucas | Transporte Privado VIP',
-        description: 'Disfruta de tus Private Transfers Cabo San Lucas sin complicaciones. Viajes rápidos y seguros desde el Aeropuerto SJD al centro de Cabo San Lucas.',
-        keywords: 'Private Transfers Cabo San Lucas, Transporte SJD a Cabo San Lucas, Traslados privados Cabo',
-    };
-    return {
-        title: 'Private Transfers Cabo San Lucas | VIP Airport Shuttle',
-        description: 'Enjoy hassle-free Private Transfers Cabo San Lucas. Fast, secure, and comfortable rides from SJD Airport directly to downtown Cabo San Lucas and Medano Beach.',
-        keywords: 'Private Transfers Cabo San Lucas, Cabo San Lucas private shuttle, SJD to Cabo San Lucas, Cabo transfers',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/private-transfers-cabo-san-lucas',
+      title: "Private Transfers Cabo San Lucas | Transporte Privado VIP",
+      description: "Disfruta de tus Private Transfers Cabo San Lucas sin complicaciones. Viajes rápidos y seguros desde el Aeropuerto SJD al centro de Cabo San Lucas.",
+      keywords: "Private Transfers Cabo San Lucas, Transporte SJD a Cabo San Lucas, Traslados privados Cabo"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/private-transfers-cabo-san-lucas',
+    title: "Private Transfers Cabo San Lucas | VIP Airport Shuttle",
+    description: "Enjoy hassle-free Private Transfers Cabo San Lucas. Fast, secure, and comfortable rides from SJD Airport directly to downtown Cabo San Lucas and Medano Beach.",
+    keywords: "Private Transfers Cabo San Lucas, Cabo San Lucas private shuttle, SJD to Cabo San Lucas, Cabo transfers"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

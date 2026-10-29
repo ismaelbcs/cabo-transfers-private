@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Transporte en Airport Los Cabos | Reservas SJD',
-    description: 'Encuentra tu transporte ideal en el Airport Los Cabos. Vehículos privados, SUVs de lujo y vans para grupos directo a tu hotel.',
-    keywords: 'airport los cabos, aeropuerto los cabos, transporte aeropuerto los cabos, cabo shuttle, Los Cabos taxi, Los Cabos Uber',
-  };
-  return {
-    title: 'Private Transportation from Airport Los Cabos | SJD Shuttle',
-    description: 'Find your perfect ride from Airport Los Cabos. Private vehicles, luxury SUVs, and group vans waiting to take you directly to your resort.',
-    keywords: 'airport los cabos, los cabos international airport, airport transportation cabo, cabo shuttle, Los Cabos taxi, Los Cabos Uber',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/airport-los-cabos',
+      title: "Transporte en Airport Los Cabos | Reservas SJD",
+      description: "Encuentra tu transporte ideal en el Airport Los Cabos. Vehículos privados, SUVs de lujo y vans para grupos directo a tu hotel.",
+      keywords: "airport los cabos, aeropuerto los cabos, transporte aeropuerto los cabos, cabo shuttle, Los Cabos taxi, Los Cabos Uber"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/airport-los-cabos',
+    title: "Private Transportation from Airport Los Cabos | SJD Shuttle",
+    description: "Find your perfect ride from Airport Los Cabos. Private vehicles, luxury SUVs, and group vans waiting to take you directly to your resort.",
+    keywords: "airport los cabos, los cabos international airport, airport transportation cabo, cabo shuttle, Los Cabos taxi, Los Cabos Uber"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

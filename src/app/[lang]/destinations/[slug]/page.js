@@ -302,7 +302,7 @@ export const landingPagesSEO = [
   { slug: 'sjd-to-medano-hotel-and-suites', nombre: 'Medano Hotel and Suites', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '45-50 min', dist: '44 km', image: 'sjd-to-medano-hotel-and-suites.webp', desc: 'a spectacular resort in Cabo' },
   { slug: 'sjd-to-misiones-del-cabo', nombre: 'Misiones del Cabo', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '40-45 min', dist: '42 km', image: 'misiones-del-cabo-airport-sjd.webp', desc: 'cliffside serenity' },
   { slug: 'sjd-to-mistiq-los-cabos', nombre: 'Mistiq Los Cabos', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '45-50 min', dist: '44 km', image: 'sjd-to-mistiq-los-cabos.webp', desc: 'a spectacular resort in Cabo' },
-  { slug: 'sjd-to-montage', nombre: 'Montage Los Cabos', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '40-45 min', dist: '40 km', image: 'montage-los-cabos-airport-sjd-ballard.webp', desc: 'serene luxury at Santa Maria Bay' },
+  { slug: 'sjd-to-montage', nombre: 'Montage Los Cabos', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '40-45 min', dist: '40 km', image: 'hotel/montage/montage-los-cabos-santa-maria-bay-aerial.jpg', desc: 'serene luxury at Santa Maria Bay' },
   { slug: 'sjd-to-montage-residences-santa-maria', nombre: 'Montage Residences (Santa María)', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '45-50 min', dist: '44 km', image: 'sjd-to-montage-residences-santa-maria.webp', desc: 'a spectacular resort in Cabo' },
   { slug: 'sjd-to-morgan-residences', nombre: 'Morgan Residences', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '45-50 min', dist: '44 km', image: 'sjd-to-morgan-residences.webp', desc: 'a spectacular resort in Cabo' },
   { slug: 'sjd-to-norman-diegos-the-mexican-inn', nombre: 'Norman Diego\'s The Mexican Inn', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '45-50 min', dist: '44 km', image: 'sjd-to-norman-diegos-the-mexican-inn.webp', desc: 'a spectacular resort in Cabo' },
@@ -1132,11 +1132,80 @@ const zonasPrecios = [
   { id: 6, tarifaSuburban: 500, tarifaSprinter: 600, roundTripSuburban: 980, roundTripSprinter: 1170 }
 ];
 
+// =========================================================
+// 📸 MULTIMEDIA PERSONALIZADA PARA HOTELES ULTRA-LUJO
+// =========================================================
+const HOTEL_CUSTOM_MEDIA = {
+  'sjd-to-montage': {
+    heroImage: '/hotel/montage/montage-los-cabos-santa-maria-bay-aerial.jpg',
+    showcase: [
+      {
+        url: '/hotel/montage/montage-los-cabos-resort-pools-aerial.jpg',
+        title: {
+          en: 'Spectacular multi-tiered oceanfront pools at Santa María Bay',
+          es: 'Espectaculares albercas multinivel frente a Bahía Santa María'
+        },
+        tag: { en: 'Resort Overview', es: 'Vista General' }
+      },
+      {
+        url: '/hotel/montage/montage-los-cabos-luxury-suite-pool.jpg',
+        title: {
+          en: 'Luxury ground-floor suites with private plunge pool and garden lawn',
+          es: 'Suites de lujo en planta baja con alberca privada y jardín'
+        },
+        tag: { en: 'Luxury Suites', es: 'Suites de Lujo' }
+      },
+      {
+        url: '/hotel/montage/montage-los-cabos-fine-dining.jpg',
+        title: {
+          en: 'World-class gastronomy & wine cellars at Mezcal & Marea',
+          es: 'Gastronomía de clase mundial y cavas en Mezcal y Marea'
+        },
+        tag: { en: 'Fine Dining', es: 'Alta Cocina' }
+      }
+    ],
+    vehicleImages: [
+      {
+        url: '/suburban-airport-los-cabos-ballard-sjd.webp',
+        title: { en: 'Luxury Suburban SUV', es: 'Suburban SUV de Lujo' },
+        pax: { en: '1 to 6 Passengers', es: '1 a 6 Pasajeros' },
+        desc: {
+          en: 'Direct private transfer from SJD Airport to Montage Los Cabos with cold drinks and bilingual chauffeur.',
+          es: 'Traslado privado directo desde el Aeropuerto SJD a Montage Los Cabos con bebidas frías y chofer bilingüe.'
+        }
+      },
+      {
+        url: '/transportation-private-airport-taxi-ballard-uber-shuttle-los-cabos-sjd-cabo-private-9.webp',
+        title: { en: 'VIP Executive Van & Sprinter', es: 'Van Ejecutiva VIP y Sprinter' },
+        pax: { en: 'Up to 10 Passengers', es: 'Hasta 10 Pasajeros' },
+        desc: {
+          en: 'Maximum luggage capacity and executive seating for families and groups heading to Montage.',
+          es: 'Máxima capacidad de equipaje y asientos ejecutivos para familias y grupos viajando a Montage.'
+        }
+      }
+    ],
+    lifestyleImage: {
+      url: '/hotel/montage/montage-los-cabos-talay-outdoor-dining.jpg',
+      title: {
+        en: 'Evening ambiance under lantern lights at Talay Restaurant — Montage Los Cabos',
+        es: 'Ambiente nocturno bajo faroles en Restaurante Talay — Montage Los Cabos'
+      },
+      badge: { en: 'Dinner & Nightlife Transfers', es: 'Traslados para Cenas y Noches VIP' },
+      note: {
+        en: 'Ask our team about dinner transfers to top dining spots in Los Cabos or book private excursion transportation.',
+        es: 'Pregunta a nuestro equipo sobre traslados a las mejores cenas de Los Cabos o reserva transporte privado para excursiones.'
+      }
+    }
+  }
+};
+
 export default function DestinationPage({ params }) {
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en'; // Inglés como principal por defecto
   const slug = resolvedParams?.slug || '';
   const router = useRouter();
+
+  const customMedia = HOTEL_CUSTOM_MEDIA[slug];
 
   // 2. OBTENEMOS LAS FUNCIONES DEL CONTEXTO
   const { reserva, setReserva, setServicioSeleccionado, setPaso, setBusquedaHotelPrincipal } = useBooking();
@@ -1174,6 +1243,16 @@ export default function DestinationPage({ params }) {
 
   // Filtrado de hoteles para el buscador interactivo
   const filteredHotels = hotelesBase.filter(h => searchTerm.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
+
+  // Hoteles relacionados en la misma zona para enlazado interno SEO
+  const sameZoneHotels = landingPagesSEO.filter(
+    h => h.slug !== hotel.slug && (h.zona === hotel.zona || h.zonaText === hotel.zonaText)
+  );
+  const currentHotelIndex = landingPagesSEO.findIndex(h => h.slug === hotel.slug);
+  const rotationOffset = (currentHotelIndex + 1) % (sameZoneHotels.length || 1);
+  const relatedHotels = sameZoneHotels.length > 6
+    ? [...sameZoneHotels.slice(rotationOffset), ...sameZoneHotels.slice(0, rotationOffset)].slice(0, 6)
+    : sameZoneHotels;
 
   // Manejador para continuar al paso 2
   const handleContinue = (servicio) => {
@@ -1219,12 +1298,15 @@ export default function DestinationPage({ params }) {
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
           <img 
-            src={isLongDistance 
-              ? '/suburban-airport-los-cabos-ballard-sjd.webp' 
-              : (hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp')
+            src={customMedia?.heroImage 
+              ? customMedia.heroImage 
+              : (isLongDistance 
+                ? '/suburban-airport-los-cabos-ballard-sjd.webp' 
+                : (hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp')
+              )
             } 
             alt={`Airport transfer to ${hotel.nombre}`} 
-            className="w-full h-full object-cover opacity-30" 
+            className={`w-full h-full object-cover ${customMedia ? 'opacity-40' : 'opacity-30'}`} 
             onError={(e) => {
               if (isLongDistance) {
                 e.currentTarget.src = '/suburban-airport-los-cabos-ballard-sjd.webp';
@@ -1279,6 +1361,45 @@ export default function DestinationPage({ params }) {
             </p>
           </section>
 
+          {/* GALERÍA / SHOWCASE VISUAL (Hoteles ultra-lujo como Montage) */}
+          {customMedia?.showcase && (
+            <section className="my-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                    {hotel.nombre} • {hotel.zonaText}
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-black text-slate-900 mt-2 tracking-tight">
+                    {lang === 'es' ? 'Instalaciones y Experiencia Exclusiva' : 'Resort Highlights & Luxury Experience'}
+                  </h3>
+                </div>
+                <span className="text-xs text-slate-500 font-medium">
+                  {lang === 'es' ? 'Bahía Santa María' : 'Santa María Bay'}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {customMedia.showcase.map((item, idx) => (
+                  <div key={idx} className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 bg-slate-950 aspect-[4/3]">
+                    <img 
+                      src={item.url} 
+                      alt={item.title[lang] || item.title.en} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent"></div>
+                    <div className="absolute bottom-3 left-3 right-3 text-white">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white/20 backdrop-blur-md">
+                        {item.tag[lang] || item.tag.en}
+                      </span>
+                      <p className="text-xs font-medium text-slate-200 mt-1 line-clamp-2 leading-snug">
+                        {item.title[lang] || item.title.en}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* GOOGLE REVIEWS WIDGET */}
           <GoogleReviewsWidget lang={lang} />
           <CustomerPhotosWidget lang={lang} />
@@ -1316,13 +1437,52 @@ export default function DestinationPage({ params }) {
               <li>{lang === 'es' ? 'Precio garantizado—sin tarifas ocultas ni tarifas dinámicas.' : 'Guaranteed pricing—no hidden fees, toll charges, or surge rates.'}</li>
             </ul>
 
-            <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
-              <img 
-                src={isLongDistance ? "/suburban-airport-los-cabos-ballard.webp" : "/private-transportation-sjd-airport-los-cabos-luxury.webp"} 
-                alt="Luxury Cabo Transportation" 
-                className="w-full h-auto object-cover max-h-[400px]" 
-              />
-            </div>
+            {customMedia?.vehicleImages ? (
+              <div className="my-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-lg md:text-xl font-bold text-slate-900 tracking-tight">
+                    {lang === 'es' ? `Nuestra Flota de Lujo para tu Traslado a ${hotel.nombre}` : `Our Luxury Fleet for your Transfer to ${hotel.nombre}`}
+                  </h4>
+                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                    {lang === 'es' ? '100% Privado' : '100% Private'}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {customMedia.vehicleImages.map((v, i) => (
+                    <div key={i} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-200/80 flex flex-col">
+                      <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+                        <img 
+                          src={v.url} 
+                          alt={v.title[lang] || v.title.en} 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <div className="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full border border-white/20">
+                          {v.pax[lang] || v.pax.en}
+                        </div>
+                      </div>
+                      <div className="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                          <h5 className="text-base font-bold text-slate-900">{v.title[lang] || v.title.en}</h5>
+                          <p className="text-xs md:text-sm text-slate-600 mt-1.5 leading-relaxed">{v.desc[lang] || v.desc.en}</p>
+                        </div>
+                        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-700">
+                          <span className="flex items-center gap-1.5"><ShieldCheck size={15} className="text-green-600" /> {lang === 'es' ? 'Chofer Bilingüe' : 'Bilingual Chauffeur'}</span>
+                          <span className="flex items-center gap-1.5"><CheckCircle size={15} className="text-blue-600" /> {lang === 'es' ? 'Bebidas de Cortesía' : 'Cold Beverages'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="my-10 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
+                <img 
+                  src={isLongDistance ? "/suburban-airport-los-cabos-ballard.webp" : "/private-transportation-sjd-airport-los-cabos-luxury.webp"} 
+                  alt="Luxury Cabo Transportation" 
+                  className="w-full h-auto object-cover max-h-[400px]" 
+                />
+              </div>
+            )}
 
             <p className="mb-4 text-slate-600 text-sm md:text-base">
               {lang === 'es'
@@ -1405,7 +1565,7 @@ export default function DestinationPage({ params }) {
                 : `Booking transportation from Cabo Airport to ${hotel.nombre} can be simple with the right approach. Pre-booking online is highly advised, especially in peak seasons.`}
             </p>
 
-            {!isZona5 && (
+            {!isZona5 && !customMedia && (
               <div className="my-8 rounded-[2rem] overflow-hidden shadow-xl border border-slate-100">
                 <img 
                   src={hotel.image ? (hotel.image.startsWith('http') || hotel.image.startsWith('/') ? hotel.image : `/${hotel.image}`) : '/private-transportation-sjd-airport-los-cabos-luxury.webp'} 
@@ -1437,6 +1597,33 @@ export default function DestinationPage({ params }) {
                   : `Guests staying at ${hotel.nombre} may also be interested in private transportation to other popular resorts in Los Cabos for dinner reservations, or booking exciting excursions. Ballard Tours offers reliable, door-to-door transfers anywhere you need to go.`}
               </p>
             </div>
+
+            {/* LIFESTYLE / DINING BANNER (Montage y resorts con vida nocturna y alta cocina) */}
+            {customMedia?.lifestyleImage && (
+              <div className="my-8 bg-slate-950 text-white rounded-2xl overflow-hidden shadow-xl border border-slate-800">
+                <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+                  <img 
+                    src={customMedia.lifestyleImage.url} 
+                    alt={customMedia.lifestyleImage.title[lang] || customMedia.lifestyleImage.title.en} 
+                    className="w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                  <div className="absolute top-4 left-4">
+                    <span className="text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md text-amber-300 border border-amber-400/30">
+                      {customMedia.lifestyleImage.badge[lang] || customMedia.lifestyleImage.badge.en}
+                    </span>
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h4 className="text-base md:text-lg font-bold text-white drop-shadow-md">
+                      {customMedia.lifestyleImage.title[lang] || customMedia.lifestyleImage.title.en}
+                    </h4>
+                    <p className="text-xs md:text-sm text-slate-300 mt-1 drop-shadow">
+                      {customMedia.lifestyleImage.note[lang] || customMedia.lifestyleImage.note.en}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* NUEVO CONTENIDO SEO (BILINGÜE) */}
@@ -2023,6 +2210,90 @@ export default function DestinationPage({ params }) {
       {/* ========================================= */}
       <div className="max-w-6xl mx-auto px-4 pb-16 mt-10">
         
+        {/* HOTELES RELACIONADOS EN LA MISMA ZONA (INTERLINKING SEO) */}
+        {relatedHotels.length > 0 && (
+          <div className="mb-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+              <div>
+                <span className="text-xs font-extrabold text-blue-900 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100 inline-block mb-3">
+                  {lang === 'es' ? 'Destinos Cercanos' : 'Nearby Destinations'}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                  {lang === 'es' 
+                    ? `Otros traslados y hoteles en ${hotel.zonaText}` 
+                    : `Other Popular Transfers & Hotels in ${hotel.zonaText}`}
+                </h2>
+                <p className="text-slate-500 text-sm mt-1 max-w-2xl font-medium">
+                  {lang === 'es'
+                    ? `Descubre opciones de transporte privado con chofer bilingüe y tarifas fijas a otros resorts y residencias en la zona de ${hotel.zonaText}.`
+                    : `Discover private airport transfer options with bilingual drivers and flat rates to other resorts and residences in ${hotel.zonaText}.`}
+                </p>
+              </div>
+              <Link 
+                href={`/${lang}/transfers`}
+                className="text-xs font-bold text-blue-900 hover:text-blue-700 flex items-center gap-1 shrink-0 group self-start md:self-auto"
+              >
+                <span>{lang === 'es' ? 'Ver todos los traslados' : 'View all transfers'}</span>
+                <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedHotels.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`/${lang}/destinations/${item.slug}`}
+                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-900/40 transition-all duration-300 flex flex-col justify-between"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img 
+                      src={item.image ? (item.image.startsWith('http') || item.image.startsWith('/') ? item.image : `/${item.image}`) : '/suburban-airport-los-cabos-ballard.webp'} 
+                      alt={`Transfer to ${item.nombre}`} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        if (!e.currentTarget.dataset.fallbackTried) {
+                          e.currentTarget.dataset.fallbackTried = '1';
+                          e.currentTarget.src = `/hotel/${item.image?.replace(/^hotel\//, '')}`;
+                        } else if (e.currentTarget.dataset.fallbackTried === '1') {
+                          e.currentTarget.dataset.fallbackTried = '2';
+                          e.currentTarget.src = '/suburban-airport-los-cabos-ballard.webp';
+                        }
+                      }}
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-900/80 backdrop-blur-md text-white border border-white/10">
+                        {item.zonaText}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-5 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-base group-hover:text-blue-900 transition-colors line-clamp-1 mb-2">
+                        {item.nombre}
+                      </h3>
+                      <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mb-4">
+                        <span className="flex items-center gap-1">
+                          <Clock size={13} className="text-slate-400" /> {item.tiempo}
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <MapPin size={13} className="text-slate-400" /> {item.dist}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-900">
+                      <span>{lang === 'es' ? 'Ver información y tarifas' : 'View rates & transfer'}</span>
+                      <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Beneficios Footer */}
         <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-slate-200/40 border border-slate-200 mb-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">

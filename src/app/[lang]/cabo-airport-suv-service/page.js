@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,21 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
 
-    if (lang === 'es') {
-        return {
-            title: 'Cabo Airport SUV Service | Transporte Privado de Lujo en SJD',
-            description: 'Reserva tu Cabo Airport SUV Service. Camionetas Suburban y Escalade de lujo para tu traslado desde el Aeropuerto SJD hasta tu hotel. Privado, seguro y cómodo.',
-            keywords: 'Cabo Airport SUV Service, Camionetas aeropuerto Los Cabos, Transporte SUV Cabo San Lucas, Suburban Aeropuerto SJD, Luxury SUV Cabo',
-        };
-    }
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/cabo-airport-suv-service',
+      title: "Cabo Airport SUV Service | Transporte Privado de Lujo en SJD",
+      description: "Reserva tu Cabo Airport SUV Service. Camionetas Suburban y Escalade de lujo para tu traslado desde el Aeropuerto SJD hasta tu hotel. Privado, seguro y cómodo.",
+      keywords: "Cabo Airport SUV Service, Camionetas aeropuerto Los Cabos, Transporte SUV Cabo San Lucas, Suburban Aeropuerto SJD, Luxury SUV Cabo"
+    });
+  }
 
-    return {
-        title: 'Premium Cabo Airport SUV Service | SJD Luxury Transfers',
-        description: 'Book your exclusive Cabo Airport SUV Service. Travel in luxury Suburbans and Escalades from SJD Airport to your resort. Private, safe, and spacious.',
-        keywords: 'Cabo Airport SUV Service, SJD Airport SUV, Luxury Suburban Los Cabos, Cabo San Lucas SUV Transfer, Premium transportation Cabo',
-    };
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/cabo-airport-suv-service',
+    title: "Premium Cabo Airport SUV Service | SJD Luxury Transfers",
+    description: "Book your exclusive Cabo Airport SUV Service. Travel in luxury Suburbans and Escalades from SJD Airport to your resort. Private, safe, and spacious.",
+    keywords: "Cabo Airport SUV Service, SJD Airport SUV, Luxury Suburban Los Cabos, Cabo San Lucas SUV Transfer, Premium transportation Cabo"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

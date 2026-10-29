@@ -1,8 +1,15 @@
 User-agent: *
 Allow: /
 
-# Evitar que Google indexe rutas irrelevantes que causan contenido duplicado
-Disallow: /politicas-de-cancelacion
-Disallow: /terms-and-conditions
+# Rutas privadas, administrativas y transaccionales para evitar gasto innecesario de rastreo (crawl budget)
+Disallow: /admin
+Disallow: /*/admin
+Disallow: /*/cart
+Disallow: /*/checkout
+Disallow: /*/claim-discount
+Disallow: /*/apply-code
+Disallow: /*/modify-reservation
+Disallow: /*/quote
+Disallow: /api/
 
 Sitemap: https://www.caboprivateairporttransfers.com/sitemap.xml

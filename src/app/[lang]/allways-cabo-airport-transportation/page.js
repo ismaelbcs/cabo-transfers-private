@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Allways Cabo Airport Transportation | Traslados 100% Seguros',
-    description: 'Elige siempre la mejor opción. Allways Cabo Airport transportation disponible 24/7. Vehículos de lujo y servicio privado sin tiempos de espera.',
-    keywords: 'allways cabo airpoort transportation, always cabo transportation, traslados seguros SJD, transporte aeropuerto los cabos',
-  };
-  return {
-    title: 'Allways Cabo Airport Transportation | 24/7 Reliable Shuttle',
-    description: 'Always choose the best. Allways Cabo Airport transportation available 24/7. Luxury vehicles, private service, and zero wait times at SJD.',
-    keywords: 'allways cabo airpoort transportation, always cabo transportation, SJD reliable transfers, cabo private shuttle',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/allways-cabo-airport-transportation',
+      title: "Allways Cabo Airport Transportation | Traslados 100% Seguros",
+      description: "Elige siempre la mejor opción. Allways Cabo Airport transportation disponible 24/7. Vehículos de lujo y servicio privado sin tiempos de espera.",
+      keywords: "allways cabo airpoort transportation, always cabo transportation, traslados seguros SJD, transporte aeropuerto los cabos"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/allways-cabo-airport-transportation',
+    title: "Allways Cabo Airport Transportation | 24/7 Reliable Shuttle",
+    description: "Always choose the best. Allways Cabo Airport transportation available 24/7. Luxury vehicles, private service, and zero wait times at SJD.",
+    keywords: "allways cabo airpoort transportation, always cabo transportation, SJD reliable transfers, cabo private shuttle"
+  });
 }
 
 export default function AllwaysCaboPage({ params }) {

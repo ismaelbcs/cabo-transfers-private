@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-  const lang = params?.lang || 'en';
-  if (lang === 'es') return {
-    title: 'Cabo Airport Shuttle Transportation | Traslados Económicos y VIP',
-    description: 'Reserva tu Cabo Airport Shuttle Transportation. Servicio privado, seguro y puntual desde el Aeropuerto SJD a todos los hoteles de Los Cabos.',
-    keywords: 'Cabo Airport Shuttle Transportation, shuttle aeropuerto cabo, SJD shuttle service, transporte a hoteles los cabos',
-  };
-  return {
-    title: 'Cabo Airport Shuttle Transportation | Best SJD Transfers',
-    description: 'Book your Cabo Airport Shuttle Transportation today. Private, safe, and punctual service from SJD Airport to all Los Cabos resorts.',
-    keywords: 'Cabo Airport Shuttle Transportation, Cabo airport shuttle, SJD private shuttle, Los Cabos transfers',
-  };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/cabo-airport-shuttle-transportation',
+      title: "Cabo Airport Shuttle Transportation | Traslados Económicos y VIP",
+      description: "Reserva tu Cabo Airport Shuttle Transportation. Servicio privado, seguro y puntual desde el Aeropuerto SJD a todos los hoteles de Los Cabos.",
+      keywords: "Cabo Airport Shuttle Transportation, shuttle aeropuerto cabo, SJD shuttle service, transporte a hoteles los cabos"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/cabo-airport-shuttle-transportation',
+    title: "Cabo Airport Shuttle Transportation | Best SJD Transfers",
+    description: "Book your Cabo Airport Shuttle Transportation today. Private, safe, and punctual service from SJD Airport to all Los Cabos resorts.",
+    keywords: "Cabo Airport Shuttle Transportation, Cabo airport shuttle, SJD private shuttle, Los Cabos transfers"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

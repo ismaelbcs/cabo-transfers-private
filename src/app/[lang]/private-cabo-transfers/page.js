@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'Private Cabo Transfers | Transporte Privado VIP en Los Cabos',
-        description: 'Reserva tus Private Cabo Transfers. Servicio seguro, con tarifas fijas y directo desde el Aeropuerto SJD hasta tu hotel o villa.',
-        keywords: 'Private Cabo Transfers, Transporte privado Los Cabos, Cabo VIP transfers, SJD airport shuttle',
-    };
-    return {
-        title: 'Premium Private Cabo Transfers | Reliable Airport Shuttle',
-        description: 'Book your Private Cabo Transfers for a seamless, VIP experience from SJD Airport to your resort. Safe, flat-rate, and completely reliable.',
-        keywords: 'Private Cabo Transfers, Cabo private transportation, VIP Cabo transfers, SJD airport transportation',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/private-cabo-transfers',
+      title: "Private Cabo Transfers | Transporte Privado VIP en Los Cabos",
+      description: "Reserva tus Private Cabo Transfers. Servicio seguro, con tarifas fijas y directo desde el Aeropuerto SJD hasta tu hotel o villa.",
+      keywords: "Private Cabo Transfers, Transporte privado Los Cabos, Cabo VIP transfers, SJD airport shuttle"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/private-cabo-transfers',
+    title: "Premium Private Cabo Transfers | Reliable Airport Shuttle",
+    description: "Book your Private Cabo Transfers for a seamless, VIP experience from SJD Airport to your resort. Safe, flat-rate, and completely reliable.",
+    keywords: "Private Cabo Transfers, Cabo private transportation, VIP Cabo transfers, SJD airport transportation"
+  });
 }
 
 export default function PrivateCaboTransfersPage({ params }) {

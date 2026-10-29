@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'La Mejor Alternativa a Taxis en Aeropuerto de Cabo | Ballard Tours',
-        description: 'Evita los taxis regulares. Descubre la mejor alternativa a los taxis del aeropuerto SJD con nuestro servicio de transporte privado y tarifas fijas.',
-        keywords: 'Alternativa taxi Cabo, SJD airport taxi alternative, Transporte privado vs taxi Los Cabos',
-    };
-    return {
-        title: 'The Best Cabo Airport Taxi Alternative | Private SJD Transfers',
-        description: 'Skip the expensive regular taxis. Discover the best Cabo Airport Taxi Alternative with our reliable, flat-rate private transportation service.',
-        keywords: 'Cabo Airport Taxi Alternative, SJD airport taxi, skip taxi cabo, private transfer vs taxi cabo',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/cabo-airport-taxi-alternative',
+      title: "La Mejor Alternativa a Taxis en Aeropuerto de Cabo | Ballard Tours",
+      description: "Evita los taxis regulares. Descubre la mejor alternativa a los taxis del aeropuerto SJD con nuestro servicio de transporte privado y tarifas fijas.",
+      keywords: "Alternativa taxi Cabo, SJD airport taxi alternative, Transporte privado vs taxi Los Cabos"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/cabo-airport-taxi-alternative',
+    title: "The Best Cabo Airport Taxi Alternative | Private SJD Transfers",
+    description: "Skip the expensive regular taxis. Discover the best Cabo Airport Taxi Alternative with our reliable, flat-rate private transportation service.",
+    keywords: "Cabo Airport Taxi Alternative, SJD airport taxi, skip taxi cabo, private transfer vs taxi cabo"
+  });
 }
 
 export default function CaboSuvServicePage({ params }) {

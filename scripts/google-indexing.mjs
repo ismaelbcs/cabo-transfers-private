@@ -15,6 +15,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
+import sitemap from '../src/app/sitemap.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -176,18 +177,16 @@ function getAllSiteUrls() {
     }
   }
 
-  // 2. URLs desde sitemap.js
-  const sitemapPath = path.join(projectRoot, 'src', 'app', 'sitemap.js');
-  if (fs.existsSync(sitemapPath)) {
-    const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
-    const matches = sitemapContent.match(/'(\/[^']*)'/g) || [];
-    for (const m of matches) {
-      const route = m.slice(1, -1);
-      urls.add(`${base}/en${route}`);
-      urls.add(`${base}/es${route}`);
+  // 2. URLs dinámicas desde sitemap.js
+  try {
+    const sitemapEntries = sitemap();
+    for (const entry of sitemapEntries) {
+      if (entry && entry.url) {
+        urls.add(entry.url);
+      }
     }
-    urls.add(`${base}/en`);
-    urls.add(`${base}/es`);
+  } catch (err) {
+    console.warn('⚠️ Error al cargar sitemap():', err.message);
   }
 
   return Array.from(urls);

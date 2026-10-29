@@ -1,3 +1,4 @@
+import { generatePageMetadata } from '../../../lib/seoHelper';
 import React from 'react';
 import GoogleReviewsWidget from '../../../components/GoogleReviewsWidget';
 import CustomerPhotosWidget from '../../../components/CustomerPhotosWidget';
@@ -7,17 +8,26 @@ import Link from 'next/link';
 import { CheckCircle, Clock, Calendar, Baby, Banknote, MapPin } from 'lucide-react';
 
 export async function generateMetadata({ params }) {
-    const lang = params?.lang || 'en';
-    if (lang === 'es') return {
-        title: 'San Jose del Cabo Airport Shuttle | CABO PRIVATE TRANSPORTATION',
-        description: 'Transporte privado y seguro. Reserva el mejor san jose del cabo airport shuttle para el inicio perfecto de tu viaje a Los Cabos.',
-        keywords: 'san jose del cabo airport shuttle',
-    };
-    return {
-        title: 'San Jose del Cabo Airport Shuttle | CABO PRIVATE TRANSPORTATION',
-        description: 'Safe and private transportation. Book the best san jose del cabo airport shuttle for the perfect start to your trip to Los Cabos.',
-        keywords: 'san jose del cabo airport shuttle',
-    };
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  if (lang === 'es') {
+    return generatePageMetadata({
+      lang: 'es',
+      path: '/san-jose-del-cabo-airport-shuttle',
+      title: "San Jose del Cabo Airport Shuttle | CABO PRIVATE TRANSPORTATION",
+      description: "Transporte privado y seguro. Reserva el mejor san jose del cabo airport shuttle para el inicio perfecto de tu viaje a Los Cabos.",
+      keywords: "san jose del cabo airport shuttle"
+    });
+  }
+
+  return generatePageMetadata({
+    lang: 'en',
+    path: '/san-jose-del-cabo-airport-shuttle',
+    title: "San Jose del Cabo Airport Shuttle | CABO PRIVATE TRANSPORTATION",
+    description: "Safe and private transportation. Book the best san jose del cabo airport shuttle for the perfect start to your trip to Los Cabos.",
+    keywords: "san jose del cabo airport shuttle"
+  });
 }
 
 export default function SanJoseDelCaboAirportShuttlePage({ params }) {
