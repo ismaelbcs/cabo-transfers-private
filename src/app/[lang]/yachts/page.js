@@ -30,7 +30,9 @@ import {
   Star,
   Mail,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  ChevronLeft,
+  ChevronDown
 } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { catalogoHoteles } from '../../../data/seoData';
@@ -424,36 +426,100 @@ export default function YachtsPage({ params }) {
             </span>
           </div>
 
-          {/* Selector de Galería de Fotos Reales en la base del Hero */}
+          {/* Selector de Galería de Fotos Reales con Visor Grande */}
           <div className="mt-8 pt-6 border-t border-slate-800/80">
-            <div className="flex items-center justify-between mb-3 text-xs text-slate-300">
-              <span className="font-bold flex items-center gap-1.5">
-                <CameraIcon size={14} className="text-blue-400" />
+            <div className="flex items-center justify-between mb-4 text-xs text-slate-300">
+              <span className="font-bold flex items-center gap-1.5 text-sm text-white">
+                <CameraIcon size={16} className="text-blue-400" />
                 {isEs ? 'Fotos Reales del Yate Capella' : 'Real Yacht Capella Photos'}
               </span>
               <button 
+                type="button"
                 onClick={() => setLightboxAbierto(true)}
-                className="text-blue-300 hover:text-white font-semibold transition flex items-center gap-1"
+                className="text-blue-300 hover:text-white font-semibold transition flex items-center gap-1 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full border border-white/10"
               >
                 <Maximize2 size={13} />
                 {isEs ? 'Ver en pantalla completa' : 'View full screen'}
               </button>
             </div>
 
+            {/* VISOR PRINCIPAL DE FOTO GRANDE (CAMBIA AL DAR CLIC A CUALQUIER FOTO) */}
+            <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-slate-900 group mb-4">
+              <div className="relative aspect-[16/9] sm:aspect-[16/9] md:h-[480px] w-full overflow-hidden">
+                <img 
+                  key={fotosGaleria[fotoActiva].src}
+                  src={fotosGaleria[fotoActiva].src} 
+                  alt={isEs ? fotosGaleria[fotoActiva].titleEs : fotosGaleria[fotoActiva].titleEn} 
+                  className="w-full h-full object-cover transition-all duration-500 ease-out"
+                />
+                
+                {/* Gradiente inferior para legibilidad */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent pointer-events-none"></div>
+
+                {/* Flecha Anterior */}
+                <button 
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFotoActiva(prev => (prev === 0 ? fotosGaleria.length - 1 : prev - 1));
+                  }}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-xs flex items-center justify-center transition border border-white/20 z-20 cursor-pointer shadow-lg active:scale-95"
+                  aria-label="Previous Photo"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+
+                {/* Flecha Siguiente */}
+                <button 
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFotoActiva(prev => (prev === fotosGaleria.length - 1 ? 0 : prev + 1));
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-xs flex items-center justify-center transition border border-white/20 z-20 cursor-pointer shadow-lg active:scale-95"
+                  aria-label="Next Photo"
+                >
+                  <ChevronRight size={24} />
+                </button>
+
+                {/* Badge superior contador */}
+                <div className="absolute top-4 left-4 z-20 pointer-events-none">
+                  <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-bold border border-white/20 shadow-md">
+                    {fotoActiva + 1} / {fotosGaleria.length}
+                  </span>
+                </div>
+
+                {/* Leyenda y descripción de la foto sobre la imagen */}
+                <div className="absolute bottom-4 left-4 right-4 text-left z-20">
+                  <span className="inline-block px-2.5 py-0.5 rounded bg-blue-600/90 text-white text-[11px] font-black uppercase tracking-wider mb-1">
+                    {isEs ? 'Foto Activa' : 'Active Photo'}
+                  </span>
+                  <h3 className="text-base sm:text-xl md:text-2xl font-black text-white drop-shadow-md">
+                    {isEs ? fotosGaleria[fotoActiva].titleEs : fotosGaleria[fotoActiva].titleEn}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-200 drop-shadow line-clamp-2 mt-0.5 max-w-2xl">
+                    {isEs ? fotosGaleria[fotoActiva].descEs : fotosGaleria[fotoActiva].descEn}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* MINIATURAS INTERACTIVAS */}
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
               {fotosGaleria.map((foto, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={() => setFotoActiva(idx)}
-                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all ${
+                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
                     fotoActiva === idx 
-                      ? 'border-blue-400 scale-[1.03] shadow-[0_0_15px_rgba(56,189,248,0.4)]' 
+                      ? 'border-blue-400 ring-4 ring-blue-500/50 scale-[1.04] shadow-[0_0_15px_rgba(56,189,248,0.5)] z-10' 
                       : 'border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600'
                   }`}
                 >
                   <img src={foto.src} alt={foto.titleEn} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1">
-                    <span className="text-[10px] font-bold text-white truncate drop-shadow">
+                    <span className="text-[10px] font-bold text-white truncate drop-shadow w-full text-center">
                       {idx === 0 && (isEs ? 'Exterior' : 'Profile')}
                       {idx === 1 && (isEs ? 'Jacuzzi' : 'Flybridge')}
                       {idx === 2 && (isEs ? 'Proa' : 'Bow Sunpad')}
@@ -703,10 +769,31 @@ export default function YachtsPage({ params }) {
               </p>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-right">
-              <span className="text-xs text-slate-400 block font-bold uppercase tracking-wider">{isEs ? 'Paquete activo' : 'Active Package'}</span>
-              <span className="text-base sm:text-lg font-black text-blue-900">
-                {isEs ? paqueteSeleccionado.nameEs : paqueteSeleccionado.nameEn}
+            {/* Cuadrito Interactivo para Modificar el Paquete */}
+            <div className="bg-blue-50/80 border-2 border-blue-200 rounded-2xl p-3 sm:p-4 text-left sm:text-right min-w-[280px] shadow-2xs">
+              <label htmlFor="select-paquete-cuadrito" className="text-[11px] text-blue-900 font-extrabold uppercase tracking-wider block mb-1.5 flex items-center justify-between sm:justify-end gap-1.5">
+                <span>{isEs ? 'Modificar Paquete Activo' : 'Active Package (Change)'}</span>
+                <ChevronDown size={14} className="text-blue-900 shrink-0" />
+              </label>
+              <select 
+                id="select-paquete-cuadrito"
+                value={paqueteSeleccionado.id} 
+                onChange={(e) => {
+                  const selected = paquetes.find(p => p.id === e.target.value);
+                  if (selected) {
+                    setPaqueteSeleccionado(selected);
+                  }
+                }}
+                className="w-full bg-white border border-blue-300 text-blue-950 font-black text-sm sm:text-base rounded-xl px-3 py-2 cursor-pointer focus:ring-2 focus:ring-blue-600 focus:outline-none shadow-xs transition hover:border-blue-500"
+              >
+                {paquetes.map((pkg) => (
+                  <option key={pkg.id} value={pkg.id}>
+                    {isEs ? pkg.nameEs : pkg.nameEn} — ${pkg.price.toLocaleString()} USD
+                  </option>
+                ))}
+              </select>
+              <span className="text-[10px] text-slate-500 block mt-1 font-medium sm:text-right">
+                {isEs ? 'Haz clic aquí para cambiar de opción' : 'Click here to switch package'}
               </span>
             </div>
           </div>
@@ -735,15 +822,18 @@ export default function YachtsPage({ params }) {
                   {isEs ? 'Total de Huéspedes' : 'Total Guests'}
                 </span>
                 <span className="text-xs text-blue-900 font-bold">
-                  {huespedesExtra > 0 ? `+${huespedesExtra} extra ($${costoHuespedesExtra} USD)` : (isEs ? '10 incluidos' : '10 included')}
+                  {huespedesExtra > 0 
+                    ? `+${huespedesExtra} extra (+$${costoHuespedesExtra.toLocaleString()} USD)` 
+                    : (isEs ? '10 incluidos en tarifa' : '10 included in rate')}
                 </span>
               </label>
               
               <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1.5">
                 <button 
-                  onClick={() => setTotalHuespedes(prev => Math.max(paqueteSeleccionado.baseGuests, prev - 1))}
-                  disabled={totalHuespedes <= paqueteSeleccionado.baseGuests}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
+                  type="button"
+                  onClick={() => setTotalHuespedes(prev => Math.max(1, prev - 1))}
+                  disabled={totalHuespedes <= 1}
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
                 >
                   -
                 </button>
@@ -751,15 +841,18 @@ export default function YachtsPage({ params }) {
                   {totalHuespedes} {isEs ? 'Personas' : 'Guests'}
                 </div>
                 <button 
-                  onClick={() => setTotalHuespedes(prev => Math.min(paqueteSeleccionado.maxGuests, prev + 1))}
-                  disabled={totalHuespedes >= paqueteSeleccionado.maxGuests}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
+                  type="button"
+                  onClick={() => setTotalHuespedes(prev => Math.min(25, prev + 1))}
+                  disabled={totalHuespedes >= 25}
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
                 >
                   +
                 </button>
               </div>
               <span className="text-[11px] text-slate-500 mt-1 font-medium">
-                {isEs ? `Hasta ${paqueteSeleccionado.maxGuests} huéspedes máximos en Capella.` : `Up to ${paqueteSeleccionado.maxGuests} guests maximum on Capella.`}
+                {isEs 
+                  ? 'Tarifa cubre 10 personas. A partir de 11 suma $300 USD por persona (hasta 25).' 
+                  : 'Rate covers 10 guests. From 11+ adds $300 USD per guest (up to 25).'}
               </span>
             </div>
 
@@ -771,15 +864,18 @@ export default function YachtsPage({ params }) {
                   {isEs ? 'Horas Extras de Chárter' : 'Extra Charter Hours'}
                 </span>
                 <span className="text-xs text-blue-900 font-bold">
-                  {horasExtras > 0 ? `+$${costoHorasExtras} USD` : '$1,600 USD/hr'}
+                  {horasExtras > 0 
+                    ? `+${horasExtras}h (+$${costoHorasExtras.toLocaleString()} USD)` 
+                    : '$1,600 USD/hr'}
                 </span>
               </label>
 
               <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1.5">
                 <button 
+                  type="button"
                   onClick={() => setHorasExtras(prev => Math.max(0, prev - 1))}
                   disabled={horasExtras <= 0}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
                 >
                   -
                 </button>
@@ -787,34 +883,49 @@ export default function YachtsPage({ params }) {
                   {horasExtras} {isEs ? 'Horas Extra' : 'Extra Hours'}
                 </div>
                 <button 
-                  onClick={() => setHorasExtras(prev => Math.min(4, prev + 1))}
-                  disabled={horasExtras >= 4}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
+                  type="button"
+                  onClick={() => setHorasExtras(prev => Math.min(12, prev + 1))}
+                  disabled={horasExtras >= 12}
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
                 >
                   +
                 </button>
               </div>
               <span className="text-[11px] text-slate-500 mt-1 font-medium">
-                {isEs ? 'Extiende tu día en el mar sin límite.' : 'Extend your day cruising the coastline.'}
+                {isEs ? 'Agrega las horas extras que desees ($1,600 USD por hora).' : 'Add as many extra hours as you want ($1,600 USD per hour).'}
               </span>
             </div>
 
           </div>
 
           {/* ======================================================== */}
-          {/* MÓDULO DE TRANSPORTE TERRESTRE OPCIONAL (TABLA DE GOLF) */}
+          {/* MÓDULO DE TRANSPORTE TERRESTRE OPCIONAL                 */}
           {/* ======================================================== */}
-          <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 sm:p-6 mb-8">
-            <div className="flex items-start justify-between gap-4 mb-4">
+          <div className={`border-2 rounded-2xl p-5 sm:p-6 mb-8 transition-all duration-300 ${
+            incluirTransporte ? 'bg-blue-50/80 border-blue-300 shadow-sm' : 'bg-slate-50/70 border-slate-200'
+          }`}>
+            <div 
+              onClick={() => setIncluirTransporte(prev => !prev)}
+              className="flex items-start justify-between gap-4 cursor-pointer select-none"
+            >
               <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-xl bg-blue-100 text-blue-900 shrink-0 mt-0.5">
+                <div className={`p-2.5 rounded-xl shrink-0 mt-0.5 transition-colors ${
+                  incluirTransporte ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}>
                   <Car size={22} />
                 </div>
                 <div>
-                  <h4 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-                    {isEs ? '¿Deseas agregar Transportación Terrestre Privada VIP?' : 'Add VIP Private Round-Trip Ground Transportation?'}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h4 className="text-base sm:text-lg font-bold text-slate-900">
+                      {isEs ? '¿Deseas agregar Transportación Terrestre Privada VIP?' : 'Add VIP Private Round-Trip Ground Transportation?'}
+                    </h4>
+                    <span className={`px-2.5 py-0.5 rounded text-[11px] font-black uppercase tracking-wider ${
+                      incluirTransporte ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-200 text-slate-600'
+                    }`}>
+                      {incluirTransporte ? (isEs ? '✓ Activo' : '✓ Active') : (isEs ? 'Opcional' : 'Optional')}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 mt-1">
                     {isEs 
                       ? 'Traslado exclusivo ida y vuelta desde tu hotel o villa a la Marina de Cabo San Lucas en Suburban o Van de lujo. Horario 100% flexible sin tiempo límite.'
                       : 'Private round-trip SUV/Van transfer from your resort or private villa directly to Cabo San Lucas Marina. 100% flexible schedule with no time restrictions.'
@@ -823,19 +934,30 @@ export default function YachtsPage({ params }) {
                 </div>
               </div>
 
-              <label className="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
-                <input 
-                  type="checkbox" 
-                  checked={incluirTransporte} 
-                  onChange={(e) => setIncluirTransporte(e.target.checked)} 
-                  className="sr-only peer"
+              {/* Botón Switch 100% Controlado por React */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIncluirTransporte(prev => !prev);
+                }}
+                className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
+                  incluirTransporte ? 'bg-blue-600' : 'bg-slate-300'
+                }`}
+                role="switch"
+                aria-checked={incluirTransporte}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
+                    incluirTransporte ? 'translate-x-7' : 'translate-x-0'
+                  }`}
                 />
-                <div className="w-12 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              </label>
+              </button>
             </div>
 
+            {/* Formulario de Transporte visible al activar */}
             {incluirTransporte && (
-              <div className="pt-4 border-t border-blue-100 grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
+              <div className="pt-5 mt-5 border-t border-blue-200/80 grid grid-cols-1 md:grid-cols-3 gap-4">
                 
                 {/* Buscador de Hotel Origen con Autocomplete */}
                 <div className="flex flex-col relative md:col-span-1">
@@ -854,7 +976,7 @@ export default function YachtsPage({ params }) {
                     }} 
                     onFocus={() => setMostrarDropdownHoteles(true)} 
                     onBlur={() => setTimeout(() => setMostrarDropdownHoteles(false), 250)} 
-                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none shadow-xs"
                   />
                   {mostrarDropdownHoteles && (
                     <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[70px] max-h-56 overflow-y-auto">
@@ -897,7 +1019,7 @@ export default function YachtsPage({ params }) {
                     type="time" 
                     value={horaRecogidaHotel} 
                     onChange={(e) => setHoraRecogidaHotel(e.target.value)} 
-                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium shadow-xs"
                   />
                   <span className="text-[11px] text-slate-500 mt-1">
                     {isEs ? 'Sugerimos 45 min antes de zarpar.' : 'Suggested 45 min before cruise.'}
@@ -914,7 +1036,7 @@ export default function YachtsPage({ params }) {
                     type="time" 
                     value={horaRegresoMarina} 
                     onChange={(e) => setHoraRegresoMarina(e.target.value)} 
-                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium shadow-xs"
                   />
                   <span className="text-[11px] text-emerald-700 mt-1 font-semibold">
                     {isEs ? '✓ Sin límite de tiempo: tú eliges la hora exacta.' : '✓ No time limit: choose your exact return schedule.'}
@@ -926,29 +1048,49 @@ export default function YachtsPage({ params }) {
           </div>
 
           {/* ======================================================== */}
-          {/* RESUMEN DE COTIZACIÓN (ESTILO GOLF: BLOQUE OSCURO ELEGANTE)*/}
+          {/* RESUMEN DE COTIZACIÓN - DISEÑO ELEGANTE Y AMIGABLE       */}
+          {/* (NO NEGRO: BLANCO / AZUL SUAVE DE LUJO)                  */}
           {/* ======================================================== */}
-          <div className="bg-slate-900 text-white rounded-2xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-md">
+          <div className="bg-gradient-to-br from-white via-blue-50/60 to-indigo-50/40 border-2 border-blue-200/80 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl shadow-blue-950/5">
             
             <div className="w-full lg:w-auto text-center lg:text-left">
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-1">
-                {isEs ? 'Inversión Total Estimada (USD)' : 'Estimated Total Investment (USD)'}
-              </p>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/80 text-blue-950 text-xs font-black uppercase tracking-wider mb-2 border border-blue-200">
+                <Sparkles size={13} className="text-blue-700" />
+                {isEs ? 'Inversión Total Estimada' : 'Estimated Total Investment'}
+              </div>
               
               <div className="flex items-baseline justify-center lg:justify-start gap-2">
-                <span className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+                <span className="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight">
                   ${granTotalYate.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </span>
-                <span className="text-xs text-amber-400 font-bold uppercase">USD</span>
+                <span className="text-xs sm:text-sm font-black text-blue-900 bg-blue-100 px-2.5 py-1 rounded-lg uppercase tracking-wider border border-blue-200">
+                  USD
+                </span>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-1 text-xs text-slate-400 mt-2">
-                <span>• {paqueteSeleccionado.hours}h {isEs ? 'chárter' : 'charter'} (${paqueteSeleccionado.price.toLocaleString()} USD)</span>
-                {huespedesExtra > 0 && <span>• {huespedesExtra} {isEs ? 'huéspedes extra' : 'extra guests'} (${costoHuespedesExtra.toLocaleString()} USD)</span>}
-                {horasExtras > 0 && <span>• {horasExtras}h {isEs ? 'extra' : 'extra'} (${costoHorasExtras.toLocaleString()} USD)</span>}
-                {incluirTransporte && <span>• {isEs ? 'Traslado VIP' : 'VIP Transfer'} (${costoTransporte.toLocaleString()} USD)</span>}
+              {/* Desglose amigable en pastillas */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs text-slate-700 mt-3">
+                <span className="bg-white/90 border border-slate-200/90 px-2.5 py-1 rounded-lg font-medium shadow-2xs">
+                  • {paqueteSeleccionado.hours}h {isEs ? 'chárter' : 'charter'} (${paqueteSeleccionado.price.toLocaleString()} USD)
+                </span>
+                {huespedesExtra > 0 && (
+                  <span className="bg-blue-100/70 text-blue-950 border border-blue-200 px-2.5 py-1 rounded-lg font-bold">
+                    • {huespedesExtra} {isEs ? 'huéspedes extra' : 'extra guests'} (+${costoHuespedesExtra.toLocaleString()} USD)
+                  </span>
+                )}
+                {horasExtras > 0 && (
+                  <span className="bg-blue-100/70 text-blue-950 border border-blue-200 px-2.5 py-1 rounded-lg font-bold">
+                    • {horasExtras}h {isEs ? 'extra' : 'extra'} (+${costoHorasExtras.toLocaleString()} USD)
+                  </span>
+                )}
+                {incluirTransporte && (
+                  <span className="bg-emerald-50 text-emerald-900 border border-emerald-200 px-2.5 py-1 rounded-lg font-bold">
+                    • {isEs ? 'Traslado VIP Ida y Vuelta' : 'VIP Round-Trip Transfer'} (+${costoTransporte.toLocaleString()} USD)
+                  </span>
+                )}
               </div>
-              <p className="text-[11px] text-slate-400 mt-1">
+
+              <p className="text-[11px] text-slate-500 mt-2 font-medium">
                 {isEs ? '* Impuestos mexicanos (16% IVA) no incluidos.' : '* Mexican Sales Tax not included.'}
               </p>
             </div>
@@ -957,16 +1099,18 @@ export default function YachtsPage({ params }) {
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
               
               <button
+                type="button"
                 onClick={() => handleOpenInquire(paqueteSeleccionado)}
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition border border-white/20 shadow-xs flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2"
               >
-                <Mail size={18} className="text-amber-400" />
+                <Mail size={18} className="text-amber-600" />
                 {isEs ? 'Solicitar Información' : 'Inquire Now'}
               </button>
 
               <button
+                type="button"
                 onClick={handleAddToCart}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm tracking-wide transition shadow-md flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2"
               >
                 <Plus size={18} className="stroke-[3]" />
                 {isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}
@@ -976,7 +1120,7 @@ export default function YachtsPage({ params }) {
                 href={`https://wa.me/526242385150?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-xs"
+                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
                 title={isEs ? 'Chat con Concierge VIP por WhatsApp' : 'Chat with VIP Concierge on WhatsApp'}
               >
                 <MessageCircle size={20} />

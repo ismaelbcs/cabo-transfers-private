@@ -50,7 +50,7 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
   let horaIdaEspecial = 'N/A';
   let horaRegresoEspecial = 'N/A';
   
-  const isSpecial = ['cena', 'golf', 'nightlife', 'hotel', 'especiales'].includes(item.tipoEspecial) || item.detalles || (item.config && !item.flightInfo?.aerolinea);
+  const isSpecial = ['cena', 'golf', 'nightlife', 'hotel', 'especiales', 'yacht'].includes(item.tipoEspecial) || item.detalles || (item.config && !item.flightInfo?.aerolinea);
   
   if (isSpecial) {
      if (item.detalles) {
@@ -61,14 +61,14 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
          horaIdaEspecial = item.detalles.horaIda || 'N/A';
          horaRegresoEspecial = item.detalles.horaRegreso || 'N/A';
      } else if (item.config) {
-         hotelOrigen = item.config.cenaOrigen || item.config.golfOrigen || item.config.nightlifeOrigen || item.config.hotelOrigen || item.config.hotelId || 'N/A';
+         hotelOrigen = item.config.transportHotel || item.config.cenaOrigen || item.config.golfOrigen || item.config.nightlifeOrigen || item.config.hotelOrigen || item.config.hotelId || 'N/A';
          if (hotelOrigen !== 'N/A' && hotelOrigen.includes('|')) hotelOrigen = hotelOrigen.split('|')[0];
          
-         destino = item.config.cenaRestauranteNombre || item.config.golfLugarNombre || item.config.nightlifeLugarNombre || item.config.hotelLugarNombre || item.config.destino || 'N/A';
-         paxEspecial = item.config.cenaPax || item.config.golfPax || item.config.nightlifePax || item.config.hotelPax || item.config.pasajeros || 'N/A';
-         fechaEspecial = item.config.cenaFecha || item.config.golfFecha || item.config.nightlifeFecha || item.config.hotelFecha || item.config.fechaLlegada || 'N/A';
-         horaIdaEspecial = item.config.cenaHora || item.config.golfHora || item.config.nightlifeHora || item.config.hotelHora || item.config.horaLlegada || item.config.horaPickUp || 'N/A';
-         horaRegresoEspecial = item.config.cenaHoraRegreso || item.config.golfHoraRegreso || item.config.nightlifeHoraRegreso || 'N/A';
+         destino = item.config.yachtName || item.config.cenaRestauranteNombre || item.config.golfLugarNombre || item.config.nightlifeLugarNombre || item.config.hotelLugarNombre || item.config.destino || 'N/A';
+         paxEspecial = item.config.guests || item.config.cenaPax || item.config.golfPax || item.config.nightlifePax || item.config.hotelPax || item.config.pasajeros || 'N/A';
+         fechaEspecial = item.config.charterDate || item.config.cenaFecha || item.config.golfFecha || item.config.nightlifeFecha || item.config.hotelFecha || item.config.fechaLlegada || 'N/A';
+         horaIdaEspecial = item.config.hotelPickupTime || item.config.cenaHora || item.config.golfHora || item.config.nightlifeHora || item.config.hotelHora || item.config.horaLlegada || item.config.horaPickUp || 'N/A';
+         horaRegresoEspecial = item.config.marinaReturnTime || item.config.cenaHoraRegreso || item.config.golfHoraRegreso || item.config.nightlifeHoraRegreso || 'N/A';
      }
   }
 
@@ -187,11 +187,12 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
     (item.titulo && /redondo|round\s*trip/i.test(item.titulo)) ||
     (item.subtitulo && /redondo|round\s*trip/i.test(item.subtitulo));
 
-  const hotel = item.config?.hotelId || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || item.extrasEspeciales?.golfOrigen || item.extrasEspeciales?.nightlifeOrigen || 'N/A';
-  const pasajeros = item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
+  const hotel = item.config?.hotelId || item.config?.transportHotel || item.extrasEspeciales?.hotelOrigen || item.extrasEspeciales?.cenaOrigen || item.extrasEspeciales?.golfOrigen || item.extrasEspeciales?.nightlifeOrigen || 'N/A';
+  const pasajeros = item.config?.guests || item.config?.pasajeros || item.extrasEspeciales?.cenaPax || item.extrasEspeciales?.hotelPax || item.extrasEspeciales?.golfPax || item.extrasEspeciales?.nightlifePax || item.config?.hhPax || 'N/A';
 
   const fechaServicio = 
     item.config?.fechaLlegada || 
+    item.config?.charterDate || 
     item.config?.fecha || 
     item.config?.fechaTour || 
     item.detalles?.fecha || 
@@ -218,6 +219,7 @@ const generarHtmlCorreoCliente = (item, datosCliente, numConfirmacion, lang) => 
   const pickup = 
     item.flightInfo?.horaPickUp || 
     item.flightInfo?.hora || 
+    item.config?.hotelPickupTime || 
     item.extrasEspeciales?.cenaHora || 
     item.extrasEspeciales?.hotelHora || 
     item.extrasEspeciales?.golfHora || 
