@@ -1139,7 +1139,7 @@ export default function YachtsPage({ params }) {
               </button>
 
               <a
-                href={`https://wa.me/526242385150?text=${mensajeWhatsApp}`}
+                href={`https://wa.me/526121943286?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
@@ -1645,7 +1645,7 @@ export default function YachtsPage({ params }) {
               </button>
 
               <a
-                href={`https://wa.me/526242385150?text=${mensajeWhatsApp}`}
+                href={`https://wa.me/526121943286?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20"
@@ -1810,7 +1810,7 @@ export default function YachtsPage({ params }) {
 
                 <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
                   <a
-                    href={`https://wa.me/526242385150?text=${mensajeWhatsApp}`}
+                    href={`https://wa.me/526121943286?text=${mensajeWhatsApp}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition flex items-center justify-center gap-2"
