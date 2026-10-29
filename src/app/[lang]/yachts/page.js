@@ -79,7 +79,7 @@ export default function YachtsPage({ params }) {
       hours: 4,
       price: 11000, // Original $10,000 + $1,000
       baseGuests: 10,
-      maxGuests: 25,
+      maxGuests: 20,
       extraGuestPrice: 300,
       appetizers: true,
       beverages: true,
@@ -95,7 +95,7 @@ export default function YachtsPage({ params }) {
       hours: 6,
       price: 13500, // Original $12,500 + $1,000
       baseGuests: 10,
-      maxGuests: 25,
+      maxGuests: 20,
       extraGuestPrice: 300,
       appetizers: true,
       beverages: true,
@@ -111,7 +111,7 @@ export default function YachtsPage({ params }) {
       hours: 8,
       price: 16000, // Original $15,000 + $1,000
       baseGuests: 10,
-      maxGuests: 25,
+      maxGuests: 20,
       extraGuestPrice: 300,
       appetizers: true,
       beverages: true,
@@ -578,7 +578,7 @@ export default function YachtsPage({ params }) {
           <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
             <Users className="text-blue-900 mb-2" size={24} />
             <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Capacidad' : 'Guest Capacity'}</p>
-            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">{isEs ? 'Hasta 25 Personas' : 'Up to 25 Guests'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">{isEs ? 'Hasta 20 Personas' : 'Up to 20 Guests'}</p>
           </div>
 
           <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
@@ -864,8 +864,8 @@ export default function YachtsPage({ params }) {
                 </div>
                 <button 
                   type="button"
-                  onClick={() => setTotalHuespedes(prev => Math.min(25, prev + 1))}
-                  disabled={totalHuespedes >= 25}
+                  onClick={() => setTotalHuespedes(prev => Math.min(20, prev + 1))}
+                  disabled={totalHuespedes >= 20}
                   className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
                 >
                   +
@@ -873,8 +873,8 @@ export default function YachtsPage({ params }) {
               </div>
               <span className="text-[11px] text-slate-500 mt-1 font-medium">
                 {isEs 
-                  ? 'Tarifa cubre 10 personas. A partir de 11 suma $300 USD por persona (hasta 25).' 
-                  : 'Rate covers 10 guests. From 11+ adds $300 USD per guest (up to 25).'}
+                  ? 'Tarifa cubre 10 personas. A partir de 11 suma $300 USD por persona (hasta 20).' 
+                  : 'Rate covers 10 guests. From 11+ adds $300 USD per guest (up to 20).'}
               </span>
             </div>
 
