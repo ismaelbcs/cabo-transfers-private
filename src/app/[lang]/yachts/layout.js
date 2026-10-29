@@ -9,42 +9,50 @@ export async function generateMetadata({ params }) {
     return generatePageMetadata({
       lang: 'es',
       path: '/yachts',
-      title: "Renta de Yates de Lujo en Los Cabos | Yate Capella 116ft Azimut-Benetti | Ballard Tours",
-      description: "Exclusivo alquiler del superyate Capella de 116 pies en Cabo San Lucas. 5 camarotes de lujo, jacuzzi en cubierta, chef galardonado, barra libre premium y tender de pesca de 31 pies. Traslados VIP disponibles.",
+      title: "Renta de Yate de Lujo en Cabo San Lucas | Capella 116 FT | Ballard Tours",
+      description: "Vive la mejor experiencia de renta de yate de lujo en Cabo San Lucas a bordo del Capella, un superyate Azimut-Benetti de 116 pies con tripulación profesional, jacuzzi, juguetes acuáticos, chef privado y navegación exclusiva en Los Cabos.",
       keywords: [
+        "Luxury Yacht Charter Cabo San Lucas",
+        "Yacht Rental Cabo San Lucas",
+        "Private Yacht Charter Los Cabos",
+        "Luxury Yacht Rental Cabo",
+        "Azimut Yacht Charter",
+        "Private Yacht Tours Cabo",
+        "Yacht Rental Baja California",
+        "Cabo San Lucas Private Boat Charter",
+        "Luxury Yacht Experience Mexico",
+        "Cabo Yacht Fishing and Snorkeling",
         "renta de yates los cabos",
         "alquiler de yates cabo san lucas",
         "yate capella 116ft los cabos",
-        "yates de lujo los cabos",
-        "yate privado cabo san lucas todo incluido",
-        "charter de yates los cabos azimut",
-        "paseo en yate el arco cabo san lucas",
-        "renta de superyates cabo san lucas",
-        "capella azimut benetti cabo",
-        "yates los cabos"
+        "yates de lujo los cabos"
       ],
-      image: '/yachts/capella-exterior-profile.jpg'
+      image: '/yachts/capella-exterior-cruising.jpg'
     });
   }
 
   return generatePageMetadata({
     lang: 'en',
     path: '/yachts',
-    title: "Cabo Yacht Charters | 116 ft Luxury Superyacht Capella | Los Cabos Yacht Rental",
-    description: "Private luxury yacht charter in Cabo San Lucas aboard the 116 ft Azimut-Benetti Capella. 5 luxury staterooms, flybridge jacuzzi, private chef, premium open bar, 31ft Pursuit tender & water toys. Book now.",
+    title: "Luxury Yacht Charter Cabo San Lucas | Capella 116 FT",
+    description: "Experience a luxury yacht charter in Cabo San Lucas aboard Capella, a 116-foot Azimut-Benetti yacht featuring a professional crew, jacuzzi, water toys and private cruising in Los Cabos.",
     keywords: [
+      "Luxury Yacht Charter Cabo San Lucas",
+      "Yacht Rental Cabo San Lucas",
+      "Private Yacht Charter Los Cabos",
+      "Luxury Yacht Rental Cabo",
+      "Azimut Yacht Charter",
+      "Private Yacht Tours Cabo",
+      "Yacht Rental Baja California",
+      "Cabo San Lucas Private Boat Charter",
+      "Luxury Yacht Experience Mexico",
+      "Cabo Yacht Fishing and Snorkeling",
       "cabo yacht charters",
-      "luxury yacht rental cabo san lucas",
       "rent yacht los cabos",
       "capella yacht cabo",
-      "116 ft azimut benetti yacht charter cabo",
-      "private yacht rental los cabos all inclusive",
-      "cabo superyacht rental",
-      "sunset yacht cruise cabo san lucas",
-      "yacht charters cabo san lucas mexico",
-      "cabo yachts"
+      "116 ft azimut benetti yacht charter cabo"
     ],
-    image: '/yachts/capella-exterior-profile.jpg'
+    image: '/yachts/capella-exterior-cruising.jpg'
   });
 }
 
