@@ -10,6 +10,7 @@ import {
   Clock, 
   Calendar, 
   Check, 
+  CheckCircle, 
   CheckCircle2, 
   Info, 
   Plus, 
@@ -27,7 +28,9 @@ import {
   Ship,
   HeartHandshake,
   Star,
-  Mail
+  Mail,
+  ShieldCheck,
+  ChevronRight
 } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { catalogoHoteles } from '../../../data/seoData';
@@ -35,6 +38,8 @@ import { COUNTRIES, POPULAR_COUNTRY_CODES } from '../../../data/countryCallingCo
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { sendEmail } from '../../../utils/sendEmail';
+import TrustedPartners from '../../../components/TrustedPartners';
+import HeroReviewsBadge from '../../../components/HeroReviewsBadge';
 
 export default function YachtsPage({ params }) {
   const router = useRouter();
@@ -249,33 +254,33 @@ export default function YachtsPage({ params }) {
 
     const emailSubject = `NUEVA CONSULTA DE YATE: Capella 116ft - ${inquireData.firstName} ${inquireData.lastName}`;
     const emailHtml = `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #0f172a; padding: 40px; color: #f8fafc;">
-        <div style="max-width: 600px; margin: 0 auto; background-color: #1e293b; border-radius: 16px; padding: 40px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-          <div style="border-bottom: 2px solid #38bdf8; padding-bottom: 20px; margin-bottom: 24px; text-align: center;">
-            <h1 style="color: #ffffff; margin: 0 0 6px 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Ballard Tours • Private Yacht Charters</h1>
-            <p style="color: #38bdf8; margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase;">116ft Azimut-Benetti "Capella"</p>
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; padding: 40px; color: #0f172a;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; padding: 40px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+          <div style="border-bottom: 2px solid #0284c7; padding-bottom: 20px; margin-bottom: 24px; text-align: center;">
+            <h1 style="color: #0f172a; margin: 0 0 6px 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Ballard Tours • Private Yacht Charters</h1>
+            <p style="color: #0284c7; margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase;">116ft Azimut-Benetti "Capella"</p>
           </div>
 
-          <h2 style="color: #f1f5f9; font-size: 18px; margin-bottom: 16px;">Nueva Solicitud de Información / Inquire</h2>
+          <h2 style="color: #1e293b; font-size: 18px; margin-bottom: 16px;">Nueva Solicitud de Información / Inquire</h2>
           
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px;">
-            <tr><td style="padding: 8px 0; color: #94a3b8; width: 140px;">Cliente:</td><td style="padding: 8px 0; color: #ffffff; font-weight: 600;">${inquireData.firstName} ${inquireData.lastName}</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Correo:</td><td style="padding: 8px 0;"><a href="mailto:${inquireData.email}" style="color: #38bdf8; text-decoration: none;">${inquireData.email}</a></td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Teléfono:</td><td style="padding: 8px 0; color: #ffffff;">${inquireData.phoneCode} ${inquireData.phoneNumber}</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Fecha solicitada:</td><td style="padding: 8px 0; color: #fef08a; font-weight: bold;">${inquireData.date || 'Por definir'}</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Paquete sugerido:</td><td style="padding: 8px 0; color: #ffffff; font-weight: 600;">${paqueteSeleccionado.nameEn} ($${paqueteSeleccionado.price.toLocaleString()} USD)</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Huéspedes:</td><td style="padding: 8px 0; color: #ffffff;">${totalHuespedes} personas</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">¿Incluye transporte?:</td><td style="padding: 8px 0; color: #ffffff;">${incluirTransporte ? `SÍ (${busquedaOrigen || 'Hotel por definir'} | Salida: ${horaRecogidaHotel} - Regreso: ${horaRegresoMarina})` : 'NO'}</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Presupuesto estimado:</td><td style="padding: 8px 0; color: #4ade80; font-size: 18px; font-weight: 800;">$${granTotalYate.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD</td></tr>
-            <tr><td style="padding: 8px 0; color: #94a3b8;">Medio de contacto:</td><td style="padding: 8px 0; color: #cbd5e1;">${inquireData.source}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b; width: 140px;">Cliente:</td><td style="padding: 8px 0; color: #0f172a; font-weight: 600;">${inquireData.firstName} ${inquireData.lastName}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Correo:</td><td style="padding: 8px 0;"><a href="mailto:${inquireData.email}" style="color: #0284c7; text-decoration: none;">${inquireData.email}</a></td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Teléfono:</td><td style="padding: 8px 0; color: #0f172a;">${inquireData.phoneCode} ${inquireData.phoneNumber}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Fecha solicitada:</td><td style="padding: 8px 0; color: #b45309; font-weight: bold;">${inquireData.date || 'Por definir'}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Paquete sugerido:</td><td style="padding: 8px 0; color: #0f172a; font-weight: 600;">${paqueteSeleccionado.nameEn} ($${paqueteSeleccionado.price.toLocaleString()} USD)</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Huéspedes:</td><td style="padding: 8px 0; color: #0f172a;">${totalHuespedes} personas</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">¿Incluye transporte?:</td><td style="padding: 8px 0; color: #0f172a;">${incluirTransporte ? `SÍ (${busquedaOrigen || 'Hotel por definir'} | Salida: ${horaRecogidaHotel} - Regreso: ${horaRegresoMarina})` : 'NO'}</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Presupuesto estimado:</td><td style="padding: 8px 0; color: #15803d; font-size: 18px; font-weight: 800;">$${granTotalYate.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD</td></tr>
+            <tr><td style="padding: 8px 0; color: #64748b;">Medio de contacto:</td><td style="padding: 8px 0; color: #334155;">${inquireData.source}</td></tr>
           </table>
 
-          <h3 style="color: #f1f5f9; font-size: 14px; font-weight: 600; margin-bottom: 8px;">Mensaje del Cliente:</h3>
-          <div style="background-color: #0f172a; padding: 20px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; color: #e2e8f0; border: 1px solid #334155;">
+          <h3 style="color: #1e293b; font-size: 14px; font-weight: 600; margin-bottom: 8px;">Mensaje del Cliente:</h3>
+          <div style="background-color: #f1f5f9; padding: 20px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; color: #334155; border: 1px solid #e2e8f0;">
             ${inquireData.message || 'Sin mensaje adicional.'}
           </div>
 
-          <div style="margin-top: 24px; text-align: center; font-size: 12px; color: #64748b;">
+          <div style="margin-top: 24px; text-align: center; font-size: 12px; color: #94a3b8;">
             Solicitud generada a través de caboprivateairporttransfers.com / yachts
           </div>
         </div>
@@ -357,167 +362,178 @@ export default function YachtsPage({ params }) {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pt-24 pb-20 selection:bg-amber-400 selection:text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-600 selection:text-white">
       
       {/* ======================================================== */}
-      {/* BREADCRUMB & NAVEGACIÓN SUPERIOR                         */}
+      {/* HERO BANNER AL ESTILO DE LAS PÁGINAS DE HOTELES         */}
       {/* ======================================================== */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 py-2 text-xs md:text-sm text-slate-400">
-          <div className="flex items-center gap-2">
-            <Link href={`/${lang}`} className="hover:text-amber-400 transition flex items-center gap-1">
+      <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 px-4 overflow-hidden rounded-b-[2.5rem] md:rounded-b-[4rem] shadow-xl bg-slate-950 text-white mb-8">
+        
+        {/* Imagen de Fondo del Hero */}
+        <div className="absolute inset-0">
+          <img 
+            src={fotosGaleria[fotoActiva].src} 
+            alt={fotosGaleria[fotoActiva].titleEn} 
+            className="w-full h-full object-cover opacity-40 transition-all duration-700 ease-out"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
+
+        <div className="relative max-w-5xl mx-auto text-center z-20">
+          
+          {/* Breadcrumb e Indicadores */}
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-6 text-xs text-slate-300">
+            <Link href={`/${lang}`} className="hover:text-white transition flex items-center gap-1 font-semibold">
               <span>←</span> {isEs ? 'Inicio' : 'Home'}
             </Link>
             <span>/</span>
-            <span className="text-slate-200 font-semibold">{isEs ? 'Yates de Lujo' : 'Luxury Yachts'}</span>
+            <span className="text-slate-300 font-medium">{isEs ? 'Yates de Lujo' : 'Luxury Yachts'}</span>
             <span>/</span>
-            <span className="text-amber-400 font-bold">116ft Azimut-Benetti "Capella"</span>
+            <span className="text-blue-300 font-bold">116ft Azimut-Benetti "Capella"</span>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-semibold">
-              <Sparkles size={13} className="text-amber-400" />
+          <div className="flex justify-center items-center gap-4 mb-4 text-slate-400">
+            <Ship size={26} className="text-blue-400" />
+            <span className="border-t border-dashed border-slate-600 w-16"></span>
+            <MapPin size={26} className="text-amber-400" />
+          </div>
+
+          {/* Título Principal con la misma tipografía institucional de hoteles */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tight leading-tight text-white drop-shadow-md">
+            {isEs ? 'Renta de Yate Privado Capella 116ft' : '116 Ft Azimut-Benetti "Capella"'}
+          </h1>
+          
+          <HeroReviewsBadge lang={lang} />
+
+          <p className="text-base sm:text-lg md:text-xl text-slate-200 font-medium mt-4 max-w-3xl mx-auto drop-shadow">
+            {isEs 
+              ? 'Calidad, máximo lujo y excelencia italiana para navegar las aguas de Los Cabos. La embarcación en la que todos desean estar.'
+              : 'Quality, luxury, and Italian excellence for cruising Baja’s deep blue seas. The vessel everybody wishes they were on.'
+            }
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
+            <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-bold uppercase tracking-wider">
               {isEs ? '1 de solo 3 en el mundo' : '1 of only 3 ever built worldwide'}
             </span>
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-300 text-xs font-semibold">
-              <MapPin size={13} />
+            <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-wider">
+              {isEs ? 'Chef Privado y Tripulación de 7' : 'Full Crew of 7 + Private Chef'}
+            </span>
+            <span className="px-3 py-1 rounded-full bg-white/10 text-slate-200 border border-white/20 text-xs font-bold uppercase tracking-wider">
               Marina Cabo San Lucas
             </span>
           </div>
-        </div>
-      </div>
 
-      {/* ======================================================== */}
-      {/* HERO SECTION CON FOTOS REALES DE CAPELLA                 */}
-      {/* ======================================================== */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-gradient-to-b from-slate-900 to-slate-950">
-          
-          <div className="relative h-[340px] md:h-[520px] w-full overflow-hidden group cursor-pointer" onClick={() => setLightboxAbierto(true)}>
-            <img 
-              src={fotosGaleria[fotoActiva].src} 
-              alt={fotosGaleria[fotoActiva].titleEn} 
-              className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-            
-            {/* Botón flotante para ver en grande */}
-            <div className="absolute bottom-6 right-6 z-20 hidden sm:flex items-center gap-2 bg-slate-900/80 backdrop-blur-md text-white text-xs font-bold px-4 py-2.5 rounded-full border border-white/20 shadow-lg group-hover:bg-amber-500 group-hover:text-slate-950 transition">
-              <Maximize2 size={14} />
-              {isEs ? 'Ver Galería Completa (6 Fotos Reales)' : 'View Full Gallery (6 Real Photos)'}
-            </div>
-
-            {/* Badges y Título en el Hero */}
-            <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 z-20 max-w-3xl pr-4">
-              <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className="px-3 py-1 rounded-md bg-amber-500 text-slate-950 text-xs font-extrabold tracking-wider uppercase shadow-md">
-                  AZIMUT-BENETTI 116 FT
-                </span>
-                <span className="px-3 py-1 rounded-md bg-slate-800/90 backdrop-blur text-slate-200 text-xs font-semibold border border-slate-700">
-                  {isEs ? 'Tripulación de 7 + Chef Galardonado' : 'Full Crew of 7 + Award-Winning Chef'}
-                </span>
-                <span className="px-3 py-1 rounded-md bg-sky-950/80 backdrop-blur text-sky-300 text-xs font-semibold border border-sky-800">
-                  {isEs ? 'Jacuzzi en Cubierta para 8' : 'Flybridge 8-Person Jacuzzi'}
-                </span>
-              </div>
-
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-2 drop-shadow-md">
-                116 Ft Azimut-Benetti <span className="text-amber-400">"Capella"</span>
-              </h1>
-              <p className="text-sm sm:text-base md:text-lg text-slate-200 font-medium max-w-2xl drop-shadow line-clamp-2 md:line-clamp-none">
-                {isEs 
-                  ? 'Calidad, máximo lujo y excelencia italiana para navegar las aguas azul profundo del Mar de Cortés y el Finisterra de Los Cabos.'
-                  : 'Quality, luxury, and Italian excellence for cruising Baja’s deep blue seas. The vessel everybody wishes they were on.'
-                }
-              </p>
-            </div>
-          </div>
-
-          {/* Miniaturas de la Galería (Las 6 Fotos Reales) */}
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 p-3 sm:p-4 bg-slate-900/90 backdrop-blur border-t border-slate-800">
-            {fotosGaleria.map((foto, idx) => (
-              <button
-                key={idx}
-                onClick={() => setFotoActiva(idx)}
-                className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                  fotoActiva === idx 
-                    ? 'border-amber-400 scale-[1.03] shadow-[0_0_15px_rgba(251,191,36,0.3)]' 
-                    : 'border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600'
-                }`}
+          {/* Selector de Galería de Fotos Reales en la base del Hero */}
+          <div className="mt-8 pt-6 border-t border-slate-800/80">
+            <div className="flex items-center justify-between mb-3 text-xs text-slate-300">
+              <span className="font-bold flex items-center gap-1.5">
+                <CameraIcon size={14} className="text-blue-400" />
+                {isEs ? 'Fotos Reales del Yate Capella' : 'Real Yacht Capella Photos'}
+              </span>
+              <button 
+                onClick={() => setLightboxAbierto(true)}
+                className="text-blue-300 hover:text-white font-semibold transition flex items-center gap-1"
               >
-                <img src={foto.src} alt={foto.titleEn} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1.5">
-                  <span className="text-[10px] font-bold text-white truncate drop-shadow">
-                    {idx === 0 && (isEs ? 'Exterior' : 'Profile')}
-                    {idx === 1 && (isEs ? 'Jacuzzi' : 'Flybridge')}
-                    {idx === 2 && (isEs ? 'Proa' : 'Bow Sunpad')}
-                    {idx === 3 && (isEs ? 'Camarote' : 'Stateroom')}
-                    {idx === 4 && (isEs ? 'Mosaicos' : 'Mosaic Tile')}
-                    {idx === 5 && (isEs ? 'Salón' : 'Main Salon')}
-                  </span>
-                </div>
+                <Maximize2 size={13} />
+                {isEs ? 'Ver en pantalla completa' : 'View full screen'}
               </button>
-            ))}
+            </div>
+
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              {fotosGaleria.map((foto, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setFotoActiva(idx)}
+                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all ${
+                    fotoActiva === idx 
+                      ? 'border-blue-400 scale-[1.03] shadow-[0_0_15px_rgba(56,189,248,0.4)]' 
+                      : 'border-slate-800 opacity-60 hover:opacity-100 hover:border-slate-600'
+                  }`}
+                >
+                  <img src={foto.src} alt={foto.titleEn} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1">
+                    <span className="text-[10px] font-bold text-white truncate drop-shadow">
+                      {idx === 0 && (isEs ? 'Exterior' : 'Profile')}
+                      {idx === 1 && (isEs ? 'Jacuzzi' : 'Flybridge')}
+                      {idx === 2 && (isEs ? 'Proa' : 'Bow Sunpad')}
+                      {idx === 3 && (isEs ? 'Camarote' : 'Stateroom')}
+                      {idx === 4 && (isEs ? 'Mosaicos' : 'Mosaic Tile')}
+                      {idx === 5 && (isEs ? 'Salón' : 'Main Salon')}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
+
         </div>
       </div>
 
       {/* ======================================================== */}
-      {/* QUICK HIGHLIGHTS BAR (ESPECIFICACIONES RÁPIDAS)          */}
+      {/* TRUSTED PARTNERS (AL IGUAL QUE EN HOTELES)               */}
+      {/* ======================================================== */}
+      <TrustedPartners lang={lang} className="mb-12 rounded-2xl mx-4 max-w-7xl lg:mx-auto" />
+
+      {/* ======================================================== */}
+      {/* QUICK HIGHLIGHTS BAR (ESPECIFICACIONES RÁPIDAS EN CLARO) */}
       {/* ======================================================== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center text-center">
-            <Ship className="text-amber-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400 font-medium">{isEs ? 'Eslora / Modelo' : 'Length & Model'}</span>
-            <span className="text-sm font-bold text-slate-100 mt-0.5">116 Ft Azimut</span>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
+            <Ship className="text-blue-900 mb-2" size={24} />
+            <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Eslora / Modelo' : 'Length & Model'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">116 Ft Azimut</p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center text-center">
-            <Users className="text-amber-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400 font-medium">{isEs ? 'Capacidad' : 'Guest Capacity'}</span>
-            <span className="text-sm font-bold text-slate-100 mt-0.5">{isEs ? 'Hasta 25 Personas' : 'Up to 25 Guests'}</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
+            <Users className="text-blue-900 mb-2" size={24} />
+            <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Capacidad' : 'Guest Capacity'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">{isEs ? 'Hasta 25 Personas' : 'Up to 25 Guests'}</p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center text-center">
-            <Award className="text-amber-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400 font-medium">{isEs ? 'Tripulación' : 'Crew Members'}</span>
-            <span className="text-sm font-bold text-slate-100 mt-0.5">{isEs ? '7 Especialistas + Chef' : '7 Experts + Chef'}</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
+            <Award className="text-blue-900 mb-2" size={24} />
+            <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Tripulación' : 'Crew Members'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">{isEs ? '7 Especialistas + Chef' : '7 Experts + Chef'}</p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center text-center">
-            <Waves className="text-amber-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400 font-medium">{isEs ? 'Tender de Pesca' : 'Support Tender'}</span>
-            <span className="text-sm font-bold text-slate-100 mt-0.5">31ft Pursuit 600hp</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
+            <Waves className="text-blue-900 mb-2" size={24} />
+            <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Tender de Pesca' : 'Support Tender'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">31ft Pursuit 600hp</p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center text-center">
-            <Sparkles className="text-amber-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400 font-medium">{isEs ? 'Camarotes' : 'Staterooms'}</span>
-            <span className="text-sm font-bold text-slate-100 mt-0.5">{isEs ? '5 Suites de Mármol' : '5 Marble Suites'}</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
+            <Sparkles className="text-blue-900 mb-2" size={24} />
+            <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Camarotes' : 'Staterooms'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">{isEs ? '5 Suites de Mármol' : '5 Marble Suites'}</p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex flex-col items-center text-center">
-            <MapPin className="text-amber-400 mb-2" size={24} />
-            <span className="text-xs text-slate-400 font-medium">{isEs ? 'Punto de Salida' : 'Departure Point'}</span>
-            <span className="text-sm font-bold text-slate-100 mt-0.5">Marina Cabo San Lucas</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
+            <MapPin className="text-blue-900 mb-2" size={24} />
+            <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Punto de Salida' : 'Departure Point'}</p>
+            <p className="text-slate-900 font-extrabold text-sm sm:text-base mt-0.5">Marina Cabo San Lucas</p>
           </div>
+
         </div>
       </div>
 
       {/* ======================================================== */}
-      {/* SECCIÓN DE PAQUETES (+$1000 USD / +$50 HUÉSPED EXTRA)   */}
+      {/* SECCIÓN DE PAQUETES (CON PRECIOS Y DISEÑO FIEL)          */}
       {/* ======================================================== */}
       <div id="packages-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 scroll-mt-28">
+        
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-400 text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
             <Anchor size={14} />
-            {isEs ? 'Paquetes Todo Incluido' : 'All-Inclusive Yacht Packages'}
+            {isEs ? 'Paquetes de Chárter en Los Cabos' : 'All-Inclusive Yacht Packages'}
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {isEs ? 'Paquetes de Chárter Privado' : 'Packages'}
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            {isEs ? 'Paquetes Exclusivos Todo Incluido' : 'Packages'}
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base mt-2">
+          <p className="text-slate-600 text-sm sm:text-base mt-2">
             {isEs 
               ? 'Tarifas transparentes para hasta 10 invitados. Huéspedes adicionales ($300 USD c/u) y horas extra disponibles.'
               : 'Base rates for up to 10 guests. Extra guests ($300 USD each) and additional hours available.'
@@ -525,7 +541,7 @@ export default function YachtsPage({ params }) {
           </p>
         </div>
 
-        {/* Rejilla de Tarjetas de Paquetes idéntica a la imagen original */}
+        {/* Rejilla de 4 Tarjetas de Paquetes con cabecera azul institucional */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {paquetes.map((pkg) => {
             const esSeleccionado = paqueteSeleccionado.id === pkg.id;
@@ -536,20 +552,20 @@ export default function YachtsPage({ params }) {
                 onClick={() => setPaqueteSeleccionado(pkg)}
                 className={`relative rounded-2xl bg-white text-slate-900 border transition-all duration-300 flex flex-col overflow-hidden cursor-pointer ${
                   esSeleccionado 
-                    ? 'ring-4 ring-amber-400 shadow-2xl scale-[1.02] border-amber-400' 
-                    : 'border-slate-200 shadow-lg hover:shadow-xl hover:border-blue-400'
+                    ? 'ring-4 ring-blue-600 shadow-xl scale-[1.02] border-blue-600' 
+                    : 'border-slate-200/90 shadow-sm hover:shadow-lg hover:border-blue-400'
                 }`}
               >
                 {/* Badge Most Popular */}
                 {pkg.popular && (
                   <div className="absolute top-0 right-4 z-20">
-                    <div className="bg-[#b4975a] text-white text-[11px] font-bold uppercase px-3 py-1 rounded-b-md shadow-sm">
+                    <div className="bg-[#b4975a] text-white text-[11px] font-bold uppercase px-3 py-1 rounded-b-md shadow-xs">
                       {isEs ? 'Más Popular' : 'Most Popular'}
                     </div>
                   </div>
                 )}
 
-                {/* Header Azul del Paquete */}
+                {/* Header Azul del Paquete idéntico al screenshot */}
                 <div className="bg-[#0066b2] text-white py-3.5 px-4 text-center">
                   <h3 className="font-extrabold text-xs sm:text-sm tracking-wider uppercase">
                     {isEs ? pkg.nameEs : pkg.nameEn}
@@ -561,10 +577,10 @@ export default function YachtsPage({ params }) {
                   
                   {/* Precio Grande */}
                   <div className="text-center mb-4">
-                    <div className="text-3xl sm:text-4xl font-black text-slate-900">
+                    <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
                       ${pkg.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </div>
-                    <p className="text-[11px] text-slate-500 italic mt-1">
+                    <p className="text-[11px] text-slate-500 italic mt-1 font-medium">
                       {isEs ? 'Impuestos mexicanos no incluidos en ningún paquete' : 'Mexican Sales Tax not included in any package'}
                     </p>
                   </div>
@@ -575,7 +591,7 @@ export default function YachtsPage({ params }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Users size={16} className="text-[#0066b2]" />
-                        <span>{isEs ? 'Huéspedes base' : 'Guests'}</span>
+                        <span className="font-medium">{isEs ? 'Huéspedes base' : 'Guests'}</span>
                       </div>
                       <span className="font-bold text-slate-900">{pkg.baseGuests}</span>
                     </div>
@@ -583,9 +599,9 @@ export default function YachtsPage({ params }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Users size={16} className="text-[#0066b2]" />
-                        <span>{isEs ? 'Huéspedes extra' : 'Extra Guests'}</span>
+                        <span className="font-medium">{isEs ? 'Huéspedes extra' : 'Extra Guests'}</span>
                       </div>
-                      <span className="font-medium text-slate-800 text-xs">
+                      <span className="font-semibold text-slate-800 text-xs">
                         ${pkg.extraGuestPrice} {isEs ? `c/u (${pkg.maxGuests} Máx)` : `each (${pkg.maxGuests} Max)`}
                       </span>
                     </div>
@@ -593,7 +609,7 @@ export default function YachtsPage({ params }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Clock size={16} className="text-[#0066b2]" />
-                        <span>{isEs ? 'Duración' : 'Hours'}</span>
+                        <span className="font-medium">{isEs ? 'Duración' : 'Hours'}</span>
                       </div>
                       <span className="font-bold text-slate-900">{pkg.hours}</span>
                     </div>
@@ -601,7 +617,7 @@ export default function YachtsPage({ params }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Utensils size={16} className="text-[#0066b2]" />
-                        <span>{isEs ? 'Bocadillos / Appetizers' : 'Appetizers'}</span>
+                        <span className="font-medium">{isEs ? 'Bocadillos / Appetizers' : 'Appetizers'}</span>
                       </div>
                       <Check size={18} className="text-emerald-600 stroke-[3]" />
                     </div>
@@ -609,7 +625,7 @@ export default function YachtsPage({ params }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Wine size={16} className="text-[#0066b2]" />
-                        <span>{isEs ? 'Barra libre y bebidas' : 'Beverages'}</span>
+                        <span className="font-medium">{isEs ? 'Barra libre y bebidas' : 'Beverages'}</span>
                       </div>
                       <Check size={18} className="text-emerald-600 stroke-[3]" />
                     </div>
@@ -617,7 +633,7 @@ export default function YachtsPage({ params }) {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Sparkles size={16} className="text-[#0066b2]" />
-                        <span>{isEs ? 'Menú personalizado chef' : 'Custom Meal Selection'}</span>
+                        <span className="font-medium">{isEs ? 'Menú personalizado chef' : 'Custom Meal Selection'}</span>
                       </div>
                       {pkg.customMeal ? (
                         <Check size={18} className="text-emerald-600 stroke-[3]" />
@@ -627,7 +643,7 @@ export default function YachtsPage({ params }) {
                     </div>
                   </div>
 
-                  {/* Botón Inquire / Seleccionar */}
+                  {/* Botones */}
                   <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-2">
                     <button
                       onClick={(e) => {
@@ -635,7 +651,7 @@ export default function YachtsPage({ params }) {
                         setPaqueteSeleccionado(pkg);
                         handleOpenInquire(pkg);
                       }}
-                      className="w-full py-3 px-4 bg-[#003865] hover:bg-[#002244] text-white font-extrabold text-xs tracking-wider uppercase rounded-lg transition text-center shadow-md flex items-center justify-center gap-1.5"
+                      className="w-full py-3 px-4 bg-[#003865] hover:bg-[#002244] text-white font-extrabold text-xs tracking-wider uppercase rounded-lg transition text-center shadow-xs flex items-center justify-center gap-1.5"
                     >
                       {isEs ? 'SOLICITAR INFORMACIÓN' : 'INQUIRE NOW'}
                     </button>
@@ -649,7 +665,7 @@ export default function YachtsPage({ params }) {
                       }}
                       className={`w-full py-2 px-3 text-xs font-bold rounded-lg transition text-center border ${
                         esSeleccionado 
-                          ? 'bg-amber-100 text-amber-900 border-amber-300' 
+                          ? 'bg-blue-50 text-blue-900 border-blue-200' 
                           : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
@@ -668,18 +684,18 @@ export default function YachtsPage({ params }) {
       {/* CALCULADORA INTERACTIVA Y MÓDULO DE TRANSPORTE TERRESTRE */}
       {/* ======================================================== */}
       <div id="booking-calculator" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 scroll-mt-28">
-        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl relative overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm relative overflow-hidden">
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-8">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-bold uppercase mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-bold uppercase mb-2 border border-blue-100">
                 <Compass size={14} />
                 {isEs ? 'Calculadora VIP en Vivo' : 'Live VIP Charter Calculator'}
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                 {isEs ? 'Configura tu Chárter en el Capella' : 'Configure Your Capella Charter'}
               </h3>
-              <p className="text-slate-400 text-sm mt-1">
+              <p className="text-slate-600 text-sm mt-1">
                 {isEs 
                   ? 'Añade invitados adicionales, horas extras y servicio de traslado privado ida y vuelta desde tu resort.'
                   : 'Add extra guests, additional charter hours, and round-trip private resort ground transfers.'
@@ -687,9 +703,9 @@ export default function YachtsPage({ params }) {
               </p>
             </div>
 
-            <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 text-right">
-              <span className="text-xs text-slate-400 block font-medium">{isEs ? 'Paquete activo' : 'Active Package'}</span>
-              <span className="text-base sm:text-lg font-black text-amber-400">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-right">
+              <span className="text-xs text-slate-400 block font-bold uppercase tracking-wider">{isEs ? 'Paquete activo' : 'Active Package'}</span>
+              <span className="text-base sm:text-lg font-black text-blue-900">
                 {isEs ? paqueteSeleccionado.nameEs : paqueteSeleccionado.nameEn}
               </span>
             </div>
@@ -699,86 +715,86 @@ export default function YachtsPage({ params }) {
             
             {/* 1. Selector de Fecha */}
             <div className="flex flex-col">
-              <label className="text-xs sm:text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
-                <Calendar size={16} className="text-amber-400" />
+              <label className="text-xs sm:text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
+                <Calendar size={16} className="text-blue-900" />
                 {isEs ? 'Fecha de navegación' : 'Charter Date'}
               </label>
               <input 
                 type="date" 
                 value={charterFecha} 
                 onChange={(e) => setCharterFecha(e.target.value)} 
-                className="w-full p-3.5 bg-slate-800/90 border border-slate-700 rounded-xl focus:ring-2 focus:ring-amber-400 text-white outline-none text-sm transition"
+                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 text-slate-800 outline-none text-sm transition font-medium"
               />
             </div>
 
             {/* 2. Selector de Huéspedes Totales */}
             <div className="flex flex-col">
-              <label className="text-xs sm:text-sm font-semibold text-slate-300 mb-2 flex items-center justify-between">
+              <label className="text-xs sm:text-sm font-bold text-slate-700 mb-2 flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  <Users size={16} className="text-amber-400" />
+                  <Users size={16} className="text-blue-900" />
                   {isEs ? 'Total de Huéspedes' : 'Total Guests'}
                 </span>
-                <span className="text-xs text-amber-400 font-bold">
+                <span className="text-xs text-blue-900 font-bold">
                   {huespedesExtra > 0 ? `+${huespedesExtra} extra ($${costoHuespedesExtra} USD)` : (isEs ? '10 incluidos' : '10 included')}
                 </span>
               </label>
               
-              <div className="flex items-center bg-slate-800/90 border border-slate-700 rounded-xl p-1.5">
+              <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1.5">
                 <button 
                   onClick={() => setTotalHuespedes(prev => Math.max(paqueteSeleccionado.baseGuests, prev - 1))}
                   disabled={totalHuespedes <= paqueteSeleccionado.baseGuests}
-                  className="w-10 h-10 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition font-bold"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
                 >
                   -
                 </button>
-                <div className="flex-1 text-center font-extrabold text-base sm:text-lg text-white">
+                <div className="flex-1 text-center font-black text-base sm:text-lg text-slate-900">
                   {totalHuespedes} {isEs ? 'Personas' : 'Guests'}
                 </div>
                 <button 
                   onClick={() => setTotalHuespedes(prev => Math.min(paqueteSeleccionado.maxGuests, prev + 1))}
                   disabled={totalHuespedes >= paqueteSeleccionado.maxGuests}
-                  className="w-10 h-10 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition font-bold"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
                 >
                   +
                 </button>
               </div>
-              <span className="text-[11px] text-slate-500 mt-1">
+              <span className="text-[11px] text-slate-500 mt-1 font-medium">
                 {isEs ? `Hasta ${paqueteSeleccionado.maxGuests} huéspedes máximos en Capella.` : `Up to ${paqueteSeleccionado.maxGuests} guests maximum on Capella.`}
               </span>
             </div>
 
             {/* 3. Selector de Horas Extras */}
             <div className="flex flex-col">
-              <label className="text-xs sm:text-sm font-semibold text-slate-300 mb-2 flex items-center justify-between">
+              <label className="text-xs sm:text-sm font-bold text-slate-700 mb-2 flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  <Clock size={16} className="text-amber-400" />
+                  <Clock size={16} className="text-blue-900" />
                   {isEs ? 'Horas Extras de Chárter' : 'Extra Charter Hours'}
                 </span>
-                <span className="text-xs text-amber-400 font-bold">
+                <span className="text-xs text-blue-900 font-bold">
                   {horasExtras > 0 ? `+$${costoHorasExtras} USD` : '$1,600 USD/hr'}
                 </span>
               </label>
 
-              <div className="flex items-center bg-slate-800/90 border border-slate-700 rounded-xl p-1.5">
+              <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1.5">
                 <button 
                   onClick={() => setHorasExtras(prev => Math.max(0, prev - 1))}
                   disabled={horasExtras <= 0}
-                  className="w-10 h-10 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition font-bold"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
                 >
                   -
                 </button>
-                <div className="flex-1 text-center font-extrabold text-base sm:text-lg text-white">
+                <div className="flex-1 text-center font-black text-base sm:text-lg text-slate-900">
                   {horasExtras} {isEs ? 'Horas Extra' : 'Extra Hours'}
                 </div>
                 <button 
                   onClick={() => setHorasExtras(prev => Math.min(4, prev + 1))}
                   disabled={horasExtras >= 4}
-                  className="w-10 h-10 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-white transition font-bold"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold"
                 >
                   +
                 </button>
               </div>
-              <span className="text-[11px] text-slate-500 mt-1">
+              <span className="text-[11px] text-slate-500 mt-1 font-medium">
                 {isEs ? 'Extiende tu día en el mar sin límite.' : 'Extend your day cruising the coastline.'}
               </span>
             </div>
@@ -788,17 +804,17 @@ export default function YachtsPage({ params }) {
           {/* ======================================================== */}
           {/* MÓDULO DE TRANSPORTE TERRESTRE OPCIONAL (TABLA DE GOLF) */}
           {/* ======================================================== */}
-          <div className="bg-slate-950/70 border border-slate-800 rounded-2xl p-5 sm:p-6 mb-8">
+          <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 sm:p-6 mb-8">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 mt-0.5">
+                <div className="p-2.5 rounded-xl bg-blue-100 text-blue-900 shrink-0 mt-0.5">
                   <Car size={22} />
                 </div>
                 <div>
-                  <h4 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                  <h4 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
                     {isEs ? '¿Deseas agregar Transportación Terrestre Privada VIP?' : 'Add VIP Private Round-Trip Ground Transportation?'}
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                  <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
                     {isEs 
                       ? 'Traslado exclusivo ida y vuelta desde tu hotel o villa a la Marina de Cabo San Lucas en Suburban o Van de lujo. Horario 100% flexible sin tiempo límite.'
                       : 'Private round-trip SUV/Van transfer from your resort or private villa directly to Cabo San Lucas Marina. 100% flexible schedule with no time restrictions.'
@@ -814,17 +830,17 @@ export default function YachtsPage({ params }) {
                   onChange={(e) => setIncluirTransporte(e.target.checked)} 
                   className="sr-only peer"
                 />
-                <div className="w-12 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                <div className="w-12 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
 
             {incluirTransporte && (
-              <div className="pt-4 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
+              <div className="pt-4 border-t border-blue-100 grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
                 
                 {/* Buscador de Hotel Origen con Autocomplete */}
                 <div className="flex flex-col relative md:col-span-1">
-                  <label className="text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <MapPin size={14} className="text-amber-400" />
+                  <label className="text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                    <MapPin size={14} className="text-blue-900" />
                     {isEs ? 'Hotel o Villa de Recogida' : 'Pick-up Hotel or Villa'}
                   </label>
                   <input 
@@ -838,10 +854,10 @@ export default function YachtsPage({ params }) {
                     }} 
                     onFocus={() => setMostrarDropdownHoteles(true)} 
                     onBlur={() => setTimeout(() => setMostrarDropdownHoteles(false), 250)} 
-                    className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-400 outline-none"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none"
                   />
                   {mostrarDropdownHoteles && (
-                    <ul className="absolute z-50 w-full bg-slate-900 border border-slate-700 rounded-xl shadow-2xl mt-1 top-[70px] max-h-56 overflow-y-auto">
+                    <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[70px] max-h-56 overflow-y-auto">
                       {catalogoHoteles
                         .filter(h => (busquedaOrigen || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, ""))))
                         .slice(0, 25)
@@ -854,10 +870,10 @@ export default function YachtsPage({ params }) {
                               setBusquedaOrigen(`${hotel.nombre} (Zona ${zona})`); 
                               setMostrarDropdownHoteles(false); 
                             }} 
-                            className="p-3 hover:bg-slate-800 cursor-pointer text-slate-200 border-b border-slate-800 last:border-0 transition flex justify-between text-xs items-center"
+                            className="p-3 hover:bg-blue-50 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between text-xs items-center"
                           >
-                            <span className="truncate pr-2">{hotel.nombre}</span>
-                            <span className="font-bold text-amber-300 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20 whitespace-nowrap">
+                            <span className="truncate pr-2 font-medium">{hotel.nombre}</span>
+                            <span className="font-bold text-blue-900 bg-blue-100 px-2 py-0.5 rounded border border-blue-200 whitespace-nowrap">
                               {isEs ? 'Zona' : 'Zone'} {hotel.zonaId || hotel.zona || 1}
                             </span>
                           </li>
@@ -865,7 +881,7 @@ export default function YachtsPage({ params }) {
                     </ul>
                   )}
                   {transporteOrigen && (
-                    <span className="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+                    <span className="text-[11px] text-emerald-700 mt-1 flex items-center gap-1 font-semibold">
                       <CheckCircle2 size={12} /> {isEs ? `Tarifa calculada para Zona ${transporteOrigen.split('|')[1]}` : `Rate calculated for Zone ${transporteOrigen.split('|')[1]}`}
                     </span>
                   )}
@@ -873,15 +889,15 @@ export default function YachtsPage({ params }) {
 
                 {/* Hora de recogida en el Hotel */}
                 <div className="flex flex-col">
-                  <label className="text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <Clock size={14} className="text-amber-400" />
+                  <label className="text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                    <Clock size={14} className="text-blue-900" />
                     {isEs ? 'Hora de recogida en Hotel' : 'Hotel Pick-up Time'}
                   </label>
                   <input 
                     type="time" 
                     value={horaRecogidaHotel} 
                     onChange={(e) => setHoraRecogidaHotel(e.target.value)} 
-                    className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-400 outline-none"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium"
                   />
                   <span className="text-[11px] text-slate-500 mt-1">
                     {isEs ? 'Sugerimos 45 min antes de zarpar.' : 'Suggested 45 min before cruise.'}
@@ -890,17 +906,17 @@ export default function YachtsPage({ params }) {
 
                 {/* Hora de recogida en la Marina (SIN TIEMPO LÍMITE) */}
                 <div className="flex flex-col">
-                  <label className="text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
-                    <Clock size={14} className="text-emerald-400" />
+                  <label className="text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
+                    <Clock size={14} className="text-emerald-600" />
                     {isEs ? 'Hora de regreso de la Marina (Flexible)' : 'Marina Return Time (Flexible)'}
                   </label>
                   <input 
                     type="time" 
                     value={horaRegresoMarina} 
                     onChange={(e) => setHoraRegresoMarina(e.target.value)} 
-                    className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:ring-2 focus:ring-amber-400 outline-none"
+                    className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium"
                   />
-                  <span className="text-[11px] text-emerald-400/90 mt-1 font-medium">
+                  <span className="text-[11px] text-emerald-700 mt-1 font-semibold">
                     {isEs ? '✓ Sin límite de tiempo: tú eliges la hora exacta.' : '✓ No time limit: choose your exact return schedule.'}
                   </span>
                 </div>
@@ -910,9 +926,9 @@ export default function YachtsPage({ params }) {
           </div>
 
           {/* ======================================================== */}
-          {/* RESUMEN DE COTIZACIÓN Y BOTONES DE ACCIÓN                */}
+          {/* RESUMEN DE COTIZACIÓN (ESTILO GOLF: BLOQUE OSCURO ELEGANTE)*/}
           {/* ======================================================== */}
-          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-inner">
+          <div className="bg-slate-900 text-white rounded-2xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-md">
             
             <div className="w-full lg:w-auto text-center lg:text-left">
               <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-1">
@@ -920,7 +936,7 @@ export default function YachtsPage({ params }) {
               </p>
               
               <div className="flex items-baseline justify-center lg:justify-start gap-2">
-                <span className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                <span className="text-4xl sm:text-5xl font-black text-white tracking-tight">
                   ${granTotalYate.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </span>
                 <span className="text-xs text-amber-400 font-bold uppercase">USD</span>
@@ -932,7 +948,7 @@ export default function YachtsPage({ params }) {
                 {horasExtras > 0 && <span>• {horasExtras}h {isEs ? 'extra' : 'extra'} (${costoHorasExtras.toLocaleString()} USD)</span>}
                 {incluirTransporte && <span>• {isEs ? 'Traslado VIP' : 'VIP Transfer'} (${costoTransporte.toLocaleString()} USD)</span>}
               </div>
-              <p className="text-[11px] text-slate-500 mt-1">
+              <p className="text-[11px] text-slate-400 mt-1">
                 {isEs ? '* Impuestos mexicanos (16% IVA) no incluidos.' : '* Mexican Sales Tax not included.'}
               </p>
             </div>
@@ -942,7 +958,7 @@ export default function YachtsPage({ params }) {
               
               <button
                 onClick={() => handleOpenInquire(paqueteSeleccionado)}
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition border border-slate-700 shadow-md flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm transition border border-white/20 shadow-xs flex items-center justify-center gap-2"
               >
                 <Mail size={18} className="text-amber-400" />
                 {isEs ? 'Solicitar Información' : 'Inquire Now'}
@@ -950,7 +966,7 @@ export default function YachtsPage({ params }) {
 
               <button
                 onClick={handleAddToCart}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm tracking-wide transition shadow-[0_0_20px_rgba(251,191,36,0.25)] flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm tracking-wide transition shadow-md flex items-center justify-center gap-2"
               >
                 <Plus size={18} className="stroke-[3]" />
                 {isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}
@@ -960,7 +976,7 @@ export default function YachtsPage({ params }) {
                 href={`https://wa.me/526242385150?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md"
+                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-xs"
                 title={isEs ? 'Chat con Concierge VIP por WhatsApp' : 'Chat with VIP Concierge on WhatsApp'}
               >
                 <MessageCircle size={20} />
@@ -974,7 +990,7 @@ export default function YachtsPage({ params }) {
       </div>
 
       {/* ======================================================== */}
-      {/* DESCRIPCIÓN Y ESPECIFICACIONES COMPLETAS DEL YATE        */}
+      {/* DESCRIPCIÓN Y ESPECIFICACIONES COMPLETAS (TEMA CLARO)     */}
       {/* ======================================================== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -982,56 +998,56 @@ export default function YachtsPage({ params }) {
           {/* Columna Izquierda: Historia y Detalles */}
           <div className="lg:col-span-7 space-y-8">
             
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-400 mb-2">
+            <section className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-100 mb-3">
                 <Anchor size={14} />
                 {isEs ? 'Excelencia Italiana en Cabo San Lucas' : 'Italian Excellence in Baja'}
               </div>
-              <h3 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+              <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight mb-6">
                 {isEs 
                   ? 'La Embarcación en la que Todos Desean Estar' 
                   : 'The Vessel Everybody Wishes They Were On'
                 }
               </h3>
-            </div>
 
-            <div className="prose prose-invert prose-slate text-slate-300 text-sm sm:text-base leading-relaxed space-y-4">
-              <p>
-                <strong>Capella</strong> {isEs 
-                  ? 'es un majestuoso superyate Azimut-Benetti de 116 pies (35.4 metros), uno de tan solo tres ejemplares de este modelo específico construidos en todo el mundo. Este navío excepcional posee sin duda alguna el factor “WOW”. Tan pronto como subes a bordo, te encuentras rodeado de lujo, calidez y espacios diáfanos decorados con un gusto impecable.'
-                  : 'is a beautiful 116 ft Azimut-Benetti yacht, one of only three of this particular model that was ever built. This fine vessel definitely has the wow factor. As soon as you step on board, you find yourself surrounded by luxury and light airy spaces decorated with impeccable taste.'
-                }
-              </p>
+              <div className="prose prose-slate text-slate-600 text-sm sm:text-base leading-relaxed space-y-4">
+                <p>
+                  <strong className="text-slate-900">Capella</strong> {isEs 
+                    ? 'es un majestuoso superyate Azimut-Benetti de 116 pies (35.4 metros), uno de tan solo tres ejemplares de este modelo específico construidos en todo el mundo. Este navío excepcional posee sin duda alguna el factor “WOW”. Tan pronto como subes a bordo, te encuentras rodeado de lujo, calidez y espacios diáfanos decorados con un gusto impecable.'
+                    : 'is a beautiful 116 ft Azimut-Benetti yacht, one of only three of this particular model that was ever built. This fine vessel definitely has the wow factor. As soon as you step on board, you find yourself surrounded by luxury and light airy spaces decorated with impeccable taste.'
+                  }
+                </p>
 
-              <p>
-                {isEs
-                  ? 'El atributo más destacado del Capella es su ingeniosa distribución: cuenta con amplias áreas sociales de concepto abierto, camarotes sumamente espaciosos, una cocina sobredimensionada para alta gastronomía y líneas elegantes que roban miradas dondequiera que navega. De hecho, nuestros huéspedes internacionales comentan sistemáticamente que se siente como un yate mucho más grande.'
-                  : 'Capella’s standout feature is the layout, with ample open-plan entertaining areas, spacious staterooms, an oversize galley, and graceful lines that turn heads wherever she goes. In fact, our international guests consistently comment that she feels like a much larger yacht. No wonder this is the vessel that everybody wishes they were on.'
-                }
-              </p>
+                <p>
+                  {isEs
+                    ? 'El atributo más destacado del Capella es su ingeniosa distribución: cuenta con amplias áreas sociales de concepto abierto, camarotes sumamente espaciosos, una cocina sobredimensionada para alta gastronomía y líneas elegantes que roban miradas dondequiera que navega. De hecho, nuestros huéspedes internacionales comentan sistemáticamente que se siente como un yate mucho más grande.'
+                    : 'Capella’s standout feature is the layout, with ample open-plan entertaining areas, spacious staterooms, an oversize galley, and graceful lines that turn heads wherever she goes. In fact, our international guests consistently comment that she feels like a much larger yacht. No wonder this is the vessel that everybody wishes they were on.'
+                  }
+                </p>
 
-              <p>
-                {isEs
-                  ? 'Cuenta con una espaciosa cubierta de popa con mesa para 12 comensales, un confortable salón con wet bar completo y comedor formal para 10 personas, un camarote principal full-beam con regadera de lluvia y tina de hidromasaje, 5 camarotes en total con baños completos revestidos en finos mármoles y cuatro cabinas para la tripulación. El pasillo principal está acabado en un hermoso mosaico artesanal que aporta un toque de distinción inigualable.'
-                  : 'This fine yacht features a commodious aft deck with dining for 12, a comfortable salon with a full wet bar and dining for 10, a full beam main stateroom with a rain shower and a jacuzzi bathtub, five staterooms total with full bathrooms boasting marble accents, and four crew cabins. The companionway is finished in beautiful hand-laid mosaic tile that adds an elegant touch.'
-                }
-              </p>
+                <p>
+                  {isEs
+                    ? 'Cuenta con una espaciosa cubierta de popa con mesa para 12 comensales, un confortable salón con wet bar completo y comedor formal para 10 personas, un camarote principal full-beam con regadera de lluvia y tina de hidromasaje, 5 camarotes en total con baños completos revestidos en finos mármoles y cuatro cabinas para la tripulación. El pasillo principal está acabado en un hermoso mosaico artesanal que aporta un toque de distinción inigualable.'
+                    : 'This fine yacht features a commodious aft deck with dining for 12, a comfortable salon with a full wet bar and dining for 10, a full beam main stateroom with a rain shower and a jacuzzi bathtub, five staterooms total with full bathrooms boasting marble accents, and four crew cabins. The companionway is finished in beautiful hand-laid mosaic tile that adds an elegant touch.'
+                  }
+                </p>
 
-              <p>
-                {isEs
-                  ? 'La proa ofrece un asoleadero generoso ideal para contemplar las estrellas por la noche. La cubierta superior flybridge presume un techo corredizo retráctil, barra de bar, área de camastros para tomar el sol, jacuzzi para ocho personas y cómodos asientos para albergar holgadamente a más de 25 invitados. La cubierta superior es definitivamente el lugar favorito de nuestros huéspedes para relajarse, disfrutar canapés y saborear cócteles al aire libre.'
-                  : 'The bow has an ample sunbathing pad that is ideal for stargazing at night. The upper deck boasts a retractable sunroof, a bar, a sun lounging area, a jacuzzi for eight, and generous seating that easily accommodates 25 plus guests. The upper deck is definitely the favorite area for our guests to lounge, relax, and enjoy alfresco cocktails and canapés.'
-                }
-              </p>
-            </div>
+                <p>
+                  {isEs
+                    ? 'La proa ofrece un asoleadero generoso ideal para contemplar las estrellas por la noche. La cubierta superior flybridge presume un techo corredizo retráctil, barra de bar, área de camastros para tomar el sol, jacuzzi para ocho personas y cómodos asientos para albergar holgadamente a más de 25 invitados. La cubierta superior es definitivamente el lugar favorito de nuestros huéspedes para relajarse, disfrutar canapés y saborear cócteles al aire libre.'
+                    : 'The bow has an ample sunbathing pad that is ideal for stargazing at night. The upper deck boasts a retractable sunroof, a bar, a sun lounging area, a jacuzzi for eight, and generous seating that easily accommodates 25 plus guests. The upper deck is definitely the favorite area for our guests to lounge, relax, and enjoy alfresco cocktails and canapés.'
+                  }
+                </p>
+              </div>
+            </section>
 
             {/* Servicio y Tripulación */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
-              <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                <HeartHandshake className="text-amber-400" size={20} />
+            <div className="bg-slate-50 border border-slate-200/80 rounded-3xl p-6 sm:p-8 space-y-4">
+              <h4 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                <HeartHandshake className="text-blue-900" size={22} />
                 {isEs ? 'Servicio de Clase Mundial y Tripulación Dedicada' : 'World-Class Hospitality & Crew'}
               </h4>
-              <p className="text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 {isEs
                   ? 'Lo que distingue al Capella son sus detalles: desde recibirte con toallas frescas y perfumadas al abordar, hasta las sábanas italianas Frette en los camarotes. Nuestras azafatas anticipan cada necesidad con una sonrisa y servicio discreto, haciéndote sentir en casa mientras respetan plenamente tu privacidad.'
                   : 'What sets Capella apart are the details – from being greeted with fresh cool towels as you board, to the Frette linens in the cabins, nothing is overlooked. Our stewardesses anticipate your every need and deliver with an understated service and a smile. They are true professionals that make you feel at home whilst respecting your privacy.'
@@ -1039,20 +1055,20 @@ export default function YachtsPage({ params }) {
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 text-xs">
-                  <span className="font-bold text-amber-400 block mb-1">
+                <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs shadow-xs">
+                  <span className="font-bold text-slate-900 block mb-1">
                     {isEs ? 'Tripulación de 7 a Tiempo Completo' : 'Full-Time Crew of 7'}
                   </span>
-                  <span className="text-slate-400">
+                  <span className="text-slate-500">
                     {isEs ? 'Capitán experto, marineros certificados y azafatas dedicadas.' : 'Expert captain, certified deckhands, and discreet stewardesses.'}
                   </span>
                 </div>
 
-                <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 text-xs">
-                  <span className="font-bold text-amber-400 block mb-1">
+                <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs shadow-xs">
+                  <span className="font-bold text-slate-900 block mb-1">
                     {isEs ? 'Chef Privado Internacional' : 'Award-Winning Private Chef'}
                   </span>
-                  <span className="text-slate-400">
+                  <span className="text-slate-500">
                     {isEs ? 'Especialista en cocina tailandesa, india, mexicana, italiana y americana.' : 'Mastering Thai, Indian, Mexican, Italian, and American gastronomy.'}
                   </span>
                 </div>
@@ -1064,59 +1080,59 @@ export default function YachtsPage({ params }) {
           {/* Columna Derecha: Juguetes Acuáticos y Tender Pursuit */}
           <div className="lg:col-span-5 space-y-6">
             
-            {/* Tarjeta de Juguetes Acuáticos */}
-            <div className="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
-              <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">
+            {/* Tarjeta de Juguetes Acuáticos en Tema Claro */}
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs">
+              <div className="flex items-center gap-2 text-xs font-bold text-blue-900 uppercase tracking-widest mb-2">
                 <Waves size={16} />
                 {isEs ? 'Equipamiento Náutico Exclusivo' : 'Yacht Highlights & Toys'}
               </div>
-              <h4 className="text-2xl font-black text-white mb-6">
+              <h4 className="text-2xl font-black text-slate-900 mb-6">
                 {isEs ? 'Boat Features & Water Toys' : 'Boat Features & Water Toys'}
               </h4>
 
               <div className="space-y-3.5 text-sm">
                 
-                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-amber-400/10 text-amber-400 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-100 flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-blue-900 text-white flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
                     31'
                   </div>
                   <div>
-                    <span className="font-bold text-white block">31 ft Pursuit Fishing & Activity Tender</span>
-                    <span className="text-xs text-slate-400">{isEs ? 'Equipado con dos motores Yamaha de 300 hp para pesca de altura y traslados costeros.' : 'Powered by twin Yamaha 300hp outboards for big game fishing and coastal tenders.'}</span>
+                    <span className="font-bold text-slate-900 block">31 ft Pursuit Fishing & Activity Tender</span>
+                    <span className="text-xs text-slate-600">{isEs ? 'Equipado con dos motores Yamaha de 300 hp para pesca de altura y traslados costeros.' : 'Powered by twin Yamaha 300hp outboards for big game fishing and coastal tenders.'}</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>12 ft Dinghy</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>2 Seabobs (Diving Scooters)</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>Dive Compressor on board</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>4 Stand Up Paddle Boards</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>2 Ocean Kayaks</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>Professional Fishing Gear</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>High-End Snorkel Sets</span>
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center gap-2.5 text-slate-200">
-                    <CheckCircle2 size={16} className="text-amber-400 shrink-0" />
+                  <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center gap-2.5 text-slate-700 font-medium">
+                    <CheckCircle size={16} className="text-blue-900 shrink-0" />
                     <span>Various Floaties & Mats</span>
                   </div>
                 </div>
@@ -1124,29 +1140,29 @@ export default function YachtsPage({ params }) {
               </div>
 
               {/* Banner de Salida en Marina */}
-              <div className="mt-6 p-4 rounded-xl bg-blue-950/60 border border-blue-900/60 text-xs text-blue-200 flex items-center gap-3">
-                <MapPin className="text-blue-400 shrink-0" size={20} />
+              <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 flex items-center gap-3">
+                <MapPin className="text-blue-900 shrink-0" size={20} />
                 <div>
-                  <span className="font-bold text-white block">{isEs ? 'Muelle Exclusivo en Marina Cabo San Lucas' : 'Exclusive Slip in Cabo San Lucas Marina'}</span>
+                  <span className="font-bold text-slate-900 block">{isEs ? 'Muelle Exclusivo en Marina Cabo San Lucas' : 'Exclusive Slip in Cabo San Lucas Marina'}</span>
                   <span>{isEs ? 'Zarpe puntual sin filas ni demoras. Acceso directo y seguro.' : 'Seamless embarkation with VIP gate access and no delays.'}</span>
                 </div>
               </div>
             </div>
 
             {/* Testimonial / Review VIP */}
-            <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 text-xs text-slate-300 space-y-3">
-              <div className="flex items-center gap-1 text-amber-400">
+            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-xs text-slate-600 space-y-3 shadow-xs">
+              <div className="flex items-center gap-1 text-amber-500">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className="fill-amber-400" />
+                  <Star key={i} size={14} className="fill-amber-500" />
                 ))}
               </div>
-              <p className="italic leading-relaxed">
+              <p className="italic leading-relaxed text-slate-700 font-medium">
                 "{isEs
                   ? 'Navegar en el Capella superó todas nuestras expectativas. La atención del chef, el jacuzzi al atardecer frente al Arco de Cabo San Lucas y la facilidad con la que nos coordinaron el transporte desde el hotel hicieron que fuera el punto culminante de nuestro viaje.'
                   : 'Cruising on Capella exceeded every single expectation. The private chef’s multi-course meal, the upper deck jacuzzi at sunset by Land’s End, and the seamless private transportation made it the undisputed highlight of our vacation.'
                 }"
               </p>
-              <div className="font-bold text-slate-200">
+              <div className="font-bold text-slate-900">
                 — Charles M., Charter Guest (Silicon Valley, CA)
               </div>
             </div>
@@ -1157,26 +1173,26 @@ export default function YachtsPage({ params }) {
       </div>
 
       {/* ======================================================== */}
-      {/* SECCIÓN SEO FAQ (PREGUNTAS FRECUENTES)                   */}
+      {/* SECCIÓN SEO FAQ (PREGUNTAS FRECUENTES EN CLARO)          */}
       {/* ======================================================== */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-bold uppercase mb-2">
-            <Info size={14} className="text-amber-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-bold uppercase mb-2 border border-blue-200">
+            <Info size={14} />
             {isEs ? 'Preguntas Frecuentes' : 'Frequently Asked Questions'}
           </div>
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             {isEs ? 'Todo lo que necesitas saber para tu chárter en Los Cabos' : 'Everything You Need to Know for Your Cabo Yacht Rental'}
           </h3>
         </div>
 
         <div className="space-y-4">
           
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-sm">
-            <h4 className="font-bold text-white mb-2 flex items-center justify-between">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 flex items-center justify-between text-base">
               <span>{isEs ? '¿De dónde zarpa el yate Capella 116ft?' : 'Where does the 116ft Capella yacht depart from?'}</span>
             </h4>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
               {isEs 
                 ? 'El Capella se encuentra atracado en la prestigiosa Marina de Cabo San Lucas. Te proporcionaremos el número exacto de muelle y las indicaciones de llegada. Además, puedes agregar nuestro servicio de transportación terrestre privada de ida y vuelta directamente desde cualquier hotel o villa en Los Cabos.'
                 : 'Capella is moored in the world-class Marina Cabo San Lucas. Full dock coordinates and VIP gate access instructions are provided upon booking. You can also select our private round-trip ground transportation directly from any resort or villa in Los Cabos.'
@@ -1184,11 +1200,11 @@ export default function YachtsPage({ params }) {
             </p>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-sm">
-            <h4 className="font-bold text-white mb-2 flex items-center justify-between">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 flex items-center justify-between text-base">
               <span>{isEs ? '¿Qué incluye la barra libre y la comida del chef?' : 'What is included in the open bar and chef menu?'}</span>
             </h4>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
               {isEs
                 ? 'Todos los paquetes incluyen barra libre premium internacional con tequilas selectos, licores, cerveza fría, vino y cócteles preparados al momento. Los paquetes de 4, 6 y 8 horas incluyen comida personalizada de varios tiempos diseñada por nuestro chef ejecutivo galardonado según tus preferencias y restricciones dietéticas.'
                 : 'All packages include a top-shelf international open bar featuring premium tequilas, spirits, ice-cold Mexican and imported beer, wine, and craft cocktails. Charters of 4, 6, and 8 hours feature multi-course custom dining prepared fresh onboard by our award-winning private chef according to your culinary preferences.'
@@ -1196,11 +1212,11 @@ export default function YachtsPage({ params }) {
             </p>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-sm">
-            <h4 className="font-bold text-white mb-2 flex items-center justify-between">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 flex items-center justify-between text-base">
               <span>{isEs ? '¿Puedo llevar más de 10 personas a bordo?' : 'Can we bring more than 10 guests on board?'}</span>
             </h4>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
               {isEs
                 ? '¡Por supuesto! El precio base incluye hasta 10 invitados. Cada huésped adicional tiene un costo de $300 USD por persona (con un máximo de 20 personas en el paseo Sunset y hasta 25 personas en los chárters de 4, 6 y 8 horas).'
                 : 'Yes! The standard package price covers up to 10 guests. Additional guests are welcomed at $300 USD each, accommodating up to 20 guests on the Sunset cruise and up to 25 guests on the 4, 6, and 8-hour all-inclusive charters.'
@@ -1208,11 +1224,11 @@ export default function YachtsPage({ params }) {
             </p>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-sm">
-            <h4 className="font-bold text-white mb-2 flex items-center justify-between">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 flex items-center justify-between text-base">
               <span>{isEs ? '¿Cómo funciona la transportación terrestre?' : 'How does the optional ground transportation work?'}</span>
             </h4>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
               {isEs
                 ? 'Nuestra transportación terrestre privada te recoge directamente en el lobby de tu resort o villa en unidades de lujo con aire acondicionado y chofer bilingüe. A diferencia de otros servicios, no imponemos límites de tiempo en el horario: tú defines la hora de salida del hotel y la hora exacta de regreso de la marina.'
                 : 'Our private chauffeured ground transportation picks you up directly from your resort or villa lobby in luxury air-conditioned SUVs or executive vans. Unlike restrictive services, we impose zero wait time limits: you choose your exact hotel departure and flexible marina return times.'
@@ -1227,8 +1243,8 @@ export default function YachtsPage({ params }) {
       {/* MODAL INQUIRE (EXACTO A LA IMAGEN 3 DEL USUARIO)          */}
       {/* ======================================================== */}
       {modalAbierto && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-xl bg-white text-slate-900 rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden max-h-[92vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs animate-fade-in">
+          <div className="relative w-full max-w-xl bg-white text-slate-900 rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden max-h-[92vh] overflow-y-auto border border-slate-200">
             
             {/* Botón Cerrar */}
             <button 
@@ -1287,7 +1303,7 @@ export default function YachtsPage({ params }) {
                   <p className="text-sm font-bold text-slate-800 mt-0.5">
                     116ft Azimut-Benetti "Capella"
                   </p>
-                  <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                  <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto font-medium">
                     {isEs 
                       ? 'Si estás interesado en reservar este yate o deseas más información por favor déjanos un mensaje aquí' 
                       : 'If you are interested to book this yacht or just want more information please leave us a message here'
@@ -1416,7 +1432,7 @@ export default function YachtsPage({ params }) {
                     <button 
                       type="submit" 
                       disabled={enviandoInquiry}
-                      className="w-full sm:w-auto min-w-[160px] py-3 px-8 bg-[#003865] hover:bg-[#002244] text-white font-extrabold text-sm tracking-wider rounded-lg transition shadow-md disabled:opacity-50"
+                      className="w-full sm:w-auto min-w-[160px] py-3 px-8 bg-[#003865] hover:bg-[#002244] text-white font-extrabold text-sm tracking-wider rounded-lg transition shadow-sm disabled:opacity-50"
                     >
                       {enviandoInquiry ? (isEs ? 'Enviando...' : 'Submitting...') : (isEs ? 'Enviar Solicitud' : 'Submit')}
                     </button>
@@ -1437,11 +1453,11 @@ export default function YachtsPage({ params }) {
         <div className="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between p-4 sm:p-8 animate-fade-in">
           <div className="flex justify-between items-center text-white">
             <div className="text-sm font-semibold">
-              <span className="text-amber-400 font-bold">{fotoActiva + 1}</span> / {fotosGaleria.length} • Capella 116ft
+              <span className="text-blue-400 font-bold">{fotoActiva + 1}</span> / {fotosGaleria.length} • Capella 116ft
             </div>
             <button 
               onClick={() => setLightboxAbierto(false)} 
-              className="p-2 text-white hover:text-amber-400 transition rounded-full bg-white/10"
+              className="p-2 text-white hover:text-blue-400 transition rounded-full bg-white/10"
             >
               <X size={24} />
             </button>
@@ -1474,7 +1490,7 @@ export default function YachtsPage({ params }) {
               </button>
               <button 
                 onClick={() => setFotoActiva(prev => (prev === fotosGaleria.length - 1 ? 0 : prev + 1))}
-                className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 transition font-bold"
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition font-bold"
               >
                 {isEs ? 'Siguiente' : 'Next'} →
               </button>
@@ -1484,5 +1500,25 @@ export default function YachtsPage({ params }) {
       )}
 
     </div>
+  );
+}
+
+// Icono auxiliar para la cámara
+function CameraIcon({ size = 16, className = "" }) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className={className}
+    >
+      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+      <circle cx="12" cy="13" r="3" />
+    </svg>
   );
 }
