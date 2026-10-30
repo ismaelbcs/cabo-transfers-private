@@ -2215,6 +2215,71 @@ export default function ContessaYachtPage({ params }) {
       </div>
 
       {/* ======================================================== */}
+      {/* SIMILAR BOATS (SUGERENCIAS DE LOS OTROS DOS YATES)        */}
+      {/* ======================================================== */}
+      <div className="bg-white border-t border-slate-200 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h3 className="text-2xl sm:text-3xl font-black text-[#003865] text-center mb-10 tracking-tight">
+            {isEs ? 'Barcos Similares' : 'Similar Boats'}
+          </h3>
+
+          <div className="max-w-2xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-10">
+            {/* Yate 1: 116 ft Capella */}
+            <Link
+              href={`/${lang}/cabo-yacht-charters`}
+              className="group block text-center"
+            >
+              <div className="aspect-square w-full max-w-[280px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
+                <img
+                  src="/yachts/capella-aerial-overview.jpg"
+                  alt="116 ft Capella Azimut-Benetti Cabo Yacht Charter"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-lg sm:text-xl leading-snug">
+                <span className="text-slate-600 font-normal">116 ft </span>
+                <span className="font-extrabold text-[#003865] group-hover:text-blue-700 transition-colors">
+                  Capella
+                </span>
+              </div>
+              <div className="text-base sm:text-lg font-extrabold text-slate-600 mt-0.5">
+                Azimut-Benetti
+              </div>
+              <div className="text-sm sm:text-base italic text-slate-500 mt-1">
+                {isEs ? 'Desde $8,000' : 'Starting at $8,000'}
+              </div>
+            </Link>
+
+            {/* Yate 2: 130 ft Sovereign */}
+            <Link
+              href={`/${lang}/cabo-yacht-charters-sovereign`}
+              className="group block text-center"
+            >
+              <div className="aspect-square w-full max-w-[280px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
+                <img
+                  src="/yachts/sovereign/sovereign-6.jpg"
+                  alt="130 ft Sovereign Yachts Cabo Superyacht Charter"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-lg sm:text-xl leading-snug">
+                <span className="text-slate-600 font-normal">130 ft </span>
+                <span className="font-extrabold text-[#003865] group-hover:text-blue-700 transition-colors">
+                  Sovereign
+                </span>
+              </div>
+              <div className="text-base sm:text-lg font-extrabold text-slate-600 mt-0.5">
+                Sovereign Yachts
+              </div>
+              <div className="text-sm sm:text-base italic text-slate-500 mt-1">
+                {isEs ? 'Desde $15,000' : 'Starting at $15,000'}
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ======================================================== */}
       {/* MODAL INQUIRE                                             */}
       {/* ======================================================== */}
       {modalAbierto && (
