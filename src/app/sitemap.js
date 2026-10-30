@@ -4,7 +4,7 @@ import { landingPagesSEO, toursLandingPages } from '../data/seoData.js';
 
 export default function sitemap() {
   const baseUrl = 'https://www.caboprivateairporttransfers.com';
-  
+
   // Idiomas soportados
   const languages = ['en', 'es'];
 
@@ -25,6 +25,9 @@ export default function sitemap() {
     '/luxury-yacht-charter-cabo-san-lucas-capella', // Landing SEO yate de lujo Capella 116ft
     '/cabo-yacht-charters', // Renta de yates de lujo en Cabo San Lucas
     '/yachts/capella', // Yate Capella 116ft Azimut-Benetti
+    '/yachts/contessa', // Yate Contessa 85ft Her Shine Marine
+    '/cabo-yacht-charters-contessa', // Renta de yate Contessa 85ft en Cabo San Lucas
+    '/luxury-yacht-charter-cabo-san-lucas-contessa', // Landing SEO yate de lujo Contessa 85ft
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
