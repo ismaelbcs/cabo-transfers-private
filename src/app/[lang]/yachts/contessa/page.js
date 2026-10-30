@@ -4,26 +4,26 @@
 import React, { useState, useMemo, use, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Anchor, 
-  Users, 
-  Clock, 
-  Calendar, 
-  Check, 
-  CheckCircle, 
-  CheckCircle2, 
-  Info, 
-  Plus, 
-  Sparkles, 
-  Award, 
-  MapPin, 
-  Car, 
-  Utensils, 
-  Wine, 
-  Waves, 
-  Compass, 
-  X, 
-  MessageCircle, 
+import {
+  Anchor,
+  Users,
+  Clock,
+  Calendar,
+  Check,
+  CheckCircle,
+  CheckCircle2,
+  Info,
+  Plus,
+  Sparkles,
+  Award,
+  MapPin,
+  Car,
+  Utensils,
+  Wine,
+  Waves,
+  Compass,
+  X,
+  MessageCircle,
   Maximize2,
   Ship,
   HeartHandshake,
@@ -144,7 +144,7 @@ export default function ContessaYachtPage({ params }) {
 
   // Matriz de precios de transporte hacia Cabo San Lucas Marina ('csl')
   const matrizPreciosMarinaCSL = { '1': 220, '2': 200, '3': 160, '4': 250, '5': 320, '6': 420 };
-  
+
   // Recargo por cantidad de pasajeros en transporte terrestre
   const calcularRecargoTransporte = (pax) => {
     if (pax <= 4) return 0;
@@ -599,7 +599,7 @@ export default function ContessaYachtPage({ params }) {
     agregarAlCombo({
       id: `yacht-contessa-${Date.now()}`,
       titulo: isEs ? `Chárter en Yate Contessa 85ft (${paqueteSeleccionado.nameEs})` : `Contessa 85ft Yacht Charter (${paqueteSeleccionado.nameEn})`,
-      subtitulo: isEs 
+      subtitulo: isEs
         ? `${totalHuespedes} Pasajeros | ${paqueteSeleccionado.hours} Horas${horasExtras > 0 ? ` + ${horasExtras}h extra` : ''} | Fecha: ${charterFecha || 'Por confirmar'}${incluirTransporte ? ` | Con Traslado VIP desde ${busquedaOrigen}` : ''}`
         : `${totalHuespedes} Guests | ${paqueteSeleccionado.hours} Hours${horasExtras > 0 ? ` + ${horasExtras}h extra` : ''} | Date: ${charterFecha || 'To be confirmed'}${incluirTransporte ? ` | VIP Round-Trip Transfer from ${busquedaOrigen}` : ''}`,
       precio: granTotalYate,
@@ -636,14 +636,14 @@ export default function ContessaYachtPage({ params }) {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 selection:bg-blue-600 selection:text-white">
-      
+
       {/* ======================================================== */}
       {/* HERO BANNER - TEMA CLARO Y ELEGANTE                      */}
       {/* ======================================================== */}
       <div className="relative pt-28 pb-14 md:pt-32 md:pb-16 px-4 bg-gradient-to-b from-blue-50/80 via-white to-slate-50 border-b border-slate-200/90 mb-10 overflow-hidden">
-        
+
         <div className="relative max-w-5xl mx-auto text-center z-10">
-          
+
           {/* ======================================================== */}
           {/* CUADRO ELEGANTE ACORDE A LA TEMÁTICA PARA RESALTAR LETRAS */}
           {/* ======================================================== */}
@@ -674,11 +674,11 @@ export default function ContessaYachtPage({ params }) {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 tracking-tight leading-tight text-slate-900">
               {isEs ? 'Contessa – Renta de Yate de Lujo y Pesca Deportiva en Cabo San Lucas' : 'Contessa – Luxury Sportfishing Yacht Charter in Cabo San Lucas'}
             </h1>
-            
+
             <HeroReviewsBadge lang={lang} />
 
             <p className="text-base sm:text-lg md:text-xl text-blue-900 font-extrabold mt-3 max-w-3xl mx-auto leading-relaxed">
-              {isEs 
+              {isEs
                 ? 'Ideal para Explorar las Maravillas del Mar de Cortés y Pesca Deportiva de Altura en Privado.'
                 : 'Ideal for Exploring the Wonders of the Sea of Cortez • Experience Private Deep Sea Fishing and Luxury Cruising Aboard Contessa.'
               }
@@ -699,7 +699,7 @@ export default function ContessaYachtPage({ params }) {
                 <CameraIcon size={18} className="text-blue-600" />
                 {isEs ? 'Galería del Yate Contessa 85ft' : '85ft Contessa Yacht Photo Gallery'}
               </span>
-              <button 
+              <button
                 type="button"
                 onClick={() => setLightboxAbierto(true)}
                 className="text-blue-900 hover:text-blue-700 font-bold transition flex items-center gap-1.5 bg-white hover:bg-blue-50 px-3.5 py-1.5 rounded-full border border-slate-200 shadow-2xs"
@@ -711,28 +711,28 @@ export default function ContessaYachtPage({ params }) {
 
             {/* VISOR PRINCIPAL DE FOTO GRANDE */}
             <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-200/90 bg-slate-900 group mb-4">
-              <div 
+              <div
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
                 className="relative aspect-[16/9] sm:aspect-[16/9] md:h-[480px] w-full overflow-hidden bg-slate-100 touch-pan-y"
               >
-                <img 
+                <img
                   key={fotosGaleria[fotoActiva].src}
-                  src={fotosGaleria[fotoActiva].src} 
-                  alt={isEs 
+                  src={fotosGaleria[fotoActiva].src}
+                  alt={isEs
                     ? `Contessa 85ft renta de yate de lujo y pesca deportiva en Cabo San Lucas México - ${fotosGaleria[fotoActiva].titleEs}`
                     : `Contessa 85ft luxury sportfishing yacht charter in Cabo San Lucas Mexico - ${fotosGaleria[fotoActiva].titleEn}`
-                  } 
+                  }
                   className="w-full h-full object-cover transition-all duration-500 ease-out select-none"
                   draggable={false}
                 />
-                
+
                 {/* Gradiente inferior para legibilidad */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
 
                 {/* Flecha Anterior */}
-                <button 
+                <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -745,7 +745,7 @@ export default function ContessaYachtPage({ params }) {
                 </button>
 
                 {/* Flecha Siguiente */}
-                <button 
+                <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -786,11 +786,10 @@ export default function ContessaYachtPage({ params }) {
                   key={idx}
                   type="button"
                   onClick={() => setFotoActiva(idx)}
-                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all cursor-pointer bg-white ${
-                    fotoActiva === idx 
-                      ? 'border-blue-600 ring-4 ring-blue-500/25 scale-[1.03] shadow-md z-10' 
+                  className={`relative h-16 sm:h-20 rounded-xl overflow-hidden border-2 transition-all cursor-pointer bg-white ${fotoActiva === idx
+                      ? 'border-blue-600 ring-4 ring-blue-500/25 scale-[1.03] shadow-md z-10'
                       : 'border-slate-200 opacity-70 hover:opacity-100 hover:border-slate-400'
-                  }`}
+                    }`}
                 >
                   <img src={foto.src} alt={foto.titleEn} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-1">
@@ -816,7 +815,7 @@ export default function ContessaYachtPage({ params }) {
       {/* ======================================================== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          
+
           <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-xs text-center flex flex-col items-center hover:shadow-md transition">
             <Ship className="text-blue-900 mb-2" size={24} />
             <p className="font-bold text-slate-400 text-[10px] uppercase tracking-widest">{isEs ? 'Eslora / Astillero' : 'Length & Builder'}</p>
@@ -860,7 +859,7 @@ export default function ContessaYachtPage({ params }) {
       {/* SECCIÓN DE PAQUETES (CON PRECIOS Y DISEÑO FIEL)          */}
       {/* ======================================================== */}
       <div id="packages-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 scroll-mt-28">
-        
+
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
             <Anchor size={14} />
@@ -870,7 +869,7 @@ export default function ContessaYachtPage({ params }) {
             {isEs ? 'Paquetes Exclusivos Todo Incluido' : 'Packages'}
           </h2>
           <p className="text-slate-600 text-sm sm:text-base mt-2">
-            {isEs 
+            {isEs
               ? 'Tarifas base para hasta 10 invitados. Permite hasta 8 huéspedes extra a bordo (18 personas máx.).'
               : 'Base rates for up to 10 guests. Allows up to 8 extra guests on board (18 guests max).'
             }
@@ -883,14 +882,13 @@ export default function ContessaYachtPage({ params }) {
             const esSeleccionado = paqueteSeleccionado.id === pkg.id;
 
             return (
-              <div 
+              <div
                 key={pkg.id}
                 onClick={() => setPaqueteSeleccionado(pkg)}
-                className={`relative rounded-2xl bg-white text-slate-900 border transition-all duration-300 flex flex-col overflow-hidden cursor-pointer ${
-                  esSeleccionado 
-                    ? 'ring-4 ring-blue-600 shadow-xl scale-[1.02] border-blue-600' 
+                className={`relative rounded-2xl bg-white text-slate-900 border transition-all duration-300 flex flex-col overflow-hidden cursor-pointer ${esSeleccionado
+                    ? 'ring-4 ring-blue-600 shadow-xl scale-[1.02] border-blue-600'
                     : 'border-slate-200/90 shadow-sm hover:shadow-lg hover:border-blue-400'
-                }`}
+                  }`}
               >
                 {/* Badge Most Popular */}
                 {pkg.popular && (
@@ -910,7 +908,7 @@ export default function ContessaYachtPage({ params }) {
 
                 {/* Contenido de la Tarjeta */}
                 <div className="p-6 flex flex-col flex-grow">
-                  
+
                   {/* Precio Grande */}
                   <div className="text-center mb-4">
                     <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -923,7 +921,7 @@ export default function ContessaYachtPage({ params }) {
 
                   {/* Lista de Especificaciones con Iconos */}
                   <div className="space-y-3.5 border-t border-slate-100 pt-4 text-sm text-slate-700 flex-grow">
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Users size={16} className="text-[#0066b2]" />
@@ -999,11 +997,10 @@ export default function ContessaYachtPage({ params }) {
                         const calcEl = document.getElementById('booking-calculator');
                         if (calcEl) calcEl.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className={`w-full py-2 px-3 text-xs font-bold rounded-lg transition text-center border ${
-                        esSeleccionado 
-                          ? 'bg-blue-50 text-blue-900 border-blue-200' 
+                      className={`w-full py-2 px-3 text-xs font-bold rounded-lg transition text-center border ${esSeleccionado
+                          ? 'bg-blue-50 text-blue-900 border-blue-200'
                           : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
-                      }`}
+                        }`}
                     >
                       {esSeleccionado ? (isEs ? '✓ Paquete Seleccionado' : '✓ Selected Package') : (isEs ? 'Personalizar Reserva' : 'Customize Charter')}
                     </button>
@@ -1029,7 +1026,7 @@ export default function ContessaYachtPage({ params }) {
       {/* ======================================================== */}
       <div id="booking-calculator" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 scroll-mt-28">
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm relative overflow-hidden">
-          
+
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-8">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-bold uppercase mb-2 border border-blue-100">
@@ -1040,7 +1037,7 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? 'Configura tu Chárter en el Contessa 85ft' : 'Configure Your Contessa 85ft Charter'}
               </h3>
               <p className="text-slate-600 text-sm mt-1">
-                {isEs 
+                {isEs
                   ? 'Añade invitados adicionales (hasta 8 extra / 18 total), horas extras y servicio de traslado privado ida y vuelta desde tu resort.'
                   : 'Add extra guests (up to 8 extra / 18 total), additional charter hours, and round-trip private resort ground transfers.'
                 }
@@ -1054,9 +1051,9 @@ export default function ContessaYachtPage({ params }) {
                 <ChevronDown size={14} className="text-blue-900 shrink-0" />
               </label>
               <div className="relative">
-                <select 
+                <select
                   id="select-paquete-cuadrito"
-                  value={paqueteSeleccionado.id} 
+                  value={paqueteSeleccionado.id}
                   onChange={(e) => {
                     const selected = paquetes.find(p => p.id === e.target.value);
                     if (selected) {
@@ -1082,7 +1079,7 @@ export default function ContessaYachtPage({ params }) {
           {/* 3 COLUMNAS DEL CONFIGURADOR PERFECTAMENTE ALINEADAS      */}
           {/* ======================================================== */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 items-start">
-            
+
             {/* 1. Selector de Fecha */}
             <div className="flex flex-col">
               <div className="h-7 mb-2 flex items-center justify-between">
@@ -1094,20 +1091,20 @@ export default function ContessaYachtPage({ params }) {
                   {isEs ? 'Seleccionar día' : 'Select day'}
                 </span>
               </div>
-              
+
               <div className="h-[52px] bg-slate-50 border border-slate-200 rounded-xl px-3.5 flex items-center focus-within:ring-2 focus-within:ring-blue-900 focus-within:border-blue-900 transition">
-                <input 
+                <input
                   id="charter-fecha-input"
-                  type="date" 
-                  value={charterFecha} 
-                  onChange={(e) => setCharterFecha(e.target.value)} 
+                  type="date"
+                  value={charterFecha}
+                  onChange={(e) => setCharterFecha(e.target.value)}
                   className="w-full bg-transparent text-slate-800 outline-none text-sm font-semibold cursor-pointer"
                 />
               </div>
 
               <p className="text-[11px] text-slate-500 mt-2 font-medium min-h-[32px] leading-tight">
-                {isEs 
-                  ? 'Elige la fecha deseada para confirmar disponibilidad.' 
+                {isEs
+                  ? 'Elige la fecha deseada para confirmar disponibilidad.'
                   : 'Select desired date to check yacht availability.'
                 }
               </p>
@@ -1121,14 +1118,14 @@ export default function ContessaYachtPage({ params }) {
                   <span>{isEs ? 'Total de Huéspedes' : 'Total Guests'}</span>
                 </span>
                 <span className="text-[11px] text-blue-900 font-bold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 shrink-0">
-                  {huespedesExtra > 0 
-                    ? `+${huespedesExtra} extra (+$${costoHuespedesExtra.toLocaleString()} USD)` 
+                  {huespedesExtra > 0
+                    ? `+${huespedesExtra} extra (+$${costoHuespedesExtra.toLocaleString()} USD)`
                     : (isEs ? '10 base incl.' : '10 base incl.')}
                 </span>
               </div>
-              
+
               <div className="h-[52px] flex items-center bg-slate-50 border border-slate-200 rounded-xl px-1.5 transition">
-                <button 
+                <button
                   type="button"
                   onClick={() => setTotalHuespedes(prev => Math.max(1, prev - 1))}
                   disabled={totalHuespedes <= 1}
@@ -1140,7 +1137,7 @@ export default function ContessaYachtPage({ params }) {
                 <div className="flex-1 text-center font-black text-sm sm:text-base text-slate-900">
                   {totalHuespedes} {isEs ? 'Personas' : 'Guests'}
                 </div>
-                <button 
+                <button
                   type="button"
                   onClick={() => setTotalHuespedes(prev => Math.min(18, prev + 1))}
                   disabled={totalHuespedes >= 18}
@@ -1152,8 +1149,8 @@ export default function ContessaYachtPage({ params }) {
               </div>
 
               <p className="text-[11px] text-slate-500 mt-2 font-medium min-h-[32px] leading-tight">
-                {isEs 
-                  ? `Tarifa cubre 10 personas. De 11 a 18 suma $${paqueteSeleccionado.extraGuestPrice} USD c/u (8 extra máx).` 
+                {isEs
+                  ? `Tarifa cubre 10 personas. De 11 a 18 suma $${paqueteSeleccionado.extraGuestPrice} USD c/u (8 extra máx).`
                   : `Rate covers 10 guests. From 11 to 18 adds $${paqueteSeleccionado.extraGuestPrice} USD each (8 extra max).`
                 }
               </p>
@@ -1167,14 +1164,14 @@ export default function ContessaYachtPage({ params }) {
                   <span>{isEs ? 'Horas Extras' : 'Extra Hours'}</span>
                 </span>
                 <span className="text-[11px] text-blue-900 font-bold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 shrink-0">
-                  {horasExtras > 0 
-                    ? `+${horasExtras}h (+$${costoHorasExtras.toLocaleString()} USD)` 
+                  {horasExtras > 0
+                    ? `+${horasExtras}h (+$${costoHorasExtras.toLocaleString()} USD)`
                     : `$${PRECIO_HORA_EXTRA} USD/hr`}
                 </span>
               </div>
 
               <div className="h-[52px] flex items-center bg-slate-50 border border-slate-200 rounded-xl px-1.5 transition">
-                <button 
+                <button
                   type="button"
                   onClick={() => setHorasExtras(prev => Math.max(0, prev - 1))}
                   disabled={horasExtras <= 0}
@@ -1186,7 +1183,7 @@ export default function ContessaYachtPage({ params }) {
                 <div className="flex-1 text-center font-black text-sm sm:text-base text-slate-900">
                   {horasExtras} {isEs ? 'Horas Extra' : 'Extra Hours'}
                 </div>
-                <button 
+                <button
                   type="button"
                   onClick={() => setHorasExtras(prev => Math.min(12, prev + 1))}
                   disabled={horasExtras >= 12}
@@ -1198,8 +1195,8 @@ export default function ContessaYachtPage({ params }) {
               </div>
 
               <p className="text-[11px] text-slate-500 mt-2 font-medium min-h-[32px] leading-tight">
-                {isEs 
-                  ? `Agrega las horas extras que desees ($${PRECIO_HORA_EXTRA} USD por hora).` 
+                {isEs
+                  ? `Agrega las horas extras que desees ($${PRECIO_HORA_EXTRA} USD por hora).`
                   : `Add as many extra hours as you want ($${PRECIO_HORA_EXTRA} USD per hour).`
                 }
               </p>
@@ -1210,17 +1207,15 @@ export default function ContessaYachtPage({ params }) {
           {/* ======================================================== */}
           {/* MÓDULO DE TRANSPORTE TERRESTRE OPCIONAL                 */}
           {/* ======================================================== */}
-          <div className={`border-2 rounded-2xl p-5 sm:p-6 mb-8 transition-all duration-300 ${
-            incluirTransporte ? 'bg-blue-50/80 border-blue-300 shadow-sm' : 'bg-slate-50/70 border-slate-200'
-          }`}>
-            <div 
+          <div className={`border-2 rounded-2xl p-5 sm:p-6 mb-8 transition-all duration-300 ${incluirTransporte ? 'bg-blue-50/80 border-blue-300 shadow-sm' : 'bg-slate-50/70 border-slate-200'
+            }`}>
+            <div
               onClick={() => setIncluirTransporte(prev => !prev)}
               className="flex items-start justify-between gap-4 cursor-pointer select-none"
             >
               <div className="flex items-start gap-3">
-                <div className={`p-2.5 rounded-xl shrink-0 mt-0.5 transition-colors ${
-                  incluirTransporte ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
-                }`}>
+                <div className={`p-2.5 rounded-xl shrink-0 mt-0.5 transition-colors ${incluirTransporte ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+                  }`}>
                   <Car size={22} />
                 </div>
                 <div>
@@ -1228,14 +1223,13 @@ export default function ContessaYachtPage({ params }) {
                     <h4 className="text-base sm:text-lg font-bold text-slate-900">
                       {isEs ? '¿Deseas agregar Transportación Terrestre Privada VIP?' : 'Add VIP Private Round-Trip Ground Transportation?'}
                     </h4>
-                    <span className={`px-2.5 py-0.5 rounded text-[11px] font-black uppercase tracking-wider ${
-                      incluirTransporte ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-200 text-slate-600'
-                    }`}>
+                    <span className={`px-2.5 py-0.5 rounded text-[11px] font-black uppercase tracking-wider ${incluirTransporte ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-200 text-slate-600'
+                      }`}>
                       {incluirTransporte ? (isEs ? '✓ Activo' : '✓ Active') : (isEs ? 'Opcional' : 'Optional')}
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                    {isEs 
+                    {isEs
                       ? 'Traslado exclusivo ida y vuelta desde tu hotel o villa a la Marina de Cabo San Lucas en Suburban o Van de lujo. Horario 100% flexible sin tiempo límite.'
                       : 'Private round-trip SUV/Van transfer from your resort or private villa directly to Cabo San Lucas Marina. 100% flexible schedule with no time restrictions.'
                     }
@@ -1249,40 +1243,38 @@ export default function ContessaYachtPage({ params }) {
                   e.stopPropagation();
                   setIncluirTransporte(prev => !prev);
                 }}
-                className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
-                  incluirTransporte ? 'bg-blue-600' : 'bg-slate-300'
-                }`}
+                className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${incluirTransporte ? 'bg-blue-600' : 'bg-slate-300'
+                  }`}
                 role="switch"
                 aria-checked={incluirTransporte}
               >
                 <span
-                  className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-                    incluirTransporte ? 'translate-x-7' : 'translate-x-0'
-                  }`}
+                  className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${incluirTransporte ? 'translate-x-7' : 'translate-x-0'
+                    }`}
                 />
               </button>
             </div>
 
             {incluirTransporte && (
               <div className="pt-5 mt-5 border-t border-blue-200/80 grid grid-cols-1 md:grid-cols-3 gap-4">
-                
+
                 {/* Buscador de Hotel Origen con Autocomplete */}
                 <div className="flex flex-col relative md:col-span-1">
                   <label className="text-xs font-bold text-slate-700 mb-1.5 flex items-center gap-1.5">
                     <MapPin size={14} className="text-blue-900" />
                     {isEs ? 'Hotel o Villa de Recogida' : 'Pick-up Hotel or Villa'}
                   </label>
-                  <input 
-                    type="text" 
-                    placeholder={isEs ? 'Escribe tu resort...' : 'Type to search resort...'} 
-                    value={busquedaOrigen} 
-                    onChange={(e) => { 
-                      setBusquedaOrigen(e.target.value); 
-                      setMostrarDropdownHoteles(true); 
-                      if (e.target.value === '') setTransporteOrigen(''); 
-                    }} 
-                    onFocus={() => setMostrarDropdownHoteles(true)} 
-                    onBlur={() => setTimeout(() => setMostrarDropdownHoteles(false), 250)} 
+                  <input
+                    type="text"
+                    placeholder={isEs ? 'Escribe tu resort...' : 'Type to search resort...'}
+                    value={busquedaOrigen}
+                    onChange={(e) => {
+                      setBusquedaOrigen(e.target.value);
+                      setMostrarDropdownHoteles(true);
+                      if (e.target.value === '') setTransporteOrigen('');
+                    }}
+                    onFocus={() => setMostrarDropdownHoteles(true)}
+                    onBlur={() => setTimeout(() => setMostrarDropdownHoteles(false), 250)}
                     className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none shadow-xs"
                   />
                   {mostrarDropdownHoteles && (
@@ -1291,14 +1283,14 @@ export default function ContessaYachtPage({ params }) {
                         .filter(h => (busquedaOrigen || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, ""))))
                         .slice(0, 25)
                         .map((hotel, idx) => (
-                          <li 
-                            key={`${hotel.id}-${idx}`} 
-                            onMouseDown={() => { 
-                              const zona = hotel.zonaId || hotel.zona || "1"; 
-                              setTransporteOrigen(`${hotel.nombre}|${zona}`); 
-                              setBusquedaOrigen(`${hotel.nombre} (Zona ${zona})`); 
-                              setMostrarDropdownHoteles(false); 
-                            }} 
+                          <li
+                            key={`${hotel.id}-${idx}`}
+                            onMouseDown={() => {
+                              const zona = hotel.zonaId || hotel.zona || "1";
+                              setTransporteOrigen(`${hotel.nombre}|${zona}`);
+                              setBusquedaOrigen(`${hotel.nombre} (Zona ${zona})`);
+                              setMostrarDropdownHoteles(false);
+                            }}
                             className="p-3 hover:bg-blue-50 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between text-xs items-center"
                           >
                             <span className="truncate pr-2 font-medium">{hotel.nombre}</span>
@@ -1322,10 +1314,10 @@ export default function ContessaYachtPage({ params }) {
                     <Clock size={14} className="text-blue-900" />
                     {isEs ? 'Hora de recogida en Hotel' : 'Hotel Pick-up Time'}
                   </label>
-                  <input 
-                    type="time" 
-                    value={horaRecogidaHotel} 
-                    onChange={(e) => setHoraRecogidaHotel(e.target.value)} 
+                  <input
+                    type="time"
+                    value={horaRecogidaHotel}
+                    onChange={(e) => setHoraRecogidaHotel(e.target.value)}
                     className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium shadow-xs"
                   />
                   <span className="text-[11px] text-slate-500 mt-1">
@@ -1339,10 +1331,10 @@ export default function ContessaYachtPage({ params }) {
                     <Clock size={14} className="text-emerald-600" />
                     {isEs ? 'Hora de regreso de la Marina (Flexible)' : 'Marina Return Time (Flexible)'}
                   </label>
-                  <input 
-                    type="time" 
-                    value={horaRegresoMarina} 
-                    onChange={(e) => setHoraRegresoMarina(e.target.value)} 
+                  <input
+                    type="time"
+                    value={horaRegresoMarina}
+                    onChange={(e) => setHoraRegresoMarina(e.target.value)}
                     className="w-full p-3 bg-white border border-slate-200 rounded-xl text-sm text-slate-800 focus:ring-2 focus:ring-blue-900 outline-none font-medium shadow-xs"
                   />
                   <span className="text-[11px] text-emerald-700 mt-1 font-semibold">
@@ -1358,13 +1350,13 @@ export default function ContessaYachtPage({ params }) {
           {/* RESUMEN DE COTIZACIÓN - DISEÑO ELEGANTE Y AMIGABLE       */}
           {/* ======================================================== */}
           <div className="bg-gradient-to-br from-white via-blue-50/60 to-indigo-50/40 border-2 border-blue-200/80 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl shadow-blue-950/5">
-            
+
             <div className="w-full lg:w-auto text-center lg:text-left">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/80 text-blue-950 text-xs font-black uppercase tracking-wider mb-2 border border-blue-200">
                 <Sparkles size={13} className="text-blue-700" />
                 {isEs ? 'Inversión Total Estimada' : 'Estimated Total Investment'}
               </div>
-              
+
               <div className="flex items-baseline justify-center lg:justify-start gap-2">
                 <span className="text-4xl sm:text-5xl font-black text-slate-950 tracking-tight">
                   ${granTotalYate.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -1403,7 +1395,7 @@ export default function ContessaYachtPage({ params }) {
 
             {/* Acciones principales */}
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
-              
+
               <button
                 type="button"
                 onClick={() => handleOpenInquire(paqueteSeleccionado)}
@@ -1443,13 +1435,13 @@ export default function ContessaYachtPage({ params }) {
       {/* DESCRIPCIÓN Y ESPECIFICACIONES COMPLETAS (TEMA CLARO)     */}
       {/* ======================================================== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
-        
+
         {/* FILA 1: DETALLES DE LUJO Y EQUIPAMIENTO DEPORTIVO */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-          
+
           {/* Columna Izquierda: Descripción, Salón, Camarotes y Cubiertas */}
           <div className="lg:col-span-7 space-y-8">
-            
+
             {/* Sección 1: Descripción General y Salón */}
             <section className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs">
               <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-900 bg-blue-50 px-3 py-1 rounded-full border border-blue-100 mb-3">
@@ -1457,15 +1449,15 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? 'Descripción del Yate' : 'Description'}
               </div>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight mb-6">
-                {isEs 
-                  ? 'Ideal para Explorar las Maravillas del Mar de Cortés' 
+                {isEs
+                  ? 'Ideal para Explorar las Maravillas del Mar de Cortés'
                   : 'Ideal for Exploring the Wonders of the Sea of Cortez'
                 }
               </h2>
 
               <div className="prose prose-slate text-slate-600 text-sm sm:text-base leading-relaxed space-y-4">
                 <p>
-                  <strong className="text-slate-900">Contessa</strong> {isEs 
+                  <strong className="text-slate-900">Contessa</strong> {isEs
                     ? 'se mantiene en condiciones impecables y ha recibido remodelaciones integrales recientemente con actualizaciones pensadas para realzar el confort de nuestros huéspedes. Espaciosa y sumamente cómoda, es un yate de chárter incomparable en Los Cabos. Es la embarcación ideal para excursiones de un día y absolutamente perfecta para viajes nocturnos o de una semana por el Mar de Cortés.'
                     : 'is impeccably maintained and had comprehensive refits recently with upgrades to enhance guests’ comfort. Spacious and commodious, she is an incomparable Cabo charter yacht. This is the ideal vessel for day trips, and absolutely perfect for overnight and week trips on the Sea of Cortez.'
                   }
@@ -1538,7 +1530,7 @@ export default function ContessaYachtPage({ params }) {
                   : 'Every Contessa charter package includes gourmet appetizers, open-bar beverages, and custom meal selection prepared fresh onboard in her full commercial-grade stainless steel galley.'
                 }
               </p>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs shadow-xs">
                   <span className="font-bold text-slate-900 block mb-1">
@@ -1564,7 +1556,7 @@ export default function ContessaYachtPage({ params }) {
 
           {/* Columna Derecha: Yacht Highlights (Fishing Gear & Boat Features) */}
           <div className="lg:col-span-5 space-y-6">
-            
+
             {/* Tarjeta de Yacht Highlights */}
             <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xs">
               <div className="flex items-center gap-2 text-xs font-bold text-blue-900 uppercase tracking-widest mb-2">
@@ -1701,8 +1693,8 @@ export default function ContessaYachtPage({ params }) {
               {isEs ? 'Chárter de Pesca Deportiva de Lujo en Cabo San Lucas' : 'Luxury Sportfishing Yacht Charter in Cabo San Lucas'}
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4">
-              {isEs 
-                ? 'Vive la Pesca de Altura Privada y Navegación de Lujo a Bordo del Contessa' 
+              {isEs
+                ? 'Vive la Pesca de Altura Privada y Navegación de Lujo a Bordo del Contessa'
                 : 'Experience Private Deep Sea Fishing and Luxury Cruising Aboard Contessa'
               }
             </h2>
@@ -1723,7 +1715,7 @@ export default function ContessaYachtPage({ params }) {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
-            
+
             {/* Sub-bloque 1: Private Deep Sea Fishing Adventures */}
             <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-6 space-y-4">
               <h3 className="text-xl font-black text-slate-900">
@@ -1822,16 +1814,16 @@ export default function ContessaYachtPage({ params }) {
         {/* FILA 2: EXPERIENCIAS DE CHÁRTER Y LO MEJOR DE BAJA CALIFORNIA SUR */}
         <div className="bg-gradient-to-br from-blue-900 via-blue-950 to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-          
+
           <div className="relative z-10 max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold uppercase tracking-wider mb-4 border border-white/15">
               <Compass size={14} />
               {isEs ? 'Experiencias de Chárter en Los Cabos' : 'Luxury Yacht Charter Experiences in Cabo San Lucas'}
             </div>
-            
+
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight mb-4">
-              {isEs 
-                ? 'Explora las Maravillas del Mar de Cortés a Bordo del Contessa' 
+              {isEs
+                ? 'Explora las Maravillas del Mar de Cortés a Bordo del Contessa'
                 : 'Explore the Wonders of the Sea of Cortez Aboard Contessa'
               }
             </h3>
@@ -1844,7 +1836,7 @@ export default function ContessaYachtPage({ params }) {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              
+
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
                 <div className="w-8 h-8 rounded-lg bg-blue-500/30 text-blue-300 flex items-center justify-center mb-2 font-bold text-xs">
                   01
@@ -1909,7 +1901,7 @@ export default function ContessaYachtPage({ params }) {
               {isEs ? '¿Por qué elegir Contessa para tu chárter en Los Cabos?' : 'Why Choose Contessa for Your Cabo Yacht Charter?'}
             </h3>
             <p className="text-slate-600 text-sm sm:text-base mt-2">
-              {isEs 
+              {isEs
                 ? 'Contessa destaca por su mantenimiento impecable, remodelación reciente, extraordinaria estabilidad de navegación y distribución espaciosa tanto para paseos de un día como expediciones largas.'
                 : 'Contessa stands out for her impeccable maintenance, recent comprehensive refits, extraordinary stability at sea, and spacious layout for both day charters and multi-day trips.'
               }
@@ -1917,7 +1909,7 @@ export default function ContessaYachtPage({ params }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            
+
             <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs hover:shadow-md transition">
               <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-900 flex items-center justify-center font-black text-sm mb-3 border border-blue-100">
                 1
@@ -1926,8 +1918,8 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? '85 Pies Recién Remodelados' : '85ft Recently Refitted Yacht'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {isEs 
-                  ? 'Mantenimiento impecable y remodelaciones recientes pensadas para ofrecer la máxima comodidad a bordo.' 
+                {isEs
+                  ? 'Mantenimiento impecable y remodelaciones recientes pensadas para ofrecer la máxima comodidad a bordo.'
                   : 'Impeccably maintained Her Shine Marine vessel with comprehensive recent upgrades for guest comfort.'
                 }
               </p>
@@ -1941,8 +1933,8 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? '4 Camarotes con Baño Privado' : 'Four En-Suite Staterooms'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {isEs 
-                  ? 'Master y VIP full-beam con camas Queen más dos camarotes twin, todos con baño y regadera propios.' 
+                {isEs
+                  ? 'Master y VIP full-beam con camas Queen más dos camarotes twin, todos con baño y regadera propios.'
                   : 'Full-beam Master and VIP queen suites plus two forward twin staterooms, each with private bathroom and shower.'
                 }
               </p>
@@ -1956,8 +1948,8 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? 'Salón Abierto y Audio Fusion' : 'Open-Plan Salon & Fusion Audio'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {isEs 
-                  ? 'Madera de cerezo, sofás de piel, comedor para 8, TV curva HD de 55" con satélite y sonido Fusion en todo el barco.' 
+                {isEs
+                  ? 'Madera de cerezo, sofás de piel, comedor para 8, TV curva HD de 55" con satélite y sonido Fusion en todo el barco.'
                   : 'Fine cherry wood, leather crescent sofas, formal dining for 8, 55" curved satellite HD TV, and new Fusion speakers.'
                 }
               </p>
@@ -1971,8 +1963,8 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? 'Cubierta Superior Sombreada' : 'Shaded Upper Deck & Bow Lounge'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {isEs 
-                  ? 'Acceso por doble escalera curva hacia una terraza sombreada con brisa fresca, además de asoleadero tranquilo en proa.' 
+                {isEs
+                  ? 'Acceso por doble escalera curva hacia una terraza sombreada con brisa fresca, además de asoleadero tranquilo en proa.'
                   : 'Accessed by twin curved stairs, offering abundant shade and refreshing breeze, plus a tranquil bow sunbathing area.'
                 }
               </p>
@@ -1986,8 +1978,8 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? 'Pesca Stand-Up y Deportes Acuáticos' : 'Stand-Up Fishing & Water Sports'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {isEs 
-                  ? '4 tablas de paddleboard, equipo de esnórquel, pasillo walk-around completo, vivero portátil y equipo Penn & Avet.' 
+                {isEs
+                  ? '4 tablas de paddleboard, equipo de esnórquel, pasillo walk-around completo, vivero portátil y equipo Penn & Avet.'
                   : '4 stand-up paddleboards, snorkel gear, full walk-around deck, live bait well, outriggers, and Penn & Avet tackle.'
                 }
               </p>
@@ -2001,8 +1993,8 @@ export default function ContessaYachtPage({ params }) {
                 {isEs ? 'Estabilidad y Potencia Caterpillar' : 'Extraordinary Stability & Power'}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {isEs 
-                  ? 'Motores gemelos Caterpillar 3412, grandes estabilizadores, amplia manga y potente propulsor de proa.' 
+                {isEs
+                  ? 'Motores gemelos Caterpillar 3412, grandes estabilizadores, amplia manga y potente propulsor de proa.'
                   : 'Twin Caterpillar 3412 engines, wide beam, large stabilizers, Simrad sonar/radar, and powerful bow thruster.'
                 }
               </p>
@@ -2017,10 +2009,10 @@ export default function ContessaYachtPage({ params }) {
             <span className="text-xs font-bold text-blue-900 tracking-widest uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
               {isEs ? 'Reserva Exclusiva' : 'Book Your Private Luxury Yacht Experience in Los Cabos'}
             </span>
-            
+
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mt-4 mb-4 tracking-tight">
-              {isEs 
-                ? 'Haz que tu Visita a Cabo San Lucas sea Inolvidable a Bordo del Contessa' 
+              {isEs
+                ? 'Haz que tu Visita a Cabo San Lucas sea Inolvidable a Bordo del Contessa'
                 : 'Book Your Private Charter Aboard the 85ft Contessa in Los Cabos'
               }
             </h3>
@@ -2082,21 +2074,21 @@ export default function ContessaYachtPage({ params }) {
             {isEs ? 'Preguntas Frecuentes sobre el Chárter en Contessa 85ft' : 'Frequently Asked Questions About Contessa 85ft Yacht Charter'}
           </h3>
           <p className="text-slate-600 text-sm mt-1">
-            {isEs 
-              ? 'Todo lo que necesitas saber para rentar el yate de lujo Contessa de 85 pies en Cabo San Lucas' 
+            {isEs
+              ? 'Todo lo que necesitas saber para rentar el yate de lujo Contessa de 85 pies en Cabo San Lucas'
               : 'Everything you need to know about booking the 85ft Her Shine Marine Contessa luxury yacht'
             }
           </p>
         </div>
 
         <div className="space-y-4">
-          
+
           <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
             <h4 className="font-bold text-slate-900 mb-2 text-base">
               {isEs ? '¿Cuántos pasajeros admite el yate Contessa 85ft?' : 'How many guests can the 85ft Contessa yacht accommodate?'}
             </h4>
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              {isEs 
+              {isEs
                 ? 'Las tarifas base de todos los paquetes del Contessa incluyen hasta 10 huéspedes, y la embarcación permite hasta 8 invitados adicionales a bordo (para un máximo total de 18 pasajeros).'
                 : 'All Contessa charter packages include 10 base guests, and the vessel allows up to 8 additional guests on board (for a maximum capacity of 18 guests).'
               }
@@ -2223,7 +2215,33 @@ export default function ContessaYachtPage({ params }) {
             {isEs ? 'Barcos Similares' : 'Similar Boats'}
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Yate 0: 80 ft Papillon 9 (Black Sunseeker) */}
+            <Link
+              href={`/${lang}/cabo-yacht-charters-papillon-9`}
+              className="group block text-center"
+            >
+              <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
+                <img
+                  src="/yachts/papillon-9/papillon-1.avif"
+                  alt="80 ft Black Sunseeker Manhattan Papillon 9 Cabo Yacht Charter"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-lg sm:text-xl leading-snug">
+                <span className="text-slate-600 font-normal">80 ft </span>
+                <span className="font-extrabold text-[#003865] group-hover:text-blue-700 transition-colors">
+                  Papillon 9
+                </span>
+              </div>
+              <div className="text-base sm:text-lg font-extrabold text-slate-600 mt-0.5">
+                Sunseeker Manhattan
+              </div>
+              <div className="text-sm sm:text-base italic text-slate-500 mt-1">
+                {isEs ? 'Desde $5,500' : 'Starting at $5,500'}
+              </div>
+            </Link>
+
             {/* Yate 1: 110 ft Aquaholic */}
             <Link
               href={`/${lang}/cabo-yacht-charters-aquaholic`}
@@ -2311,8 +2329,8 @@ export default function ContessaYachtPage({ params }) {
       {modalAbierto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs animate-fade-in">
           <div className="relative w-full max-w-xl bg-white text-slate-900 rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden max-h-[92vh] overflow-y-auto border border-slate-200">
-            
-            <button 
+
+            <button
               onClick={() => {
                 setModalAbierto(false);
                 setInquiryEnviado(false);
@@ -2331,7 +2349,7 @@ export default function ContessaYachtPage({ params }) {
                   {isEs ? '¡Solicitud Recibida!' : 'Inquiry Received!'}
                 </h3>
                 <p className="text-slate-600 text-sm max-w-md mx-auto">
-                  {isEs 
+                  {isEs
                     ? `Gracias ${inquireData.firstName}. Nuestro equipo VIP concierge de Ballard Tours se comunicará contigo a la brevedad para confirmar disponibilidad y los detalles de tu chárter en el Contessa 85ft.`
                     : `Thank you ${inquireData.firstName}. Our VIP concierge team at Ballard Tours will get in touch with you shortly to confirm availability and itinerary details aboard the 85ft Contessa.`
                   }
@@ -2368,8 +2386,8 @@ export default function ContessaYachtPage({ params }) {
                     85ft Her Shine Marine "Contessa"
                   </p>
                   <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto font-medium">
-                    {isEs 
-                      ? 'Si estás interesado en reservar este yate o deseas más información por favor déjanos un mensaje aquí' 
+                    {isEs
+                      ? 'Si estás interesado en reservar este yate o deseas más información por favor déjanos un mensaje aquí'
                       : 'If you are interested to book this yacht or just want more information please leave us a message here'
                     }
                   </p>
@@ -2377,36 +2395,36 @@ export default function ContessaYachtPage({ params }) {
                 </div>
 
                 <form onSubmit={handleSubmitInquire} className="space-y-4 text-left">
-                  
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <input 
-                        type="text" 
-                        required 
-                        placeholder={isEs ? 'Nombre' : 'First Name'} 
-                        value={inquireData.firstName} 
-                        onChange={(e) => setInquireData({ ...inquireData, firstName: e.target.value })} 
+                      <input
+                        type="text"
+                        required
+                        placeholder={isEs ? 'Nombre' : 'First Name'}
+                        value={inquireData.firstName}
+                        onChange={(e) => setInquireData({ ...inquireData, firstName: e.target.value })}
                         className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-[#003865] outline-none"
                       />
                     </div>
                     <div>
-                      <input 
-                        type="text" 
-                        required 
-                        placeholder={isEs ? 'Apellido' : 'Last Name'} 
-                        value={inquireData.lastName} 
-                        onChange={(e) => setInquireData({ ...inquireData, lastName: e.target.value })} 
+                      <input
+                        type="text"
+                        required
+                        placeholder={isEs ? 'Apellido' : 'Last Name'}
+                        value={inquireData.lastName}
+                        onChange={(e) => setInquireData({ ...inquireData, lastName: e.target.value })}
                         className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-[#003865] outline-none"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <input 
-                      type="date" 
-                      required 
-                      value={inquireData.date} 
-                      onChange={(e) => setInquireData({ ...inquireData, date: e.target.value })} 
+                    <input
+                      type="date"
+                      required
+                      value={inquireData.date}
+                      onChange={(e) => setInquireData({ ...inquireData, date: e.target.value })}
                       className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-700 bg-slate-50 focus:ring-2 focus:ring-[#003865] outline-none"
                     />
                   </div>
@@ -2426,24 +2444,24 @@ export default function ContessaYachtPage({ params }) {
                         <option key={c.code} value={c.dialCode}>{c.flag} {c.dialCode} ({c.name})</option>
                       ))}
                     </select>
-                    
-                    <input 
-                      type="tel" 
-                      required 
-                      placeholder={isEs ? 'Número de Teléfono' : 'Phone Number'} 
-                      value={inquireData.phoneNumber} 
-                      onChange={(e) => setInquireData({ ...inquireData, phoneNumber: e.target.value })} 
+
+                    <input
+                      type="tel"
+                      required
+                      placeholder={isEs ? 'Número de Teléfono' : 'Phone Number'}
+                      value={inquireData.phoneNumber}
+                      onChange={(e) => setInquireData({ ...inquireData, phoneNumber: e.target.value })}
                       className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-[#003865] outline-none"
                     />
                   </div>
 
                   <div>
-                    <input 
-                      type="email" 
-                      required 
-                      placeholder={isEs ? 'Correo Electrónico' : 'Email'} 
-                      value={inquireData.email} 
-                      onChange={(e) => setInquireData({ ...inquireData, email: e.target.value })} 
+                    <input
+                      type="email"
+                      required
+                      placeholder={isEs ? 'Correo Electrónico' : 'Email'}
+                      value={inquireData.email}
+                      onChange={(e) => setInquireData({ ...inquireData, email: e.target.value })}
                       className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-[#003865] outline-none"
                     />
                   </div>
@@ -2452,9 +2470,9 @@ export default function ContessaYachtPage({ params }) {
                     <label className="text-xs text-slate-600 font-semibold mb-1 block">
                       {isEs ? '¿Cómo se enteró de nosotros?' : 'How did you hear about us?'}
                     </label>
-                    <select 
-                      value={inquireData.source} 
-                      onChange={(e) => setInquireData({ ...inquireData, source: e.target.value })} 
+                    <select
+                      value={inquireData.source}
+                      onChange={(e) => setInquireData({ ...inquireData, source: e.target.value })}
                       className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-700 bg-white focus:ring-2 focus:ring-[#003865] outline-none"
                     >
                       <option value="Word of mouth">{isEs ? 'Recomendación de boca en boca' : 'Word of mouth'}</option>
@@ -2466,11 +2484,11 @@ export default function ContessaYachtPage({ params }) {
                   </div>
 
                   <div>
-                    <textarea 
-                      rows={4} 
-                      placeholder={isEs ? 'Escribe aquí tu mensaje, solicitudes de menú o preguntas...' : 'Your Message'} 
-                      value={inquireData.message} 
-                      onChange={(e) => setInquireData({ ...inquireData, message: e.target.value })} 
+                    <textarea
+                      rows={4}
+                      placeholder={isEs ? 'Escribe aquí tu mensaje, solicitudes de menú o preguntas...' : 'Your Message'}
+                      value={inquireData.message}
+                      onChange={(e) => setInquireData({ ...inquireData, message: e.target.value })}
                       className="w-full p-3 border border-slate-300 rounded-lg text-sm text-slate-800 focus:ring-2 focus:ring-[#003865] outline-none resize-none"
                     />
                   </div>
@@ -2485,8 +2503,8 @@ export default function ContessaYachtPage({ params }) {
                   </div>
 
                   <div className="text-center pt-2">
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       disabled={enviandoInquiry}
                       className="w-full sm:w-auto min-w-[160px] py-3 px-8 bg-[#003865] hover:bg-[#002244] text-white font-extrabold text-sm tracking-wider rounded-lg transition shadow-sm disabled:opacity-50"
                     >
@@ -2506,7 +2524,7 @@ export default function ContessaYachtPage({ params }) {
       {/* LIGHTBOX DE FOTOS EN PANTALLA COMPLETA                   */}
       {/* ======================================================== */}
       {lightboxAbierto && (
-        <div 
+        <div
           className="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between p-3 sm:p-6 md:p-8 animate-fade-in select-none"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -2521,14 +2539,14 @@ export default function ContessaYachtPage({ params }) {
                 85ft Her Shine Marine "Contessa"
               </span>
             </div>
-            
+
             <div className="flex items-center gap-3">
               <span className="text-[11px] text-slate-400 font-medium hidden md:inline">
                 {isEs ? '← Desliza en pantalla o usa las flechas →' : '← Swipe screen or use arrow keys →'}
               </span>
-              <button 
+              <button
                 type="button"
-                onClick={() => setLightboxAbierto(false)} 
+                onClick={() => setLightboxAbierto(false)}
                 className="p-2 sm:p-2.5 text-white hover:text-blue-400 transition rounded-full bg-white/10 hover:bg-white/20 cursor-pointer shadow-lg active:scale-95"
                 title={isEs ? 'Cerrar (Esc)' : 'Close (Esc)'}
               >
@@ -2551,10 +2569,10 @@ export default function ContessaYachtPage({ params }) {
               <ChevronLeft size={28} className="group-hover:-translate-x-0.5 transition-transform" />
             </button>
 
-            <img 
+            <img
               key={fotosGaleria[fotoActiva].src}
-              src={fotosGaleria[fotoActiva].src} 
-              alt={fotosGaleria[fotoActiva].titleEn} 
+              src={fotosGaleria[fotoActiva].src}
+              alt={fotosGaleria[fotoActiva].titleEn}
               className="max-h-[72vh] sm:max-h-[76vh] max-w-full object-contain rounded-xl shadow-2xl transition-all duration-300 ease-out select-none pointer-events-none"
               draggable={false}
             />
@@ -2584,7 +2602,7 @@ export default function ContessaYachtPage({ params }) {
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <button 
+              <button
                 type="button"
                 onClick={handlePrevPhoto}
                 className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition font-bold flex items-center gap-1.5 cursor-pointer active:scale-95 text-xs sm:text-sm"
@@ -2592,7 +2610,7 @@ export default function ContessaYachtPage({ params }) {
                 <ChevronLeft size={16} />
                 <span>{isEs ? 'Anterior' : 'Previous'}</span>
               </button>
-              <button 
+              <button
                 type="button"
                 onClick={handleNextPhoto}
                 className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition font-bold flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-md shadow-blue-600/30 text-xs sm:text-sm"
@@ -2612,15 +2630,15 @@ export default function ContessaYachtPage({ params }) {
 // Icono auxiliar para la cámara
 function CameraIcon({ size = 16, className = "" }) {
   return (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />

@@ -36,6 +36,10 @@ export default function sitemap() {
     '/yachts/aquaholic', // Yate de lujo Aquaholic 110ft Horizon
     '/cabo-yacht-charters-aquaholic', // Renta de yate Aquaholic 110ft en Cabo San Lucas
     '/luxury-yacht-charter-cabo-san-lucas-aquaholic', // Landing SEO yate de lujo Aquaholic 110ft
+    '/yachts/papillon-9', // Yate Negro 80ft Sunseeker Manhattan Papillon 9
+    '/cabo-yacht-charters-papillon-9', // Renta de Yate Negro 80ft Sunseeker Papillon 9 en Cabo San Lucas
+    '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80', // Landing SEO Black Yacht Sunseeker 80ft
+    '/luxury-sportfishing-yacht-charter-cabo-papillon-9', // Landing SEO pesca deportiva y lujo Papillon 9 80ft
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
@@ -119,7 +123,11 @@ export default function sitemap() {
     '/luxury-sportfishing-yacht-charter-cabo-sovereign',
     '/yachts/aquaholic',
     '/cabo-yacht-charters-aquaholic',
-    '/luxury-yacht-charter-cabo-san-lucas-aquaholic'
+    '/luxury-yacht-charter-cabo-san-lucas-aquaholic',
+    '/yachts/papillon-9',
+    '/cabo-yacht-charters-papillon-9',
+    '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80',
+    '/luxury-sportfishing-yacht-charter-cabo-papillon-9'
   ]);
 
   // Rutas legales / secundarias con menor prioridad

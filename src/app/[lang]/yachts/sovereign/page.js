@@ -1724,7 +1724,33 @@ export default function SovereignYachtPage({ params }) {
             {isEs ? 'Barcos Similares' : 'Similar Boats'}
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Yate 0: 80 ft Papillon 9 (Black Sunseeker) */}
+            <Link
+              href={`/${lang}/cabo-yacht-charters-papillon-9`}
+              className="group block text-center"
+            >
+              <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
+                <img
+                  src="/yachts/papillon-9/papillon-1.avif"
+                  alt="80 ft Black Sunseeker Manhattan Papillon 9 Cabo Yacht Charter"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-lg sm:text-xl leading-snug">
+                <span className="text-slate-600 font-normal">80 ft </span>
+                <span className="font-extrabold text-[#003865] group-hover:text-blue-700 transition-colors">
+                  Papillon 9
+                </span>
+              </div>
+              <div className="text-base sm:text-lg font-extrabold text-slate-600 mt-0.5">
+                Sunseeker Manhattan
+              </div>
+              <div className="text-sm sm:text-base italic text-slate-500 mt-1">
+                {isEs ? 'Desde $5,500' : 'Starting at $5,500'}
+              </div>
+            </Link>
+
             {/* Yate 1: 85 ft Contessa */}
             <Link
               href={`/${lang}/cabo-yacht-charters-contessa`}
