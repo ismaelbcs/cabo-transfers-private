@@ -196,6 +196,51 @@ export default function YachtsPage({ params }) {
 
   const fotosGaleria = [
     {
+      src: '/yachts/capella-aerial-overview.jpg',
+      titleEn: 'Aerial View of 116ft Capella Cruising Past Land\'s End',
+      titleEs: 'Vista Aérea del Superyate Capella de 116ft Navegando en Finisterra',
+      descEn: 'Rare 116ft Azimut-Benetti tri-deck yacht cruising the deep blue waters of Cabo San Lucas.',
+      descEs: 'Exclusivo superyate Azimut-Benetti de 116 pies navegando las aguas azules de Cabo San Lucas.',
+      labelEn: 'Aerial View',
+      labelEs: 'Vista Aérea'
+    },
+    {
+      src: '/yachts/capella-aft-deck-dining.jpg',
+      titleEn: 'Aft Deck Formal Dining with Land\'s End Arch View',
+      titleEs: 'Comedor de Popa al Aire Libre con Vista al Arco y Finisterra',
+      descEn: 'Teak dining table set for 12 guests with panoramic ocean views and private chef service.',
+      descEs: 'Mesa de teca para 12 comensales con vistas panorámicas al Arco y servicio de chef privado.',
+      labelEn: 'Aft Dining',
+      labelEs: 'Comedor Popa'
+    },
+    {
+      src: '/yachts/capella-flybridge-sky-lounge.jpg',
+      titleEn: 'Expansive Upper Flybridge Sky Lounge with Jacuzzi',
+      titleEs: 'Amplio Lounge en Cubierta Superior Flybridge con Jacuzzi',
+      descEn: 'Generous wrap-around seating, retractable sunroof, private bar, and 8-person jacuzzi.',
+      descEs: 'Amplia sala lounge envolvente, techo corredizo, barra privada y jacuzzi para 8 personas.',
+      labelEn: 'Sky Lounge',
+      labelEs: 'Lounge Terraza'
+    },
+    {
+      src: '/yachts/capella-bow-lounge-terrace.jpg',
+      titleEn: 'Bow Sunbathing Terrace with VIP Cushions & Sunset Service',
+      titleEs: 'Terraza y Asoleadero de Proa con Cojines VIP y Servicio Gourmet',
+      descEn: 'Spacious bow sunbed with plush pillows, charcuterie, and chilled champagne under Baja sun.',
+      descEs: 'Asoleadero espacioso en proa con finos cojines, tabla de canapés y champaña bajo el sol de Baja.',
+      labelEn: 'Bow Terrace',
+      labelEs: 'Terraza Proa'
+    },
+    {
+      src: '/yachts/capella-master-marble-bath.jpg',
+      titleEn: 'Master En-Suite Bathroom with Double Marble Vanity & Bathtub',
+      titleEs: 'Baño Principal En-Suite con Doble Lavabo de Mármol y Tina Jacuzzi',
+      descEn: 'Elegantly appointed bathroom featuring imported Italian marble, rain shower, and jacuzzi tub.',
+      descEs: 'Elegante baño con mármol italiano importado, regadera de lluvia y tina de hidromasaje.',
+      labelEn: 'Marble Bath',
+      labelEs: 'Baño Mármol'
+    },
+    {
       src: '/yachts/capella-exterior-cruising.jpg',
       titleEn: '116 Ft Azimut-Benetti Capella Cruising Cabo Waters',
       titleEs: 'Superyate Capella de 116 pies navegando en las aguas de Los Cabos',
@@ -203,15 +248,6 @@ export default function YachtsPage({ params }) {
       descEs: 'Uno de solo tres jamás construidos en el mundo, navegando el Mar de Cortés.',
       labelEn: 'Cruising',
       labelEs: 'Navegación'
-    },
-    {
-      src: '/yachts/capella-exterior-profile.jpg',
-      titleEn: 'Capella Profile at Land’s End Cliffs',
-      titleEs: 'Silueta del Capella frente a los acantilados de Finisterra',
-      descEn: 'Graceful tri-deck Italian design and lines off the iconic Cabo coastline.',
-      descEs: 'Elegante diseño italiano de tres cubiertas frente a la costa de Cabo.',
-      labelEn: 'Profile',
-      labelEs: 'Silueta'
     },
     {
       src: '/yachts/capella-flybridge-bar.jpg',
@@ -250,13 +286,13 @@ export default function YachtsPage({ params }) {
       labelEs: 'Suite King'
     },
     {
-      src: '/yachts/capella-bow-sunpad.jpg',
-      titleEn: 'Expansive Bow Sunbathing Pad',
-      titleEs: 'Amplio Asoleadero en Proa con Cojines de Lujo',
-      descEn: 'Ideal for sun lounging with fresh drinks by day and romantic stargazing by night.',
-      descEs: 'Ideal para tomar el sol de día y admirar las estrellas por la noche.',
-      labelEn: 'Bow Sunpad',
-      labelEs: 'Proa'
+      src: '/yachts/capella-exterior-profile.jpg',
+      titleEn: 'Capella Profile at Land’s End Cliffs',
+      titleEs: 'Silueta del Capella frente a los acantilados de Finisterra',
+      descEn: 'Graceful tri-deck Italian design and lines off the iconic Cabo coastline.',
+      descEs: 'Elegante diseño italiano de tres cubiertas frente a la costa de Cabo.',
+      labelEn: 'Profile',
+      labelEs: 'Silueta'
     },
     {
       src: '/yachts/capella-mosaic-companionway.jpg',
@@ -266,6 +302,15 @@ export default function YachtsPage({ params }) {
       descEs: 'Impresionante pasillo de mosaicos artesanales con acentos en madera de cerezo pulida.',
       labelEn: 'Mosaic Tile',
       labelEs: 'Mosaicos'
+    },
+    {
+      src: '/yachts/capella-bow-sunpad.jpg',
+      titleEn: 'Expansive Bow Sunbathing Pad',
+      titleEs: 'Amplio Asoleadero en Proa con Cojines de Lujo',
+      descEn: 'Ideal for sun lounging with fresh drinks by day and romantic stargazing by night.',
+      descEs: 'Ideal para tomar el sol de día y admirar las estrellas por la noche.',
+      labelEn: 'Bow Sunpad',
+      labelEs: 'Proa'
     }
   ];
 
@@ -531,8 +576,8 @@ export default function YachtsPage({ params }) {
               </div>
             </div>
 
-            {/* MINIATURAS INTERACTIVAS */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-2.5">
+            {/* MINIATURAS INTERACTIVAS (13 FOTOS REALES) */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-13 gap-2 sm:gap-2.5">
               {fotosGaleria.map((foto, idx) => (
                 <button
                   key={idx}
