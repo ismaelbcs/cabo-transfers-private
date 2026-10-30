@@ -1394,31 +1394,31 @@ export default function ContessaYachtPage({ params }) {
             </div>
 
             {/* Acciones principales */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto shrink-0">
 
               <button
                 type="button"
                 onClick={() => handleOpenInquire(paqueteSeleccionado)}
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 whitespace-nowrap px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Mail size={18} className="text-amber-600" />
-                {isEs ? 'Solicitar Información' : 'Inquire Now'}
+                <Mail size={18} className="text-[#7c5e3c] shrink-0" />
+                <span>{isEs ? 'Solicitar Información' : 'Inquire Now'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 whitespace-nowrap px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Plus size={18} className="stroke-[3]" />
-                {isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}
+                <Plus size={18} className="stroke-[3] shrink-0" />
+                <span>{isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}</span>
               </button>
 
               <a
                 href={`https://wa.me/526121943286?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
+                className="w-full sm:w-auto shrink-0 p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
                 title={isEs ? 'Chat con Concierge VIP por WhatsApp' : 'Chat with VIP Concierge on WhatsApp'}
               >
                 <MessageCircle size={20} />

@@ -551,7 +551,7 @@ export default function Papillon9BlackYachtPage({ params }) {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-amber-400 text-xs font-bold uppercase tracking-widest mb-3 border border-slate-700">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#faf6f0] text-[#7c5e3c] text-xs font-bold uppercase tracking-widest mb-3 border border-[#dccbb5]">
                 <Anchor size={13} />
                 <span>{isEs ? 'El Icónico Yate Negro de Cabo • Hasta 30 Invitados' : 'Black Yacht in Cabo • Sunseeker Manhattan 80ft • Up to 30 Guests'}</span>
               </div>
@@ -737,7 +737,7 @@ export default function Papillon9BlackYachtPage({ params }) {
             const isSelected = paqueteSeleccionado.id === pkg.id;
 
             const headerColors = [
-              'bg-slate-900',  // 3 Hours Special (Black/Gold highlight)
+              'bg-[#7c5e3c]',  // 3 Hours Special (Warm Brown/Taupe highlight)
               'bg-[#003865]',  // 3 Hours Normal Rate
               'bg-[#0d5ca8]',  // 4 Hours
               'bg-[#07427c]'   // 6 Hours
@@ -1265,31 +1265,31 @@ export default function Papillon9BlackYachtPage({ params }) {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto shrink-0">
 
               <button
                 type="button"
                 onClick={() => handleOpenInquire(paqueteSeleccionado)}
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 whitespace-nowrap px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Mail size={18} className="text-amber-600" />
-                {isEs ? 'Solicitar Información' : 'Inquire Now'}
+                <Mail size={18} className="text-[#7c5e3c] shrink-0" />
+                <span>{isEs ? 'Solicitar Información' : 'Inquire Now'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 whitespace-nowrap px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Plus size={18} className="stroke-[3]" />
-                {isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}
+                <Plus size={18} className="stroke-[3] shrink-0" />
+                <span>{isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}</span>
               </button>
 
               <a
                 href={`https://wa.me/526121943286?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
+                className="w-full sm:w-auto shrink-0 p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
                 title={isEs ? 'Chat con Concierge VIP por WhatsApp' : 'Chat with VIP Concierge on WhatsApp'}
               >
                 <MessageCircle size={20} />
@@ -1541,11 +1541,11 @@ export default function Papillon9BlackYachtPage({ params }) {
               </p>
 
               <div className="space-y-2.5 text-xs sm:text-sm">
-                <div className="p-3 rounded-lg bg-slate-900 text-white flex items-center justify-between font-bold">
-                  <span>{isEs ? 'Modelo:' : 'Yacht Model:'}</span>
-                  <span className="text-amber-400">Sunseeker Manhattan 80ft</span>
+                <div className="p-3.5 rounded-xl bg-[#faf6f0] border border-[#dccbb5] text-slate-900 flex items-center justify-between font-bold shadow-2xs">
+                  <span className="text-[#5c452b]">{isEs ? 'Modelo:' : 'Yacht Model:'}</span>
+                  <span className="text-[#7c5e3c] font-black">Sunseeker Manhattan 80ft</span>
                 </div>
-                <div className="p-3 rounded-lg bg-blue-50/80 border border-blue-200 flex items-center justify-between text-blue-950 font-bold">
+                <div className="p-3.5 rounded-xl bg-blue-50/80 border border-blue-200 flex items-center justify-between text-blue-950 font-bold">
                   <span>{isEs ? 'Capacidad:' : 'Guest Capacity:'}</span>
                   <span>{isEs ? '1-12 Base • Hasta 30 Invitados Máx.' : '1-12 Base • Up to 30 Guests Max'}</span>
                 </div>
@@ -1573,26 +1573,26 @@ export default function Papillon9BlackYachtPage({ params }) {
                 ))}
               </div>
 
-              {/* Resumen de Precios en Tarjeta Lateral */}
-              <div className="mt-6 p-5 rounded-2xl bg-slate-900 text-white space-y-2 text-xs">
-                <div className="text-amber-400 font-extrabold uppercase tracking-wider text-[11px]">
+              {/* Resumen de Precios en Tarjeta Lateral (Fondo Blanco / Cuadro Café Elegante) */}
+              <div className="mt-6 p-5 rounded-2xl bg-[#faf6f0] border-2 border-[#dccbb5] text-slate-800 space-y-2.5 text-xs shadow-xs">
+                <div className="inline-block px-3 py-1 rounded-lg bg-[#7c5e3c] text-white font-extrabold uppercase tracking-wider text-[11px] mb-1">
                   {isEs ? 'Resumen de Precios Todo Incluido (1-12 Pax)' : 'All-Inclusive Pricing Summary (1-12 Guests)'}
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/10">
-                  <span className="text-slate-300">{isEs ? 'Tarifa Especial 3 Horas (hasta Dic 15):' : 'Special Rate 3-Hour (until Dec 15):'}</span>
-                  <span className="font-black text-amber-400">$5,500 USD</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-[#e6d7c3]">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Tarifa Especial 3 Horas (hasta Dic 15):' : 'Special Rate 3-Hour (until Dec 15):'}</span>
+                  <span className="font-black text-[#7c5e3c] text-sm">$5,500 USD</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/10">
-                  <span className="text-slate-300">{isEs ? 'Tarifa Normal 3 Horas:' : 'Normal Rate 3-Hour:'}</span>
-                  <span className="font-bold text-white">$6,400 USD</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-[#e6d7c3]">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Tarifa Normal 3 Horas:' : 'Normal Rate 3-Hour:'}</span>
+                  <span className="font-bold text-[#003865]">$6,400 USD</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/10">
-                  <span className="text-slate-300">{isEs ? 'Huésped Extra (13 a 30 pax máx.):' : 'Extra Guest (max capacity 30):'}</span>
-                  <span className="font-bold text-white">$225 USD</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-[#e6d7c3]">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Huésped Extra (13 a 30 pax máx.):' : 'Extra Guest (max capacity 30):'}</span>
+                  <span className="font-bold text-[#003865]">$225 USD</span>
                 </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-slate-300">{isEs ? 'Hora Extra:' : 'Extra Hour:'}</span>
-                  <span className="font-bold text-white">$1,600 USD</span>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Hora Extra:' : 'Extra Hour:'}</span>
+                  <span className="font-bold text-[#003865]">$1,600 USD</span>
                 </div>
               </div>
 

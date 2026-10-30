@@ -1219,31 +1219,31 @@ export default function AquaholicYachtPage({ params }) {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto shrink-0">
 
               <button
                 type="button"
                 onClick={() => handleOpenInquire(paqueteSeleccionado)}
-                className="w-full sm:w-auto px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 whitespace-nowrap px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm transition border-2 border-slate-200 hover:border-slate-300 shadow-xs flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Mail size={18} className="text-amber-600" />
-                {isEs ? 'Solicitar Información' : 'Inquire Now'}
+                <Mail size={18} className="text-[#7c5e3c] shrink-0" />
+                <span>{isEs ? 'Solicitar Información' : 'Inquire Now'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleAddToCart}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full sm:w-auto shrink-0 whitespace-nowrap px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm tracking-wide transition shadow-lg shadow-blue-600/25 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Plus size={18} className="stroke-[3]" />
-                {isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}
+                <Plus size={18} className="stroke-[3] shrink-0" />
+                <span>{isEs ? 'Añadir a mi Carrito' : 'Add to Cart'}</span>
               </button>
 
               <a
                 href={`https://wa.me/526121943286?text=${mensajeWhatsApp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
+                className="w-full sm:w-auto shrink-0 p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center shadow-md shadow-emerald-600/20 active:scale-95"
                 title={isEs ? 'Chat con Concierge VIP por WhatsApp' : 'Chat with VIP Concierge on WhatsApp'}
               >
                 <MessageCircle size={20} />
@@ -1259,20 +1259,20 @@ export default function AquaholicYachtPage({ params }) {
       {/* ======================================================== */}
       {/* AVENTURAS PRIVADAS INCLUIDAS (DE LAS IMÁGENES DEL USUARIO) */}
       {/* ======================================================== */}
-      <div className="bg-slate-950 text-white py-16 px-4 sm:px-6 lg:px-8 mb-20">
+      <div className="bg-[#faf6f0] border-y border-[#e6d7c3] text-slate-900 py-16 px-4 sm:px-6 lg:px-8 mb-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-300 text-xs font-bold uppercase tracking-widest mb-3 border border-white/15">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-[#7c5e3c] text-xs font-bold uppercase tracking-widest mb-3 border border-[#dccbb5] shadow-2xs">
               <Compass size={14} />
               {isEs ? 'Aventuras Privadas Incluidas' : 'Private Adventures Included in our Yacht Rentals'}
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-black text-[#003865] tracking-tight mb-4">
               {isEs
                 ? 'Aventuras Privadas Incluidas en tu Renta de Yate'
                 : 'Private Adventures Included in our Yacht Rentals'
               }
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
               {isEs
                 ? 'Todas nuestras rentas de yates en Los Cabos incluyen actividades opcionales como tour privado de esnórquel, visita al Arco, Playa del Amor y todas las formaciones rocosas en el camino, avistamiento de ballenas, experiencia de navegación, parada en playa y mucho más. Al ser una experiencia 100% privada, eres libre de trazar tu propio rumbo.'
                 : 'All our yacht rentals in Cabo include optional activities such as a private snorkeling tour, visit to the Arch, Lover’s Beach and all the rock formations on the way, whale watching, sailing experience, beach stop and more. As this is a private experience, you are free to chart your own course, deciding whether to spend more time swimming in crystal-clear waters or cruising aboard our stunning vessels.'
@@ -1284,14 +1284,14 @@ export default function AquaholicYachtPage({ params }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {aventurasIncluidas.map((item, index) => (
               <div key={index} className="group relative flex flex-col items-center">
-                <div className="w-full h-64 sm:h-72 rounded-2xl overflow-hidden border border-white/15 shadow-xl bg-slate-900">
+                <div className="w-full h-64 sm:h-72 rounded-2xl overflow-hidden border border-[#dccbb5] shadow-lg bg-white">
                   <img
                     src={item.img}
                     alt={isEs ? item.titleEs : item.titleEn}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="-mt-6 z-10 bg-white text-slate-950 px-6 py-3 rounded-xl shadow-lg border border-slate-200 min-w-[230px] text-center">
+                <div className="-mt-6 z-10 bg-white text-slate-950 px-6 py-3 rounded-xl shadow-md border border-[#dccbb5] min-w-[230px] text-center">
                   <h3 className="font-black text-sm sm:text-base tracking-wider uppercase text-[#003865]">
                     {isEs ? item.titleEs : item.titleEn}
                   </h3>
@@ -1480,22 +1480,22 @@ export default function AquaholicYachtPage({ params }) {
                 ))}
               </div>
 
-              {/* Resumen de Precios en Tarjeta Lateral */}
-              <div className="mt-6 p-5 rounded-2xl bg-slate-900 text-white space-y-2 text-xs">
-                <div className="text-amber-400 font-extrabold uppercase tracking-wider text-[11px]">
+              {/* Resumen de Precios en Tarjeta Lateral (Fondo Claro / Cuadro Café Elegante) */}
+              <div className="mt-6 p-5 rounded-2xl bg-[#faf6f0] border-2 border-[#dccbb5] text-slate-800 space-y-2.5 text-xs shadow-xs">
+                <div className="inline-block px-3 py-1 rounded-lg bg-[#7c5e3c] text-white font-extrabold uppercase tracking-wider text-[11px] mb-1">
                   {isEs ? 'Resumen de Tarifas Oficiales' : 'Official Charter Pricing Summary'}
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/10">
-                  <span className="text-slate-300">{isEs ? 'Chárter Base 3 Horas (1-10 pax):' : '3-Hours Base Charter (1-10 guests):'}</span>
-                  <span className="font-black text-white">$5,900 USD</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-[#e6d7c3]">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Chárter Base 3 Horas (1-10 pax):' : '3-Hours Base Charter (1-10 guests):'}</span>
+                  <span className="font-black text-[#7c5e3c] text-sm">$5,900 USD</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-white/10">
-                  <span className="text-slate-300">{isEs ? 'Huésped Extra (máx. 30 pax):' : 'Extra Guest (max. cap. 30):'}</span>
-                  <span className="font-bold text-white">$225 USD</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-[#e6d7c3]">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Huésped Extra (máx. 30 pax):' : 'Extra Guest (max. cap. 30):'}</span>
+                  <span className="font-bold text-[#003865]">$225 USD</span>
                 </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-slate-300">{isEs ? 'Hora Extra:' : 'Extra Hour:'}</span>
-                  <span className="font-bold text-white">$1,750 USD</span>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-slate-700 font-medium">{isEs ? 'Hora Extra:' : 'Extra Hour:'}</span>
+                  <span className="font-bold text-[#003865]">$1,750 USD</span>
                 </div>
               </div>
 
