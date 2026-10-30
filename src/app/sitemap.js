@@ -96,7 +96,14 @@ export default function sitemap() {
     '/dinners',
     '/nightlife',
     '/weddings',
-    '/golf'
+    '/golf',
+    '/yachts',
+    '/cabo-yacht-charters',
+    '/luxury-yacht-charter-cabo-san-lucas-capella',
+    '/yachts/capella',
+    '/yachts/contessa',
+    '/cabo-yacht-charters-contessa',
+    '/luxury-yacht-charter-cabo-san-lucas-contessa'
   ]);
 
   // Rutas legales / secundarias con menor prioridad
