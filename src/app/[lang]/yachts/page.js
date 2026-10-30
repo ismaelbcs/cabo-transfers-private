@@ -1,7 +1,7 @@
 // src/app/[lang]/yachts/page.js
 'use client';
 
-import React, { useState, useMemo, use } from 'react';
+import React, { useState, useMemo, use, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -189,7 +189,7 @@ export default function YachtsPage({ params }) {
   const [inquiryEnviado, setInquiryEnviado] = useState(false);
 
   // ==========================================
-  // FOTOS REALES DEL YATE CAPELLA (PROVISTAS POR EL USUARIO)
+  // FOTOS REALES DEL YATE CAPELLA (16 FOTOS DE ALTA RESOLUCIÓN)
   // ==========================================
   const [fotoActiva, setFotoActiva] = useState(0);
   const [lightboxAbierto, setLightboxAbierto] = useState(false);
@@ -203,6 +203,15 @@ export default function YachtsPage({ params }) {
       descEs: 'Exclusivo superyate Azimut-Benetti de 116 pies navegando las aguas azules de Cabo San Lucas.',
       labelEn: 'Aerial View',
       labelEs: 'Vista Aérea'
+    },
+    {
+      src: '/yachts/capella-stern-cruising-arch.jpg',
+      titleEn: 'Capella Cruising Past Land\'s End & Lover\'s Beach',
+      titleEs: 'Superyate Capella Navegando en Finisterra y Playa del Amor',
+      descEn: 'Aerial stern three-quarter view showing all three luxurious decks against Cabo\'s famous rock formations.',
+      descEs: 'Vista aérea de popa mostrando sus tres cubiertas frente a las imponentes formaciones del Finisterra.',
+      labelEn: 'Stern & Arch',
+      labelEs: 'Popa & Arco'
     },
     {
       src: '/yachts/capella-aft-deck-dining.jpg',
@@ -250,6 +259,15 @@ export default function YachtsPage({ params }) {
       labelEs: 'Navegación'
     },
     {
+      src: '/yachts/capella-wheelhouse-helm.jpg',
+      titleEn: 'High-Tech Navigation Bridge & Captain\'s Helm Station',
+      titleEs: 'Puente de Mando y Cabina de Navegación de Alta Tecnología',
+      descEn: 'State-of-the-art navigation helm with panoramic ocean vistas of Cabo San Lucas.',
+      descEs: 'Puente de mando vanguardista con visión panorámica de 180° sobre las aguas de Cabo.',
+      labelEn: 'Helm Bridge',
+      labelEs: 'Cabina Mando'
+    },
+    {
       src: '/yachts/capella-flybridge-bar.jpg',
       titleEn: 'Upper Flybridge Bar & Alfresco Cocktail Lounge',
       titleEs: 'Bar en Cubierta Superior Flybridge y Salón de Cócteles al Aire Libre',
@@ -286,6 +304,15 @@ export default function YachtsPage({ params }) {
       labelEs: 'Suite King'
     },
     {
+      src: '/yachts/capella-twin-stateroom.jpg',
+      titleEn: 'Guest Stateroom Suite with Twin Beds & Fine Cherry Wood',
+      titleEs: 'Camarote Suite de Invitados con Dos Camas Individuales y Madera de Cerezo',
+      descEn: 'Spacious guest suite featuring plush bedding, en-suite marble bathroom, and entertainment system.',
+      descEs: 'Espaciosa suite para invitados con camas individuales, baño privado de mármol y climatización.',
+      labelEn: 'Twin Suite',
+      labelEs: 'Suite Twin'
+    },
+    {
       src: '/yachts/capella-exterior-profile.jpg',
       titleEn: 'Capella Profile at Land’s End Cliffs',
       titleEs: 'Silueta del Capella frente a los acantilados de Finisterra',
@@ -313,6 +340,65 @@ export default function YachtsPage({ params }) {
       labelEs: 'Proa'
     }
   ];
+
+  // ==========================================
+  // NAVEGACIÓN INFINITA DE FOTOS (CARRUSEL INFINITO)
+  // ==========================================
+  const handleNextPhoto = () => {
+    setFotoActiva(prev => (prev === fotosGaleria.length - 1 ? 0 : prev + 1));
+  };
+
+  const handlePrevPhoto = () => {
+    setFotoActiva(prev => (prev === 0 ? fotosGaleria.length - 1 : prev - 1));
+  };
+
+  // ==========================================
+  // SOPORTE PARA GESTOS TÁCTILES (SWIPE EN CELULARES)
+  // ==========================================
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const minSwipeDistance = 45;
+
+  const handleTouchStart = (e) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const distance = touchStartX - touchEndX;
+    if (distance > minSwipeDistance) {
+      // Deslizó hacia la izquierda -> Siguiente foto (infinito)
+      handleNextPhoto();
+    } else if (distance < -minSwipeDistance) {
+      // Deslizó hacia la derecha -> Foto anterior (infinito)
+      handlePrevPhoto();
+    }
+  };
+
+  // ==========================================
+  // NAVEGACIÓN POR TECLADO (FLECHAS IZQ/DER Y ESCAPE)
+  // ==========================================
+  useEffect(() => {
+    if (!lightboxAbierto) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight') {
+        handleNextPhoto();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevPhoto();
+      } else if (e.key === 'Escape') {
+        setLightboxAbierto(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxAbierto, fotosGaleria.length]);
 
   // Manejar apertura de Modal Inquire
   const handleOpenInquire = (paqueteOpt) => {
@@ -514,7 +600,12 @@ export default function YachtsPage({ params }) {
 
             {/* VISOR PRINCIPAL DE FOTO GRANDE (CAMBIA AL DAR CLIC A CUALQUIER FOTO) */}
             <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-xl border-2 border-slate-200/90 bg-slate-900 group mb-4">
-              <div className="relative aspect-[16/9] sm:aspect-[16/9] md:h-[480px] w-full overflow-hidden bg-slate-100">
+              <div 
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                className="relative aspect-[16/9] sm:aspect-[16/9] md:h-[480px] w-full overflow-hidden bg-slate-100 touch-pan-y"
+              >
                 <img 
                   key={fotosGaleria[fotoActiva].src}
                   src={fotosGaleria[fotoActiva].src} 
@@ -522,18 +613,19 @@ export default function YachtsPage({ params }) {
                     ? `Capella 116-foot Azimut-Benetti renta de yate de lujo en Cabo San Lucas, Los Cabos, México - ${fotosGaleria[fotoActiva].titleEs}`
                     : `Capella 116-foot Azimut-Benetti luxury yacht charter in Cabo San Lucas, Los Cabos, Mexico - ${fotosGaleria[fotoActiva].titleEn}`
                   } 
-                  className="w-full h-full object-cover transition-all duration-500 ease-out"
+                  className="w-full h-full object-cover transition-all duration-500 ease-out select-none"
+                  draggable={false}
                 />
                 
                 {/* Gradiente inferior para legibilidad */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none"></div>
 
-                {/* Flecha Anterior */}
+                {/* Flecha Anterior (Infinito) */}
                 <button 
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setFotoActiva(prev => (prev === 0 ? fotosGaleria.length - 1 : prev - 1));
+                    handlePrevPhoto();
                   }}
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white text-slate-900 shadow-lg flex items-center justify-center transition border border-slate-200 z-20 cursor-pointer active:scale-95"
                   aria-label="Previous Photo"
@@ -541,12 +633,12 @@ export default function YachtsPage({ params }) {
                   <ChevronLeft size={24} />
                 </button>
 
-                {/* Flecha Siguiente */}
+                {/* Flecha Siguiente (Infinito) */}
                 <button 
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setFotoActiva(prev => (prev === fotosGaleria.length - 1 ? 0 : prev + 1));
+                    handleNextPhoto();
                   }}
                   className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/90 hover:bg-white text-slate-900 shadow-lg flex items-center justify-center transition border border-slate-200 z-20 cursor-pointer active:scale-95"
                   aria-label="Next Photo"
@@ -576,8 +668,8 @@ export default function YachtsPage({ params }) {
               </div>
             </div>
 
-            {/* MINIATURAS INTERACTIVAS (13 FOTOS REALES) */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-13 gap-2 sm:gap-2.5">
+            {/* MINIATURAS INTERACTIVAS (16 FOTOS REALES) */}
+            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-16 gap-1.5 sm:gap-2">
               {fotosGaleria.map((foto, idx) => (
                 <button
                   key={idx}
@@ -2031,49 +2123,106 @@ export default function YachtsPage({ params }) {
       {/* LIGHTBOX DE FOTOS EN PANTALLA COMPLETA                   */}
       {/* ======================================================== */}
       {lightboxAbierto && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between p-4 sm:p-8 animate-fade-in">
-          <div className="flex justify-between items-center text-white">
-            <div className="text-sm font-semibold">
-              <span className="text-blue-400 font-bold">{fotoActiva + 1}</span> / {fotosGaleria.length} • Capella 116ft
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between p-3 sm:p-6 md:p-8 animate-fade-in select-none"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Header Superior del Lightbox */}
+          <div className="flex justify-between items-center text-white z-40 px-2">
+            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-semibold">
+              <span className="px-3 py-1 rounded-full bg-blue-600 text-white font-extrabold text-xs shadow-md">
+                {fotoActiva + 1} / {fotosGaleria.length}
+              </span>
+              <span className="text-slate-300 font-bold hidden sm:inline">
+                Capella 116ft Azimut-Benetti
+              </span>
             </div>
-            <button 
-              onClick={() => setLightboxAbierto(false)} 
-              className="p-2 text-white hover:text-blue-400 transition rounded-full bg-white/10"
+            
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] text-slate-400 font-medium hidden md:inline">
+                {isEs ? '← Desliza en pantalla o usa las flechas →' : '← Swipe screen or use arrow keys →'}
+              </span>
+              <button 
+                type="button"
+                onClick={() => setLightboxAbierto(false)} 
+                className="p-2 sm:p-2.5 text-white hover:text-blue-400 transition rounded-full bg-white/10 hover:bg-white/20 cursor-pointer shadow-lg active:scale-95"
+                title={isEs ? 'Cerrar (Esc)' : 'Close (Esc)'}
+              >
+                <X size={22} className="sm:w-6 sm:h-6" />
+              </button>
+            </div>
+          </div>
+
+          {/* Área Central de Imagen con Flechas Flotantes Laterales y Soporte Táctil */}
+          <div className="relative flex-1 flex items-center justify-center my-2 sm:my-4 overflow-hidden touch-pan-y">
+            
+            {/* Botón Flotante Izquierdo (Foto Anterior - Infinito) */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevPhoto();
+              }}
+              className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 flex items-center justify-center transition-all z-30 cursor-pointer shadow-2xl active:scale-90 group backdrop-blur-xs"
+              aria-label="Previous Photo"
+              title={isEs ? 'Foto anterior' : 'Previous photo'}
             >
-              <X size={24} />
+              <ChevronLeft size={28} className="group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+
+            {/* Imagen Grande Activa */}
+            <img 
+              key={fotosGaleria[fotoActiva].src}
+              src={fotosGaleria[fotoActiva].src} 
+              alt={fotosGaleria[fotoActiva].titleEn} 
+              className="max-h-[72vh] sm:max-h-[76vh] max-w-full object-contain rounded-xl shadow-2xl transition-all duration-300 ease-out select-none pointer-events-none"
+              draggable={false}
+            />
+
+            {/* Botón Flotante Derecho (Foto Siguiente - Infinito) */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextPhoto();
+              }}
+              className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 flex items-center justify-center transition-all z-30 cursor-pointer shadow-2xl active:scale-90 group backdrop-blur-xs"
+              aria-label="Next Photo"
+              title={isEs ? 'Foto siguiente' : 'Next photo'}
+            >
+              <ChevronRight size={28} className="group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
-          <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
-            <img 
-              src={fotosGaleria[fotoActiva].src} 
-              alt={fotosGaleria[fotoActiva].titleEn} 
-              className="max-h-[75vh] max-w-full object-contain rounded-xl shadow-2xl"
-            />
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-white text-xs sm:text-sm">
-            <div className="text-center sm:text-left">
-              <h5 className="font-bold text-white text-base">
+          {/* Pie de Foto y Botones Inferiores */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-white text-xs sm:text-sm z-40 px-2">
+            <div className="text-center sm:text-left max-w-2xl">
+              <h5 className="font-extrabold text-white text-sm sm:text-base">
                 {isEs ? fotosGaleria[fotoActiva].titleEs : fotosGaleria[fotoActiva].titleEn}
               </h5>
-              <p className="text-slate-400">
+              <p className="text-slate-400 text-xs sm:text-sm mt-0.5 line-clamp-2">
                 {isEs ? fotosGaleria[fotoActiva].descEs : fotosGaleria[fotoActiva].descEn}
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <button 
-                onClick={() => setFotoActiva(prev => (prev === 0 ? fotosGaleria.length - 1 : prev - 1))}
-                className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition font-bold"
+                type="button"
+                onClick={handlePrevPhoto}
+                className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition font-bold flex items-center gap-1.5 cursor-pointer active:scale-95 text-xs sm:text-sm"
               >
-                ← {isEs ? 'Anterior' : 'Previous'}
+                <ChevronLeft size={16} />
+                <span>{isEs ? 'Anterior' : 'Previous'}</span>
               </button>
               <button 
-                onClick={() => setFotoActiva(prev => (prev === fotosGaleria.length - 1 ? 0 : prev + 1))}
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition font-bold"
+                type="button"
+                onClick={handleNextPhoto}
+                className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition font-bold flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-md shadow-blue-600/30 text-xs sm:text-sm"
               >
-                {isEs ? 'Siguiente' : 'Next'} →
+                <span>{isEs ? 'Siguiente' : 'Next'}</span>
+                <ChevronRight size={16} />
               </button>
             </div>
           </div>
