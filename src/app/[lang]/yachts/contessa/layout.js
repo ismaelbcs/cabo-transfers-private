@@ -8,18 +8,20 @@ export async function generateMetadata({ params }) {
   if (lang === 'es') {
     return generatePageMetadata({
       lang: 'es',
-      path: '/yachts/contessa',
-      title: "Renta de Yate de Lujo en Cabo San Lucas | Contessa 85 FT Her Shine Marine | Ballard Tours",
-      description: "Renta el yate de lujo Contessa de 85 pies Her Shine Marine en Cabo San Lucas. 4 camarotes con baño, cubierta sombreada, equipo de pesca deportiva, 4 paddleboards y menú personalizado por el Mar de Cortés.",
+      path: '/luxury-sportfishing-yacht-charter-cabo-contessa',
+      title: "Chárter de Yate de Lujo y Pesca Deportiva en Cabo | Contessa 85 FT",
+      description: "Reserva un chárter de yate de lujo y pesca deportiva en Cabo San Lucas a bordo del Contessa de 85 pies con equipo de pesca de altura, tangones, vivero de carnada viva, alta cocina y navegación privada.",
       keywords: [
-        "renta de yates los cabos",
-        "alquiler de yates cabo san lucas",
-        "yate contessa 85ft los cabos",
-        "her shine marine 85ft cabo",
-        "yates de lujo los cabos",
-        "yate privado cabo san lucas todo incluido",
-        "paseo en yate mar de cortes",
-        "renta de yate 85 pies cabo san lucas"
+        "Luxury Sportfishing Yacht Charter Cabo",
+        "Cabo deep sea fishing",
+        "Private fishing yacht Cabo",
+        "Marlin fishing charter Cabo San Lucas",
+        "Cabo offshore fishing yacht",
+        "Luxury sportfishing boat Los Cabos",
+        "Contessa 85ft Cabo yacht charter",
+        "Sea of Cortez yacht tours",
+        "renta de yate de pesca de lujo cabo san lucas",
+        "yate contessa 85ft los cabos"
       ],
       image: '/yachts/contessa/contessa-1.jpg'
     });
@@ -27,20 +29,24 @@ export async function generateMetadata({ params }) {
 
   return generatePageMetadata({
     lang: 'en',
-    path: '/yachts/contessa',
-    title: "85 Ft Her Shine Marine Contessa | Luxury Yacht Charter Cabo San Lucas",
-    description: "Charter the 85-foot Her Shine Marine luxury yacht Contessa in Cabo San Lucas. Ideal for exploring the Sea of Cortez with 4 en-suite staterooms, al fresco dining, 4 paddleboards, snorkel gear, and stand-up fishing tackle.",
+    path: '/luxury-sportfishing-yacht-charter-cabo-contessa',
+    title: "Luxury Sportfishing Yacht Charter Cabo | Contessa 85 FT",
+    description: "Book a luxury sportfishing yacht charter in Cabo San Lucas aboard Contessa, an 85ft yacht featuring deep sea fishing gear, outriggers, live bait well, gourmet dining and private cruising.",
     keywords: [
-      "85 ft her shine marine contessa",
-      "contessa yacht cabo san lucas",
-      "cabo yacht charters",
-      "luxury yacht charter cabo san lucas",
-      "private yacht charter los cabos",
-      "sea of cortez yacht charter",
-      "85ft yacht rental cabo",
-      "all inclusive yacht charter cabo san lucas"
+      "Luxury Sportfishing Yacht Charter Cabo",
+      "Cabo deep sea fishing",
+      "Private fishing yacht Cabo",
+      "Marlin fishing charter",
+      "Cabo offshore fishing",
+      "Luxury sportfishing boat",
+      "Luxury yacht rental Cabo",
+      "Private yacht cruise Cabo San Lucas",
+      "Family yacht experience Los Cabos",
+      "Sunset yacht charter Cabo",
+      "Sea of Cortez yacht tours",
+      "85 ft her shine marine contessa"
     ],
-    image: '/yachts/capella-exterior-cruising.jpg'
+    image: '/yachts/contessa/contessa-1.jpg'
   });
 }
 
@@ -54,12 +60,12 @@ export default async function Layout({ children, params }) {
     "@graph": [
       {
         "@type": "Product",
-        "@id": `${BASE_URL}/${lang}/yachts/contessa#product`,
-        "name": isEs ? "Renta de Yate de Lujo Contessa 85ft Her Shine Marine" : "85ft Her Shine Marine Contessa Luxury Yacht Charter",
+        "@id": `${BASE_URL}/${lang}/luxury-sportfishing-yacht-charter-cabo-contessa#product`,
+        "name": isEs ? "Chárter de Yate de Lujo y Pesca Deportiva Contessa 85ft" : "Contessa – Luxury Sportfishing Yacht Charter in Cabo San Lucas (85ft)",
         "image": `${BASE_URL}/yachts/contessa/contessa-1.jpg`,
         "description": isEs 
-          ? "Yate de lujo de 85 pies Her Shine Marine Contessa en Cabo San Lucas con 4 camarotes en suite, comedor al aire libre, cubierta superior sombreada, 4 paddleboards, equipo de pesca stand-up y menú todo incluido."
-          : "85ft Her Shine Marine Contessa luxury charter yacht in Cabo San Lucas featuring 4 en-suite staterooms, al fresco aft dining, shaded upper deck, 4 stand-up paddleboards, stand-up fishing gear, and all-inclusive dining.",
+          ? "Yate de lujo y pesca deportiva de 85 pies Her Shine Marine Contessa en Cabo San Lucas con equipo de pesca de altura Penn y Avet, vivero de carnada viva, tangones, 4 camarotes en suite, 4 paddleboards y alta gastronomía."
+          : "Book a luxury sportfishing yacht charter in Cabo San Lucas aboard Contessa, an 85ft yacht featuring deep sea fishing gear, outriggers, live bait well, gourmet dining and private cruising.",
         "brand": {
           "@type": "Brand",
           "name": "Her Shine Marine"
@@ -108,18 +114,34 @@ export default async function Layout({ children, params }) {
         }
       },
       {
-        "@type": "TouristTrip",
-        "@id": `${BASE_URL}/${lang}/yachts/contessa#trip`,
-        "name": isEs ? "Chárter Privado en Yate Contessa 85ft Los Cabos" : "Private 85ft Contessa Yacht Charter Los Cabos",
-        "description": isEs 
-          ? "Navegación privada por el Arco de Cabo San Lucas, Playa del Amor y el Mar de Cortés a bordo del yate Contessa de 85 pies."
-          : "Private cruising tour to Land's End Arch, Lover's Beach, and the Sea of Cortez aboard the 85ft Her Shine Marine Contessa.",
-        "touristType": ["Luxury Travel", "Family Vacation", "Sportfishing", "VIP Celebrations"],
-        "provider": {
-          "@type": "TravelAgency",
-          "name": "Ballard Tours Los Cabos",
-          "url": BASE_URL
-        }
+        "@type": "FAQPage",
+        "@id": `${BASE_URL}/${lang}/luxury-sportfishing-yacht-charter-cabo-contessa#faq`,
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can you go deep sea fishing aboard Contessa in Cabo San Lucas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Contessa is equipped for private sportfishing adventures, including offshore fishing and bottom fishing. Her onboard equipment includes outriggers, Penn and Avet fishing tackle, fighting belts, harnesses, and a portable live bait well."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What fish can you catch in Cabo San Lucas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cabo San Lucas is known for marlin, yellowfin tuna, dorado, wahoo, roosterfish, yellowtail, and snapper. Available species vary depending on the season and fishing conditions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Contessa suitable for both fishing and cruising?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Contessa combines sportfishing equipment with luxury accommodations, spacious entertainment areas, snorkeling gear, and paddleboards, making her suitable for guests interested in both fishing and relaxing on the water."
+            }
+          }
+        ]
       }
     ]
   };
@@ -134,4 +156,3 @@ export default async function Layout({ children, params }) {
     </>
   );
 }
-

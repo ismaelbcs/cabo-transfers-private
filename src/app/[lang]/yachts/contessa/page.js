@@ -672,22 +672,22 @@ export default function ContessaYachtPage({ params }) {
 
             {/* Título Principal H1 con palabras clave SEO */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 tracking-tight leading-tight text-slate-900">
-              {isEs ? 'Contessa – Renta de Yate de Lujo 85ft en Cabo San Lucas' : 'Contessa – 85 Ft Her Shine Marine Luxury Yacht Charter in Cabo'}
+              {isEs ? 'Contessa – Renta de Yate de Lujo y Pesca Deportiva en Cabo San Lucas' : 'Contessa – Luxury Sportfishing Yacht Charter in Cabo San Lucas'}
             </h1>
             
             <HeroReviewsBadge lang={lang} />
 
             <p className="text-base sm:text-lg md:text-xl text-blue-900 font-extrabold mt-3 max-w-3xl mx-auto leading-relaxed">
               {isEs 
-                ? 'Ideal para Explorar las Maravillas del Mar de Cortés con Máximo Confort y Estabilidad.'
-                : 'Ideal for Exploring the Wonders of the Sea of Cortez.'
+                ? 'Ideal para Explorar las Maravillas del Mar de Cortés y Pesca Deportiva de Altura en Privado.'
+                : 'Ideal for Exploring the Wonders of the Sea of Cortez • Experience Private Deep Sea Fishing and Luxury Cruising Aboard Contessa.'
               }
             </p>
 
             <p className="text-sm sm:text-base text-slate-600 mt-3 max-w-3xl mx-auto leading-relaxed font-normal">
               {isEs
-                ? 'Contessa se mantiene en condiciones impecables y recientemente recibió una remodelación integral con mejoras de primer nivel para realzar el confort de sus huéspedes. Espaciosa, estable y sumamente cómoda, es un yate de chárter incomparable en Los Cabos: la embarcación ideal para paseos de un día y absolutamente perfecta para travesías nocturnas o de una semana por el Mar de Cortés.'
-                : 'Contessa is impeccably maintained and had comprehensive refits recently with upgrades to enhance guests’ comfort. Spacious and commodious, she is an incomparable Cabo charter yacht. This is the ideal vessel for day trips, and absolutely perfect for overnight and week trips on the Sea of Cortez.'
+                ? 'Descubre una extraordinaria combinación de navegación en yate de lujo y pesca deportiva a bordo del Contessa, un yate a motor de 85 pies disponible para chárters privados en Cabo San Lucas, México. Contessa se mantiene en condiciones impecables y recientemente recibió una remodelación integral con mejoras de primer nivel para realzar el confort de sus huéspedes.'
+                : 'Discover an extraordinary combination of luxury yachting and sportfishing aboard Contessa, an 85-foot luxury motor yacht available for private fishing and cruising charters in Cabo San Lucas, Mexico. Contessa is impeccably maintained and had comprehensive refits recently with upgrades to enhance guests’ comfort.'
               }
             </p>
           </div>
@@ -721,8 +721,8 @@ export default function ContessaYachtPage({ params }) {
                   key={fotosGaleria[fotoActiva].src}
                   src={fotosGaleria[fotoActiva].src} 
                   alt={isEs 
-                    ? `Contessa 85-foot Her Shine Marine renta de yate de lujo en Cabo San Lucas, Los Cabos, México - ${fotosGaleria[fotoActiva].titleEs}`
-                    : `Contessa 85-foot Her Shine Marine luxury yacht charter in Cabo San Lucas, Los Cabos, Mexico - ${fotosGaleria[fotoActiva].titleEn}`
+                    ? `Contessa 85ft renta de yate de lujo y pesca deportiva en Cabo San Lucas México - ${fotosGaleria[fotoActiva].titleEs}`
+                    : `Contessa 85ft luxury sportfishing yacht charter in Cabo San Lucas Mexico - ${fotosGaleria[fotoActiva].titleEn}`
                   } 
                   className="w-full h-full object-cover transition-all duration-500 ease-out select-none"
                   draggable={false}
@@ -1693,6 +1693,132 @@ export default function ContessaYachtPage({ params }) {
 
         </div>
 
+        {/* SECCIÓN ESPECIAL: LUXURY SPORTFISHING YACHT CHARTER IN CABO SAN LUCAS */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 mb-16 shadow-xs">
+          <div className="max-w-4xl mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-900 text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
+              <Anchor size={14} />
+              {isEs ? 'Chárter de Pesca Deportiva de Lujo en Cabo San Lucas' : 'Luxury Sportfishing Yacht Charter in Cabo San Lucas'}
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-4">
+              {isEs 
+                ? 'Vive la Pesca de Altura Privada y Navegación de Lujo a Bordo del Contessa' 
+                : 'Experience Private Deep Sea Fishing and Luxury Cruising Aboard Contessa'
+              }
+            </h2>
+            <div className="space-y-4 text-sm sm:text-base text-slate-600 leading-relaxed">
+              <p>
+                {isEs
+                  ? 'Descubre una extraordinaria combinación de navegación en yate de lujo y pesca deportiva a bordo del Contessa, un yate a motor de lujo de 85 pies disponible para chárters privados de pesca en Cabo San Lucas, México. Ya seas un pescador experimentado o simplemente busques disfrutar de una memorable aventura de pesca con familiares y amigos, Contessa ofrece la comodidad, el espacio y el equipo profesional necesario para un día excepcional en el mar.'
+                  : 'Discover an extraordinary combination of luxury yachting and sportfishing aboard Contessa, an 85-foot luxury motor yacht available for private fishing charters in Cabo San Lucas, Mexico. Whether you are an experienced angler or simply looking to enjoy a memorable fishing adventure with family and friends, Contessa offers the comfort, space, and fishing equipment needed for an exceptional day on the water.'
+                }
+              </p>
+              <p>
+                {isEs
+                  ? 'Zarpando desde la Marina de Cabo San Lucas, los huéspedes pueden disfrutar de excursiones privadas de pesca deportiva en el Océano Pacífico y el Mar de Cortés mientras experimentan el confort de un yate de lujo totalmente equipado. A diferencia de las lanchas de pesca tradicionales, Contessa combina equipo de pesca profesional con amplias áreas de entretenimiento, cómodos asientos, cubiertas sombreadas, gastronomía de autor y servicio personalizado a bordo.'
+                  : 'Departing from Cabo San Lucas Marina, guests can enjoy private sportfishing excursions in the Pacific Ocean and Sea of Cortez while experiencing the comfort of a fully equipped luxury yacht. Unlike traditional fishing boats, Contessa combines professional fishing equipment with spacious entertainment areas, comfortable seating, shaded decks, premium dining, and personalized onboard service.'
+                }
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
+            
+            {/* Sub-bloque 1: Private Deep Sea Fishing Adventures */}
+            <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-6 space-y-4">
+              <h3 className="text-xl font-black text-slate-900">
+                {isEs ? 'Aventuras Privadas de Pesca de Altura' : 'Private Deep Sea Fishing Adventures'}
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                {isEs
+                  ? 'Cabo San Lucas es reconocido internacionalmente por sus oportunidades de pesca deportiva. Sus aguas circundantes permiten buscar algunas de las especies deportivas más codiciadas de la región. Dependiendo de la temporada, las condiciones de pesca y las regulaciones locales, los huéspedes pueden encontrar:'
+                  : 'Cabo San Lucas is internationally recognized for its sportfishing opportunities. Its surrounding waters offer opportunities to target some of the most sought-after game fish in the region. Depending on the season, fishing conditions, and local regulations, guests may encounter:'
+                }
+              </p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm font-semibold text-slate-800">
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Marlín (Azul y Rayado)' : 'Marlin (Blue & Striped Marlin)'}</span>
+                </li>
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Atún Aleta Amarilla' : 'Yellowfin Tuna'}</span>
+                </li>
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Dorado (Mahi-Mahi)' : 'Dorado (Mahi-Mahi)'}</span>
+                </li>
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>Wahoo</span>
+                </li>
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Pez Gallo (Roosterfish)' : 'Roosterfish'}</span>
+                </li>
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Jurel (Yellowtail)' : 'Yellowtail'}</span>
+                </li>
+                <li className="flex items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200/80 sm:col-span-2">
+                  <CheckCircle2 size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Pargo (Snapper) y otras especies de fondo' : 'Snapper and other bottom-dwelling species'}</span>
+                </li>
+              </ul>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                {isEs
+                  ? 'Ya sea que prefieras curricán en altamar (trolling offshore) para especies pelágicas o explorar oportunidades de pesca de fondo, Contessa ofrece una plataforma versátil. Las zonas de pesca y especies dependen de las migraciones estacionales, el clima, las condiciones del océano y las recomendaciones del capitán.'
+                  : 'Whether you prefer trolling offshore for pelagic species or exploring opportunities for bottom fishing, Contessa offers a versatile platform for enjoying different fishing experiences. Fishing locations and target species depend on seasonal migrations, weather, ocean conditions, and the captain\'s recommendations.'
+                }
+              </p>
+            </div>
+
+            {/* Sub-bloque 2: Professional Sportfishing Equipment + Families & Dining */}
+            <div className="space-y-6">
+              <div className="bg-blue-50/50 border border-blue-200/80 rounded-2xl p-6 space-y-3">
+                <h3 className="text-xl font-black text-slate-900">
+                  {isEs ? 'Equipo Profesional de Pesca Deportiva a Bordo' : 'Professional Sportfishing Equipment Onboard'}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {isEs
+                    ? 'Contessa está equipada para una amplia variedad de técnicas de pesca. Su borda alta y amplio diseño walk-around brindan espacio adicional para que los pescadores se desplacen cómodamente por todo el yate:'
+                    : 'Contessa is equipped for a variety of fishing techniques, making her an excellent option for private fishing excursions in Los Cabos. Her high gunwales and spacious walk-around design provide additional room for anglers to move around the yacht:'
+                  }
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-800 font-semibold">
+                  <div>• {isEs ? 'Vivero portátil de carnada viva' : 'Portable live bait well'}</div>
+                  <div>• {isEs ? 'Tangones (Outriggers) de altura' : 'Outriggers for offshore fishing'}</div>
+                  <div>• {isEs ? 'Equipo de pesca Stand-Up' : 'Stand-up fishing equipment'}</div>
+                  <div>• {isEs ? 'Cinturones de combate y arneses' : 'Fighting belts and harnesses'}</div>
+                  <div>• {isEs ? 'Equipo de pesca de fondo' : 'Bottom fishing equipment'}</div>
+                  <div>• {isEs ? '1 Equipo Avet clase 50 libras' : '1 Avet 50-pound-class setup'}</div>
+                  <div>• {isEs ? '4 Equipos Penn clase 50 libras' : '4 Penn 50-pound-class setups'}</div>
+                  <div>• {isEs ? 'Cubierta walk-around completa' : 'Complete walk-around deck'}</div>
+                </div>
+              </div>
+
+              <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-6 space-y-3">
+                <h3 className="text-lg font-black text-slate-900">
+                  {isEs ? 'Chárter de Pesca de Lujo para Familias, Grupos y Alta Cocina' : 'Luxury Fishing Charter for Families & Gourmet Dining'}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {isEs
+                    ? 'Un chárter privado de pesca a bordo del Contessa es mucho más que capturar peces: es la oportunidad de disfrutar del océano con total confort. Mientras los entusiastas de la pesca disfrutan de las cañas, el resto del grupo puede relajarse en la terraza superior sombreada, tomar el sol en la proa, disfrutar del sistema de entretenimiento o aprovechar el equipo de esnórquel y las 4 tablas de paddleboard.'
+                    : 'A private fishing charter aboard Contessa is about more than catching fish. While fishing enthusiasts enjoy their time with the rods, other guests can relax on the shaded upper deck, sunbathe at the bow, enjoy the onboard entertainment system, or take advantage of the snorkeling and paddleboarding equipment.'
+                  }
+                </p>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {isEs
+                    ? 'Después de un emocionante día en el mar, los invitados disfrutan de bocadillos gourmet recién preparados, comidas personalizadas y barra libre de bebidas incluidas en su paquete, preparadas en la cocina de grado comercial del Contessa.'
+                    : 'After an exciting day on the water, guests can enjoy freshly prepared gourmet appetizers, customized meals, and open-bar beverages included in the applicable charter package, prepared in Contessa\'s commercial-grade galley.'
+                  }
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         {/* FILA 2: EXPERIENCIAS DE CHÁRTER Y LO MEJOR DE BAJA CALIFORNIA SUR */}
         <div className="bg-gradient-to-br from-blue-900 via-blue-950 to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -2003,12 +2129,84 @@ export default function ContessaYachtPage({ params }) {
 
           <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
             <h4 className="font-bold text-slate-900 mb-2 text-base">
-              {isEs ? '¿Está equipado para pesca deportiva en Cabo San Lucas?' : 'Is Contessa equipped for fishing in Cabo San Lucas?'}
+              {isEs ? '¿Se puede practicar pesca de altura a bordo del Contessa en Cabo San Lucas?' : 'Can you go deep sea fishing aboard Contessa in Cabo San Lucas?'}
             </h4>
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
               {isEs
-                ? 'Sí. La pesca a bordo del Contessa es de estilo stand-up con cinturones de pelea y arneses, pasillo walk-around completo, vivero portátil de carnada viva, equipo de pesca de fondo, tangones (outriggers) y carretes profesionales Avet de 50 lb y Penn de 50 lb.'
-                : 'Yes. Contessa is outfitted for stand-up style fishing with fighting belts and harnesses, a full walk-around deck, portable live bait well, bottom fishing gear, outriggers, 1x50 lb Avet tackle, and 4x50 lbs Penn tackle.'
+                ? 'Sí. Contessa está equipada para aventuras privadas de pesca deportiva, incluyendo pesca de altura (offshore) y pesca de fondo. Su equipo a bordo incluye tangones (outriggers), carretes y cañas Penn y Avet de 50 libras, cinturones de combate, arneses y vivero portátil para carnada viva.'
+                : 'Yes. Contessa is equipped for private sportfishing adventures, including offshore fishing and bottom fishing. Her onboard equipment includes outriggers, Penn and Avet fishing tackle, fighting belts, harnesses, and a portable live bait well.'
+              }
+            </p>
+          </div>
+
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 text-base">
+              {isEs ? '¿Qué especies de peces se pueden capturar en Cabo San Lucas?' : 'What fish can you catch in Cabo San Lucas?'}
+            </h4>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {isEs
+                ? 'Cabo San Lucas es famoso mundialmente por el marlín (azul y rayado), atún aleta amarilla, dorado (mahi-mahi), wahoo, pez gallo, jurel (yellowtail) y pargo (snapper). Las especies disponibles varían según la temporada y las condiciones del mar.'
+                : 'Cabo San Lucas is known for marlin, yellowfin tuna, dorado, wahoo, roosterfish, yellowtail, and snapper. Available species vary depending on the season and fishing conditions.'
+              }
+            </p>
+          </div>
+
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 text-base">
+              {isEs ? '¿Es Contessa adecuado tanto para pesca como para paseo de lujo?' : 'Is Contessa suitable for both fishing and cruising?'}
+            </h4>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {isEs
+                ? 'Sí. Contessa combina equipo de pesca deportiva con alojamientos de lujo, amplias áreas de entretenimiento, equipo de esnórquel y 4 tablas de paddleboard, lo que la hace ideal para grupos que desean tanto pescar como relajarse en el mar.'
+                : 'Yes. Contessa combines sportfishing equipment with luxury accommodations, spacious entertainment areas, snorkeling gear, and paddleboards, making her suitable for guests interested in both fishing and relaxing on the water.'
+              }
+            </p>
+          </div>
+
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 text-base">
+              {isEs ? '¿El yate incluye el equipo de pesca?' : 'Does the yacht include fishing equipment?'}
+            </h4>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {isEs
+                ? 'Sí. Contessa cuenta con equipo de pesca de altura y de fondo, tangones (outriggers), vivero para carnada viva, equipo stand-up, cinturones de pelea, arneses y aparejos Penn y Avet.'
+                : 'Yes. Contessa features offshore and bottom fishing equipment, outriggers, a live bait well, stand-up fishing gear, fighting belts, harnesses, and Penn and Avet tackle.'
+              }
+            </p>
+          </div>
+
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 text-base">
+              {isEs ? '¿Pueden las familias disfrutar de un chárter de pesca a bordo del Contessa?' : 'Can families enjoy a fishing charter aboard Contessa?'}
+            </h4>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {isEs
+                ? 'Sí. Los invitados que no estén pescando pueden disfrutar de las amplias cubiertas sombreadas del yate, gastronomía a bordo, equipo de esnórquel, tablas de paddleboard y áreas de entretenimiento climatizadas.'
+                : 'Yes. Guests who are not fishing can enjoy the yacht\'s spacious decks, onboard dining, snorkeling equipment, paddleboards, and entertainment areas.'
+              }
+            </p>
+          </div>
+
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 text-base">
+              {isEs ? '¿De dónde salen los chárters privados de pesca en Cabo San Lucas?' : 'Where do private fishing charters depart from in Cabo San Lucas?'}
+            </h4>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {isEs
+                ? 'Contessa ofrece un cómodo acceso desde su muelle exclusivo en la Marina de Cabo San Lucas. Los horarios de salida, traslados terrestres privados e itinerarios se confirman con nuestro equipo de reservaciones.'
+                : 'Contessa offers convenient access from her exclusive slip at Cabo San Lucas Marina. Departure arrangements and charter itineraries can be confirmed with the reservation team.'
+              }
+            </p>
+          </div>
+
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 text-sm shadow-xs">
+            <h4 className="font-bold text-slate-900 mb-2 text-base">
+              {isEs ? '¿Hay pesca disponible todo el año en Cabo San Lucas?' : 'Is fishing available year-round in Cabo San Lucas?'}
+            </h4>
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {isEs
+                ? 'Las oportunidades de pesca deportiva están disponibles durante todo el año, aunque las especies objetivo y las condiciones cambian según la estación. El capitán recomendará la mejor experiencia de pesca para tus fechas de viaje.'
+                : 'Sportfishing opportunities are available throughout the year, although target species and fishing conditions change with the seasons. The captain can recommend the most appropriate fishing experience for your travel dates.'
               }
             </p>
           </div>

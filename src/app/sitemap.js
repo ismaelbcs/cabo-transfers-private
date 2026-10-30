@@ -28,6 +28,11 @@ export default function sitemap() {
     '/yachts/contessa', // Yate Contessa 85ft Her Shine Marine
     '/cabo-yacht-charters-contessa', // Renta de yate Contessa 85ft en Cabo San Lucas
     '/luxury-yacht-charter-cabo-san-lucas-contessa', // Landing SEO yate de lujo Contessa 85ft
+    '/luxury-sportfishing-yacht-charter-cabo-contessa', // Landing SEO pesca deportiva de lujo Contessa 85ft
+    '/yachts/sovereign', // Superyate Sovereign 130ft
+    '/cabo-yacht-charters-sovereign', // Renta de superyate Sovereign 130ft en Cabo San Lucas
+    '/luxury-yacht-charter-cabo-san-lucas-sovereign', // Landing SEO superyate de lujo Sovereign 130ft
+    '/luxury-sportfishing-yacht-charter-cabo-sovereign', // Landing SEO pesca deportiva en superyate Sovereign 130ft
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
@@ -103,7 +108,12 @@ export default function sitemap() {
     '/yachts/capella',
     '/yachts/contessa',
     '/cabo-yacht-charters-contessa',
-    '/luxury-yacht-charter-cabo-san-lucas-contessa'
+    '/luxury-yacht-charter-cabo-san-lucas-contessa',
+    '/luxury-sportfishing-yacht-charter-cabo-contessa',
+    '/yachts/sovereign',
+    '/cabo-yacht-charters-sovereign',
+    '/luxury-yacht-charter-cabo-san-lucas-sovereign',
+    '/luxury-sportfishing-yacht-charter-cabo-sovereign'
   ]);
 
   // Rutas legales / secundarias con menor prioridad
