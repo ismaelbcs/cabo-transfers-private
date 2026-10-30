@@ -30,8 +30,9 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function CaboSuvServicePage({ params }) {
-  const lang = params?.lang || 'en';
+export default async function CaboSuvServicePage({ params }) {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">
@@ -42,9 +43,7 @@ export default function CaboSuvServicePage({ params }) {
           ✨ {lang === 'es' ? 'El Mejor Servicio SUV en Los Cabos' : 'Top Rated SUV Service in Los Cabos'}
         </div>
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-neutral-900 mb-6">
-          Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-neutral-900">
-            Cabo Airport SUV Service
-          </span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-500 to-neutral-900">{lang === 'es' ? 'Shuttle y Traslados Aeropuerto Los Cabos (SJD)' : 'Los Cabos Airport (SJD) Shuttle & Transfers'}</span>
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-neutral-600 max-w-2xl mx-auto">
           {lang === 'es'

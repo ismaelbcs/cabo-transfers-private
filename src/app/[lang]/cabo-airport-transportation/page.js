@@ -30,8 +30,9 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function CaboTransportationPage({ params }) {
-  const lang = params?.lang || 'en';
+export default async function CaboTransportationPage({ params }) {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">

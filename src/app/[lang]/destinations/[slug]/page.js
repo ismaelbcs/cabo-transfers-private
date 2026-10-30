@@ -23,6 +23,10 @@ import CustomerPhotosWidget from '../../../../components/CustomerPhotosWidget';
 // 🏨 BASE DE DATOS DE HOTELES (LANDING PAGES SEO)
 // =========================================================
 export const landingPagesSEO = [
+  { slug: 'sjd-to-pedregal', nombre: 'Pedregal Cabo San Lucas', zona: 3, zonaText: 'Cabo San Lucas', tiempo: '45-50 min', dist: '44 km', image: 'hotel/sjd-to-pedregal-manor.webp', desc: 'exclusive luxury hillside community in Cabo San Lucas', mapQuery: 'Pedregal, Cabo San Lucas, Baja California Sur' },
+  { slug: 'sjd-to-villa-la-valencia', nombre: 'Villa La Valencia Beach Resort', zona: 2, zonaText: 'Corredor Turístico', tiempo: '25-30 min', dist: '25 km', image: 'villa-la-valencia-airport-los-cabos-sjd.webp', desc: 'luxury beachfront resort in Los Cabos corridor', mapQuery: 'Villa La Valencia, Los Cabos, Baja California Sur' },
+  { slug: 'sjd-to-pueblo-bonito-pacifica', nombre: 'Pueblo Bonito Pacífica Golf & Spa Resort', zona: 4, zonaText: 'Pacífico Cabo San Lucas', tiempo: '50-55 min', dist: '48 km', image: 'pueblo-bonito-pacifica-airport-sjd.webp', desc: 'adults-only oceanfront luxury resort in Pacific Cabo', mapQuery: 'Pueblo Bonito Pacifica, Cabo San Lucas' },
+  { slug: 'sjd-to-grand-velas', nombre: 'Grand Velas Los Cabos', zona: 2, zonaText: 'Corredor Turístico', tiempo: '30-35 min', dist: '30 km', image: 'grand-velas-los-cabos-airport-sjd.webp', desc: 'world-class all-inclusive luxury resort in Los Cabos', mapQuery: 'Grand Velas Los Cabos' },
   // ================= ZONA 1 =================
   { slug: 'sjd-to-alegranza', nombre: 'Alegranza Luxury Resort', zona: 1, zonaText: 'San José del Cabo', tiempo: '20-25 min', dist: '14 km', image: 'alegranza-airport-sjd.webp', desc: 'premier luxury living' },
   { slug: 'sjd-to-barcelo-gran-faro', nombre: 'Barceló Gran Faro', zona: 1, zonaText: 'San José del Cabo', tiempo: '20-25 min', dist: '16 km', image: 'barcelo-gran-faro-airport-sjd.webp', desc: 'a magnificent all-inclusive resort' },

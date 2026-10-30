@@ -2,7 +2,8 @@
 'use client';
 
 // 1. IMPORTAMOS 'use' AQUÍ
-import { useEffect, useState, use } from 'react'; 
+import { use } from 'react';
+import Link from 'next/link'; 
 import { useRouter } from 'next/navigation';
 import { CheckCircle, ChevronRight } from 'lucide-react';
 
@@ -17,33 +18,23 @@ export default function TourLandingPage({ params }) {
   const slug = resolvedParams.slug;
 
   const router = useRouter();
-  const [cargando, setCargando] = useState(true);
-  const [tourSEO, setTourSEO] = useState(null);
-  const [tourDB, setTourDB] = useState(null);
-  
   const { setReserva, setServicioSeleccionado, setImagenTourDestacada, setPaso } = useBooking();
 
-  useEffect(() => {
-    // Si por alguna razón el slug no ha cargado, no hacemos nada
-    if (!slug) return;
+  // Resolución síncrona en SSR para que Googlebot reciba el HTML completo sin depender de useEffect
+  const tourSEO = toursLandingPages.find(t => t.slug === slug);
+  const tourDB = toursData.find(t => t.slug === slug);
 
-    // 2. Buscamos el tour exacto usando el "slug" de la URL
-    const infoSEO = toursLandingPages.find(t => t.slug === slug);
-    const infoDB = toursData.find(t => t.slug === slug);
-    
-    if (infoSEO && infoDB) {
-      setTourSEO(infoSEO);
-      setTourDB(infoDB);
-      setCargando(false);
-    } else {
-      // 3. Si escriben una URL falsa, los regresamos a la Home respetando su idioma
-      router.push(`/${lang}`);
-    }
-  }, [slug, lang, router]);
-
-  // Pantalla de carga mientras busca los datos
-  if (cargando) {
-    return <div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900"></div></div>;
+  if (!tourSEO || !tourDB) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6 text-center">
+        <h1 className="text-3xl font-bold text-slate-900 mb-4">
+          {lang === 'es' ? 'Tour no encontrado' : 'Tour not found'}
+        </h1>
+        <Link href={`/${lang}/tours`} className="text-blue-600 font-bold hover:underline">
+          {lang === 'es' ? 'Ver catálogo de tours' : 'Browse all tours'}
+        </Link>
+      </div>
+    );
   }
 
   return (

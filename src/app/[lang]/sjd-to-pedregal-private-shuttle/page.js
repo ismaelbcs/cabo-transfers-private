@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
     return generatePageMetadata({
       lang: 'es',
       path: '/sjd-to-pedregal-private-shuttle',
-      title: "SJD to Pedregal Private Shuttle | CABO PRIVATE TRANSPORTATION",
+      title: "Shuttle Privado de Aeropuerto SJD a Pedregal Cabo San Lucas | Traslados VIP",
       description: "Transporte privado y seguro. Reserva el mejor sjd to pedregal private shuttle para el inicio perfecto de tu viaje a Pedregal, Cabo San Lucas.",
       keywords: "sjd to pedregal private shuttle"
     });
@@ -30,8 +30,9 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function SJDToPedregalPrivateShuttlePage({ params }) {
-    const lang = params?.lang || 'en';
+export default async function SJDToPedregalPrivateShuttlePage({ params }) {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
 
     return (
         <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">

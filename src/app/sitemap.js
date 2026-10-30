@@ -8,7 +8,7 @@ export default function sitemap() {
   // Idiomas soportados
   const languages = ['en', 'es'];
 
-  // 1. Rutas principales y páginas de servicios clave
+  // 1. Rutas principales y páginas canónicas clave (excluyendo alias re-exportados para evitar conflictos de canonical en GSC)
   const mainRoutes = [
     '', // Página de inicio
     '/transfers', // Centro de traslados entre hoteles y zonas
@@ -22,24 +22,10 @@ export default function sitemap() {
     '/weddings', // Transporte para bodas y eventos
     '/golf', // Traslados a campos de golf
     '/yachts', // Renta exclusiva de yates de lujo en Los Cabos (Capella 116ft)
-    '/luxury-yacht-charter-cabo-san-lucas-capella', // Landing SEO yate de lujo Capella 116ft
-    '/cabo-yacht-charters', // Renta de yates de lujo en Cabo San Lucas
-    '/yachts/capella', // Yate Capella 116ft Azimut-Benetti
     '/yachts/contessa', // Yate Contessa 85ft Her Shine Marine
-    '/cabo-yacht-charters-contessa', // Renta de yate Contessa 85ft en Cabo San Lucas
-    '/luxury-yacht-charter-cabo-san-lucas-contessa', // Landing SEO yate de lujo Contessa 85ft
-    '/luxury-sportfishing-yacht-charter-cabo-contessa', // Landing SEO pesca deportiva de lujo Contessa 85ft
     '/yachts/sovereign', // Superyate Sovereign 130ft
-    '/cabo-yacht-charters-sovereign', // Renta de superyate Sovereign 130ft en Cabo San Lucas
-    '/luxury-yacht-charter-cabo-san-lucas-sovereign', // Landing SEO superyate de lujo Sovereign 130ft
-    '/luxury-sportfishing-yacht-charter-cabo-sovereign', // Landing SEO pesca deportiva en superyate Sovereign 130ft
     '/yachts/aquaholic', // Yate de lujo Aquaholic 110ft Horizon
-    '/cabo-yacht-charters-aquaholic', // Renta de yate Aquaholic 110ft en Cabo San Lucas
-    '/luxury-yacht-charter-cabo-san-lucas-aquaholic', // Landing SEO yate de lujo Aquaholic 110ft
     '/yachts/papillon-9', // Yate Negro 80ft Sunseeker Manhattan Papillon 9
-    '/cabo-yacht-charters-papillon-9', // Renta de Yate Negro 80ft Sunseeker Papillon 9 en Cabo San Lucas
-    '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80', // Landing SEO Black Yacht Sunseeker 80ft
-    '/luxury-sportfishing-yacht-charter-cabo-papillon-9', // Landing SEO pesca deportiva y lujo Papillon 9 80ft
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
@@ -83,7 +69,6 @@ export default function sitemap() {
   ]));
 
   // 4. Rutas de destinos y hoteles (sincronizadas dinámicamente sin duplicados)
-  // Incluye hoteles estáticos con ruta propia y todos los de landingPagesSEO
   const staticDestinations = ['sjd-to-pedregal'];
   const destinationRoutes = Array.from(new Set([
     ...staticDestinations,
@@ -110,24 +95,10 @@ export default function sitemap() {
     '/weddings',
     '/golf',
     '/yachts',
-    '/cabo-yacht-charters',
-    '/luxury-yacht-charter-cabo-san-lucas-capella',
-    '/yachts/capella',
     '/yachts/contessa',
-    '/cabo-yacht-charters-contessa',
-    '/luxury-yacht-charter-cabo-san-lucas-contessa',
-    '/luxury-sportfishing-yacht-charter-cabo-contessa',
     '/yachts/sovereign',
-    '/cabo-yacht-charters-sovereign',
-    '/luxury-yacht-charter-cabo-san-lucas-sovereign',
-    '/luxury-sportfishing-yacht-charter-cabo-sovereign',
     '/yachts/aquaholic',
-    '/cabo-yacht-charters-aquaholic',
-    '/luxury-yacht-charter-cabo-san-lucas-aquaholic',
-    '/yachts/papillon-9',
-    '/cabo-yacht-charters-papillon-9',
-    '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80',
-    '/luxury-sportfishing-yacht-charter-cabo-papillon-9'
+    '/yachts/papillon-9'
   ]);
 
   // Rutas legales / secundarias con menor prioridad
@@ -138,7 +109,7 @@ export default function sitemap() {
     '/agencies'
   ]);
 
-  // Juntamos todas las rutas únicas
+  // Juntamos todas las rutas únicas canónicas (656 rutas x 2 idiomas = 1,312 URLs exactas)
   const allPaths = Array.from(new Set([
     ...mainRoutes,
     ...serviceRoutes,

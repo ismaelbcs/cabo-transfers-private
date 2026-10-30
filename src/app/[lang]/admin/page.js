@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Lock, LogOut, Percent, ShieldCheck } from 'lucide-react';
 import HeroBooking from '../../../components/HeroBooking';
 import { useBooking } from '../../../context/BookingContext';
@@ -161,6 +162,9 @@ export default function AdminPage({ params }) {
                 {isDiscountActive ? 'Descuento Activo ✓' : 'Aplicar Descuento'}
               </button>
             </div>
+            <Link href={`/${lang}/admin/seo`} className="px-5 py-3 bg-[#003865] hover:bg-[#00284b] text-white rounded-xl font-bold text-sm transition-colors shadow-sm whitespace-nowrap">
+              Panel Indexación SEO (GSC)
+            </Link>
             
             <button 
               onClick={handleLogout}

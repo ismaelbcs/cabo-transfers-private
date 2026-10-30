@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
     return generatePageMetadata({
       lang: 'es',
       path: '/san-jose-del-cabo-airport-transportation',
-      title: "San Jose del Cabo Airport Transportation | CABO PRIVATE TRANSPORTATION",
+      title: "Transporte Privado en Aeropuerto de San José del Cabo (SJD) | Cabo Shuttle",
       description: "Transporte privado y seguro. Reserva el mejor san jose del cabo airport transportation para el inicio perfecto de tu viaje a Los Cabos.",
       keywords: "san jose del cabo airport transportation"
     });
@@ -30,8 +30,9 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function SanJoseDelCaboAirportTransportationPage({ params }) {
-    const lang = params?.lang || 'en';
+export default async function SanJoseDelCaboAirportTransportationPage({ params }) {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
 
     return (
         <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 font-sans selection:bg-neutral-200">
