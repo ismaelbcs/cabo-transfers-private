@@ -33,6 +33,9 @@ export default function sitemap() {
     '/cabo-yacht-charters-sovereign', // Renta de superyate Sovereign 130ft en Cabo San Lucas
     '/luxury-yacht-charter-cabo-san-lucas-sovereign', // Landing SEO superyate de lujo Sovereign 130ft
     '/luxury-sportfishing-yacht-charter-cabo-sovereign', // Landing SEO pesca deportiva en superyate Sovereign 130ft
+    '/yachts/aquaholic', // Yate de lujo Aquaholic 110ft Horizon
+    '/cabo-yacht-charters-aquaholic', // Renta de yate Aquaholic 110ft en Cabo San Lucas
+    '/luxury-yacht-charter-cabo-san-lucas-aquaholic', // Landing SEO yate de lujo Aquaholic 110ft
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
@@ -113,7 +116,10 @@ export default function sitemap() {
     '/yachts/sovereign',
     '/cabo-yacht-charters-sovereign',
     '/luxury-yacht-charter-cabo-san-lucas-sovereign',
-    '/luxury-sportfishing-yacht-charter-cabo-sovereign'
+    '/luxury-sportfishing-yacht-charter-cabo-sovereign',
+    '/yachts/aquaholic',
+    '/cabo-yacht-charters-aquaholic',
+    '/luxury-yacht-charter-cabo-san-lucas-aquaholic'
   ]);
 
   // Rutas legales / secundarias con menor prioridad
