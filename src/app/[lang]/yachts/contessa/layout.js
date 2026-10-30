@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
         "paseo en yate mar de cortes",
         "renta de yate 85 pies cabo san lucas"
       ],
-      image: '/yachts/capella-exterior-cruising.jpg'
+      image: '/yachts/contessa/contessa-1.jpg'
     });
   }
 
@@ -56,7 +56,7 @@ export default async function Layout({ children, params }) {
         "@type": "Product",
         "@id": `${BASE_URL}/${lang}/yachts/contessa#product`,
         "name": isEs ? "Renta de Yate de Lujo Contessa 85ft Her Shine Marine" : "85ft Her Shine Marine Contessa Luxury Yacht Charter",
-        "image": `${BASE_URL}/yachts/capella-exterior-profile.jpg`,
+        "image": `${BASE_URL}/yachts/contessa/contessa-1.jpg`,
         "description": isEs 
           ? "Yate de lujo de 85 pies Her Shine Marine Contessa en Cabo San Lucas con 4 camarotes en suite, comedor al aire libre, cubierta superior sombreada, 4 paddleboards, equipo de pesca stand-up y menú todo incluido."
           : "85ft Her Shine Marine Contessa luxury charter yacht in Cabo San Lucas featuring 4 en-suite staterooms, al fresco aft dining, shaded upper deck, 4 stand-up paddleboards, stand-up fishing gear, and all-inclusive dining.",

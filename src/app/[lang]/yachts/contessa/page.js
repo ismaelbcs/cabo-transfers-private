@@ -192,66 +192,263 @@ export default function ContessaYachtPage({ params }) {
   const [inquiryEnviado, setInquiryEnviado] = useState(false);
 
   // ==========================================
-  // GALERÍA DE FOTOS DEL YATE CONTESSA 85FT
-  // (Se actualizará con las imágenes del barco que suba el usuario)
+  // FOTOS REALES DEL YATE CONTESSA 85FT (28 FOTOS DE ALTA RESOLUCIÓN)
   // ==========================================
   const [fotoActiva, setFotoActiva] = useState(0);
   const [lightboxAbierto, setLightboxAbierto] = useState(false);
 
   const fotosGaleria = [
     {
-      src: '/yachts/capella-aerial-overview.jpg',
-      titleEn: '85ft Her Shine Marine "Contessa" Cruising the Sea of Cortez',
-      titleEs: 'Yate Contessa de 85ft Her Shine Marine Navegando el Mar de Cortés',
-      descEn: 'Spacious and impeccably maintained 85ft luxury charter yacht, ideal for exploring Cabo San Lucas and the Sea of Cortez.',
-      descEs: 'Espacioso e impecablemente mantenido yate de lujo de 85 pies, ideal para explorar Cabo San Lucas y el Mar de Cortés.',
+      src: '/yachts/contessa/contessa-1.jpg',
+      titleEn: 'Aerial View of 85ft Her Shine Marine "Contessa" Cruising the Sea of Cortez',
+      titleEs: 'Vista Aérea del Yate Contessa de 85ft Navegando en el Mar de Cortés',
+      descEn: 'Spacious and impeccably maintained 85ft luxury charter yacht cruising the deep blue waters of Cabo San Lucas.',
+      descEs: 'Espacioso e impecablemente mantenido yate de lujo de 85 pies navegando las aguas azules de Cabo San Lucas.',
       labelEn: 'Aerial View',
       labelEs: 'Vista Aérea'
     },
     {
-      src: '/yachts/capella-aft-deck-dining.jpg',
-      titleEn: 'Ample Aft Deck with Al Fresco Dining & Double Swim Platform Stairs',
-      titleEs: 'Amplia Cubierta de Popa para Comedor al Aire Libre y Doble Escalera',
-      descEn: 'Double stairs lead from the swim platform up to the ample aft deck, perfect for al fresco dining with family and friends.',
-      descEs: 'Dobles escaleras conducen desde la plataforma de nado hacia la amplia cubierta de popa, perfecta para comer al aire libre.',
+      src: '/yachts/contessa/contessa-2.jpg',
+      titleEn: '85ft Contessa Anchored in Crystal-Clear Baja Waters',
+      titleEs: 'Contessa 85ft Anclado en las Aguas Cristalinas de Baja California Sur',
+      descEn: 'Elevated three-quarter view showcasing Contessa’s wide beam, walk-around deck, and bow sunbathing lounge.',
+      descEs: 'Vista elevada mostrando la amplia manga del Contessa, su pasillo walk-around completo y el asoleadero de proa.',
+      labelEn: 'Profile View',
+      labelEs: 'Perfil'
+    },
+    {
+      src: '/yachts/contessa/contessa-3.jpg',
+      titleEn: 'Aerial Stern View with 4 Stand-Up Paddleboards & Floating Island',
+      titleEs: 'Vista Aérea de Popa con 4 Tablas de Paddleboard y Tapete Flotante',
+      descEn: 'Double stairs lead from the teak swim platform to the aft dining deck, with 4 SUP boards and floating mat deployed.',
+      descEs: 'Dobles escaleras desde la plataforma de nado hacia el comedor de popa, con 4 tablas SUP y tapete flotante en el mar.',
+      labelEn: 'Water Toys',
+      labelEs: 'Juguetes'
+    },
+    {
+      src: '/yachts/contessa/contessa-4.jpg',
+      titleEn: 'Top-Down Aerial View of 85ft Contessa & Water Toys',
+      titleEs: 'Vista Cenital del Yate Contessa 85ft y Equipo Acuático',
+      descEn: 'Bird’s-eye perspective of Contessa’s generous deck layout anchored in a turquoise Sea of Cortez cove.',
+      descEs: 'Perspectiva cenital de la amplia distribución de cubiertas del Contessa anclado en una bahía turquesa.',
+      labelEn: 'Top-Down',
+      labelEs: 'Cenital'
+    },
+    {
+      src: '/yachts/contessa/contessa-5.jpg',
+      titleEn: 'Professional Contessa Crew on the Swim Platform at Land’s End',
+      titleEs: 'Tripulación Profesional del Contessa Frente al Arco de Cabo San Lucas',
+      descEn: 'Dedicated bilingual crew ready to welcome you aboard with El Arco and Land’s End in the background.',
+      descEs: 'Tripulación profesional lista para darte la bienvenida a bordo con las rocas del Finisterra y el Arco de fondo.',
+      labelEn: 'Crew & Arch',
+      labelEs: 'Tripulación'
+    },
+    {
+      src: '/yachts/contessa/contessa-6.jpg',
+      titleEn: 'Teak Swim Platform with Snorkel Gear & Stand-Up Paddleboards',
+      titleEs: 'Plataforma de Nado en Teca con Equipo de Esnórquel y Tablas SUP',
+      descEn: 'Easy water access from the teak swim platform outfitted with snorkel fins, masks, towels, and paddleboards.',
+      descEs: 'Acceso cómodo al mar desde la plataforma de teca equipada con aletas, visores de esnórquel, toallas y tablas SUP.',
+      labelEn: 'Swim Deck',
+      labelEs: 'Plataforma'
+    },
+    {
+      src: '/yachts/contessa/contessa-7.jpg',
+      titleEn: 'Aft Deck Al Fresco Dining with Land’s End Arch View',
+      titleEs: 'Comedor Al Fresco en Cubierta de Popa con Vista al Arco',
+      descEn: 'Ample aft deck dining table beautifully set for al fresco meals with panoramic views of Land’s End.',
+      descEs: 'Amplia mesa en la cubierta de popa decorada para cenas al aire libre con vista panorámica al Arco.',
       labelEn: 'Aft Dining',
       labelEs: 'Comedor Popa'
     },
     {
-      src: '/yachts/capella-main-salon.jpg',
-      titleEn: 'Open-Plan Salon with Fine Cherry Wood & Leather Crescent Sofas',
-      titleEs: 'Salón de Concepto Abierto con Madera de Cerezo y Sofás de Piel',
-      descEn: 'Two crescent-shaped leather sofas, fine cherry wood interior, U-shaped dinette, formal dining for 8, and 55" curved HD TV.',
-      descEs: 'Dos sofás curvos encontrados en piel fina, interior de madera de cerezo, comedor formal para 8 y pantalla curva HD de 55".',
-      labelEn: 'Main Salon',
-      labelEs: 'Salón Principal'
+      src: '/yachts/contessa/contessa-8.jpg',
+      titleEn: 'Spacious Covered Aft Deck & Twin Curved Stairways',
+      titleEs: 'Amplia Cubierta de Popa Techada y Escaleras Curvas Gemelas',
+      descEn: 'Teak dining table for 10 guests flanked by twin curved stairs leading up to the shaded upper deck.',
+      descEs: 'Mesa de teca en popa flanqueada por las dos escaleras curvas que suben a la cubierta superior.',
+      labelEn: 'Aft Deck',
+      labelEs: 'Cubierta Popa'
     },
     {
-      src: '/yachts/capella-flybridge-sky-lounge.jpg',
-      titleEn: 'Shaded Upper Deck Accessed by Twin Curved Stairs',
-      titleEs: 'Cubierta Superior Sombreada con Acceso por Doble Escalera Curva',
-      descEn: 'Ample upper deck offering abundant shade, refreshing sea breeze, and Fusion surround sound system.',
-      descEs: 'Amplia cubierta superior con abundante sombra, brisa marina refrescante y sonido envolvente Fusion.',
+      src: '/yachts/contessa/contessa-9.jpg',
+      titleEn: 'Oceanfront Al Fresco Dining Table on the Aft Deck',
+      titleEs: 'Mesa de Comedor Al Aire Libre Frente al Mar de Cortés',
+      descEn: 'Enjoy custom multi-course meals prepared fresh onboard while anchored off Cabo’s scenic beaches.',
+      descEs: 'Disfruta de menús personalizados preparados al momento mientras contemplas las playas de Los Cabos.',
+      labelEn: 'Ocean Dining',
+      labelEs: 'Mesa Popa'
+    },
+    {
+      src: '/yachts/contessa/contessa-10.jpg',
+      titleEn: 'Signature Welcome Cocktails Served Onboard Contessa',
+      titleEs: 'Cócteles de Bienvenida Servidos por la Tripulación del Contessa',
+      descEn: 'Refreshing handcrafted cocktails and all-inclusive premium open bar service throughout your charter.',
+      descEs: 'Cócteles artesanales refrescantes y barra libre premium todo incluido durante toda tu navegación.',
+      labelEn: 'Cocktails',
+      labelEs: 'Cócteles'
+    },
+    {
+      src: '/yachts/contessa/contessa-11.jpg',
+      titleEn: 'Twin Curved Stairs from Aft Deck to Upper Flybridge',
+      titleEs: 'Escaleras Curvas Gemelas desde la Popa hacia el Flybridge',
+      descEn: 'Architectural twin curved teak stairs provide effortless access to Contessa’s shaded upper deck.',
+      descEs: 'Escaleras curvas con escalones de teca que brindan un acceso cómodo y elegante a la cubierta superior.',
+      labelEn: 'Curved Stairs',
+      labelEs: 'Escaleras'
+    },
+    {
+      src: '/yachts/contessa/contessa-12.jpg',
+      titleEn: 'Custom Teak Spiral Staircase to Upper Deck',
+      titleEs: 'Detalle de Escalera Curva en Teca y Acero Inoxidable',
+      descEn: 'Impeccably maintained teak decking and stainless steel handrails leading up to the flybridge lounge.',
+      descEs: 'Acabados impecables en cubierta de teca y pasamanos de acero inoxidable hacia la terraza superior.',
+      labelEn: 'Upper Access',
+      labelEs: 'Acceso Sup.'
+    },
+    {
+      src: '/yachts/contessa/contessa-13.jpg',
+      titleEn: 'Upper Deck Aft Sunbed & Lounge Overlooking the Bay',
+      titleEs: 'Asoleadero y Sala Lounge en Cubierta Superior Frente a la Bahía',
+      descEn: 'Plush aft sunbed and wrap-around seating on the upper deck with commanding views of the Sea of Cortez.',
+      descEs: 'Cama lounge y asientos envolventes en la popa de la cubierta superior con vistas dominantes de la bahía.',
+      labelEn: 'Aft Sunbed',
+      labelEs: 'Lounge Popa'
+    },
+    {
+      src: '/yachts/contessa/contessa-14.jpg',
+      titleEn: 'Ample Shaded Upper Deck Lounge & Congregation Spot',
+      titleEs: 'Amplia Cubierta Superior Sombreada y Punto de Reunión',
+      descEn: 'Abundant shade, refreshing sea breeze, cushioned sofas, and Fusion surround sound speakers.',
+      descEs: 'Abundante sombra, brisa marina refrescante, amplios sillones y sistema de sonido envolvente Fusion.',
       labelEn: 'Upper Deck',
-      labelEs: 'Cubierta Sup.'
+      labelEs: 'Terraza Sup.'
     },
     {
-      src: '/yachts/capella-bow-lounge-terrace.jpg',
-      titleEn: 'Tranquil Bow Sunbathing Area & Walk-Around Deck',
-      titleEs: 'Tranquilo Asoleadero en Proa y Cubierta Walk-Around Completa',
-      descEn: 'Complete walk-around deck with high gunwale and a tranquil sunbathing sanctuary on Contessa’s bow.',
-      descEs: 'Cubierta walk-around completa con borda alta y una tranquila zona para tomar el sol en la proa del Contessa.',
-      labelEn: 'Bow Sunbed',
+      src: '/yachts/contessa/contessa-15.jpg',
+      titleEn: 'Flybridge Lounge & Helm with Land’s End Arch on the Horizon',
+      titleEs: 'Sala Flybridge y Puente de Mando con el Arco en el Horizonte',
+      descEn: 'Where guests naturally migrate to enjoy 360-degree views of Cabo San Lucas and refreshing ocean breezes.',
+      descEs: 'El lugar favorito de los invitados para disfrutar de vistas de 360° de Cabo San Lucas y la brisa del mar.',
+      labelEn: 'Flybridge',
+      labelEs: 'Flybridge'
+    },
+    {
+      src: '/yachts/contessa/contessa-16.jpg',
+      titleEn: 'Upper Deck L-Shaped Lounge & Cocktail Table',
+      titleEs: 'Sala en L y Mesa de Cócteles en la Cubierta Superior',
+      descEn: 'Spacious cushioned seating area on the flybridge ideal for socializing with family and friends.',
+      descEs: 'Espaciosa sala acolchonada en el flybridge ideal para convivir con familia y amigos.',
+      labelEn: 'Sky Lounge',
+      labelEs: 'Sky Lounge'
+    },
+    {
+      src: '/yachts/contessa/contessa-17.jpg',
+      titleEn: 'Dual Captain’s Helm Chairs & Shaded Flybridge Seating',
+      titleEs: 'Sillas Gemelas de Capitán y Área Social Sombreada en Flybridge',
+      descEn: 'Full electronics, Radar, and Simrad Sonar at the helm station right next to the guest lounge.',
+      descEs: 'Electrónica completa, Radar y Sonar Simrad en el puente de mando junto a la sala de invitados.',
+      labelEn: 'Helm & Lounge',
+      labelEs: 'Mando y Sala'
+    },
+    {
+      src: '/yachts/contessa/contessa-18.jpg',
+      titleEn: 'Tranquil Bow Sunbathing Area with Custom Cushions',
+      titleEs: 'Tranquilo Asoleadero en Proa con Cojines de Diseño',
+      descEn: 'Plush sunbeds and drink holders on Contessa’s bow for soaking up the Baja sun.',
+      descEs: 'Cómodos camastros y portavasos en la proa del Contessa para disfrutar del sol de Baja California.',
+      labelEn: 'Bow Sunpad',
       labelEs: 'Proa'
     },
     {
-      src: '/yachts/capella-master-stateroom.jpg',
-      titleEn: 'Full-Beam Master & VIP Staterooms with Queen Beds',
-      titleEs: 'Camarotes Master y VIP Full-Beam con Camas Queen y Baño Privado',
-      descEn: 'Full-beam master stateroom with queen bed, walk-in closet, and large shower, plus full-beam aft VIP suite and two twin cabins.',
-      descEs: 'Camarote principal de manga completa con cama queen y vestidor, más suite VIP en popa y dos camarotes twin con baño propio.',
-      labelEn: 'Staterooms',
-      labelEs: 'Camarotes'
+      src: '/yachts/contessa/contessa-19.jpg',
+      titleEn: 'Two-Tiered Bow Sunbed & Forward Bench Lounge',
+      titleEs: 'Asoleadero de Dos Niveles y Banca Frontal en Proa',
+      descEn: 'Complete walk-around deck with high gunwales leading to the expansive forward sunbathing sanctuary.',
+      descEs: 'Pasillo perimetral walk-around con borda alta que conduce al amplio santuario de sol en proa.',
+      labelEn: 'Bow Lounge',
+      labelEs: 'Sala Proa'
+    },
+    {
+      src: '/yachts/contessa/contessa-20.jpg',
+      titleEn: 'VIP Bow Relaxation & Attentive Stewardess Service',
+      titleEs: 'Relajación VIP en Proa con Atención Personalizada',
+      descEn: 'Unwind on the forward sunpad while our crew serves chilled cocktails at sea.',
+      descEs: 'Relájate en el asoleadero frontal mientras nuestra tripulación sirve bebidas frescas en altamar.',
+      labelEn: 'VIP Service',
+      labelEs: 'Servicio VIP'
+    },
+    {
+      src: '/yachts/contessa/contessa-21.jpg',
+      titleEn: 'Large Open-Plan Salon with Crescent-Shaped Leather Sofas',
+      titleEs: 'Gran Salón de Concepto Abierto con Sofás Curvos de Piel Fina',
+      descEn: 'Two crescent-shaped fine leather sofas face each other, offsetting the cherry wood interior and lavish carpet.',
+      descEs: 'Dos sofás en media luna de piel fina frente a frente, realzando el interior de madera de cerezo y alfombra de lujo.',
+      labelEn: 'Main Salon',
+      labelEs: 'Salón'
+    },
+    {
+      src: '/yachts/contessa/contessa-22.jpg',
+      titleEn: 'U-Shaped Dinette & Fine Cherry Wood Interior',
+      titleEs: 'Antecomedor en Forma de U e Interior en Madera de Cerezo',
+      descEn: 'Elevated U-shaped dinette beyond the living area crafted in polished cherry wood and leather seating.',
+      descEs: 'Antecomedor en forma de U más allá de la sala de estar, elaborado en madera de cerezo pulida y piel.',
+      labelEn: 'Dinette',
+      labelEs: 'Antecomedor'
+    },
+    {
+      src: '/yachts/contessa/contessa-23.jpg',
+      titleEn: 'Formal Indoor Dining Area for Eight & 55" Curved HD TV',
+      titleEs: 'Comedor Formal Interior para Ocho Personas y TV Curva HD de 55"',
+      descEn: 'Formal dining table for eight across from the dinette, complete with a new 55-inch curved satellite HD TV.',
+      descEs: 'Comedor formal para ocho comensales frente al antecomedor, equipado con pantalla curva HD de 55" con TV satelital.',
+      labelEn: 'Formal Dining',
+      labelEs: 'Comedor Int.'
+    },
+    {
+      src: '/yachts/contessa/contessa-24.jpg',
+      titleEn: 'Fresh Welcome Towels & Cocktails in the Air-Conditioned Salon',
+      titleEs: 'Toallas Frescas y Cócteles de Bienvenida en el Salón Climatizado',
+      descEn: 'Step into the cool, air-conditioned salon with chilled towels and freshly prepared tropical drinks.',
+      descEs: 'Ingresa al salón climatizado donde te esperan toallas frescas y bebidas tropicales recién preparadas.',
+      labelEn: 'Hospitality',
+      labelEs: 'Hospitalidad'
+    },
+    {
+      src: '/yachts/contessa/contessa-25.jpg',
+      titleEn: 'Full-Beam Master Stateroom with Queen Bed & Walk-In Closet',
+      titleEs: 'Camarote Principal Master Full-Beam con Cama Queen y Vestidor',
+      descEn: 'Spacious full-beam master suite on the lower deck featuring a queen bed, vanity desk, walk-in closet, and large shower.',
+      descEs: 'Amplia suite principal de manga completa con cama Queen, escritorio tocador, vestidor walk-in y gran regadera.',
+      labelEn: 'Master Suite',
+      labelEs: 'Suite Master'
+    },
+    {
+      src: '/yachts/contessa/contessa-26.jpg',
+      titleEn: 'Forward Guest Stateroom with Twin Beds & Private Bathroom',
+      titleEs: 'Camarote de Invitados en Proa con Camas Twin y Baño Privado',
+      descEn: 'Comfortable twin-bed stateroom with cherry wood cabinetry, flat-screen TV, and private bathroom with shower.',
+      descEs: 'Cómodo camarote con dos camas individuales, ebanistería en cerezo, pantalla de TV y baño propio con regadera.',
+      labelEn: 'Twin Cabin 1',
+      labelEs: 'Suite Twin 1'
+    },
+    {
+      src: '/yachts/contessa/contessa-27.jpg',
+      titleEn: 'Full-Beam Aft VIP Stateroom with Queen Bed & En-Suite Shower',
+      titleEs: 'Suite VIP Full-Beam en Popa con Cama Queen y Baño Privado',
+      descEn: 'Situated aft, the full-beam VIP stateroom offers a queen bed, rich wood finishes, and a private bathroom with shower.',
+      descEs: 'Situada en popa, la suite VIP de manga completa ofrece cama Queen, finos acabados en madera y baño con regadera.',
+      labelEn: 'VIP Suite',
+      labelEs: 'Suite VIP'
+    },
+    {
+      src: '/yachts/contessa/contessa-28.jpg',
+      titleEn: 'Second Forward Twin Stateroom with En-Suite Bathroom',
+      titleEs: 'Segundo Camarote Twin en Proa con Baño y Regadera Propia',
+      descEn: 'One of four private staterooms onboard Contessa, ideal for families and overnight Sea of Cortez voyages.',
+      descEs: 'Uno de los cuatro camarotes con baño privado a bordo del Contessa, ideal para familias y travesías de varios días.',
+      labelEn: 'Twin Cabin 2',
+      labelEs: 'Suite Twin 2'
     }
   ];
 
@@ -582,8 +779,8 @@ export default function ContessaYachtPage({ params }) {
               </div>
             </div>
 
-            {/* MINIATURAS INTERACTIVAS */}
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {/* MINIATURAS INTERACTIVAS (28 FOTOS REALES DEL CONTESSA) */}
+            <div className="grid grid-cols-4 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-14 gap-1.5 sm:gap-2">
               {fotosGaleria.map((foto, idx) => (
                 <button
                   key={idx}
