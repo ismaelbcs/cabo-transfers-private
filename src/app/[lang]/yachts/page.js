@@ -929,130 +929,161 @@ export default function YachtsPage({ params }) {
             </div>
 
             {/* Cuadrito Interactivo para Modificar el Paquete */}
-            <div className="bg-blue-50/80 border-2 border-blue-200 rounded-2xl p-3 sm:p-4 text-left sm:text-right min-w-[280px] shadow-2xs">
+            <div className="bg-blue-50/80 border-2 border-blue-200 rounded-2xl p-3.5 sm:p-4 w-full md:w-auto md:min-w-[340px] lg:min-w-[380px] shadow-2xs shrink-0">
               <label htmlFor="select-paquete-cuadrito" className="text-[11px] text-blue-900 font-extrabold uppercase tracking-wider block mb-1.5 flex items-center justify-between sm:justify-end gap-1.5">
                 <span>{isEs ? 'Modificar Paquete Activo' : 'Active Package (Change)'}</span>
                 <ChevronDown size={14} className="text-blue-900 shrink-0" />
               </label>
-              <select 
-                id="select-paquete-cuadrito"
-                value={paqueteSeleccionado.id} 
-                onChange={(e) => {
-                  const selected = paquetes.find(p => p.id === e.target.value);
-                  if (selected) {
-                    setPaqueteSeleccionado(selected);
-                  }
-                }}
-                className="w-full bg-white border border-blue-300 text-blue-950 font-black text-sm sm:text-base rounded-xl px-3 py-2 cursor-pointer focus:ring-2 focus:ring-blue-600 focus:outline-none shadow-xs transition hover:border-blue-500"
-              >
-                {paquetes.map((pkg) => (
-                  <option key={pkg.id} value={pkg.id}>
-                    {isEs ? pkg.nameEs : pkg.nameEn} — ${pkg.price.toLocaleString()} USD
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select 
+                  id="select-paquete-cuadrito"
+                  value={paqueteSeleccionado.id} 
+                  onChange={(e) => {
+                    const selected = paquetes.find(p => p.id === e.target.value);
+                    if (selected) {
+                      setPaqueteSeleccionado(selected);
+                    }
+                  }}
+                  className="w-full bg-white border border-blue-300 text-blue-950 font-black text-xs sm:text-sm rounded-xl px-3 py-2.5 cursor-pointer focus:ring-2 focus:ring-blue-600 focus:outline-none shadow-xs transition hover:border-blue-500"
+                >
+                  {paquetes.map((pkg) => (
+                    <option key={pkg.id} value={pkg.id}>
+                      {isEs ? pkg.nameEs : pkg.nameEn} — ${pkg.price.toLocaleString()} USD
+                    </option>
+                  ))}
+                </select>
+              </div>
               <span className="text-[10px] text-slate-500 block mt-1 font-medium sm:text-right">
                 {isEs ? 'Haz clic aquí para cambiar de opción' : 'Click here to switch package'}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {/* ======================================================== */}
+          {/* 3 COLUMNAS DEL CONFIGURADOR PERFECTAMENTE ALINEADAS      */}
+          {/* ======================================================== */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 items-start">
             
             {/* 1. Selector de Fecha */}
             <div className="flex flex-col">
-              <label className="text-xs sm:text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
-                <Calendar size={16} className="text-blue-900" />
-                {isEs ? 'Fecha de navegación' : 'Charter Date'}
-              </label>
-              <input 
-                type="date" 
-                value={charterFecha} 
-                onChange={(e) => setCharterFecha(e.target.value)} 
-                className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-900 text-slate-800 outline-none text-sm transition font-medium"
-              />
+              <div className="h-7 mb-2 flex items-center justify-between">
+                <label htmlFor="charter-fecha-input" className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5 cursor-pointer">
+                  <Calendar size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Fecha de navegación' : 'Charter Date'}</span>
+                </label>
+                <span className="text-[11px] text-slate-400 font-semibold hidden sm:inline">
+                  {isEs ? 'Seleccionar día' : 'Select day'}
+                </span>
+              </div>
+              
+              <div className="h-[52px] bg-slate-50 border border-slate-200 rounded-xl px-3.5 flex items-center focus-within:ring-2 focus-within:ring-blue-900 focus-within:border-blue-900 transition">
+                <input 
+                  id="charter-fecha-input"
+                  type="date" 
+                  value={charterFecha} 
+                  onChange={(e) => setCharterFecha(e.target.value)} 
+                  className="w-full bg-transparent text-slate-800 outline-none text-sm font-semibold cursor-pointer"
+                />
+              </div>
+
+              <p className="text-[11px] text-slate-500 mt-2 font-medium min-h-[32px] leading-tight">
+                {isEs 
+                  ? 'Elige la fecha deseada para confirmar disponibilidad.' 
+                  : 'Select desired date to check yacht availability.'
+                }
+              </p>
             </div>
 
             {/* 2. Selector de Huéspedes Totales */}
             <div className="flex flex-col">
-              <label className="text-xs sm:text-sm font-bold text-slate-700 mb-2 flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <Users size={16} className="text-blue-900" />
-                  {isEs ? 'Total de Huéspedes' : 'Total Guests'}
+              <div className="h-7 mb-2 flex items-center justify-between">
+                <span className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5 truncate">
+                  <Users size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Total de Huéspedes' : 'Total Guests'}</span>
                 </span>
-                <span className="text-xs text-blue-900 font-bold">
+                <span className="text-[11px] text-blue-900 font-bold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 shrink-0">
                   {huespedesExtra > 0 
                     ? `+${huespedesExtra} extra (+$${costoHuespedesExtra.toLocaleString()} USD)` 
-                    : (isEs ? '10 incluidos en tarifa' : '10 included in rate')}
+                    : (isEs ? '10 base incl.' : '10 base incl.')}
                 </span>
-              </label>
+              </div>
               
-              <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1.5">
+              <div className="h-[52px] flex items-center bg-slate-50 border border-slate-200 rounded-xl px-1.5 transition">
                 <button 
                   type="button"
                   onClick={() => setTotalHuespedes(prev => Math.max(1, prev - 1))}
                   disabled={totalHuespedes <= 1}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs active:scale-95 cursor-pointer"
+                  aria-label="Decrease Guests"
                 >
                   -
                 </button>
-                <div className="flex-1 text-center font-black text-base sm:text-lg text-slate-900">
+                <div className="flex-1 text-center font-black text-sm sm:text-base text-slate-900">
                   {totalHuespedes} {isEs ? 'Personas' : 'Guests'}
                 </div>
                 <button 
                   type="button"
                   onClick={() => setTotalHuespedes(prev => Math.min(20, prev + 1))}
                   disabled={totalHuespedes >= 20}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs active:scale-95 cursor-pointer"
+                  aria-label="Increase Guests"
                 >
                   +
                 </button>
               </div>
-              <span className="text-[11px] text-slate-500 mt-1 font-medium">
+
+              <p className="text-[11px] text-slate-500 mt-2 font-medium min-h-[32px] leading-tight">
                 {isEs 
-                  ? 'Tarifa cubre 10 personas. A partir de 11 suma $300 USD por persona (hasta 20).' 
-                  : 'Rate covers 10 guests. From 11+ adds $300 USD per guest (up to 20).'}
-              </span>
+                  ? 'Tarifa cubre 10 personas. A partir de 11 suma $300 USD c/u (hasta 20).' 
+                  : 'Rate covers 10 guests. From 11+ adds $300 USD each (up to 20).'
+                }
+              </p>
             </div>
 
             {/* 3. Selector de Horas Extras */}
             <div className="flex flex-col">
-              <label className="text-xs sm:text-sm font-bold text-slate-700 mb-2 flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <Clock size={16} className="text-blue-900" />
-                  {isEs ? 'Horas Extras de Chárter' : 'Extra Charter Hours'}
+              <div className="h-7 mb-2 flex items-center justify-between">
+                <span className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5 truncate">
+                  <Clock size={16} className="text-blue-900 shrink-0" />
+                  <span>{isEs ? 'Horas Extras' : 'Extra Hours'}</span>
                 </span>
-                <span className="text-xs text-blue-900 font-bold">
+                <span className="text-[11px] text-blue-900 font-bold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 shrink-0">
                   {horasExtras > 0 
                     ? `+${horasExtras}h (+$${costoHorasExtras.toLocaleString()} USD)` 
                     : '$1,600 USD/hr'}
                 </span>
-              </label>
+              </div>
 
-              <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1.5">
+              <div className="h-[52px] flex items-center bg-slate-50 border border-slate-200 rounded-xl px-1.5 transition">
                 <button 
                   type="button"
                   onClick={() => setHorasExtras(prev => Math.max(0, prev - 1))}
                   disabled={horasExtras <= 0}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs active:scale-95 cursor-pointer"
+                  aria-label="Decrease Extra Hours"
                 >
                   -
                 </button>
-                <div className="flex-1 text-center font-black text-base sm:text-lg text-slate-900">
+                <div className="flex-1 text-center font-black text-sm sm:text-base text-slate-900">
                   {horasExtras} {isEs ? 'Horas Extra' : 'Extra Hours'}
                 </div>
                 <button 
                   type="button"
                   onClick={() => setHorasExtras(prev => Math.min(12, prev + 1))}
                   disabled={horasExtras >= 12}
-                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs"
+                  className="w-10 h-10 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center text-slate-800 transition font-bold shadow-2xs active:scale-95 cursor-pointer"
+                  aria-label="Increase Extra Hours"
                 >
                   +
                 </button>
               </div>
-              <span className="text-[11px] text-slate-500 mt-1 font-medium">
-                {isEs ? 'Agrega las horas extras que desees ($1,600 USD por hora).' : 'Add as many extra hours as you want ($1,600 USD per hour).'}
-              </span>
+
+              <p className="text-[11px] text-slate-500 mt-2 font-medium min-h-[32px] leading-tight">
+                {isEs 
+                  ? 'Agrega las horas extras que desees ($1,600 USD por hora).' 
+                  : 'Add as many extra hours as you want ($1,600 USD per hour).'
+                }
+              </p>
             </div>
 
           </div>
