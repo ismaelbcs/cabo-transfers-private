@@ -1,7 +1,7 @@
 // src/app/[lang]/checkout/page.js
 'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, useRef, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
@@ -141,6 +141,9 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Teléfono:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${telefonoCliente}</td></tr>
               ${(paisCliente || ladaCliente) ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">País / LADA:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${paisCliente || 'N/A'}${ladaCliente ? ` (${ladaCliente})` : ''}</td></tr>` : ''}
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo Electrónico:</td><td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px; text-decoration: underline;">${correoCliente}</td></tr>
+              ${datosCliente.paypalPayerEmail && datosCliente.paypalPayerEmail !== correoCliente ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo PayPal:</td><td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${datosCliente.paypalPayerEmail}</td></tr>` : ''}
+              ${datosCliente.paypalOrderId ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">ID Transacción PayPal:</td><td style="color: #059669; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${datosCliente.paypalOrderId}</td></tr>` : ''}
+              ${datosCliente.notas ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Notas / Comentarios:</td><td style="color: #1e293b; font-size: 14px; font-weight: 600; text-align: right; width: 60%; padding-bottom: 14px;">${datosCliente.notas}</td></tr>` : ''}
             </table>
 
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">DETALLES LOGÍSTICOS</h2>
@@ -530,164 +533,257 @@ export default function CheckoutPage({ params }) {
   const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  // Ref sincronizado en cada render para evitar closures congelados dentro de PayPalButtons
+  const latestCheckoutStateRef = useRef({
+    formData,
+    vuelosData,
+    combo,
+    subtotal,
+    descuentoPorcentaje,
+    granTotalFinal,
+    cuponesAplicados
+  });
+  latestCheckoutStateRef.current = {
+    formData,
+    vuelosData,
+    combo,
+    subtotal,
+    descuentoPorcentaje,
+    granTotalFinal,
+    cuponesAplicados
   };
 
   const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
     setIsProcessing(true);
-    const metodoReal = metodoOverride || formData.paymentMethod;
+
+    const current = latestCheckoutStateRef.current;
+    const currentFormData = current.formData || formData;
+    const currentVuelosData = current.vuelosData || vuelosData;
+    const currentCombo = (current.combo && current.combo.length > 0) ? current.combo : combo;
+    const currentSubtotal = current.subtotal ?? subtotal;
+    const currentDescuentoPorcentaje = current.descuentoPorcentaje ?? descuentoPorcentaje;
+    const currentGranTotalFinal = current.granTotalFinal ?? granTotalFinal;
+    const currentCuponesAplicados = current.cuponesAplicados || cuponesAplicados;
+
+    const metodoReal = metodoOverride || currentFormData.paymentMethod;
     const nuevoNumConfirmacion = Math.floor(10000000 + Math.random() * 90000000).toString();
-    const datosFinalesCliente = { ...formData, paymentMethod: metodoReal };
+
+    // Respaldo automático de datos del pagador desde PayPal (details.payer)
+    const paypalOrderId = detallesPago?.id || '';
+    const paypalPayerEmail = detallesPago?.payer?.email_address || '';
+    const paypalGivenName = detallesPago?.payer?.name?.given_name || '';
+    const paypalSurname = detallesPago?.payer?.name?.surname || '';
+    const paypalAmount =
+      detallesPago?.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value ||
+      detallesPago?.purchase_units?.[0]?.amount?.value ||
+      '';
+
+    const emailFinalCliente = (currentFormData.email || '').trim() || paypalPayerEmail;
+    const nombreFinalCliente = (currentFormData.nombre || '').trim() || paypalGivenName || 'Cliente PayPal';
+    const apellidosFinalCliente = (currentFormData.apellidos || '').trim() || paypalSurname || '';
+
+    const datosFinalesCliente = {
+      ...currentFormData,
+      nombre: nombreFinalCliente,
+      apellidos: apellidosFinalCliente,
+      email: emailFinalCliente,
+      paymentMethod: metodoReal,
+      ...(paypalOrderId ? { paypalOrderId } : {}),
+      ...(paypalPayerEmail ? { paypalPayerEmail } : {}),
+      ...(paypalAmount ? { paypalAmount } : {})
+    };
     setNumConfirmacion(nuevoNumConfirmacion);
 
     // FUSIÓN: Mapeamos los combos y les insertamos su vuelo específico
-    const comboFinalConVuelos = combo.map((item, idx) => ({
+    let comboFinalConVuelos = (currentCombo || []).map((item, idx) => ({
       ...item,
-      flightInfo: vuelosData[idx] || {}
+      flightInfo: currentVuelosData[idx] || item.flightInfo || {}
     }));
 
-    try {
-      await setDoc(doc(db, "reservas", nuevoNumConfirmacion), {
-        numeroConfirmacion: nuevoNumConfirmacion,
-        estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
-        cliente: datosFinalesCliente,
-        servicios: comboFinalConVuelos,
-        subtotal: subtotal,
-        descuentoAplicado: descuentoPorcentaje,
-        totalPagado: granTotalFinal,
-        cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
-        fecha: new Date().toISOString()
-      });
+    // Si por alguna razón el carrito en memoria se vació pero PayPal cobró, creamos un item de respaldo para que SIEMPRE llegue el correo al admin
+    if (comboFinalConVuelos.length === 0) {
+      comboFinalConVuelos = [{
+        id: `paypal-${Date.now()}`,
+        titulo: 'PAGO RECIBIDO VÍA PAYPAL',
+        subtitulo: paypalOrderId ? `Transacción PayPal #${paypalOrderId}` : 'Reserva Pagada en Web',
+        precio: Number(paypalAmount || currentGranTotalFinal || 0),
+        config: {},
+        flightInfo: currentVuelosData[0] || {}
+      }];
+    }
 
+    try {
+      // 1️⃣ PRIORIDAD #1: ENVIAR CORREOS CON AWAIT ANTES DE QUE CUALQUIER ESCRITURA EN FIRESTORE PUEDA FALLAR
       let index = 1;
       for (const item of comboFinalConVuelos) {
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         const subjectCliente = isEs ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`;
         const htmlCliente = generarHtmlCorreoCliente(item, datosFinalesCliente, nuevoNumConfirmacion, lang);
 
-        await setDoc(doc(db, "correos", docIdCliente), {
-          to: formData.email,
-          message: {
-            subject: subjectCliente,
-            html: htmlCliente
-          }
-        });
-
-        // Envío directo inmediato por Next.js API
-        sendEmail({
-          to: formData.email,
-          subject: subjectCliente,
-          html: htmlCliente
-        });
-
         const docIdAdmin = `${nuevoNumConfirmacion}_admin_${index}`;
-        const subjectAdmin = `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`;
+        const subjectAdmin = `🚨 SERVICIO: ${item.titulo} - ${datosFinalesCliente.nombre} (${nuevoNumConfirmacion})`;
         const htmlAdmin = generarHtmlCorreoAdmin(item, datosFinalesCliente, nuevoNumConfirmacion);
 
-        await setDoc(doc(db, "correos", docIdAdmin), {
-          to: "reservationballard@gmail.com",
-          message: {
+        // Envío directo inmediato al Administrador (CON AWAIT)
+        try {
+          await sendEmail({
+            to: "reservationballard@gmail.com",
             subject: subjectAdmin,
             html: htmlAdmin
-          }
-        });
+          });
+        } catch (errMailAdmin) {
+          console.error("Error enviando correo admin:", errMailAdmin);
+        }
 
-        // Envío directo inmediato por Next.js API
-        sendEmail({
-          to: "reservationballard@gmail.com",
-          subject: subjectAdmin,
-          html: htmlAdmin
-        });
+        // Envío directo inmediato al Cliente (CON AWAIT)
+        if (emailFinalCliente) {
+          try {
+            await sendEmail({
+              to: emailFinalCliente,
+              subject: subjectCliente,
+              html: htmlCliente
+            });
+          } catch (errMailCliente) {
+            console.error("Error enviando correo cliente:", errMailCliente);
+          }
+        }
+
+        // Respaldo en colección "correos" de Firestore (protegido individualmente)
+        try {
+          await setDoc(doc(db, "correos", docIdAdmin), {
+            to: "reservationballard@gmail.com",
+            message: {
+              subject: subjectAdmin,
+              html: htmlAdmin
+            }
+          });
+          if (emailFinalCliente) {
+            await setDoc(doc(db, "correos", docIdCliente), {
+              to: emailFinalCliente,
+              message: {
+                subject: subjectCliente,
+                html: htmlCliente
+              }
+            });
+          }
+        } catch (errFirestoreCorreo) {
+          console.error("Error guardando respaldo de correo en Firestore:", errFirestoreCorreo);
+        }
 
         index++;
       }
 
-      for (const cupon of cuponesAplicados) {
-        if (cupon.tipo === 'resena') {
-          const docCuponRef = doc(db, "cupones", cupon.codigo);
-          await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
-        }
-        if (cupon.tipo === 'chofer') {
-          await addDoc(collection(db, "comisiones_choferes"), {
-            codigoChofer: cupon.codigo || cupon.codigoChofer || 'CUPON_CHOFER',
-            choferCorreo: cupon.choferCorreo || 'N/A',
-            numeroConfirmacion: nuevoNumConfirmacion,
-            clienteNombre: `${formData.nombre} ${formData.apellidos}`,
-            montoTotalReserva: granTotalFinal,
-            fechaUso: new Date().toISOString()
-          });
+      // 2️⃣ GUARDAR RESERVA EN FIRESTORE (Sanitizado contra valores undefined)
+      try {
+        const reservaPayload = JSON.parse(JSON.stringify({
+          numeroConfirmacion: nuevoNumConfirmacion,
+          estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
+          cliente: datosFinalesCliente,
+          servicios: comboFinalConVuelos,
+          subtotal: currentSubtotal,
+          descuentoAplicado: currentDescuentoPorcentaje,
+          totalPagado: Number(paypalAmount || currentGranTotalFinal || 0),
+          cupones: currentCuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
+          paypalOrderId: paypalOrderId || null,
+          fecha: new Date().toISOString()
+        }));
+        await setDoc(doc(db, "reservas", nuevoNumConfirmacion), reservaPayload);
+      } catch (errFirestoreReserva) {
+        console.error("Error guardando reserva en Firestore:", errFirestoreReserva);
+      }
 
-          if (formData.email) {
-            const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
-            await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
-              correo: formData.email.trim().toLowerCase(),
-              codigo: cupon.codigo || cupon.codigoChofer,
+      for (const cupon of currentCuponesAplicados) {
+        try {
+          if (cupon.tipo === 'resena') {
+            const docCuponRef = doc(db, "cupones", cupon.codigo);
+            await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
+          }
+          if (cupon.tipo === 'chofer') {
+            await addDoc(collection(db, "comisiones_choferes"), {
+              codigoChofer: cupon.codigo || cupon.codigoChofer || 'CUPON_CHOFER',
+              choferCorreo: cupon.choferCorreo || 'N/A',
+              numeroConfirmacion: nuevoNumConfirmacion,
+              clienteNombre: `${datosFinalesCliente.nombre} ${datosFinalesCliente.apellidos}`.trim(),
+              montoTotalReserva: currentGranTotalFinal,
               fechaUso: new Date().toISOString()
             });
-          }
 
-          if (cupon.choferCorreo && cupon.choferCorreo !== 'N/A') {
-            const nombreChofer = cupon.nombreChofer || cupon.nombre || (isEs ? "Chofer" : "Driver");
-            const comision = subtotal * 0.10;
-            const serviciosResumen = combo.map(item => item.titulo).join(', ');
-            const fechaServicio = combo[0]?.config?.fechaLlegada || combo[0]?.config?.fechaTour || combo[0]?.config?.cenaHora || (isEs ? 'Fecha en sistema' : 'System Date');
-            const nombreClienteCompleto = `${formData.nombre} ${formData.apellidos}`.trim();
+            if (emailFinalCliente) {
+              const docIdCuponUsado = `${emailFinalCliente.toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
+              await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
+                correo: emailFinalCliente.toLowerCase(),
+                codigo: cupon.codigo || cupon.codigoChofer,
+                fechaUso: new Date().toISOString()
+              });
+            }
 
-            const subjectChofer = isEs
-              ? `¡Nueva Venta! Comisión Generada - Ballard Tours`
-              : `New Sale! Commission Generated - Ballard Tours`;
+            if (cupon.choferCorreo && cupon.choferCorreo !== 'N/A') {
+              const nombreChofer = cupon.nombreChofer || cupon.nombre || (isEs ? "Chofer" : "Driver");
+              const comision = currentSubtotal * 0.10;
+              const serviciosResumen = comboFinalConVuelos.map(item => item.titulo).join(', ');
+              const fechaServicio = comboFinalConVuelos[0]?.config?.fechaLlegada || comboFinalConVuelos[0]?.config?.fechaTour || comboFinalConVuelos[0]?.config?.cenaHora || (isEs ? 'Fecha en sistema' : 'System Date');
+              const nombreClienteCompleto = `${datosFinalesCliente.nombre} ${datosFinalesCliente.apellidos}`.trim();
 
-            const htmlChofer = isEs ? `
-                <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
-                  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
-                      <h2 style="margin: 0; font-size: 24px;">¡Felicidades ${nombreChofer}! 🎉</h2>
-                      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">Has generado una nueva comisión de venta</p>
-                    </div>
-                    <div style="padding: 30px;">
-                      <p style="font-size: 16px; color: #334155;">Un cliente acaba de realizar una reserva utilizando tu código de descuento.</p>
-                      <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
-                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>👤 Cliente:</strong> <span style="color: #0f172a;">${nombreClienteCompleto}</span></p>
-                        <p style="margin: 0 0 10px 0; color: #475569;"><strong>📅 Fecha del servicio:</strong> <span style="color: #0f172a;">${fechaServicio}</span></p>
-                        <p style="margin: 0; color: #475569;"><strong>🛍️ Producto(s):</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
+              const subjectChofer = isEs
+                ? `¡Nueva Venta! Comisión Generada - Ballard Tours`
+                : `New Sale! Commission Generated - Ballard Tours`;
+
+              const htmlChofer = isEs ? `
+                  <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
+                    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+                      <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
+                        <h2 style="margin: 0; font-size: 24px;">¡Felicidades ${nombreChofer}! 🎉</h2>
+                        <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">Has generado una nueva comisión de venta</p>
                       </div>
-                      <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
-                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Tu Comisión (10%)</p>
-                        <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ` : `
-                <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
-                  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
-                    <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
-                      <h2 style="margin: 0; font-size: 24px;">Congratulations ${nombreChofer}! 🎉</h2>
-                      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">You generated a sales commission</p>
-                    </div>
-                    <div style="padding: 30px;">
-                      <p style="font-size: 16px; color: #334155;">A client made a reservation using your discount code.</p>
-                      <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
-                        <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold;">Commission (10%)</p>
-                        <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
+                      <div style="padding: 30px;">
+                        <p style="font-size: 16px; color: #334155;">Un cliente acaba de realizar una reserva utilizando tu código de descuento.</p>
+                        <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
+                          <p style="margin: 0 0 10px 0; color: #475569;"><strong>👤 Cliente:</strong> <span style="color: #0f172a;">${nombreClienteCompleto}</span></p>
+                          <p style="margin: 0 0 10px 0; color: #475569;"><strong>📅 Fecha del servicio:</strong> <span style="color: #0f172a;">${fechaServicio}</span></p>
+                          <p style="margin: 0; color: #475569;"><strong>🛍️ Producto(s):</strong> <span style="color: #0f172a;">${serviciosResumen}</span></p>
+                        </div>
+                        <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
+                          <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">Tu Comisión (10%)</p>
+                          <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              `;
+                ` : `
+                  <div style="font-family: Arial, sans-serif; background-color: #f1f5f9; padding: 30px; color: #1e293b;">
+                    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;">
+                      <div style="background-color: #15803d; padding: 25px; text-align: center; color: white;">
+                        <h2 style="margin: 0; font-size: 24px;">Congratulations ${nombreChofer}! 🎉</h2>
+                        <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 15px;">You generated a sales commission</p>
+                      </div>
+                      <div style="padding: 30px;">
+                        <p style="font-size: 16px; color: #334155;">A client made a reservation using your discount code.</p>
+                        <div style="background-color: #dcfce3; padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">
+                          <p style="margin: 0; font-size: 14px; color: #166534; text-transform: uppercase; font-weight: bold;">Commission (10%)</p>
+                          <p style="margin: 8px 0 0 0; font-size: 36px; font-weight: 900; color: #15803d;">$${comision.toFixed(2)} USD</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `;
 
-            await addDoc(collection(db, "correos"), {
-              to: cupon.choferCorreo,
-              message: { subject: subjectChofer, html: htmlChofer }
-            });
+              await sendEmail({
+                to: cupon.choferCorreo,
+                subject: subjectChofer,
+                html: htmlChofer
+              });
 
-            // Envío directo inmediato por Next.js API
-            sendEmail({
-              to: cupon.choferCorreo,
-              subject: subjectChofer,
-              html: htmlChofer
-            });
+              await addDoc(collection(db, "correos"), {
+                to: cupon.choferCorreo,
+                message: { subject: subjectChofer, html: htmlChofer }
+              });
+            }
           }
+        } catch (errCupon) {
+          console.error("Error procesando cupón:", errCupon);
         }
       }
 
@@ -1066,9 +1162,16 @@ export default function CheckoutPage({ params }) {
                   <PayPalButtons
                     style={{ layout: "vertical", shape: "rect", color: "gold" }}
                     disabled={!formData.nombre || !formData.email}
-                    createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: granTotalFinal.toFixed(2) } }] })}
+                    forceReRender={[granTotalFinal, formData.paymentMethod]}
+                    createOrder={(data, actions) => {
+                      const montoActual = (latestCheckoutStateRef.current?.granTotalFinal ?? granTotalFinal) || 0;
+                      return actions.order.create({ purchase_units: [{ amount: { value: montoActual.toFixed(2) } }] });
+                    }}
                     onApprove={(data, actions) => actions.order.capture().then((details) => procesarConfirmacion(details, 'paypal'))}
-                    onError={(err) => alert(isEs ? "Error al procesar pago." : "Payment error.")}
+                    onError={(err) => {
+                      console.error("PayPal Checkout Error:", err);
+                      alert(isEs ? "Error al procesar pago." : "Payment error.");
+                    }}
                   />
                 ) : (
                   <button

@@ -1,7 +1,7 @@
 // src/app/[lang]/cart/page.js
 'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, useRef, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -146,6 +146,9 @@ const generarHtmlCorreoAdmin = (item, datosCliente, numConfirmacion) => {
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Teléfono:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${telefonoCliente}</td></tr>
               ${(paisCliente || ladaCliente) ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">País / LADA:</td><td style="color: #1e293b; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${paisCliente || 'N/A'}${ladaCliente ? ` (${ladaCliente})` : ''}</td></tr>` : ''}
               <tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo Electrónico:</td><td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px; text-decoration: underline;">${correoCliente}</td></tr>
+              ${datosCliente.paypalPayerEmail && datosCliente.paypalPayerEmail !== correoCliente ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Correo PayPal:</td><td style="color: #2563eb; font-size: 14px; font-weight: 700; text-align: right; width: 60%; padding-bottom: 14px;">${datosCliente.paypalPayerEmail}</td></tr>` : ''}
+              ${datosCliente.paypalOrderId ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">ID Transacción PayPal:</td><td style="color: #059669; font-size: 14px; font-weight: 800; text-align: right; width: 60%; padding-bottom: 14px;">${datosCliente.paypalOrderId}</td></tr>` : ''}
+              ${datosCliente.notas ? `<tr><td style="color: #64748b; font-size: 14px; width: 40%; padding-bottom: 14px;">Notas / Comentarios:</td><td style="color: #1e293b; font-size: 14px; font-weight: 600; text-align: right; width: 60%; padding-bottom: 14px;">${datosCliente.notas}</td></tr>` : ''}
             </table>
 
             <h2 style="color: #1e3a8a; font-size: 14px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin: 30px 0 20px 0;">DETALLES LOGÍSTICOS</h2>
@@ -543,97 +546,193 @@ export default function CheckoutPage({ params }) {
   const hasAnyDiscount = appliedPromo || cuponesAplicados.length > 0;
   const isFormValid = formData.nombre.trim() !== '' && formData.email.trim() !== '';
 
+  // Ref sincronizado en cada render para evitar closures congelados dentro de PayPalButtons
+  const latestCartStateRef = useRef({
+    formData,
+    vuelosData,
+    combo,
+    subtotal,
+    descuentoPorcentaje,
+    granTotalFinal,
+    cuponesAplicados
+  });
+  latestCartStateRef.current = {
+    formData,
+    vuelosData,
+    combo,
+    subtotal,
+    descuentoPorcentaje,
+    granTotalFinal,
+    cuponesAplicados
+  };
+
   const procesarConfirmacion = async (detallesPago = null, metodoOverride = null) => {
     setIsProcessing(true);
-    const metodoReal = metodoOverride || formData.paymentMethod;
+
+    const current = latestCartStateRef.current;
+    const currentFormData = current.formData || formData;
+    const currentVuelosData = current.vuelosData || vuelosData;
+    const currentCombo = (current.combo && current.combo.length > 0) ? current.combo : combo;
+    const currentSubtotal = current.subtotal ?? subtotal;
+    const currentDescuentoPorcentaje = current.descuentoPorcentaje ?? descuentoPorcentaje;
+    const currentGranTotalFinal = current.granTotalFinal ?? granTotalFinal;
+    const currentCuponesAplicados = current.cuponesAplicados || cuponesAplicados;
+
+    const metodoReal = metodoOverride || currentFormData.paymentMethod;
     const nuevoNumConfirmacion = Math.floor(10000000 + Math.random() * 90000000).toString();
-    const datosFinalesCliente = { ...formData, paymentMethod: metodoReal };
+
+    // Respaldo automático de datos del pagador desde PayPal (details.payer)
+    const paypalOrderId = detallesPago?.id || '';
+    const paypalPayerEmail = detallesPago?.payer?.email_address || '';
+    const paypalGivenName = detallesPago?.payer?.name?.given_name || '';
+    const paypalSurname = detallesPago?.payer?.name?.surname || '';
+    const paypalAmount =
+      detallesPago?.purchase_units?.[0]?.payments?.captures?.[0]?.amount?.value ||
+      detallesPago?.purchase_units?.[0]?.amount?.value ||
+      '';
+
+    const emailFinalCliente = (currentFormData.email || '').trim() || paypalPayerEmail;
+    const nombreFinalCliente = (currentFormData.nombre || '').trim() || paypalGivenName || 'Cliente PayPal';
+    const apellidosFinalCliente = (currentFormData.apellidos || '').trim() || paypalSurname || '';
+
+    const datosFinalesCliente = {
+      ...currentFormData,
+      nombre: nombreFinalCliente,
+      apellidos: apellidosFinalCliente,
+      email: emailFinalCliente,
+      paymentMethod: metodoReal,
+      ...(paypalOrderId ? { paypalOrderId } : {}),
+      ...(paypalPayerEmail ? { paypalPayerEmail } : {}),
+      ...(paypalAmount ? { paypalAmount } : {})
+    };
 
     // FUSIÓN: Asignamos el vuelo en base al índice para garantizar que si hay 2 productos iguales, tengan sus propios vuelos
-    const comboFinalConVuelos = combo.map((item, idx) => ({
+    let comboFinalConVuelos = (currentCombo || []).map((item, idx) => ({
       ...item,
-      flightInfo: vuelosData[idx] || {}
+      flightInfo: currentVuelosData[idx] || item.flightInfo || {}
     }));
 
-    try {
-      let index = 1;
-      await addDoc(collection(db, "reservas"), {
-        numeroConfirmacion: nuevoNumConfirmacion,
-        idioma: lang,
-        estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
-        cliente: datosFinalesCliente,
-        servicios: comboFinalConVuelos,
-        total: granTotalFinal,
-        descuentoAplicado: descuentoPorcentaje,
-        cupones: cuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
-        fechaCreacion: new Date().toISOString(),
-      });
+    if (comboFinalConVuelos.length === 0) {
+      comboFinalConVuelos = [{
+        id: `paypal-${Date.now()}`,
+        titulo: 'PAGO RECIBIDO VÍA PAYPAL',
+        subtitulo: paypalOrderId ? `Transacción PayPal #${paypalOrderId}` : 'Reserva Pagada en Web',
+        precio: Number(paypalAmount || currentGranTotalFinal || 0),
+        config: {},
+        flightInfo: currentVuelosData[0] || {}
+      }];
+    }
 
+    try {
+      // 1️⃣ PRIORIDAD #1: ENVIAR CORREOS CON AWAIT ANTES DE QUE CUALQUIER ESCRITURA EN FIRESTORE PUEDA FALLAR
+      let index = 1;
       for (const item of comboFinalConVuelos) {
         const docIdCliente = `${nuevoNumConfirmacion}_cliente_${index}`;
         const subjectCliente = isEs ? `Confirmación de Reserva: ${item.titulo} - Ballard Tours` : `Booking Confirmation: ${item.titulo} - Ballard Tours`;
         const htmlCliente = generarHtmlCorreoCliente(item, datosFinalesCliente, nuevoNumConfirmacion, lang);
 
-        await setDoc(doc(db, "correos", docIdCliente), {
-          to: formData.email,
-          message: {
-            subject: subjectCliente,
-            html: htmlCliente
-          }
-        });
-
-        // Envío directo inmediato por Next.js API
-        sendEmail({
-          to: formData.email,
-          subject: subjectCliente,
-          html: htmlCliente
-        });
-
         const docIdAdmin = `${nuevoNumConfirmacion}_admin_${index}`;
-        const subjectAdmin = `🚨 SERVICIO: ${item.titulo} - ${formData.nombre} (${nuevoNumConfirmacion})`;
+        const subjectAdmin = `🚨 SERVICIO: ${item.titulo} - ${datosFinalesCliente.nombre} (${nuevoNumConfirmacion})`;
         const htmlAdmin = generarHtmlCorreoAdmin(item, datosFinalesCliente, nuevoNumConfirmacion);
 
-        await setDoc(doc(db, "correos", docIdAdmin), {
-          to: "reservationballard@gmail.com",
-          message: {
+        // Envío directo inmediato al Administrador (CON AWAIT)
+        try {
+          await sendEmail({
+            to: "reservationballard@gmail.com",
             subject: subjectAdmin,
             html: htmlAdmin
-          }
-        });
+          });
+        } catch (errMailAdmin) {
+          console.error("Error enviando correo admin:", errMailAdmin);
+        }
 
-        // Envío directo inmediato por Next.js API
-        sendEmail({
-          to: "reservationballard@gmail.com",
-          subject: subjectAdmin,
-          html: htmlAdmin
-        });
+        // Envío directo inmediato al Cliente (CON AWAIT)
+        if (emailFinalCliente) {
+          try {
+            await sendEmail({
+              to: emailFinalCliente,
+              subject: subjectCliente,
+              html: htmlCliente
+            });
+          } catch (errMailCliente) {
+            console.error("Error enviando correo cliente:", errMailCliente);
+          }
+        }
+
+        // Respaldo en colección "correos" de Firestore (protegido individualmente)
+        try {
+          await setDoc(doc(db, "correos", docIdAdmin), {
+            to: "reservationballard@gmail.com",
+            message: {
+              subject: subjectAdmin,
+              html: htmlAdmin
+            }
+          });
+          if (emailFinalCliente) {
+            await setDoc(doc(db, "correos", docIdCliente), {
+              to: emailFinalCliente,
+              message: {
+                subject: subjectCliente,
+                html: htmlCliente
+              }
+            });
+          }
+        } catch (errFirestoreCorreo) {
+          console.error("Error guardando respaldo de correo en Firestore:", errFirestoreCorreo);
+        }
 
         index++;
       }
 
-      for (const cupon of cuponesAplicados) {
-        if (cupon.tipo === 'resena') {
-          const docCuponRef = doc(db, "cupones", cupon.codigo);
-          await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
-        }
-        if (cupon.tipo === 'chofer') {
-          await addDoc(collection(db, "comisiones_choferes"), {
-            codigoChofer: cupon.codigo || cupon.codigoChofer || 'CUPON',
-            choferCorreo: cupon.choferCorreo || 'N/A',
-            numeroConfirmacion: nuevoNumConfirmacion,
-            clienteNombre: `${formData.nombre} ${formData.apellidos}`,
-            montoTotalReserva: granTotalFinal,
-            fechaUso: new Date().toISOString()
-          });
+      // 2️⃣ GUARDAR RESERVA EN FIRESTORE (Sanitizado contra valores undefined)
+      try {
+        const reservaPayload = JSON.parse(JSON.stringify({
+          numeroConfirmacion: nuevoNumConfirmacion,
+          idioma: lang,
+          estado: metodoReal === 'paypal' ? "Pagado (PayPal)" : "Pendiente (Efectivo)",
+          cliente: datosFinalesCliente,
+          servicios: comboFinalConVuelos,
+          subtotal: currentSubtotal,
+          total: Number(paypalAmount || currentGranTotalFinal || 0),
+          totalPagado: Number(paypalAmount || currentGranTotalFinal || 0),
+          descuentoAplicado: currentDescuentoPorcentaje,
+          cupones: currentCuponesAplicados.map(c => c.codigo || c.codigoChofer || 'CUPON'),
+          paypalOrderId: paypalOrderId || null,
+          fechaCreacion: new Date().toISOString(),
+          fecha: new Date().toISOString()
+        }));
+        await setDoc(doc(db, "reservas", nuevoNumConfirmacion), reservaPayload);
+      } catch (errFirestoreReserva) {
+        console.error("Error guardando reserva en Firestore:", errFirestoreReserva);
+      }
 
-          if (formData.email) {
-            const docIdCuponUsado = `${formData.email.trim().toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
-            await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
-              correo: formData.email.trim().toLowerCase(),
-              codigo: cupon.codigo || cupon.codigoChofer,
+      for (const cupon of currentCuponesAplicados) {
+        try {
+          if (cupon.tipo === 'resena') {
+            const docCuponRef = doc(db, "cupones", cupon.codigo);
+            await updateDoc(docCuponRef, { utilizado: true, fechaUso: new Date().toISOString() });
+          }
+          if (cupon.tipo === 'chofer') {
+            await addDoc(collection(db, "comisiones_choferes"), {
+              codigoChofer: cupon.codigo || cupon.codigoChofer || 'CUPON',
+              choferCorreo: cupon.choferCorreo || 'N/A',
+              numeroConfirmacion: nuevoNumConfirmacion,
+              clienteNombre: `${datosFinalesCliente.nombre} ${datosFinalesCliente.apellidos}`.trim(),
+              montoTotalReserva: currentGranTotalFinal,
               fechaUso: new Date().toISOString()
             });
+
+            if (emailFinalCliente) {
+              const docIdCuponUsado = `${emailFinalCliente.toLowerCase()}_${cupon.codigo || cupon.codigoChofer}`;
+              await setDoc(doc(db, "cupones_usados", docIdCuponUsado), {
+                correo: emailFinalCliente.toLowerCase(),
+                codigo: cupon.codigo || cupon.codigoChofer,
+                fechaUso: new Date().toISOString()
+              });
+            }
           }
+        } catch (errCupon) {
+          console.error("Error procesando cupón:", errCupon);
         }
       }
 
@@ -643,6 +742,7 @@ export default function CheckoutPage({ params }) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
+      console.error("Error al procesar reserva:", error);
       alert(isEs ? "Hubo un error al procesar tu reserva." : "There was an error processing your booking.");
     } finally {
       setIsProcessing(false);
@@ -1071,8 +1171,16 @@ export default function CheckoutPage({ params }) {
                         <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 relative z-0 min-h-[150px]">
                           <PayPalButtons
                             style={{ layout: "vertical", shape: "rect", color: "gold" }}
-                            createOrder={(data, actions) => actions.order.create({ purchase_units: [{ amount: { value: (granTotalFinal || 0).toFixed(2) } }] })}
+                            forceReRender={[granTotalFinal, formData.paymentMethod]}
+                            createOrder={(data, actions) => {
+                              const montoActual = (latestCartStateRef.current?.granTotalFinal ?? granTotalFinal) || 0;
+                              return actions.order.create({ purchase_units: [{ amount: { value: montoActual.toFixed(2) } }] });
+                            }}
                             onApprove={(data, actions) => actions.order.capture().then((details) => procesarConfirmacion(details, 'paypal'))}
+                            onError={(err) => {
+                              console.error("PayPal Cart Error:", err);
+                              alert(isEs ? "Error al procesar pago." : "Payment error.");
+                            }}
                           />
                         </div>
                       )}
