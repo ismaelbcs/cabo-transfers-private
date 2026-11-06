@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Info, Calendar, Plus } from 'lucide-react';
+import { Info, Calendar, Plus, MapPin, ChevronRight } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { catalogoHoteles } from '../../../data/seoData';
+import { restaurantSEOData } from '../../../data/restaurantSEOData';
 
 export default function DinnersPage({ params }) {
   const router = useRouter();
@@ -201,6 +203,43 @@ export default function DinnersPage({ params }) {
                 <Plus size={20} className="mr-2" /> {lang === 'es' ? 'Añadir a mi Combo' : 'Add to Combo'}
               </button>
             </div>
+          </div>
+        </div>
+
+        {/* DIRECTORIO SEO DE RESTAURANTES EN LOS CABOS */}
+        <div className="mt-12 bg-white border border-gray-200 rounded-2xl shadow-sm p-6 md:p-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">
+              {lang === 'es' ? 'Directorio de Transporte Privado a Restaurantes' : 'Private Restaurant Transportation Directory'}
+            </h2>
+            <p className="text-sm text-gray-500 max-w-2xl mx-auto">
+              {lang === 'es'
+                ? 'Selecciona tu restaurante en San José del Cabo, el Corredor Turístico, Cabo San Lucas o Todos Santos para ver tarifas directas e información de traslado de ida y vuelta.'
+                : 'Select your restaurant in San José del Cabo, the Tourist Corridor, Cabo San Lucas, or Todos Santos to view direct round-trip transfer rates and details.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {restaurantSEOData.map((rest) => (
+              <Link
+                key={rest.slug}
+                href={`/${lang}/restaurants/${rest.slug}`}
+                className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-blue-50/60 hover:border-blue-200 transition group"
+              >
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <MapPin size={16} className="text-blue-600 shrink-0 mt-0.5" />
+                  <div className="truncate">
+                    <span className="block text-sm font-bold text-slate-800 group-hover:text-blue-900 truncate">
+                      {rest.nombre}
+                    </span>
+                    <span className="block text-[11px] text-slate-500 truncate">
+                      {rest.zonaText}
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight size={15} className="text-slate-400 group-hover:text-blue-600 shrink-0 ml-2" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

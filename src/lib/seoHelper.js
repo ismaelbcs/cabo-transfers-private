@@ -33,8 +33,11 @@ export function generatePageMetadata({
     ? image
     : `${BASE_URL}${image.startsWith('/') ? image : `/${image}`}`;
 
+  const hasBrand = typeof title === 'string' && /ballard/i.test(title);
+  const resolvedTitle = hasBrand ? { absolute: title } : title;
+
   return {
-    title,
+    title: resolvedTitle,
     description,
     ...(keywords ? { keywords } : {}),
     alternates: {

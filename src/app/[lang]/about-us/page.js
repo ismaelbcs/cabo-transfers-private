@@ -164,9 +164,6 @@ export default function AboutUsPage({ params }) {
 
   return (
     <div className="bg-slate-50 min-h-screen pb-20 font-sans selection:bg-slate-900 selection:text-white">
-      <title>{t.seoTitle}</title>
-      <meta name="description" content={t.seoDesc} />
-
       {/* HERO SECTION */}
       <div className="bg-slate-950 text-white pt-32 pb-24 px-4 text-center rounded-b-[2.5rem] shadow-xl shadow-slate-200/50 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1549558549-415fe4c37b60?q=80&w=2000')] bg-cover bg-center opacity-10"></div>

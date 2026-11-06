@@ -1281,19 +1281,21 @@ export default function DestinationPage({ params }) {
 
   return (
     <div className="animate-fade-in pb-10 bg-white font-sans selection:bg-slate-900 selection:text-white">
-      <title>Private Transportation from SJD Airport to {hotel.nombre}</title>
-      <meta name="description" content={`Book your private luxury transportation from SJD Airport to ${hotel.nombre}. Flat rates, bilingual drivers, and 100% private VIP service.`} />
-      {/* Añadido SEO Json-LD de la otra versión */}
+      {/* SEO Json-LD estructurado por idioma */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": `Private Transportation to ${hotel.nombre}`,
+        "name": isEs ? `Transporte Privado a ${hotel.nombre}` : `Private Transportation to ${hotel.nombre}`,
+        "url": `https://www.caboprivateairporttransfers.com/${lang}/destinations/${hotel.slug}`,
         "provider": {
           "@type": "LocalBusiness",
-          "name": "Ballard Tours"
+          "name": "Ballard Tours",
+          "url": `https://www.caboprivateairporttransfers.com/${lang}`
         },
-        "areaServed": "Los Cabos, Baja California Sur",
-        "description": `Premium private airport transfer from SJD to ${hotel.nombre}.`
+        "areaServed": `${hotel.zonaText || 'Los Cabos'}, Baja California Sur`,
+        "description": isEs
+          ? `Traslado privado VIP desde el Aeropuerto de Los Cabos (SJD) a ${hotel.nombre}.`
+          : `Premium private airport transfer from SJD to ${hotel.nombre}.`
       })}} />
 
       {/* ========================================= */}

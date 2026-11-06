@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Info, Calendar, Plus, CheckCircle } from 'lucide-react';
+import { Info, Calendar, Plus, CheckCircle, MapPin, ChevronRight } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { catalogoHoteles } from '../../../data/seoData';
+import { golfSEOData } from '../../../data/golfSEOData';
 
 export default function GolfPage({ params }) {
   const router = useRouter();
@@ -190,6 +192,43 @@ export default function GolfPage({ params }) {
                 <Plus size={20} className="mr-2" /> {lang === 'es' ? 'Añadir a mi Combo' : 'Add to Combo'}
               </button>
             </div>
+          </div>
+        </div>
+
+        {/* DIRECTORIO SEO DE CAMPOS DE GOLF EN LOS CABOS */}
+        <div className="mt-12 bg-white border border-gray-200 rounded-2xl shadow-sm p-6 md:p-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">
+              {lang === 'es' ? 'Directorio de Transporte a Campos de Golf en Los Cabos' : 'Los Cabos Golf Course Transportation Directory'}
+            </h2>
+            <p className="text-sm text-gray-500 max-w-2xl mx-auto">
+              {lang === 'es'
+                ? 'Selecciona tu campo de golf para consultar tarifas de transporte privado de ida y vuelta en camionetas de lujo con amplio espacio para bastones de golf.'
+                : 'Select your golf course to view private round-trip transfer rates in luxury SUVs and vans with spacious room for golf bags.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {golfSEOData.map((course) => (
+              <Link
+                key={course.slug}
+                href={`/${lang}/golf-courses/${course.slug}`}
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-blue-50/60 hover:border-blue-200 transition group"
+              >
+                <div className="flex items-start gap-3 min-w-0">
+                  <MapPin size={18} className="text-emerald-600 shrink-0 mt-0.5" />
+                  <div className="truncate">
+                    <span className="block text-sm font-bold text-slate-800 group-hover:text-blue-900 truncate">
+                      {course.nombre}
+                    </span>
+                    <span className="block text-xs text-slate-500 truncate">
+                      {course.zonaText}
+                    </span>
+                  </div>
+                </div>
+                <ChevronRight size={16} className="text-slate-400 group-hover:text-blue-600 shrink-0 ml-2" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

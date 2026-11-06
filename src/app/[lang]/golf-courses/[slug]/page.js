@@ -711,6 +711,46 @@ export default function GolfCourseSeoPage({ params }) {
           </div>
         </div>
 
+        {/* OTROS CAMPOS DE GOLF EN LOS CABOS */}
+        <div className="mt-16 pt-12 border-t border-slate-200">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                {lang === 'es' ? 'Otros Campos de Golf en Los Cabos' : 'Other Championship Golf Courses in Los Cabos'}
+              </h2>
+              <p className="text-sm text-slate-500 mt-1">
+                {lang === 'es'
+                  ? 'Transporte privado ida y vuelta con espacio amplio para bolsas de golf en todos los campos de Los Cabos.'
+                  : 'Round-trip private golf transfers with spacious room for golf clubs to every course in Los Cabos.'}
+              </p>
+            </div>
+            <Link
+              href={`/${lang}/golf`}
+              className="text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 shrink-0"
+            >
+              {lang === 'es' ? 'Ver todos los campos de golf' : 'View all golf courses'} <ChevronRight size={16} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {golfSEOData
+              .filter(g => g.slug !== slug)
+              .map(item => (
+                <Link
+                  key={item.slug}
+                  href={`/${lang}/golf-courses/${item.slug}`}
+                  className="p-4 rounded-xl bg-white border border-slate-200 hover:border-blue-600/40 hover:shadow-md transition flex items-center justify-between group"
+                >
+                  <div className="min-w-0 pr-2">
+                    <p className="text-sm font-bold text-slate-800 group-hover:text-blue-900 truncate">{item.nombre}</p>
+                    <p className="text-xs text-slate-400 truncate">{item.zonaText}</p>
+                  </div>
+                  <ChevronRight size={15} className="text-slate-400 group-hover:text-blue-600 shrink-0" />
+                </Link>
+              ))}
+          </div>
+        </div>
+
       </div>
     </div>
   );

@@ -8,9 +8,9 @@ const defaultLocale = 'es';
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // 1. Si alguien entra directamente a la raíz ("/"), mándalo a "/es"
+  // 1. Si alguien entra directamente a la raíz ("/"), mándalo a "/es" con redirección permanente (308)
   if (pathname === '/') {
-    return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url));
+    return NextResponse.redirect(new URL(`/${defaultLocale}`, request.url), { status: 308 });
   }
 
   // 2. Comprueba si la URL actual ya tiene un idioma (ej. /es/tours o /en/cart)
@@ -18,10 +18,11 @@ export function middleware(request) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  // 3. Si no tiene idioma, redirígelo agregando el idioma por defecto
+  // 3. Si no tiene idioma, redirígelo agregando el idioma por defecto con redirección permanente (308)
   if (!pathnameHasLocale) {
     return NextResponse.redirect(
-      new URL(`/${defaultLocale}${pathname}`, request.url)
+      new URL(`/${defaultLocale}${pathname}`, request.url),
+      { status: 308 }
     );
   }
 }

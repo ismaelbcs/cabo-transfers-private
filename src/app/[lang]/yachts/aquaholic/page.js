@@ -1638,7 +1638,7 @@ export default function AquaholicYachtPage({ params }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Yate 0: 80 ft Papillon 9 (Black Sunseeker) */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-papillon-9`}
+              href={`/${lang}/yachts/papillon-9`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1664,7 +1664,7 @@ export default function AquaholicYachtPage({ params }) {
 
             {/* Yate 1: 85 ft Contessa */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-contessa`}
+              href={`/${lang}/yachts/contessa`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1690,7 +1690,7 @@ export default function AquaholicYachtPage({ params }) {
 
             {/* Yate 2: 116 ft Capella */}
             <Link
-              href={`/${lang}/cabo-yacht-charters`}
+              href={`/${lang}/yachts`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1716,7 +1716,7 @@ export default function AquaholicYachtPage({ params }) {
 
             {/* Yate 3: 130 ft Sovereign */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-sovereign`}
+              href={`/${lang}/yachts/sovereign`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">

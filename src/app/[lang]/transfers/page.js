@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Info, Calendar, Plus, CheckCircle, ShoppingBag, Baby } from 'lucide-react';
+import { Info, Calendar, Plus, CheckCircle, ShoppingBag, Baby, MapPin, ChevronRight } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
-import { catalogoHoteles } from '../../../data/seoData';
+import { catalogoHoteles, landingPagesSEO } from '../../../data/seoData';
 
 export default function TransfersPage({ params }) {
   const router = useRouter();
@@ -240,6 +241,35 @@ export default function TransfersPage({ params }) {
                 <Plus size={20} className="mr-2" /> {lang === 'es' ? 'Añadir a mi Combo' : 'Add to Combo'}
               </button>
             </div>
+          </div>
+        </div>
+
+        {/* DIRECTORIO SEO DE RUTAS Y HOTELES DESDE EL AEROPUERTO SJD */}
+        <div className="mt-12 bg-white border border-gray-200 rounded-2xl shadow-sm p-6 md:p-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">
+              {lang === 'es' ? 'Directorio de Rutas desde el Aeropuerto SJD a Hoteles y Villas' : 'SJD Airport to Hotels & Resorts Transfer Directory'}
+            </h2>
+            <p className="text-sm text-gray-500 max-w-2xl mx-auto">
+              {lang === 'es'
+                ? 'Explora nuestras rutas directas de transporte privado desde el Aeropuerto de Los Cabos (SJD) hacia todos los resorts y zonas de Baja California Sur.'
+                : 'Explore our direct private airport transportation routes from Los Cabos International Airport (SJD) to all resorts, villas, and zones across Baja California Sur.'}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+            {landingPagesSEO.map((hotel) => (
+              <Link
+                key={hotel.slug}
+                href={`/${lang}/destinations/${hotel.slug}`}
+                className="flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-blue-50/60 hover:border-blue-200 transition group"
+              >
+                <span className="text-xs font-bold text-slate-700 group-hover:text-blue-900 truncate pr-2">
+                  {hotel.nombre}
+                </span>
+                <ChevronRight size={14} className="text-slate-400 group-hover:text-blue-600 shrink-0" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

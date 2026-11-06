@@ -140,9 +140,6 @@ export default function ContactPage({ params }) {
 
   return (
     <div className="bg-[#fafafa] min-h-screen pb-24 font-sans selection:bg-slate-900 selection:text-white">
-      <title>{t.seoTitle}</title>
-      <meta name="description" content={t.seoDesc} />
-
       {/* HERO SECTION */}
       <div className="pt-32 pb-16 px-4 text-center max-w-3xl mx-auto">
         <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 tracking-tighter" style={{ letterSpacing: '-0.04em' }}>

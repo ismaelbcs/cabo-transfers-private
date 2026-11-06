@@ -100,10 +100,6 @@ export default function PrivacyPolicy({ params }) {
 
   return (
     <div className="bg-[#fafafa] min-h-screen pb-24 font-sans selection:bg-slate-900 selection:text-white">
-      {/* SE QUITARON LAS ETIQUETAS HELMET */}
-      <title>{t.seoTitle}</title>
-      <meta name="description" content={t.seoDesc} />
-
       {/* Header Clásico Minimalista */}
       <div className="pt-32 pb-12 px-4 text-center max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tighter" style={{ letterSpacing: '-0.04em' }}>

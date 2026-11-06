@@ -139,9 +139,6 @@ export default function FleetPage({ params }) {
 
     return (
         <div className="bg-[#fafafa] min-h-screen pb-24 font-sans selection:bg-slate-900 selection:text-white">
-            <title>{t.seoTitle}</title>
-            <meta name="description" content={t.seoDesc} />
-
             {/* HERO SECTION (Emil Style: Minimalist & Tight Typography) */}
             <div className="pt-32 pb-16 px-4 text-center max-w-4xl mx-auto">
                 <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 tracking-tighter" style={{ letterSpacing: '-0.04em' }}>
@@ -289,8 +286,8 @@ export default function FleetPage({ params }) {
                             ))}
                         </ul>
                         <div className="mt-auto border-t border-slate-100 pt-4">
-                            <Link href={`/${lang}/blog`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-sm font-bold text-slate-900 hover:text-slate-600 transition-colors flex items-center gap-1.5">
-                                Ballard Tours Blog <ArrowRight size={14} />
+                            <Link href={`/${lang}/transfers`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-sm font-bold text-slate-900 hover:text-slate-600 transition-colors flex items-center gap-1.5">
+                                {lang === 'es' ? 'Ver Traslados Privados SJD' : 'Explore SJD Airport Transfers'} <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>
@@ -303,8 +300,8 @@ export default function FleetPage({ params }) {
                             <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/atv-off-road-adventure-cabo`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">ATV Off-Road Adventure</Link></li>
                             <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/cabo-san-lucas-snorkel-tour`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Cabo Snorkel Tour</Link></li>
                             <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/camel-safari-tour-cabo-san-lucas`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Camel Safari Tour</Link></li>
-                            <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/clear-boat-tour-cabo-san-lucas-arch`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Clear Boat to the Arch</Link></li>
-                            <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/espiritu-santo-island-tour-from-cabo`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Espiritu Santo Island</Link></li>
+                            <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/clear-boat-tour-cabo-arch`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Clear Boat to the Arch</Link></li>
+                            <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/espiritu-santo-island-tour-from-la-paz`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Espiritu Santo Island</Link></li>
                             <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/pirate-ship-sunset-tour-cabo`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Pirate Ship Sunset Tour</Link></li>
                             <li className="flex items-start gap-2 group"><span className="text-slate-600 group-hover:text-white transition-colors">↳</span><Link href={`/${lang}/tours/swim-with-whale-sharks-la-paz-cabo`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Swim with Whale Sharks</Link></li>
                         </ul>

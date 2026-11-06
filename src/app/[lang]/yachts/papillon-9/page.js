@@ -1679,7 +1679,7 @@ export default function Papillon9BlackYachtPage({ params }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Yate 1: 85 ft Contessa */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-contessa`}
+              href={`/${lang}/yachts/contessa`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[240px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1705,7 +1705,7 @@ export default function Papillon9BlackYachtPage({ params }) {
 
             {/* Yate 2: 110 ft Aquaholic */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-aquaholic`}
+              href={`/${lang}/yachts/aquaholic`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[240px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1731,7 +1731,7 @@ export default function Papillon9BlackYachtPage({ params }) {
 
             {/* Yate 3: 116 ft Capella */}
             <Link
-              href={`/${lang}/cabo-yacht-charters`}
+              href={`/${lang}/yachts`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[240px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1757,7 +1757,7 @@ export default function Papillon9BlackYachtPage({ params }) {
 
             {/* Yate 4: 130 ft Sovereign */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-sovereign`}
+              href={`/${lang}/yachts/sovereign`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[240px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">

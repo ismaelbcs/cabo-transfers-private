@@ -34,6 +34,7 @@ import GoogleReviews from '../../components/GoogleReviews';
 import CustomerPhotosWidget from '../../components/CustomerPhotosWidget';
 import UrgencyBanner from '../../components/UrgencyBanner';
 import { dict } from '../../locales/dict';
+import { landingPagesSEO } from '../../data/seoData';
 
 export default function Home() {
   const params = useParams();
@@ -584,7 +585,7 @@ export default function Home() {
     { id: 745, nombre: 'Orchid House Baja', zona: 6 }
   ];
 
-  const hotelesFiltrados = hotelesBase.filter(h => busquedaHotel.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
+  const hotelesFiltrados = landingPagesSEO.filter(h => busquedaHotel.toLowerCase().split(' ').every(w => h.nombre.toLowerCase().includes(w)));
   const zonasVisibles = zonasBase.filter(z => hotelesFiltrados.some(h => h.zona === z.id));
 
   return (
@@ -860,7 +861,7 @@ export default function Home() {
                   </p>
                   <div className="flex flex-col gap-4">
                     <Link href={`/${lang}/tours`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Ver Catálogo de Tours' : 'View All Tours'}</Link>
-                    <Link href={`/${lang}/blog`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Leer el Blog Oficial' : 'Read our Travel Blog'}</Link>
+                    <Link href={`/${lang}/transfers`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Ver Traslados Privados SJD' : 'Explore Private Airport Transfers'}</Link>
                   </div>
                 </div>
               </div>
@@ -905,8 +906,8 @@ export default function Home() {
                     <li><Link href={`/${lang}/tours/atv-off-road-adventure-cabo`} className="text-slate-400 hover:text-white transition-colors">ATV Off-Road Adventure</Link></li>
                     <li><Link href={`/${lang}/tours/cabo-san-lucas-snorkel-tour`} className="text-slate-400 hover:text-white transition-colors">Cabo Snorkel Tour</Link></li>
                     <li><Link href={`/${lang}/tours/camel-safari-tour-cabo-san-lucas`} className="text-slate-400 hover:text-white transition-colors">Camel Safari Tour</Link></li>
-                    <li><Link href={`/${lang}/tours/clear-boat-tour-cabo-san-lucas-arch`} className="text-slate-400 hover:text-white transition-colors">Clear Boat to the Arch</Link></li>
-                    <li><Link href={`/${lang}/tours/espiritu-santo-island-tour-from-cabo`} className="text-slate-400 hover:text-white transition-colors">Espiritu Santo Island Tour</Link></li>
+                    <li><Link href={`/${lang}/tours/clear-boat-tour-cabo-arch`} className="text-slate-400 hover:text-white transition-colors">Clear Boat to the Arch</Link></li>
+                    <li><Link href={`/${lang}/tours/espiritu-santo-island-tour-from-la-paz`} className="text-slate-400 hover:text-white transition-colors">Espiritu Santo Island Tour</Link></li>
                     <li><Link href={`/${lang}/tours/swim-with-whale-sharks-la-paz-cabo`} className="text-slate-400 hover:text-white transition-colors">Swim with Whale Sharks</Link></li>
                   </ul>
                 </div>
@@ -972,9 +973,14 @@ export default function Home() {
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{t?.step1?.hotels_in_zone || (lang === 'es' ? 'Hoteles en esta zona:' : 'Hotels in this zone:')}</p>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-slate-600 font-medium">
                           {hotelesFiltrados.filter(h => h.zona === zona.id).map((hotel, idx) => (
-                            <li key={`${hotel.id}-${idx}`} className="flex items-start gap-2.5">
+                            <li key={`${hotel.slug || hotel.id}-${idx}`} className="flex items-start gap-2.5">
                               <Check size={16} className="text-slate-900 mt-0.5 shrink-0" />
-                              <span className={busquedaHotel && hotel.nombre.toLowerCase().includes(busquedaHotel.toLowerCase()) ? 'font-bold text-slate-900 bg-slate-200 px-2 py-0.5 rounded' : ''}>{hotel.nombre}</span>
+                              <Link
+                                href={`/${lang}/destinations/${hotel.slug}`}
+                                className={`hover:text-slate-900 hover:underline transition-colors ${busquedaHotel && hotel.nombre.toLowerCase().includes(busquedaHotel.toLowerCase()) ? 'font-bold text-slate-900 bg-slate-200 px-2 py-0.5 rounded' : ''}`}
+                              >
+                                {hotel.nombre}
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -1045,15 +1051,33 @@ export default function Home() {
                 : 'Three-click easy reservation website. Enter your destination, choose your shuttle type, and click submit. You can select from paying securely with a credit card, opting for payment on arrival, or using PayPal.'}
             </p>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-2 text-xs text-slate-400">
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT TRANSFERS</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT TRANSPORTATION</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">CABO TRANSPORTATION</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">CABO AIRPORT TRANSFERS</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">CABO AIRPORT TRANSPORTATION</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS TRANSFERS</a> - 
-              <a href="https://www.caboprivateairporttransfers.com/en" className="hover:text-slate-600 transition-colors">LOS CABOS TRANSPORTATION</a>
+            <div className="mt-8 flex flex-wrap justify-center gap-x-2 gap-y-1.5 text-xs text-slate-400">
+              <Link href={`/${lang}/cabo-airport-transportation`} className="hover:text-slate-600 transition-colors">CABO AIRPORT TRANSPORTATION</Link> -
+              <Link href={`/${lang}/trans-cabo-airport-private-transportation`} className="hover:text-slate-600 transition-colors">TRANS CABO AIRPORT PRIVATE TRANSPORTATION</Link> -
+              <Link href={`/${lang}/private-transfers-los-cabos`} className="hover:text-slate-600 transition-colors">PRIVATE TRANSFERS LOS CABOS</Link> -
+              <Link href={`/${lang}/hyatt-ziva-los-cabos-transportation`} className="hover:text-slate-600 transition-colors">HYATT ZIVA LOS CABOS TRANSPORTATION</Link> -
+              <Link href={`/${lang}/airport-los-cabos`} className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT</Link> -
+              <Link href={`/${lang}/airport-los-cabos-sjd`} className="hover:text-slate-600 transition-colors">LOS CABOS SJD AIRPORT</Link> -
+              <Link href={`/${lang}/airport-luxury-suv`} className="hover:text-slate-600 transition-colors">AIRPORT LUXURY SUV</Link> -
+              <Link href={`/${lang}/allways-cabo-airport-transportation`} className="hover:text-slate-600 transition-colors">ALLWAYS CABO AIRPORT TRANSPORTATION</Link> -
+              <Link href={`/${lang}/cabo-airport-shuttle-transportation`} className="hover:text-slate-600 transition-colors">CABO AIRPORT SHUTTLE TRANSPORTATION</Link> -
+              <Link href={`/${lang}/cabo-airport-suv-service`} className="hover:text-slate-600 transition-colors">CABO AIRPORT SUV SERVICE</Link> -
+              <Link href={`/${lang}/cabo-airport-taxi-alternative`} className="hover:text-slate-600 transition-colors">CABO AIRPORT TAXI ALTERNATIVE</Link> -
+              <Link href={`/${lang}/cabo-airport-transportation-with-beer-included`} className="hover:text-slate-600 transition-colors">CABO AIRPORT SHUTTLE WITH BEER</Link> -
+              <Link href={`/${lang}/cabo-san-lucas-private-transfers`} className="hover:text-slate-600 transition-colors">CABO SAN LUCAS PRIVATE TRANSFERS</Link> -
+              <Link href={`/${lang}/los-cabos-airport-transportation`} className="hover:text-slate-600 transition-colors">LOS CABOS AIRPORT TRANSPORTATION</Link> -
+              <Link href={`/${lang}/private-cabo-transfers`} className="hover:text-slate-600 transition-colors">PRIVATE CABO TRANSFERS</Link> -
+              <Link href={`/${lang}/private-transfers-cabo-san-lucas`} className="hover:text-slate-600 transition-colors">PRIVATE TRANSFERS CABO SAN LUCAS</Link> -
+              <Link href={`/${lang}/san-jose-del-cabo-airport-shuttle`} className="hover:text-slate-600 transition-colors">SAN JOSE DEL CABO AIRPORT SHUTTLE</Link> -
+              <Link href={`/${lang}/san-jose-del-cabo-airport-transportation`} className="hover:text-slate-600 transition-colors">SAN JOSE DEL CABO AIRPORT TRANSPORTATION</Link> -
+              <Link href={`/${lang}/san-jose-del-cabo-private-transfers`} className="hover:text-slate-600 transition-colors">SAN JOSE DEL CABO PRIVATE TRANSFERS</Link> -
+              <Link href={`/${lang}/san-jose-del-cabo-private-transfers-airport`} className="hover:text-slate-600 transition-colors">SJD PRIVATE AIRPORT TRANSFERS</Link> -
+              <Link href={`/${lang}/sjd-airport-transportation`} className="hover:text-slate-600 transition-colors">SJD AIRPORT TRANSPORTATION</Link> -
+              <Link href={`/${lang}/sjd-to-pedregal-private-shuttle`} className="hover:text-slate-600 transition-colors">SJD TO PEDREGAL PRIVATE SHUTTLE</Link> -
+              <Link href={`/${lang}/skip-taxi-lines-at-cabo-airport`} className="hover:text-slate-600 transition-colors">SKIP TAXI LINES AT CABO AIRPORT</Link> -
+              <Link href={`/${lang}/taxi-airport-cabo`} className="hover:text-slate-600 transition-colors">TAXI AIRPORT CABO</Link> -
+              <Link href={`/${lang}/uber-cabo`} className="hover:text-slate-600 transition-colors">UBER IN CABO</Link> -
+              <Link href={`/${lang}/uber-transportation-cabo`} className="hover:text-slate-600 transition-colors">UBER TRANSPORTATION CABO</Link>
             </div>
           </div>
 

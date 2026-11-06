@@ -137,6 +137,51 @@ const Footer = ({ lang = 'en' }) => {
                   {t.tours}
                 </Link>
               </li>
+              <li>
+                <Link href={`/${lang}/transfers`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Traslados Aeropuerto SJD" : "SJD Airport Transfers"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/yachts`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Renta de Yates" : "Yacht Charters"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/dinners`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Transporte a Restaurantes" : "Dinner Transfers"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/golf`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Transporte a Campos de Golf" : "Golf Course Transfers"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/weddings`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Bodas y Eventos" : "Weddings & Events"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/nightlife`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Vida Nocturna" : "Nightlife Transfers"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/clear-boat`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Barco Transparente" : "Clear Boat Tour"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/tours/camel-safari-tour-cabo-san-lucas`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Paseo en Camello" : "Camel Ride Safari"}
+                </Link>
+              </li>
+              <li>
+                <Link href={`/${lang}/booking`} className="text-slate-400 text-sm font-medium hover:text-white hover:translate-x-1 transition-all duration-300">
+                  {isEs ? "Reservar Ahora" : "Book Online"}
+                </Link>
+              </li>
             </ul>
           </div>
 

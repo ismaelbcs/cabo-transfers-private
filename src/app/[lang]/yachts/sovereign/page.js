@@ -529,7 +529,7 @@ export default function SovereignYachtPage({ params }) {
                 <span>←</span> {isEs ? 'Inicio' : 'Home'}
               </Link>
               <span>/</span>
-              <Link href={`/${lang}/cabo-yacht-charters`} className="hover:text-blue-600 transition text-slate-400">
+              <Link href={`/${lang}/yachts`} className="hover:text-blue-600 transition text-slate-400">
                 {isEs ? 'Yates de Lujo' : 'Luxury Yachts'}
               </Link>
               <span>/</span>
@@ -1727,7 +1727,7 @@ export default function SovereignYachtPage({ params }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Yate 0: 80 ft Papillon 9 (Black Sunseeker) */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-papillon-9`}
+              href={`/${lang}/yachts/papillon-9`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1753,7 +1753,7 @@ export default function SovereignYachtPage({ params }) {
 
             {/* Yate 1: 85 ft Contessa */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-contessa`}
+              href={`/${lang}/yachts/contessa`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1779,7 +1779,7 @@ export default function SovereignYachtPage({ params }) {
 
             {/* Yate 2: 110 ft Aquaholic */}
             <Link
-              href={`/${lang}/cabo-yacht-charters-aquaholic`}
+              href={`/${lang}/yachts/aquaholic`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
@@ -1805,7 +1805,7 @@ export default function SovereignYachtPage({ params }) {
 
             {/* Yate 3: 116 ft Capella */}
             <Link
-              href={`/${lang}/cabo-yacht-charters`}
+              href={`/${lang}/yachts`}
               className="group block text-center"
             >
               <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
