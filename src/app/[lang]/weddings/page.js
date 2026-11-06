@@ -1,7 +1,7 @@
 // src/app/[lang]/weddings/page.js
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { use, useState, useEffect, useRef } from 'react';
 import { Send, CheckCircle, HeartHandshake, ChevronDown, Car, Map, Sparkles } from 'lucide-react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../../firebase';
@@ -168,7 +168,8 @@ const FadeInSection = ({ children, delay = 0, className = "" }) => {
 // PÁGINA PRINCIPAL
 // ============================================================================
 export default function WeddingsPage({ params }) {
-  const lang = params?.lang || 'en';
+  const resolvedParams = use(params);
+  const lang = resolvedParams?.lang || 'en';
   // Intenta tomar del global, si no existe toma el local que creamos arriba
   const t = globalDict[lang]?.weddings || localDict[lang].weddings;
 

@@ -1206,6 +1206,7 @@ const HOTEL_CUSTOM_MEDIA = {
 export default function DestinationPage({ params }) {
   const resolvedParams = use(params);
   const lang = resolvedParams?.lang || 'en'; // Inglés como principal por defecto
+  const isEs = lang === 'es';
   const slug = resolvedParams?.slug || '';
   const router = useRouter();
 
