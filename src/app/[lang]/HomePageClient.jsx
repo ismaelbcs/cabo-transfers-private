@@ -758,7 +758,7 @@ export default function Home() {
                       {lang === 'es' ? ', planificar con anticipación es la clave.' : ', planning ahead is key.'}
                     </p>
                     <p>
-                      {lang === 'es' ? <>Cuando viajes, confía en <strong className="text-slate-900">Ballard Tours</strong> para un traslado profesional puerta a puerta. Reservar en línea o llamar al <strong className="text-slate-900">+52 624 139 3497</strong> te garantiza un viaje sin estrés y total tranquilidad desde que aterrizas.</> : <>When you travel, consider <strong className="text-slate-900">Ballard Tours</strong> and the convenience of a professional door-to-door service. Pre-booking online or calling toll-free at <strong className="text-slate-900">+52 624 139 3497</strong> ensures a smooth journey and absolute peace of mind.</>}
+                      {lang === 'es' ? <>Cuando viajes, confía en <strong className="text-slate-900">Ballard Tours</strong> para un traslado profesional puerta a puerta. Reservar en línea o llamar al <strong className="text-slate-900">+52 612 194 3286</strong> te garantiza un viaje sin estrés y total tranquilidad desde que aterrizas.</> : <>When you travel, consider <strong className="text-slate-900">Ballard Tours</strong> and the convenience of a professional door-to-door service. Pre-booking online or calling toll-free at <strong className="text-slate-900">+52 612 194 3286</strong> ensures a smooth journey and absolute peace of mind.</>}
                     </p>
                   </div>
                 </div>
@@ -1010,7 +1010,7 @@ export default function Home() {
                   <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 text-slate-900"><Clock size={28} /></div>
                   <div>
                     <h3 className="text-xl font-bold text-slate-900 mb-2">{lang === 'es' ? 'Soporte en Línea 24/7' : '24 / 7 Online Support'}</h3>
-                    <p className="text-slate-500 font-medium leading-relaxed">{lang === 'es' ? 'Respondemos lo más rápido posible. Contáctanos por WhatsApp al +52 624 139 3497 en cualquier momento.' : 'We respond as quickly as possible. Reach out via WhatsApp at +52 624 139 3497 anytime.'}</p>
+                    <p className="text-slate-500 font-medium leading-relaxed">{lang === 'es' ? 'Respondemos lo más rápido posible. Contáctanos por WhatsApp al +52 612 194 3286 en cualquier momento.' : 'We respond as quickly as possible. Reach out via WhatsApp at +52 612 194 3286 anytime.'}</p>
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 text-center sm:text-left">

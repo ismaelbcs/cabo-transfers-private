@@ -964,7 +964,7 @@ export default function RestaurantSeoPage({ params }) {
               <div className="w-14 h-14 shrink-0 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200"><Clock size={24} className="text-slate-900" /></div>
               <div>
                 <h3 className="text-lg font-bold text-slate-900 mb-1">{lang === 'es' ? 'Soporte 24/7' : '24 / 7 Support'}</h3>
-                <p className="text-slate-500 text-xs leading-relaxed font-medium">{lang === 'es' ? 'Nos esforzamos por responder rápido. Contáctanos por WhatsApp al +52 624 139 3497 en cualquier momento.' : 'We strive to respond as quickly as possible. Reach out via WhatsApp at +52 624 139 3497 anytime.'}</p>
+                <p className="text-slate-500 text-xs leading-relaxed font-medium">{lang === 'es' ? 'Nos esforzamos por responder rápido. Contáctanos por WhatsApp al +52 612 194 3286 en cualquier momento.' : 'We strive to respond as quickly as possible. Reach out via WhatsApp at +52 612 194 3286 anytime.'}</p>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">

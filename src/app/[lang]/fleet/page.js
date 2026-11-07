@@ -225,7 +225,7 @@ export default function FleetPage({ params }) {
                             <div className="w-12 h-12 shrink-0 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center text-slate-900"><Clock size={20} /></div>
                             <div>
                                 <h3 className="text-base font-bold text-slate-900 mb-1">{lang === 'es' ? 'Soporte en Línea 24/7' : '24 / 7 Online Support'}</h3>
-                                <p className="text-slate-500 leading-relaxed text-sm font-medium">{lang === 'es' ? 'Respondemos de inmediato. Contáctanos por WhatsApp al +52 624 139 3497.' : 'We respond instantly. Reach out via WhatsApp at +52 624 139 3497.'}</p>
+                                <p className="text-slate-500 leading-relaxed text-sm font-medium">{lang === 'es' ? 'Respondemos de inmediato. Contáctanos por WhatsApp al +52 612 194 3286.' : 'We respond instantly. Reach out via WhatsApp at +52 612 194 3286.'}</p>
                             </div>
                         </div>
                         <div className="flex items-start gap-4">

@@ -400,10 +400,8 @@ export default function AquaholicYachtPage({ params }) {
         creadoEn: new Date().toISOString()
       };
 
-      await addDoc(collection(db, 'yacht_inquiries'), payload);
-
       await sendEmail({
-        to: 'ballardtours@gmail.com',
+        to: 'reservationballard@gmail.com',
         subject: `🛥️ New Yacht Inquiry: 110ft Horizon "Aquaholic" (${payload.clienteNombre})`,
         html: `
           <h2>Solicitud de Reserva / Información - 110ft Horizon "Aquaholic"</h2>
@@ -424,6 +422,12 @@ export default function AquaholicYachtPage({ params }) {
           <p><strong>Mensaje del cliente:</strong><br/>${payload.mensaje || 'Sin mensaje adicional'}</p>
         `
       });
+
+      try {
+        await addDoc(collection(db, 'yacht_inquiries'), payload);
+      } catch (dbErr) {
+        console.warn('Respaldo yacht_inquiries:', dbErr);
+      }
 
       setInquiryEnviado(true);
     } catch (error) {

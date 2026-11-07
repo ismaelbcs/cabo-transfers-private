@@ -303,7 +303,7 @@ export default function AboutUsPage({ params }) {
               </p>
               <div className="text-xs text-slate-400 space-y-2.5 font-medium">
                 <p>Los Cabos, Baja California Sur, Mexico</p>
-                <p className="font-bold text-white text-base pt-1">Phone: +52 624 139 3497</p>
+                <p className="font-bold text-white text-base pt-1">Phone: +52 612 194 3286</p>
                 <p>Email: <a href="mailto:reservationballard@gmail.com" className="text-slate-300 hover:text-white transition-colors">reservationballard@gmail.com</a></p>
               </div>
             </div>

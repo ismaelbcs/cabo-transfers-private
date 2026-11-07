@@ -160,13 +160,13 @@ export default function ContactPage({ params }) {
         <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4 h-max">
           
           {/* WhatsApp 1 */}
-          <a href="https://wa.me/526241393497" target="_blank" rel="noopener noreferrer" className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 flex flex-col justify-between hover:scale-[1.02] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 ease-out group min-h-[160px]">
+          <a href="https://wa.me/526121943286" target="_blank" rel="noopener noreferrer" className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 flex flex-col justify-between hover:scale-[1.02] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 ease-out group min-h-[160px]">
             <div className="w-10 h-10 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
               <MessageCircle size={20} strokeWidth={2.5} />
             </div>
             <div>
               <h3 className="font-semibold text-slate-900 text-sm">{t.wpRes}</h3>
-              <p className="text-slate-500 text-xs font-medium mb-3">+52 (624) 139-3497</p>
+              <p className="text-slate-500 text-xs font-medium mb-3">+52 (612) 194-3286</p>
               <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 group-hover:text-slate-900 transition-colors uppercase tracking-widest">
                 {t.clickChat} <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>
@@ -188,13 +188,13 @@ export default function ContactPage({ params }) {
           </a>
 
           {/* Teléfono */}
-          <a href="tel:+526241393497" className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 flex flex-col justify-between hover:scale-[1.02] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 ease-out group min-h-[160px]">
+          <a href="tel:+526121943286" className="bg-white rounded-3xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 flex flex-col justify-between hover:scale-[1.02] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 ease-out group min-h-[160px]">
             <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4 transition-colors duration-300">
               <Phone size={20} strokeWidth={2.5} />
             </div>
             <div>
               <h3 className="font-semibold text-slate-900 text-sm">{t.callUs}</h3>
-              <p className="text-slate-500 text-xs font-medium mb-3">+52 (624) 139-3497</p>
+              <p className="text-slate-500 text-xs font-medium mb-3">+52 (612) 194-3286</p>
               <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 group-hover:text-slate-900 transition-colors uppercase tracking-widest">
                 {t.clickCall} <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
               </div>

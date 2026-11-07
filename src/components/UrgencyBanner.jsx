@@ -59,14 +59,14 @@ export default function UrgencyBanner({ lang = 'es', locationName = '' }) {
             {lang === 'es' ? 'Manda SMS al' : 'Send SMS to'}
             <br className="hidden sm:block" />
             <a 
-              href="sms:+526241393497" 
+              href="sms:+526121943286" 
               onClick={() => {
-                navigator.clipboard.writeText('+526241393497');
-                alert(lang === 'es' ? 'Número copiado: +526241393497' : 'Number copied: +526241393497');
+                navigator.clipboard.writeText('+526121943286');
+                alert(lang === 'es' ? 'Número copiado: +526121943286' : 'Number copied: +526121943286');
               }}
               className="font-bold text-blue-600 hover:text-blue-800 underline active:scale-95 transition-transform inline-block mt-1 sm:mt-1.5 text-sm md:text-base"
             >
-              +52 624 139 3497
+              +52 612 194 3286
             </a>
           </p>
         </div>

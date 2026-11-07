@@ -93,14 +93,9 @@ const Footer = ({ lang = 'en' }) => {
               {/* Teléfono */}
               <li className="flex items-center gap-3 text-slate-400 text-sm font-medium group">
                 <Phone size={18} className="shrink-0 text-slate-500 group-hover:text-green-400 transition-colors" />
-                <a href="tel:+526241393497" className="hover:text-white transition-colors">+52 (624) 139-3497</a>
+                <a href="tel:+526121943286" className="hover:text-white transition-colors">+52 (612) 194-3286</a>
               </li>
-              {/* WhatsApp 1 */}
-              <li className="flex items-center gap-3 text-slate-400 text-sm font-medium group">
-                <MessageCircle size={18} className="shrink-0 text-slate-500 group-hover:text-green-400 transition-colors" />
-                <a href="https://wa.me/526241393497" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+52 (624) 139-3497</a>
-              </li>
-              {/* WhatsApp 2 */}
+              {/* WhatsApp */}
               <li className="flex items-center gap-3 text-slate-400 text-sm font-medium group">
                 <MessageCircle size={18} className="shrink-0 text-slate-500 group-hover:text-green-400 transition-colors" />
                 <a href="https://wa.me/526121943286" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">+52 (612) 194-3286</a>

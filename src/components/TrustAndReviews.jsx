@@ -48,7 +48,7 @@ export default function TrustAndReviews({ lang = 'es' }) {
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle className="text-green-600 shrink-0 mt-1" size={20} />
-              <p className="text-sm text-gray-700"><strong>{lang === 'es' ? 'Reserva Online o por Teléfono:' : 'Book Online or Call:'}</strong> {lang === 'es' ? ' Reserva en www.ballardtours.com, llama gratis o envía WhatsApp al +52 624 139 3497.' : ' Pre-book online, call toll-free, or WhatsApp +52 624 139 3497 for peace of mind.'}</p>
+              <p className="text-sm text-gray-700"><strong>{lang === 'es' ? 'Reserva Online o por Teléfono:' : 'Book Online or Call:'}</strong> {lang === 'es' ? ' Reserva en www.ballardtours.com, llama gratis o envía WhatsApp al +52 612 194 3286.' : ' Pre-book online, call toll-free, or WhatsApp +52 612 194 3286 for peace of mind.'}</p>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle className="text-green-600 shrink-0 mt-1" size={20} />

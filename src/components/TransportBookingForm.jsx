@@ -94,14 +94,14 @@ export default function TransportBookingForm({ lang = 'es' }) {
           <p className="text-slate-600 text-lg md:text-xl flex items-center gap-2 flex-wrap">
             {lang === 'es' ? 'Manda SMS al' : 'Send SMS to'}
             <a 
-              href="sms:+526241393497" 
+              href="sms:+526121943286" 
               onClick={() => {
-                navigator.clipboard.writeText('+526241393497');
-                alert(lang === 'es' ? 'Número copiado al portapapeles: +526241393497' : 'Number copied to clipboard: +526241393497');
+                navigator.clipboard.writeText('+526121943286');
+                alert(lang === 'es' ? 'Número copiado al portapapeles: +526121943286' : 'Number copied to clipboard: +526121943286');
               }}
               className="font-black text-blue-600 hover:text-blue-800 underline flex items-center gap-2 transition-colors bg-blue-50 px-3 py-1.5 rounded-lg active:scale-95"
             >
-              +52 624 139 3497
+              +52 612 194 3286
             </a>
             <span className="text-sm text-slate-400 font-bold ml-1">
               {lang === 'es' ? '(Click para copiar / enviar SMS)' : '(Click to copy / send SMS)'}

@@ -138,7 +138,7 @@ export default function CancellationPolicy({ params }) {
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 inline-block w-full">
             <p className="text-slate-900 font-bold mb-2 text-sm">{t.channelsTitle}</p>
             <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-600">
-              <span className="bg-white px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">WhatsApp: +52 624 139 3497</span>
+              <span className="bg-white px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">WhatsApp: +52 612 194 3286</span>
               <span className="bg-white px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">reservationballard@gmail.com</span>
             </div>
           </div>

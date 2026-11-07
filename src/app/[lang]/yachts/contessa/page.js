@@ -560,30 +560,34 @@ export default function ContessaYachtPage({ params }) {
     `;
 
     try {
-      await addDoc(collection(db, "correos"), {
-        to: "reservationballard@gmail.com",
-        message: {
-          subject: emailSubject,
-          html: emailHtml
-        },
-        yachtInquiry: {
-          yachtName: '85ft Her Shine Marine Contessa',
-          ...inquireData,
-          paquete: paqueteSeleccionado.id,
-          totalHuespedes,
-          horasExtras,
-          incluirTransporte,
-          hotelOrigen: busquedaOrigen,
-          granTotalYate,
-          createdAt: new Date().toISOString()
-        }
-      });
-
       await sendEmail({
         to: "reservationballard@gmail.com",
         subject: emailSubject,
         html: emailHtml
       });
+
+      try {
+        await addDoc(collection(db, "correos"), {
+          to: "reservationballard@gmail.com",
+          message: {
+            subject: emailSubject,
+            html: emailHtml
+          },
+          yachtInquiry: {
+            yachtName: '85ft Her Shine Marine Contessa',
+            ...inquireData,
+            paquete: paqueteSeleccionado.id,
+            totalHuespedes,
+            horasExtras,
+            incluirTransporte,
+            hotelOrigen: busquedaOrigen,
+            granTotalYate,
+            createdAt: new Date().toISOString()
+          }
+        });
+      } catch (dbErr) {
+        console.warn("Respaldo correos:", dbErr);
+      }
 
       setEnviandoInquiry(false);
       setInquiryEnviado(true);

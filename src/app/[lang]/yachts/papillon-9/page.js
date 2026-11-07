@@ -500,10 +500,8 @@ export default function Papillon9BlackYachtPage({ params }) {
         creadoEn: new Date().toISOString()
       };
 
-      await addDoc(collection(db, 'yacht_inquiries'), payload);
-
       await sendEmail({
-        to: 'ballardtours@gmail.com',
+        to: 'reservationballard@gmail.com',
         subject: `🛥️ New Yacht Inquiry: 80ft Black Sunseeker "Papillon 9" (${payload.clienteNombre})`,
         html: `
           <h2>Solicitud de Reserva / Información - 80ft Black Sunseeker Manhattan "Papillon 9"</h2>
@@ -524,6 +522,12 @@ export default function Papillon9BlackYachtPage({ params }) {
           <p><strong>Mensaje del cliente:</strong><br/>${payload.mensaje || 'Sin mensaje adicional'}</p>
         `
       });
+
+      try {
+        await addDoc(collection(db, 'yacht_inquiries'), payload);
+      } catch (dbErr) {
+        console.warn('Respaldo yacht_inquiries:', dbErr);
+      }
 
       setInquiryEnviado(true);
     } catch (error) {

@@ -374,7 +374,7 @@ export default async function CaboSuvServicePage({ params }) {
                             <div>
                                 <h4 className="font-bold text-neutral-900 text-lg mb-1">{lang === 'es' ? 'Soporte en línea 24 / 7' : '24 / 7 Online Support'}</h4>
                                 <p className="text-neutral-500 text-sm leading-relaxed">
-                                    {lang === 'es' ? 'Respondemos lo más rápido posible. Contáctanos vía WhatsApp al +52 624 139 3497 en cualquier momento.' : 'We respond as quickly as possible. Reach out via WhatsApp at +52 624 139 3497 anytime.'}
+                                    {lang === 'es' ? 'Respondemos lo más rápido posible. Contáctanos vía WhatsApp al +52 612 194 3286 en cualquier momento.' : 'We respond as quickly as possible. Reach out via WhatsApp at +52 612 194 3286 anytime.'}
                                 </p>
                             </div>
                         </div>
