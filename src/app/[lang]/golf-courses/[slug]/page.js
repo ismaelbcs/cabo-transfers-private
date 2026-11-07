@@ -4,7 +4,7 @@ import React, { use, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
-  MapPin, Clock, ShieldCheck, Car, Banknote, Calendar, ChevronRight, Info, Plus, CheckCircle, Users, Map, PlaneLanding 
+  MapPin, Clock, ShieldCheck, Car, Banknote, Calendar, ChevronRight, Info, Plus, CheckCircle, Users, Map, PlaneLanding, Baby 
 } from 'lucide-react';
 import { useCart } from '../../../../context/CartContext';
 import { useBooking } from '../../../../context/BookingContext';
@@ -574,105 +574,213 @@ export default function GolfCourseSeoPage({ params }) {
 
         </div>
 
-        {/* RIGHT: BOOKING WIDGET */}
+        {/* ========================================= */}
+        {/* COLUMNA DERECHA: WIDGET DE RESERVA INTERACTIVO */}
+        {/* ========================================= */}
         <div className="lg:col-span-1 relative order-1 lg:order-2">
           <UrgencyBanner lang={lang} locationName={seoData.nombre} />
-          <div className="bg-slate-100 border border-slate-300 rounded-[2rem] shadow-2xl p-5 md:p-6 sticky top-28 max-w-[380px] mx-auto lg:ml-auto lg:mr-0 lg:max-w-[350px] w-full">
+          <div className="bg-white border border-slate-200 p-6 md:p-8 rounded-[2rem] shadow-2xl shadow-slate-200/50 sticky top-28">
             
-            {/* Cabecera del Widget (Seguridad) */}
-            <div className="flex justify-between items-center mb-6 border-b border-slate-200 pb-4">
+            {/* Cabecera del Widget */}
+            <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
               <div className="flex items-center gap-2">
                 <MapPin className="text-blue-600" size={24} />
-                <h3 className="text-xl font-black text-slate-900 tracking-tight leading-none">
-                  {lang === 'es' ? 'Detalles de Reserva' : 'Booking Details'}
+                <h3 className="text-xl font-black text-slate-900 tracking-tight">
+                  {lang === 'es' ? 'Detalles de tu Reserva' : 'Booking Details'}
                 </h3>
               </div>
-              <div className="flex items-center gap-3">
-                <img src="/datos-seguros.png" alt="Pago Seguro" className="h-6 object-contain" />
-                <div className="h-6 w-px bg-slate-300"></div>
-                <img src="/pago-tarjetas.png" alt="Tarjetas Aceptadas" className="h-5 object-contain" />
+              <div className="flex flex-col items-end">
+                <div className="flex items-center gap-1">
+                  <ShieldCheck size={14} className="text-yellow-600" />
+                  <span className="text-[10px] font-bold text-slate-600 uppercase">
+                    {lang === 'es' ? 'Pago Seguro' : 'Secure Payment'}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="bg-blue-100 border border-blue-200 text-blue-900 rounded-xl p-4 text-xs font-semibold mb-6 flex items-start gap-2 shadow-sm">
+            <div className="bg-blue-50 border border-blue-100 text-blue-900 rounded-xl p-3.5 text-xs font-semibold mb-6 flex items-start gap-2">
               <Info size={16} className="shrink-0 mt-0.5 text-blue-700" />
-              <p>{lang === 'es' ? 'El servicio de golf incluye un máximo de 4 horas de espera en el campo (más 1 hora de trayectos).' : 'The Golf transfer service includes a maximum of 4 hours of wait time at the course (plus 1 hour of transit).'}</p>
+              <p>{lang === 'es' ? 'El servicio de golf incluye hasta 4 horas de espera en el campo (más 1 hora de trayectos).' : 'Golf transfer service includes up to 4 hours of wait time at the course (plus 1 hour of transit).'}</p>
             </div>
 
-            <h3 className="text-xl font-black text-slate-900 mb-4">{lang === 'es' ? 'Reserva de Campo de Golf' : 'Golf Course Transportation Booking'}</h3>
-
-            <div className="space-y-4">
-              <div className="flex flex-col relative">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? '¿De dónde sales?' : 'Where are you departing from?'}</label>
-                <input type="text" placeholder={lang === 'es' ? 'Busca tu hotel...' : 'Type to search your hotel...'} value={busquedaGolfOrigen} onChange={(e) => { setBusquedaGolfOrigen(e.target.value); setMostrarDropdownGolf(true); if (e.target.value === '') setGolfOrigen(''); }} onFocus={() => setMostrarDropdownGolf(true)} onBlur={() => setTimeout(() => setMostrarDropdownGolf(false), 200)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none transition font-medium text-slate-800" />
+            <div className="space-y-5">
+              {/* SELECCIONA TU HOTEL */}
+              <div className="relative">
+                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                  {lang === 'es' ? '¿De dónde sales? (Tu Hotel)' : 'Where are you departing from?'}
+                </label>
+                <input
+                  type="text"
+                  placeholder={lang === 'es' ? 'Escribe para buscar tu hotel...' : 'Type to search your hotel...'}
+                  value={busquedaGolfOrigen}
+                  onChange={(e) => {
+                    setBusquedaGolfOrigen(e.target.value);
+                    setMostrarDropdownGolf(true);
+                    if (e.target.value === '') setGolfOrigen('');
+                  }}
+                  onFocus={() => setMostrarDropdownGolf(true)}
+                  onBlur={() => setTimeout(() => setMostrarDropdownGolf(false), 200)}
+                  className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 transition-colors text-sm"
+                />
                 {mostrarDropdownGolf && (
-                  <ul className="absolute z-50 w-full bg-white border border-slate-200 rounded-xl shadow-xl mt-1 top-[68px] max-h-48 overflow-y-auto text-sm font-medium">
+                  <ul className="absolute z-50 w-full bg-white border border-slate-200 shadow-xl max-h-60 overflow-y-auto rounded-xl mt-1 top-full left-0">
                     {catalogoHoteles.filter(h => (busquedaGolfOrigen || '').toLowerCase().split(' ').every(w => h.nombre.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(w.normalize('NFD').replace(/[\u0300-\u036f]/g, "")))).slice(0, 30).map((hotel, idx) => (
-                      <li key={`${hotel.id}-${idx}`} onMouseDown={() => { const zona = hotel.zonaId || hotel.zona || "1"; setGolfOrigen(`${hotel.nombre}|${zona}`); setBusquedaGolfOrigen(`${hotel.nombre} (Zona ${zona})`); setMostrarDropdownGolf(false); }} className="p-3 hover:bg-slate-100 cursor-pointer text-slate-700 border-b border-slate-100 last:border-0 transition flex justify-between">
-                        <span>{hotel.nombre}</span><span className="text-[10px] font-bold text-slate-600 bg-slate-200 px-2 py-1 rounded ml-2">Zona {hotel.zonaId || hotel.zona || 1}</span>
+                      <li
+                        key={`${hotel.id}-${idx}`}
+                        onMouseDown={() => {
+                          const zona = hotel.zonaId || hotel.zona || "1";
+                          setGolfOrigen(`${hotel.nombre}|${zona}`);
+                          setBusquedaGolfOrigen(hotel.nombre);
+                          setMostrarDropdownGolf(false);
+                        }}
+                        className="p-3 hover:bg-slate-50 cursor-pointer text-sm text-slate-700 border-b border-slate-50 last:border-0 flex justify-between items-center"
+                      >
+                        <span className="truncate pr-2">{hotel.nombre}</span>
+                        <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded shrink-0">Zona {hotel.zonaId || hotel.zona || 1}</span>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
 
-              <div className="flex flex-col">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? 'Área del campo de golf' : 'Golf Course Area'}</label>
-                <select value={golfDestino} onChange={(e) => setGolfDestino(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none bg-white font-medium text-slate-800">
-                  <option value="" disabled>{lang === 'es' ? 'Selecciona una opción...' : 'Select an option...'}</option>
-                  <option value="sjc">San José del Cabo</option>
-                  <option value="corredor">{lang === 'es' ? 'Corredor Turístico' : 'Tourist Corridor'}</option>
-                  <option value="csl">Cabo San Lucas</option>
-                  <option value="pacifico">{lang === 'es' ? 'Sitio Pacífico' : 'Pacific Site'}</option>
-                </select>
-              </div>
+              {/* TIPO DE VEHÍCULO */}
+              <div>
+                <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                  {lang === 'es' ? 'Tipo de Vehículo (Viaje Redondo)' : 'Vehicle Type (Round Trip)'}
+                </label>
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                  {/* Opcion Luxury SUV */}
+                  <button
+                    type="button"
+                    onClick={() => setGolfPax('1-4')}
+                    className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${golfPax !== '9-10' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  >
+                    <div className="flex justify-between items-start w-full mb-2">
+                      <span className="font-bold text-slate-900">Luxury SUV</span>
+                      <Car size={18} className={golfPax !== '9-10' ? 'text-blue-900' : 'text-slate-400'} />
+                    </div>
+                    <p className="text-[10px] text-slate-500 mb-4 leading-tight">
+                      {lang === 'es' ? 'Espacio amplio para bolsas de golf y máximo confort.' : 'Spacious room for golf bags and maximum comfort.'}
+                    </p>
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold">
+                        <Users size={12} /> {lang === 'es' ? 'MÁX 6 PAX' : 'MAX 6 PAX'}
+                      </div>
+                      <span className="font-black text-slate-900 text-sm">
+                        ${golfOrigen && golfDestino ? Number(matrizPreciosGolf[golfDestino]?.[String(golfOrigen.split('|')[1]) || '1'] || 160) : Number(matrizPreciosGolf[golfDestino]?.[String(seoData.zona || 1)] || 160)}
+                      </span>
+                    </div>
+                  </button>
 
-              <div className="flex flex-col">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? 'Nombre Exacto' : 'Exact Golf Course Name'}</label>
-                <input type="text" value={golfCourseNombre} onChange={(e) => setGolfCourseNombre(e.target.value)} placeholder="E.g. Quivira, Diamante, etc." className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none transition font-medium text-slate-800" />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? 'Fecha' : 'Service Date'}</label>
-                  <input type="date" value={golfFecha} onChange={(e) => setGolfFecha(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none font-medium text-slate-800" />
+                  {/* Opcion Van */}
+                  <button
+                    type="button"
+                    onClick={() => setGolfPax('9-10')}
+                    className={`border rounded-xl p-4 text-left flex flex-col justify-between transition-all ${golfPax === '9-10' ? 'border-blue-900 shadow-md ring-1 ring-blue-900 bg-blue-50/20' : 'border-slate-200 hover:border-slate-300 bg-white'}`}
+                  >
+                    <div className="flex justify-between items-start w-full mb-2">
+                      <span className="font-bold text-slate-900">Van</span>
+                      <Car size={18} className={golfPax === '9-10' ? 'text-blue-900' : 'text-slate-400'} />
+                    </div>
+                    <p className="text-[10px] text-slate-500 mb-4 leading-tight">
+                      {lang === 'es' ? 'Ideal para grupos de golfistas con múltiples equipos.' : 'Ideal for golf groups with multiple club sets.'}
+                    </p>
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="flex items-center gap-1 text-slate-400 text-[10px] font-bold">
+                        <Users size={12} /> {lang === 'es' ? 'MÁX 10 PAX' : 'MAX 10 PAX'}
+                      </div>
+                      <span className="font-black text-slate-900 text-sm">
+                        ${(golfOrigen && golfDestino ? Number(matrizPreciosGolf[golfDestino]?.[String(golfOrigen.split('|')[1]) || '1'] || 160) : Number(matrizPreciosGolf[golfDestino]?.[String(seoData.zona || 1)] || 160)) + 60}
+                      </span>
+                    </div>
+                  </button>
                 </div>
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? 'Pasajeros' : 'Number of Passengers'}</label>
-                  <select value={golfPax} onChange={(e) => setGolfPax(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none bg-white font-medium text-slate-800">
-                    <option value="1-4">1 a 4 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
-                    <option value="5-8">5 a 8 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
-                    <option value="9-10">9 a 10 {lang === 'es' ? 'Pasajeros' : 'Passengers'}</option>
+              </div>
+
+              {/* FECHA Y PASAJEROS */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                    {lang === 'es' ? 'Fecha de Tee Time' : 'Service Date'}
+                  </label>
+                  <input
+                    type="date"
+                    value={golfFecha}
+                    onChange={(e) => setGolfFecha(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                    {lang === 'es' ? 'Pasajeros' : 'Passengers'}
+                  </label>
+                  <select
+                    value={golfPax}
+                    onChange={(e) => setGolfPax(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 text-sm"
+                  >
+                    <option value="1-4">1 - 4 {lang === 'es' ? 'Pax' : 'Pax'}</option>
+                    <option value="5-8">5 - 8 {lang === 'es' ? 'Pax' : 'Pax'}</option>
+                    <option value="9-10">9 - 10 {lang === 'es' ? 'Pax' : 'Pax'}</option>
                   </select>
                 </div>
               </div>
 
+              {/* HORARIOS IDA Y REGRESO */}
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? 'Ida' : 'Pick-up time (Hotel)'}</label>
-                  <input type="time" value={golfHoraIda} onChange={(e) => setGolfHoraIda(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none font-medium text-slate-800" />
+                <div>
+                  <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                    {lang === 'es' ? 'Hora Ida (Hotel)' : 'Pick-up Time'}
+                  </label>
+                  <input
+                    type="time"
+                    value={golfHoraIda}
+                    onChange={(e) => setGolfHoraIda(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 text-sm"
+                  />
                 </div>
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{lang === 'es' ? 'Regreso' : 'Pick-up time (Golf return)'}</label>
-                  <input type="time" value={golfHoraRegreso} onChange={(e) => setGolfHoraRegreso(e.target.value)} className="w-full p-3.5 border border-slate-300 rounded-xl shadow-sm focus:ring-2 focus:ring-slate-900 outline-none font-medium text-slate-800" />
+                <div>
+                  <label className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-2">
+                    {lang === 'es' ? 'Hora Regreso' : 'Return Time'}
+                  </label>
+                  <input
+                    type="time"
+                    value={golfHoraRegreso}
+                    onChange={(e) => setGolfHoraRegreso(e.target.value)}
+                    className="w-full border border-slate-200 rounded-xl p-4 text-slate-700 bg-white font-medium focus:outline-none focus:border-blue-900 text-sm"
+                  />
                 </div>
               </div>
 
-              {/* Add to Combo Button */}
-              <div className="mt-8 bg-slate-950 rounded-[1.5rem] p-6 text-white flex flex-col justify-between shadow-lg">
-                <div className="mb-4">
-                  <p className="text-slate-400 text-sm mb-1 font-medium">{lang === 'es' ? 'Costo del Servicio (USD)' : 'Service Cost (USD)'}</p>
-                  {totalPrecioGolf > 0 ? (
-                    <p className="text-4xl font-black">${totalPrecioGolf}</p>
-                  ) : (
-                    <p className="text-xl font-bold text-amber-500">{lang === 'es' ? 'Selecciona origen y destino' : 'Select origin and destination'}</p>
-                  )}
+              {/* TARIFA Y BOTÓN DE RESERVA */}
+              <div className="pt-2">
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-4 flex items-center justify-between">
+                  <div>
+                    <span className="block text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">
+                      {lang === 'es' ? 'Viaje Redondo Privado' : 'Private Round-Trip Rate'}
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium">
+                      {totalPrecioGolf > 0
+                        ? (lang === 'es' ? 'Impuestos y 4h espera incluidos' : 'Taxes & 4h wait time included')
+                        : (lang === 'es' ? 'Selecciona tu hotel para cotizar' : 'Select your hotel for exact rate')}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    {totalPrecioGolf > 0 ? (
+                      <span className="text-2xl font-black text-slate-900">${totalPrecioGolf} <span className="text-xs font-bold text-slate-500">USD</span></span>
+                    ) : (
+                      <span className="text-sm font-black text-blue-900 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 inline-block">
+                        {lang === 'es' ? 'Desde $160 USD' : 'From $160 USD'}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                
+
                 <button 
                   onClick={() => {
                     if (!golfOrigen || !golfDestino || !golfFecha || !golfHoraIda || !golfHoraRegreso) {
-                      alert(lang === 'es' ? 'Por favor completa todos los campos' : 'Please fill all fields');
+                      alert(lang === 'es' ? 'Por favor selecciona tu hotel, fecha y horarios para continuar.' : 'Please select your hotel, date, and times to continue.');
                       return;
                     }
                     const zonaSeleccionada = String(golfOrigen.split('|')[1]) || "1";
@@ -699,10 +807,9 @@ export default function GolfCourseSeoPage({ params }) {
                     setPaso(2);
                     router.push(`/${lang}/checkout`);
                   }}
-                  disabled={totalPrecioGolf === 0}
-                  className={`w-full py-4 rounded-xl font-bold flex items-center justify-center transition-all text-lg ${totalPrecioGolf > 0 ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg hover:shadow-blue-500/25' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
+                  className="w-full py-4 rounded-xl font-bold flex items-center justify-center transition-all text-base bg-blue-900 hover:bg-blue-800 text-white shadow-lg shadow-blue-900/20"
                 >
-                  <Plus size={20} className="mr-2" /> {lang === 'es' ? 'Agregar al Combo' : 'Add to Combo'}
+                  <Plus size={18} className="mr-2" /> {lang === 'es' ? 'Reservar Traslado de Golf' : 'Book Golf Transfer'}
                 </button>
               </div>
 
@@ -711,46 +818,136 @@ export default function GolfCourseSeoPage({ params }) {
           </div>
         </div>
 
-        {/* OTROS CAMPOS DE GOLF EN LOS CABOS */}
-        <div className="mt-16 pt-12 border-t border-slate-200">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+      </div>
+
+      {/* ========================================= */}
+      {/* SECCIÓN FINAL: OTROS CAMPOS DE GOLF Y BENEFICIOS */}
+      {/* ========================================= */}
+      <div className="max-w-6xl mx-auto px-4 pb-16 mt-10">
+
+        {/* OTROS CAMPOS DE GOLF EN LOS CABOS (MISMO DISEÑO DE CARDS CON IMAGEN QUE HOTELES) */}
+        <div className="mb-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
+              <span className="text-xs font-extrabold text-blue-900 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100 inline-block mb-3">
+                {lang === 'es' ? 'Golf en Los Cabos' : 'Championship Golf'}
+              </span>
               <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
                 {lang === 'es' ? 'Otros Campos de Golf en Los Cabos' : 'Other Championship Golf Courses in Los Cabos'}
               </h2>
-              <p className="text-sm text-slate-500 mt-1">
+              <p className="text-slate-500 text-sm mt-1 max-w-2xl font-medium">
                 {lang === 'es'
-                  ? 'Transporte privado ida y vuelta con espacio amplio para bolsas de golf en todos los campos de Los Cabos.'
-                  : 'Round-trip private golf transfers with spacious room for golf clubs to every course in Los Cabos.'}
+                  ? 'Transporte privado ida y vuelta con espacio amplio para bolsas de golf y hasta 4 horas de espera en todos los campos de Los Cabos.'
+                  : 'Round-trip private golf transfers with spacious room for golf clubs and up to 4 hours of wait time to every course in Los Cabos.'}
               </p>
             </div>
             <Link
               href={`/${lang}/golf`}
-              className="text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 shrink-0"
+              className="text-xs font-bold text-blue-900 hover:text-blue-700 flex items-center gap-1 shrink-0 group self-start md:self-auto"
             >
-              {lang === 'es' ? 'Ver todos los campos de golf' : 'View all golf courses'} <ChevronRight size={16} />
+              <span>{lang === 'es' ? 'Ver todos los campos de golf' : 'View all golf courses'}</span>
+              <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {golfSEOData
               .filter(g => g.slug !== slug)
-              .map(item => (
+              .sort((a, b) => (a.zona === seoData.zona ? -1 : 1) - (b.zona === seoData.zona ? -1 : 1))
+              .map((item) => (
                 <Link
                   key={item.slug}
                   href={`/${lang}/golf-courses/${item.slug}`}
-                  className="p-4 rounded-xl bg-white border border-slate-200 hover:border-blue-600/40 hover:shadow-md transition flex items-center justify-between group"
+                  className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-900/40 transition-all duration-300 flex flex-col justify-between"
                 >
-                  <div className="min-w-0 pr-2">
-                    <p className="text-sm font-bold text-slate-800 group-hover:text-blue-900 truncate">{item.nombre}</p>
-                    <p className="text-xs text-slate-400 truncate">{item.zonaText}</p>
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img 
+                      src={`/${item.imageHero || 'golf-sjc-hero.webp'}`} 
+                      alt={`Transfer to ${item.nombre}`} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = '/suburban-airport-los-cabos-ballard.webp';
+                      }}
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-900/80 backdrop-blur-md text-white border border-white/10">
+                        {item.zonaText}
+                      </span>
+                    </div>
                   </div>
-                  <ChevronRight size={15} className="text-slate-400 group-hover:text-blue-600 shrink-0" />
+                  
+                  <div className="p-5 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-base group-hover:text-blue-900 transition-colors line-clamp-1 mb-2">
+                        {item.nombre}
+                      </h3>
+                      <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mb-4">
+                        <span className="flex items-center gap-1">
+                          <Clock size={13} className="text-slate-400" /> {lang === 'es' ? '4 hrs espera incl.' : '4 hrs wait incl.'}
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <MapPin size={13} className="text-slate-400" /> {item.zonaText}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-900">
+                      <span>{lang === 'es' ? 'Ver información y tarifas' : 'View rates & transfer'}</span>
+                      <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </Link>
               ))}
           </div>
         </div>
 
+        {/* Beneficios Footer */}
+        <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-xl shadow-slate-200/40 border border-slate-200 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+              <div className="w-14 h-14 shrink-0 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200"><Clock size={24} className="text-slate-900" /></div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-1">{lang === 'es' ? 'Soporte 24/7' : '24 / 7 Support'}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed font-medium">{lang === 'es' ? 'Nos esforzamos por responder rápido. Contáctanos por WhatsApp al +52 624 139 3497 en cualquier momento.' : 'We strive to respond as quickly as possible. Reach out via WhatsApp at +52 624 139 3497 anytime.'}</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+              <div className="w-14 h-14 shrink-0 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200"><Calendar size={24} className="text-slate-900" /></div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-1">{lang === 'es' ? 'Asistencia de Itinerario' : 'Itinerary Assistance'}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed font-medium">{lang === 'es' ? 'Si necesitas ajustar un horario o hacer una cancelación, nuestro equipo local te asistirá de inmediato.' : 'Need to move a schedule or make a cancellation? Our local team will assist you immediately.'}</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+              <div className="w-14 h-14 shrink-0 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200"><Baby size={24} className="text-slate-900" /></div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-1">{lang === 'es' ? 'Sillas de Bebé Gratis' : 'Free Child Seats'}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed font-medium">{lang === 'es' ? 'La seguridad de tu familia es nuestra prioridad. Proveemos sillas para bebés y asientos elevados sin costo adicional.' : 'Family safety is our priority. We provide infant car seats and booster seats free of charge.'}</p>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
+              <div className="w-14 h-14 shrink-0 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200"><Banknote size={24} className="text-slate-900" /></div>
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 mb-1">{lang === 'es' ? 'Tarifas Transparentes' : 'Transparent Flat Rates'}</h3>
+                <p className="text-slate-500 text-xs leading-relaxed font-medium">{lang === 'es' ? 'Ofrecemos tarifas fijas y claras. Reserva con confianza sin preocuparte de cargos ocultos de última hora.' : 'We offer transparent flat-rate pricing. Book with confidence without any unexpected fees or hidden charges.'}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Métodos de Pago */}
+        <div className="w-full flex flex-col items-center pt-8 pb-8 px-4 text-center">
+          <img src="/pago-tarjetas.png" alt="Métodos de Pago" className="h-10 md:h-12 object-contain opacity-70 grayscale hover:grayscale-0 hover:opacity-100 transition-all mb-6" />
+          <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-3 tracking-tight">
+            {lang === 'es' ? 'Reserva en Línea Fácil y Opciones de Pago Flexibles' : 'Easy Online Booking and Flexible Payment Options'}
+          </h3>
+          <p className="text-sm text-slate-500 font-medium leading-relaxed max-w-4xl mx-auto">
+            {lang === 'es'
+              ? 'Sitio web de reservación fácil en tres clics en Ballard Tours. Simplemente ingrese su hotel de origen, elija su horario de golf y haga clic en reservar. Al final del formulario, encontrará la sección de pago, donde puede seleccionar entre pagar de forma segura con tarjeta de crédito, optar por el pago a la llegada a su chofer, o usar PayPal para mayor comodidad.'
+              : 'Easy three-click booking website at Ballard Tours. Simply enter your departure hotel, choose your tee time schedule, and click book. At the end of the form, you will find the payment section, where you can select from paying securely by credit card, opting for cash payment on arrival to your driver, or using PayPal for added convenience.'}
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Info, Calendar, Plus, MapPin, ChevronRight } from 'lucide-react';
+import { Info, Calendar, Plus, MapPin, ChevronRight, Clock } from 'lucide-react';
 import { useCart } from '../../../context/CartContext';
 import { useBooking } from '../../../context/BookingContext';
 import { catalogoHoteles } from '../../../data/seoData';
@@ -219,25 +219,50 @@ export default function DinnersPage({ params }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {restaurantSEOData.map((rest) => (
               <Link
                 key={rest.slug}
                 href={`/${lang}/restaurants/${rest.slug}`}
-                className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-blue-50/60 hover:border-blue-200 transition group"
+                className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-900/40 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="flex items-start gap-2.5 min-w-0">
-                  <MapPin size={16} className="text-blue-600 shrink-0 mt-0.5" />
-                  <div className="truncate">
-                    <span className="block text-sm font-bold text-slate-800 group-hover:text-blue-900 truncate">
-                      {rest.nombre}
-                    </span>
-                    <span className="block text-[11px] text-slate-500 truncate">
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                  <img 
+                    src={`/${rest.imageDiners || rest.image || 'diners-sjc.webp'}`} 
+                    alt={`Transfer to ${rest.nombre}`} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.currentTarget.src = '/suburban-airport-los-cabos-ballard.webp';
+                    }}
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-slate-900/80 backdrop-blur-md text-white border border-white/10">
                       {rest.zonaText}
                     </span>
                   </div>
                 </div>
-                <ChevronRight size={15} className="text-slate-400 group-hover:text-blue-600 shrink-0 ml-2" />
+                
+                <div className="p-5 flex flex-col flex-1 justify-between">
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-base group-hover:text-blue-900 transition-colors line-clamp-1 mb-2">
+                      {rest.nombre}
+                    </h3>
+                    <div className="flex items-center gap-3 text-xs text-slate-500 font-medium mb-4">
+                      <span className="flex items-center gap-1">
+                        <Clock size={13} className="text-slate-400" /> {lang === 'es' ? '3 hrs espera incl.' : '3 hrs wait incl.'}
+                      </span>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <MapPin size={13} className="text-slate-400" /> {rest.zonaText}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-900">
+                    <span>{lang === 'es' ? 'Ver información y tarifas' : 'View rates & transfer'}</span>
+                    <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
