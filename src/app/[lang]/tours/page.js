@@ -234,6 +234,42 @@ export default function ToursPage({ params }) {
         en: 'Enjoy guided snorkeling in crystal-clear waters, followed by unlimited fajitas and an ice-cold open bar.' 
       },
       price: 140
+    },
+    {
+      id: 'yacht_capella',
+      customPath: `/${lang}/yachts`,
+      image: 'yachts/capella-arch.jpg',
+      duration: { es: '2.5+ Horas', en: '2.5+ Hours' },
+      title: { es: 'Yate de Lujo Capella 116ft', en: 'Capella 116ft Luxury Yacht' },
+      desc: {
+        es: 'Navega por El Arco a bordo del superyate Azimut-Benetti de 116 pies con chef privado, jacuzzi, barra libre premium y juguetes acuáticos.',
+        en: 'Cruise past the Arch aboard our 116ft Azimut-Benetti superyacht featuring a private chef, flybridge jacuzzi, open bar, and water toys.'
+      },
+      price: 8000
+    },
+    {
+      id: 'rest_flora_farms',
+      customPath: `/${lang}/restaurants/flora-farms`,
+      image: 'diners-sjc.webp',
+      duration: { es: 'Viaje Redondo (3h espera)', en: 'Round Trip (3h wait)' },
+      title: { es: 'Restaurante Flora Farms (Traslado)', en: 'Flora Farms Restaurant Transfer' },
+      desc: {
+        es: 'Transporte privado de lujo ida y vuelta para tu cena orgánica en Flora Farms en San José del Cabo, con hasta 3 horas de espera incluidas.',
+        en: 'Luxury private round-trip dinner transportation to Flora Farms organic kitchen in San José del Cabo, including up to 3 hours of waiting time.'
+      },
+      price: 120
+    },
+    {
+      id: 'golf_puerto_los_cabos',
+      customPath: `/${lang}/golf-courses/puerto-los-cabos-golf-course`,
+      image: 'golf-sjc-hero.webp',
+      duration: { es: 'Viaje Redondo (4h espera)', en: 'Round Trip (4h wait)' },
+      title: { es: 'Golf Puerto Los Cabos (Traslado)', en: 'Puerto Los Cabos Golf Transfer' },
+      desc: {
+        es: 'Traslado privado ida y vuelta al campo de golf Puerto Los Cabos (diseño Jack Nicklaus y Greg Norman) con amplio espacio para bolsas de golf.',
+        en: 'Private round-trip golf transfer to Puerto Los Cabos Golf Course (Jack Nicklaus & Greg Norman design) in spacious SUVs and vans for golf bags.'
+      },
+      price: 160
     }
   ];
 
@@ -275,7 +311,7 @@ export default function ToursPage({ params }) {
           {toursList.map((tour) => (
             <Link 
               key={tour.id} 
-              href={tour.id === 'arco' ? `/${lang}/clear-boat` : `/${lang}/tours/${tour.slug}`} 
+              href={tour.customPath ? tour.customPath : (tour.id === 'arco' ? `/${lang}/clear-boat` : `/${lang}/tours/${tour.slug}`)} 
               className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 overflow-hidden flex flex-col group transition-transform duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
             >
               <div className="relative h-60 overflow-hidden bg-slate-100">

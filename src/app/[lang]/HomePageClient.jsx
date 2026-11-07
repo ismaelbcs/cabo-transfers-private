@@ -859,9 +859,12 @@ export default function Home() {
                   <p className="text-slate-500 font-medium mb-8 leading-relaxed">
                     {lang === 'es' ? 'Además de tu transporte al hotel, no olvides planificar tus actividades. Tener todo listo te asegura unas vacaciones perfectas.' : 'Besides your airport transfer, do not forget to plan your activities. Check out our guided tours to complete your adventure.'}
                   </p>
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-3">
                     <Link href={`/${lang}/tours`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Ver Catálogo de Tours' : 'View All Tours'}</Link>
                     <Link href={`/${lang}/transfers`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Ver Traslados Privados SJD' : 'Explore Private Airport Transfers'}</Link>
+                    <Link href={`/${lang}/yachts`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Yate de Lujo Capella 116ft' : 'Capella 116ft Luxury Yacht Charter'}</Link>
+                    <Link href={`/${lang}/restaurants/flora-farms`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Restaurante Flora Farms (Traslado)' : 'Flora Farms Restaurant Transfer'}</Link>
+                    <Link href={`/${lang}/golf-courses/puerto-los-cabos-golf-course`} className="text-slate-900 font-bold hover:text-slate-600 transition-colors flex items-center gap-1 underline decoration-slate-300 underline-offset-4"><ChevronRight size={18} /> {lang === 'es' ? 'Golf Puerto Los Cabos (Traslado)' : 'Puerto Los Cabos Golf Transfer'}</Link>
                   </div>
                 </div>
               </div>
@@ -901,7 +904,7 @@ export default function Home() {
                 </div>
 
                 <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800 text-white">
-                  <h3 className="font-bold text-lg text-white mb-6 flex items-center gap-2"><Compass size={20} className="text-slate-400" /> {lang === 'es' ? 'Tours y Excursiones' : 'Best Cabo Tours'}</h3>
+                  <h3 className="font-bold text-lg text-white mb-6 flex items-center gap-2"><Compass size={20} className="text-slate-400" /> {lang === 'es' ? 'Tours y Experiencias' : 'Best Cabo Tours'}</h3>
                   <ul className="space-y-4 text-sm font-medium">
                     <li><Link href={`/${lang}/tours/atv-off-road-adventure-cabo`} className="text-slate-400 hover:text-white transition-colors">ATV Off-Road Adventure</Link></li>
                     <li><Link href={`/${lang}/tours/cabo-san-lucas-snorkel-tour`} className="text-slate-400 hover:text-white transition-colors">Cabo Snorkel Tour</Link></li>
@@ -909,6 +912,9 @@ export default function Home() {
                     <li><Link href={`/${lang}/tours/clear-boat-tour-cabo-arch`} className="text-slate-400 hover:text-white transition-colors">Clear Boat to the Arch</Link></li>
                     <li><Link href={`/${lang}/tours/espiritu-santo-island-tour-from-la-paz`} className="text-slate-400 hover:text-white transition-colors">Espiritu Santo Island Tour</Link></li>
                     <li><Link href={`/${lang}/tours/swim-with-whale-sharks-la-paz-cabo`} className="text-slate-400 hover:text-white transition-colors">Swim with Whale Sharks</Link></li>
+                    <li><Link href={`/${lang}/yachts`} className="text-slate-400 hover:text-white transition-colors">{lang === 'es' ? 'Yate de Lujo Capella 116ft' : 'Capella 116ft Luxury Yacht'}</Link></li>
+                    <li><Link href={`/${lang}/restaurants/flora-farms`} className="text-slate-400 hover:text-white transition-colors">{lang === 'es' ? 'Restaurante Flora Farms' : 'Flora Farms Restaurant'}</Link></li>
+                    <li><Link href={`/${lang}/golf-courses/puerto-los-cabos-golf-course`} className="text-slate-400 hover:text-white transition-colors">{lang === 'es' ? 'Golf Puerto Los Cabos' : 'Puerto Los Cabos Golf'}</Link></li>
                   </ul>
                 </div>
 

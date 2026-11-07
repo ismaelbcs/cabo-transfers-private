@@ -159,7 +159,10 @@ export default function AboutUsPage({ params }) {
     { name: "Airport SJD to Breathless Cabo San Lucas", path: `/${lang}/destinations/sjd-to-breathless` },
     { name: "Airport SJD to Pueblo Bonito Sunset", path: `/${lang}/destinations/sjd-to-pueblo-bonito-sunset` },
     { name: "Airport SJD to Pueblo Bonito Pacifica", path: `/${lang}/destinations/sjd-to-pueblo-bonito-pacifica` },
-    { name: "Airport SJD to Garza Blanca", path: `/${lang}/destinations/sjd-to-garza-blanca` }
+    { name: "Airport SJD to Garza Blanca", path: `/${lang}/destinations/sjd-to-garza-blanca` },
+    { name: lang === 'es' ? "Yate de Lujo Capella 116ft" : "Capella 116ft Luxury Yacht Charter", path: `/${lang}/yachts` },
+    { name: lang === 'es' ? "Transporte a Restaurante Flora Farms" : "Flora Farms Restaurant Transfer", path: `/${lang}/restaurants/flora-farms` },
+    { name: lang === 'es' ? "Transporte a Golf Puerto Los Cabos" : "Puerto Los Cabos Golf Transfer", path: `/${lang}/golf-courses/puerto-los-cabos-golf-course` }
   ];
 
   return (

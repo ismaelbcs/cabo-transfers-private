@@ -12,8 +12,57 @@ export default function FeaturedTours({ lang = 'es', t }) {
   const { setLightboxAbierto, setLightboxIndice } = useBooking();
   const router = useRouter();
   
-  // Filtramos solo los activos
-  const toursActivos = toursData.filter(tour => tour.activo);
+  // Servicios destacados adicionales (Yate Capella, Restaurante Flora Farms y Golf Puerto Los Cabos)
+  const serviciosDestacados = [
+    {
+      id: 'yacht_capella',
+      customPath: `/${lang}/yachts`,
+      imagenUrl: 'yachts/capella-arch.jpg',
+      duracion: { es: '2.5+ horas', en: '2.5+ hours' },
+      nombre: {
+        es: 'Yate de Lujo Capella 116ft',
+        en: 'Capella 116ft Luxury Yacht'
+      },
+      descripcion: {
+        es: 'Navega por El Arco y el Mar de Cortés a bordo del superyate Azimut-Benetti de 116 pies con chef privado, jacuzzi, barra libre premium y juguetes acuáticos.',
+        en: 'Cruise past the Arch and Sea of Cortez aboard our 116ft Azimut-Benetti superyacht featuring a private chef, flybridge jacuzzi, open bar, and water toys.'
+      },
+      precioPx: 8000
+    },
+    {
+      id: 'rest_flora_farms',
+      customPath: `/${lang}/restaurants/flora-farms`,
+      imagenUrl: 'diners-sjc.webp',
+      duracion: { es: 'Viaje Redondo (3h espera)', en: 'Round Trip (3h wait)' },
+      nombre: {
+        es: 'Restaurante Flora Farms (Traslado)',
+        en: 'Flora Farms Restaurant Transfer'
+      },
+      descripcion: {
+        es: 'Transporte privado de lujo ida y vuelta para tu cena orgánica en Flora Farms en San José del Cabo, con hasta 3 horas de espera incluidas.',
+        en: 'Luxury private round-trip dinner transportation to Flora Farms organic kitchen in San José del Cabo, including up to 3 hours of waiting time.'
+      },
+      precioPx: 120
+    },
+    {
+      id: 'golf_puerto_los_cabos',
+      customPath: `/${lang}/golf-courses/puerto-los-cabos-golf-course`,
+      imagenUrl: 'golf-sjc-hero.webp',
+      duracion: { es: 'Viaje Redondo (4h espera)', en: 'Round Trip (4h wait)' },
+      nombre: {
+        es: 'Golf Puerto Los Cabos (Traslado)',
+        en: 'Puerto Los Cabos Golf Transfer'
+      },
+      descripcion: {
+        es: 'Traslado privado ida y vuelta al campo de golf Puerto Los Cabos (diseño Jack Nicklaus y Greg Norman) en camionetas con amplio espacio para bolsas de golf.',
+        en: 'Private round-trip golf transfer to Puerto Los Cabos Golf Course (Jack Nicklaus & Greg Norman design) in spacious SUVs and vans for your golf bags.'
+      },
+      precioPx: 160
+    }
+  ];
+
+  // Filtramos solo los activos y agregamos los 3 servicios destacados
+  const toursActivos = [...toursData.filter(tour => tour.activo), ...serviciosDestacados];
 
   if (toursActivos.length === 0) return null;
 
@@ -47,7 +96,9 @@ export default function FeaturedTours({ lang = 'es', t }) {
             <div 
               key={tr.id} 
               onClick={() => {
-                if (tr.id === 'arco') {
+                if (tr.customPath) {
+                  router.push(tr.customPath);
+                } else if (tr.id === 'arco') {
                   router.push(`/${lang}/clear-boat`);
                 } else {
                   router.push(`/${lang}/tours/${tr.slug}`);
@@ -60,6 +111,7 @@ export default function FeaturedTours({ lang = 'es', t }) {
                 <div 
                   className="relative w-full h-full" 
                   onClick={(e) => {
+                    if (tr.customPath) return;
                     e.stopPropagation();
                     // FIX: Se agregó encadenamiento opcional (?.) para evitar el crasheo
                     setLightboxIndice?.(0);
@@ -96,7 +148,7 @@ export default function FeaturedTours({ lang = 'es', t }) {
                     </p>
                   </div>
                   <Link
-                    href={tr.id === 'arco' ? `/${lang}/clear-boat` : `/${lang}/tours/${tr.slug}`}
+                    href={tr.customPath ? tr.customPath : (tr.id === 'arco' ? `/${lang}/clear-boat` : `/${lang}/tours/${tr.slug}`)}
                     onClick={(e) => e.stopPropagation()}
                     className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 text-slate-900 flex items-center justify-center hover:bg-slate-900 hover:text-white transition-colors duration-300 z-20"
                   >
