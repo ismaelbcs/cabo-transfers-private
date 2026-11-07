@@ -107,19 +107,23 @@ export default function ContactPage({ params }) {
     `;
 
     try {
-      await addDoc(collection(db, "correos"), {
-        to: "reservationballard@gmail.com",
-        message: {
-          subject: emailSubject,
-          html: emailHtml
-        }
-      });
-
-      sendEmail({
+      await sendEmail({
         to: "reservationballard@gmail.com",
         subject: emailSubject,
         html: emailHtml
       });
+
+      try {
+        await addDoc(collection(db, "correos"), {
+          to: "reservationballard@gmail.com",
+          message: {
+            subject: emailSubject,
+            html: emailHtml
+          }
+        });
+      } catch (errFb) {
+        console.error("Error guardando respaldo en Firestore:", errFb);
+      }
 
       setEnviado(true);
       // Limpiamos también el campo email al terminar

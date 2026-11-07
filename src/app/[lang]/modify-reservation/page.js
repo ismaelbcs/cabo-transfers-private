@@ -152,38 +152,46 @@ export default function ModifyReservationPage({ params }) {
              </ul>
              `;
 
-      await setDoc(doc(db, "correos", adminEmailDoc), {
-        to: "reservationballard@gmail.com",
-        message: {
-          subject: subjectAdminMod,
-          html: htmlAdminMod
-        }
-      });
-
-      sendEmail({
+      await sendEmail({
         to: "reservationballard@gmail.com",
         subject: subjectAdminMod,
         html: htmlAdminMod
       });
+
+      try {
+        await setDoc(doc(db, "correos", adminEmailDoc), {
+          to: "reservationballard@gmail.com",
+          message: {
+            subject: subjectAdminMod,
+            html: htmlAdminMod
+          }
+        });
+      } catch (errFbAdmin) {
+        console.error("Error guardando respaldo admin en Firestore:", errFbAdmin);
+      }
       
       if (reserva.cliente?.email) {
         const clientEmailDoc = `${id}_mod_client_${Date.now()}`;
         const subjectClientMod = isEs ? `Confirmación de Modificación: Reserva ${id}` : `Modification Confirmation: Booking ${id}`;
         const htmlClientMod = isEs ? `<h1>Tu reserva ha sido modificada con éxito</h1><p>Hemos actualizado tu reserva <b>${id}</b>.</p>` : `<h1>Your booking was successfully modified</h1><p>We have updated your booking <b>${id}</b>.</p>`;
 
-        await setDoc(doc(db, "correos", clientEmailDoc), {
-          to: reserva.cliente.email,
-          message: {
-            subject: subjectClientMod,
-            html: htmlClientMod
-          }
-        });
-
-        sendEmail({
+        await sendEmail({
           to: reserva.cliente.email,
           subject: subjectClientMod,
           html: htmlClientMod
         });
+
+        try {
+          await setDoc(doc(db, "correos", clientEmailDoc), {
+            to: reserva.cliente.email,
+            message: {
+              subject: subjectClientMod,
+              html: htmlClientMod
+            }
+          });
+        } catch (errFbClient) {
+          console.error("Error guardando respaldo cliente en Firestore:", errFbClient);
+        }
       }
 
       setSuccess(true);
