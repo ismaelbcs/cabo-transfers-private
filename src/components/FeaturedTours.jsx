@@ -32,7 +32,7 @@ export default function FeaturedTours({ lang = 'es', t }) {
     {
       id: 'rest_flora_farms',
       customPath: `/${lang}/restaurants/flora-farms`,
-      imagenUrl: 'diners-sjc.webp',
+      imagenUrl: 'fotos restaurantes/flora-farms.jpg',
       duracion: { es: 'Viaje Redondo (3h espera)', en: 'Round Trip (3h wait)' },
       nombre: {
         es: 'Restaurante Flora Farms (Traslado)',

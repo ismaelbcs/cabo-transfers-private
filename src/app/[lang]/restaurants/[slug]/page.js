@@ -116,9 +116,9 @@ export default function RestaurantSeoPage({ params }) {
       {/* 1. HERO SECTION (Premium Design) */}
       <div className="relative bg-slate-950 text-white py-28 md:py-36 px-4 overflow-hidden shadow-xl rounded-b-[2.5rem] mb-12 border-b border-slate-800">
         <div className="absolute inset-0 z-0">
-          <img src={`/${seoData.image}`} alt={`${seoData.nombre} Logo`} className="w-full h-full object-cover opacity-30" />
+          <img src={`/${seoData.image}`} alt={seoData.nombre} className="w-full h-full object-cover opacity-55" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-slate-950/30 z-10"></div>
         
         <div className="relative max-w-4xl mx-auto text-center z-20">
           <div className="flex justify-center items-center gap-4 mb-6 text-slate-400">
