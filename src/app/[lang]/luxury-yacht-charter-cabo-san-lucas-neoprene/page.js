@@ -2,3 +2,4 @@
 import NeopreneYachtPage from '../yachts/neoprene/page';
 
 export default NeopreneYachtPage;
+

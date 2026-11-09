@@ -28,6 +28,7 @@ export default function sitemap() {
     '/yachts/papillon-9', // Yate Negro 80ft Sunseeker Manhattan Papillon 9
     '/yachts/la-dolce-vita', // Yate 57ft La Dolce Vita con Barra Libre y Snorkel
     '/yachts/neoprene', // Superyate 108ft Mangusta Negro Mate Neoprene
+    '/yachts/baja-therapy', // Pontón de Lujo Doble Piso 30ft Baja Therapy
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',

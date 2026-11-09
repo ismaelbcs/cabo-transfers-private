@@ -210,6 +210,12 @@ const YACHT_PRIMARY_ROUTES = {
     nameEs: 'Renta de Superyate 108 FT Mangusta "Neoprene" en Cabo San Lucas | Hasta 30 Invitados',
     descEn: 'Charter the iconic matte-black 108ft Mangusta Superyacht "Neoprene" in Cabo San Lucas. All-inclusive private yacht charters starting at $6,700 USD (3h) for up to 10 base guests (30 max day charter) with Private Chef Christian, personal bartender, top-shelf open bar, Seabob, kayaks & paddleboards.',
     descEs: 'Reserva el exclusivo superyate negro mate Mangusta 108 "Neoprene" en Cabo San Lucas. Chárters privados todo incluido desde $6,700 USD (3h) para 10 invitados base (máx. 30 en chárter de día) con Chef privado Christian, bartender personal, barra libre premium, Seabob, kayaks y paddleboards.'
+  },
+  '/yachts/baja-therapy': {
+    nameEn: '30 Ft "Baja Therapy" Luxury Double-Deck Pontoon Charter Cabo San Lucas | Up to 20 Guests',
+    nameEs: 'Renta de Pontón de Lujo 30 Ft "Baja Therapy" Doble Piso en Cabo San Lucas | Hasta 20 Pasajeros',
+    descEn: 'Step aboard the 30 Ft "Baja Therapy", a luxury double-deck pontoon designed for unforgettable private charters in Los Cabos up to 20 guests. Starting at $1,560 USD (3h for 10 base guests) with open bar, upper deck lounge & water slide, premium sound system, snorkel gear, paddleboard & floating mat.',
+    descEs: 'Sube a bordo de "Baja Therapy", un pontón de lujo de doble piso de 30 pies en Los Cabos ideal para cumpleaños, despedidas de soltero(a) y celebraciones de hasta 20 pasajeros. Desde $1,560 USD (3h para 10 invitados) con barra libre, tobogán desde el segundo piso, sonido premium, esnórquel, paddleboard y tapete flotante.'
   }
 };
 
@@ -231,7 +237,9 @@ const YACHT_ALIAS_MAP = {
   '/cabo-yacht-charters-la-dolce-vita': '/yachts/la-dolce-vita',
   '/luxury-yacht-charter-cabo-san-lucas-la-dolce-vita': '/yachts/la-dolce-vita',
   '/cabo-yacht-charters-neoprene': '/yachts/neoprene',
-  '/luxury-yacht-charter-cabo-san-lucas-neoprene': '/yachts/neoprene'
+  '/luxury-yacht-charter-cabo-san-lucas-neoprene': '/yachts/neoprene',
+  '/cabo-yacht-charters-baja-therapy': '/yachts/baja-therapy',
+  '/luxury-yacht-charter-cabo-san-lucas-baja-therapy': '/yachts/baja-therapy'
 };
 
 // Las 6 rutas SJD con cuerpo editorial 100% único vs las 20 que comparten plantilla base

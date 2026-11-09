@@ -1728,7 +1728,33 @@ export default function SovereignYachtPage({ params }) {
             {isEs ? 'Barcos Similares' : 'Similar Boats'}
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-6">
+            {/* Yate: 30 ft Baja Therapy */}
+            <Link
+              href={`/${lang}/yachts/baja-therapy`}
+              className="group block text-center"
+            >
+              <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
+                <img
+                  src="/yachts/Baja Therapy/cover.Bzegnl3K_1cRkvD.webp"
+                  alt="30 ft Baja Therapy Double-Deck Pontoon Cabo Charter"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-lg sm:text-xl leading-snug">
+                <span className="text-slate-600 font-normal">30 ft </span>
+                <span className="font-extrabold text-[#003865] group-hover:text-blue-700 transition-colors">
+                  Baja Therapy
+                </span>
+              </div>
+              <div className="text-base sm:text-lg font-extrabold text-slate-600 mt-0.5">
+                Double-Deck Pontoon
+              </div>
+              <div className="text-sm sm:text-base italic text-slate-500 mt-1">
+                {isEs ? 'Desde $1,560' : 'Starting at $1,560'}
+              </div>
+            </Link>
+
             {/* Yate: 108 ft Neoprene */}
             <Link
               href={`/${lang}/yachts/neoprene`}
