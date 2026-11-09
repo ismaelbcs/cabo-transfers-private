@@ -62,7 +62,27 @@ export default function sitemap() {
     '/skip-taxi-lines-at-cabo-airport',
     '/taxi-airport-cabo',
     '/uber-cabo',
-    '/uber-transportation-cabo'
+    '/uber-transportation-cabo',
+    '/cabo-yacht-charters',
+    '/luxury-yacht-charter-cabo-san-lucas-capella',
+    '/yachts/capella',
+    '/cabo-yacht-charters-contessa',
+    '/luxury-yacht-charter-cabo-san-lucas-contessa',
+    '/luxury-sportfishing-yacht-charter-cabo-contessa',
+    '/cabo-yacht-charters-sovereign',
+    '/luxury-yacht-charter-cabo-san-lucas-sovereign',
+    '/luxury-sportfishing-yacht-charter-cabo-sovereign',
+    '/cabo-yacht-charters-aquaholic',
+    '/luxury-yacht-charter-cabo-san-lucas-aquaholic',
+    '/cabo-yacht-charters-papillon-9',
+    '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80',
+    '/luxury-sportfishing-yacht-charter-cabo-papillon-9',
+    '/cabo-yacht-charters-la-dolce-vita',
+    '/luxury-yacht-charter-cabo-san-lucas-la-dolce-vita',
+    '/cabo-yacht-charters-neoprene',
+    '/luxury-yacht-charter-cabo-san-lucas-neoprene',
+    '/cabo-yacht-charters-baja-therapy',
+    '/luxury-yacht-charter-cabo-san-lucas-baja-therapy'
   ];
 
   // 3. Rutas de tours individuales y experiencias (deduplicadas dinámicamente)
@@ -102,7 +122,9 @@ export default function sitemap() {
     '/yachts/sovereign',
     '/yachts/aquaholic',
     '/yachts/papillon-9',
-    '/yachts/la-dolce-vita'
+    '/yachts/la-dolce-vita',
+    '/yachts/neoprene',
+    '/yachts/baja-therapy'
   ]);
 
   // Rutas legales / secundarias con menor prioridad
