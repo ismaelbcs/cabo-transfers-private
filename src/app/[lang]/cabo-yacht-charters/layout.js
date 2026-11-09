@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
   if (lang === 'es') {
     return generatePageMetadata({
       lang: 'es',
-      path: '/yachts',
+      path: '/cabo-yacht-charters',
       title: "Renta de Yates de Lujo en Los Cabos | Yate Capella 116ft Azimut-Benetti | Ballard Tours",
       description: "Exclusivo alquiler del superyate Capella de 116 pies en Cabo San Lucas. 5 camarotes de lujo, jacuzzi en cubierta, chef galardonado, barra libre premium y tender de pesca de 31 pies. Traslados VIP disponibles.",
       keywords: [
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }) {
 
   return generatePageMetadata({
     lang: 'en',
-    path: '/yachts',
+    path: '/cabo-yacht-charters',
     title: "Cabo Yacht Charters | 116 ft Luxury Superyacht Capella | Los Cabos Yacht Rental",
     description: "Private luxury yacht charter in Cabo San Lucas aboard the 116 ft Azimut-Benetti Capella. 5 luxury staterooms, flybridge jacuzzi, private chef, premium open bar, 31ft Pursuit tender & water toys. Book now.",
     keywords: [

@@ -72,3 +72,44 @@ export function generatePageMetadata({
     },
   };
 }
+
+/**
+ * Envuelve el generateMetadata de un yate para asignarle su propio canonical auto-referenciado
+ * y títulos/descripciones únicos por ruta SEO (evitando "Página alternativa con etiqueta canónica adecuada").
+ */
+export function createYachtRouteMetadata(baseMetadataFn, routePath, customCopy = {}) {
+  const cleanPath = routePath.startsWith('/') ? routePath : `/${routePath}`;
+  return async function generateMetadata(props) {
+    const meta = await baseMetadataFn(props);
+    const resolvedParams = await props.params;
+    const lang = resolvedParams?.lang || 'en';
+    const isEs = lang === 'es';
+    const canonicalUrl = `${BASE_URL}/${lang}${cleanPath}`;
+    const enUrl = `${BASE_URL}/en${cleanPath}`;
+    const esUrl = `${BASE_URL}/es${cleanPath}`;
+
+    const title = (isEs ? customCopy.titleEs : customCopy.titleEn) || meta.title;
+    const description = (isEs ? customCopy.descEs : customCopy.descEn) || meta.description;
+
+    return {
+      ...meta,
+      title,
+      description,
+      alternates: {
+        canonical: canonicalUrl,
+        languages: {
+          'en': enUrl,
+          'es': esUrl,
+          'x-default': enUrl,
+        },
+      },
+      openGraph: {
+        ...(meta.openGraph || {}),
+        title,
+        description,
+        url: canonicalUrl,
+      },
+    };
+  };
+}
+

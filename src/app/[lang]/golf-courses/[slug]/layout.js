@@ -1,6 +1,11 @@
 // src/app/[lang]/golf-courses/[slug]/layout.js
 import { golfSEOData } from '../../../../data/golfSEOData.js';
-import { generatePageMetadata } from '../../../../lib/seoHelper.js';
+import { generatePageMetadata, BASE_URL } from '../../../../lib/seoHelper.js';
+
+export async function generateStaticParams() {
+  const langs = ['en', 'es'];
+  return langs.flatMap(lang => golfSEOData.map(g => ({ lang, slug: g.slug })));
+}
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -13,12 +18,12 @@ export async function generateMetadata({ params }) {
   const isEs = lang === 'es';
 
   const title = isEs
-    ? `Transporte Privado a Campo de Golf ${courseName} (${zona}) | Traslados Los Cabos`
-    : `Private Transportation to ${courseName} (${zona}) | Cabo Golf Transfers`;
+    ? `Transporte Privado a Campo de Golf ${courseName} (${zona}) | Traslado Redondo`
+    : `Private Golf Transfer to ${courseName} (${zona}) | Round-Trip Cabo Golf Shuttle`;
 
   const description = isEs
-    ? `Reserva transporte privado y de lujo a ${courseName} en ${zona}. Camionetas con amplio espacio para bolsas de golf, chofer puntual y traslados ida y vuelta.`
-    : `Book luxury private golf transfers from your hotel or SJD Airport to ${courseName} in ${zona}. Spacious SUVs/vans for golf bags and reliable round-trip service.`;
+    ? `Reserva transporte privado redondo a ${courseName} en ${zona} desde $160 USD. SUVs y Sprinters con amplio espacio para bolsas de golf y hasta 4 horas de espera incluida.`
+    : `Book luxury private round-trip golf transfers to ${courseName} in ${zona} from $160 USD. Spacious SUVs and vans for golf bags with up to 4 hours of wait time included.`;
 
   const keywords = isEs
     ? [
@@ -48,6 +53,64 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function GolfCourseLayout({ children }) {
-  return children;
+export default async function GolfCourseLayout({ children, params }) {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+  const slug = resolvedParams?.slug || '';
+  const isEs = lang === 'es';
+  const course = golfSEOData.find(g => g.slug === slug);
+  const courseName = course?.nombre || slug.replace(/-/g, ' ');
+  const zona = course?.zonaText || 'Los Cabos';
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: isEs ? 'Inicio' : 'Home',
+            item: `${BASE_URL}/${lang}`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: isEs ? 'Transporte de Golf' : 'Golf Transfers',
+            item: `${BASE_URL}/${lang}/golf`
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: courseName,
+            item: `${BASE_URL}/${lang}/golf-courses/${slug}`
+          }
+        ]
+      },
+      {
+        '@type': 'Service',
+        name: isEs
+          ? `Transporte Privado de Golf a ${courseName} (${zona})`
+          : `Private Round-Trip Golf Transfer to ${courseName} (${zona})`,
+        provider: {
+          '@type': 'LocalBusiness',
+          name: 'Ballard Tours',
+          url: `${BASE_URL}/${lang}`
+        },
+        areaServed: `${zona}, Los Cabos, Baja California Sur`,
+        url: `${BASE_URL}/${lang}/golf-courses/${slug}`
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

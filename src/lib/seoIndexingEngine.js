@@ -394,30 +394,14 @@ export function buildFullUrlInventoryAndAudit(existingState = null) {
       internalLinksCount = 28;
     } else if (YACHT_ALIAS_MAP[subPath]) {
       const targetPrimary = YACHT_ALIAS_MAP[subPath];
-      category = 'Yates y Pesca Deportiva (Alias SEO)';
-      priorityLevel = 8;
-      // Check if it has its own layout or re-exports canonical to targetPrimary
-      if (subPath === '/cabo-yacht-charters') {
-        title = lang === 'es'
-          ? 'Renta de Yates de Lujo en Los Cabos | Yate Capella 116ft Azimut-Benetti | Ballard Tours'
-          : 'Cabo Yacht Charters | 116 ft Luxury Superyacht Capella | Los Cabos Yacht Rental';
-        description = lang === 'es'
-          ? 'Exclusivo alquiler del superyate Capella de 116 pies en Cabo San Lucas. 5 camarotes de lujo, jacuzzi en cubierta, chef galardonado, barra libre premium y tender de pesca de 31 pies.'
-          : 'Private luxury yacht charter in Cabo San Lucas aboard the 116 ft Azimut-Benetti Capella. 5 luxury staterooms, flybridge jacuzzi, private chef, premium open bar, 31ft Pursuit tender & water toys.';
-        userCanonical = `${BASE_URL}/${lang}/cabo-yacht-charters`;
-        isOriginalContent = false;
-        forceClassification = 'DUPLICADA';
-        auditNotes.push(`Re-exporta el mismo componente HTML que /${lang}/yachts. Canonical apunta a sí misma pero el cuerpo es idéntico.`);
-      } else {
-        const y = YACHT_PRIMARY_ROUTES[targetPrimary];
-        title = lang === 'es' ? y.nameEs : y.nameEn;
-        description = lang === 'es' ? y.descEs : y.descEn;
-        userCanonical = `${BASE_URL}/${lang}${targetPrimary}`;
-        isOriginalContent = false;
-        forceClassification = 'DUPLICADA';
-        auditNotes.push(`Ruta alias cuyo canonical apunta a ${userCanonical} (Re-export directo). No debe enviarse individualmente para evitar conflicto de canonical.`);
-      }
-      internalLinksCount = 4;
+      const y = YACHT_PRIMARY_ROUTES[targetPrimary];
+      category = 'Yates y Pesca Deportiva';
+      priorityLevel = 7;
+      title = `${lang === 'es' ? y.nameEs : y.nameEn} (${subPath})`;
+      description = `${lang === 'es' ? y.descEs : y.descEn} [${subPath}]`;
+      userCanonical = `${BASE_URL}/${lang}${subPath}`;
+      isOriginalContent = true;
+      internalLinksCount = 12;
     } else if (subPath.startsWith('/tours/')) {
       const slug = subPath.replace('/tours/', '');
       const tour = toursLandingPages.find(t => t.slug === slug);

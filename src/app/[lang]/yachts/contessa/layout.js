@@ -8,7 +8,7 @@ export async function generateMetadata({ params }) {
   if (lang === 'es') {
     return generatePageMetadata({
       lang: 'es',
-      path: '/luxury-sportfishing-yacht-charter-cabo-contessa',
+      path: '/yachts/contessa',
       title: "Chárter de Yate de Lujo y Pesca Deportiva en Cabo | Contessa 85 FT",
       description: "Reserva un chárter de yate de lujo y pesca deportiva en Cabo San Lucas a bordo del Contessa de 85 pies con equipo de pesca de altura, tangones, vivero de carnada viva, alta cocina y navegación privada.",
       keywords: [
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
 
   return generatePageMetadata({
     lang: 'en',
-    path: '/luxury-sportfishing-yacht-charter-cabo-contessa',
+    path: '/yachts/contessa',
     title: "Luxury Sportfishing Yacht Charter Cabo | Contessa 85 FT",
     description: "Book a luxury sportfishing yacht charter in Cabo San Lucas aboard Contessa, an 85ft yacht featuring deep sea fishing gear, outriggers, live bait well, gourmet dining and private cruising.",
     keywords: [

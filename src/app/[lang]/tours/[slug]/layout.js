@@ -1,6 +1,11 @@
 // src/app/[lang]/tours/[slug]/layout.js
 import { toursLandingPages } from '../../../../data/seoData.js';
-import { generatePageMetadata } from '../../../../lib/seoHelper.js';
+import { generatePageMetadata, BASE_URL } from '../../../../lib/seoHelper.js';
+
+export async function generateStaticParams() {
+  const langs = ['en', 'es'];
+  return langs.flatMap(lang => toursLandingPages.map(t => ({ lang, slug: t.slug })));
+}
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -9,15 +14,16 @@ export async function generateMetadata({ params }) {
 
   const tour = toursLandingPages.find(t => t.slug === slug);
   const tourName = tour?.nombre || slug.replace(/-/g, ' ');
+  const precio = tour?.precio || '100';
   const isEs = lang === 'es';
 
   const title = isEs
-    ? `${tourName} | Tours y Actividades en Los Cabos | Ballard Tours`
-    : `${tourName} | Top Los Cabos Tours & Activities | Ballard Tours`;
+    ? `Tour ${tourName} en Los Cabos desde $${precio} USD | Transporte Incluido | Ballard Tours`
+    : `${tourName} in Los Cabos from $${precio} USD | Private Transport Included | Ballard Tours`;
 
   const description = isEs
-    ? `${tour?.desc || tour?.detalle || 'Vive los mejores tours y actividades en Los Cabos con transporte privado seguro incluido.'}`
-    : `${tour?.desc || tour?.detalle || 'Experience the premier excursions and adventure tours in Los Cabos with round-trip private transportation.'}`;
+    ? `Reserva ${tourName} en Los Cabos desde $${precio} USD con transporte privado redondo desde tu hotel y guías certificados. ¡Asegura tu lugar hoy con Ballard Tours!`
+    : `Book the ${tourName} in Los Cabos starting at $${precio} USD. Includes round-trip private hotel transportation and expert local guides. Reserve online with Ballard Tours!`;
 
   const keywords = isEs
     ? [
@@ -47,6 +53,50 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function TourLayout({ children }) {
-  return children;
+export default async function TourLayout({ children, params }) {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+  const slug = resolvedParams?.slug || '';
+  const isEs = lang === 'es';
+  const tour = toursLandingPages.find(t => t.slug === slug);
+  const tourName = tour?.nombre || slug.replace(/-/g, ' ');
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: isEs ? 'Inicio' : 'Home',
+            item: `${BASE_URL}/${lang}`
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: isEs ? 'Tours y Experiencias' : 'Tours & Experiences',
+            item: `${BASE_URL}/${lang}/tours`
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: tourName,
+            item: `${BASE_URL}/${lang}/tours/${slug}`
+          }
+        ]
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {children}
+    </>
+  );
 }

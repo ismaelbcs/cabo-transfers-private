@@ -1,24 +1,12 @@
 // src/app/[lang]/cabo-yacht-charters-neoprene/layout.js
-import NeopreneYachtLayout, { generateMetadata as baseMetadata } from '../yachts/neoprene/layout';
+import BaseLayout, { generateMetadata as baseMetadata } from '../yachts/neoprene/layout.js';
+import { createYachtRouteMetadata } from '../../../lib/seoHelper.js';
 
-export async function generateMetadata(props) {
-  const meta = await baseMetadata(props);
-  const resolvedParams = await props.params;
-  const lang = resolvedParams?.lang || 'en';
-  const baseUrl = 'https://www.caboprivateairporttransfers.com';
+export const generateMetadata = createYachtRouteMetadata(baseMetadata, '/cabo-yacht-charters-neoprene', {
+  titleEs: 'Chárter de Superyate en Cabo Neoprene 108 FT Mangusta | Hasta 30 Invitados',
+  titleEn: 'Cabo Yacht Charters Neoprene 108 FT Mangusta | Matte-Black Superyacht Rental',
+  descEs: 'Experimenta el superyate negro mate Mangusta 108 Neoprene en Cabo San Lucas. Servicio todo incluido con chef privado, bartender, Seabob y capacidad para 30 personas.',
+  descEn: 'Book Cabo Yacht Charters aboard the 108ft matte-black Mangusta superyacht Neoprene. All-inclusive charter for up to 30 guests with private chef, bartender & Seabob.'
+});
 
-  return {
-    ...meta,
-    alternates: {
-      canonical: `${baseUrl}/${lang}/cabo-yacht-charters-neoprene`,
-      languages: {
-        'en-US': `${baseUrl}/en/cabo-yacht-charters-neoprene`,
-        'es-MX': `${baseUrl}/es/cabo-yacht-charters-neoprene`,
-        'x-default': `${baseUrl}/en/cabo-yacht-charters-neoprene`
-      }
-    }
-  };
-}
-
-export default NeopreneYachtLayout;
-
+export default BaseLayout;
