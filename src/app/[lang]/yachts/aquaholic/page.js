@@ -640,11 +640,10 @@ export default function AquaholicYachtPage({ params }) {
               key={index}
               type="button"
               onClick={() => setFotoActiva(index)}
-              className={`relative h-16 w-24 sm:h-20 sm:w-32 shrink-0 rounded-xl overflow-hidden transition-all cursor-pointer ${
-                fotoActiva === index
+              className={`relative h-16 w-24 sm:h-20 sm:w-32 shrink-0 rounded-xl overflow-hidden transition-all cursor-pointer ${fotoActiva === index
                   ? 'ring-3 ring-blue-900 scale-102 opacity-100 shadow-sm'
                   : 'opacity-65 hover:opacity-100'
-              }`}
+                }`}
             >
               <img
                 src={foto.src}
@@ -699,11 +698,10 @@ export default function AquaholicYachtPage({ params }) {
               <div
                 key={pkg.id}
                 onClick={() => handleSelectPackage(pkg)}
-                className={`relative flex flex-col rounded-xl bg-white transition-all duration-300 cursor-pointer ${
-                  isSelected
+                className={`relative flex flex-col rounded-xl bg-white transition-all duration-300 cursor-pointer ${isSelected
                     ? 'border-2 border-[#003865] shadow-xl -translate-y-1'
                     : 'border border-slate-300 hover:border-slate-400 shadow-md hover:-translate-y-0.5'
-                }`}
+                  }`}
               >
                 {/* Etiqueta Most Popular / Base Charter */}
                 {pkg.popular && (
@@ -805,11 +803,10 @@ export default function AquaholicYachtPage({ params }) {
                         e.stopPropagation();
                         handleSelectPackage(pkg);
                       }}
-                      className={`w-full py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider transition ${
-                        isSelected
+                      className={`w-full py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider transition ${isSelected
                           ? 'bg-[#003865] text-white shadow-sm'
                           : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
-                      }`}
+                        }`}
                     >
                       {isSelected
                         ? (isEs ? '✓ Paquete Seleccionado' : '✓ Selected Package')
@@ -1028,17 +1025,15 @@ export default function AquaholicYachtPage({ params }) {
           </div>
 
           {/* MÓDULO DE TRANSPORTE TERRESTRE OPCIONAL */}
-          <div className={`border-2 rounded-2xl p-5 sm:p-6 mb-8 transition-all duration-300 ${
-            incluirTransporte ? 'bg-blue-50/80 border-blue-300 shadow-sm' : 'bg-slate-50/70 border-slate-200'
-          }`}>
+          <div className={`border-2 rounded-2xl p-5 sm:p-6 mb-8 transition-all duration-300 ${incluirTransporte ? 'bg-blue-50/80 border-blue-300 shadow-sm' : 'bg-slate-50/70 border-slate-200'
+            }`}>
             <div
               onClick={() => setIncluirTransporte(prev => !prev)}
               className="flex items-start justify-between gap-4 cursor-pointer select-none"
             >
               <div className="flex items-start gap-3">
-                <div className={`p-2.5 rounded-xl shrink-0 mt-0.5 transition-colors ${
-                  incluirTransporte ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
-                }`}>
+                <div className={`p-2.5 rounded-xl shrink-0 mt-0.5 transition-colors ${incluirTransporte ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+                  }`}>
                   <Car size={22} />
                 </div>
                 <div>
@@ -1046,9 +1041,8 @@ export default function AquaholicYachtPage({ params }) {
                     <h4 className="text-base sm:text-lg font-bold text-slate-900">
                       {isEs ? '¿Deseas agregar Transportación Terrestre Privada VIP?' : 'Add VIP Private Round-Trip Ground Transportation?'}
                     </h4>
-                    <span className={`px-2.5 py-0.5 rounded text-[11px] font-black uppercase tracking-wider ${
-                      incluirTransporte ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-200 text-slate-600'
-                    }`}>
+                    <span className={`px-2.5 py-0.5 rounded text-[11px] font-black uppercase tracking-wider ${incluirTransporte ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-200 text-slate-600'
+                      }`}>
                       {incluirTransporte ? (isEs ? '✓ Activo' : '✓ Active') : (isEs ? 'Opcional' : 'Optional')}
                     </span>
                   </div>
@@ -1067,16 +1061,14 @@ export default function AquaholicYachtPage({ params }) {
                   e.stopPropagation();
                   setIncluirTransporte(prev => !prev);
                 }}
-                className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
-                  incluirTransporte ? 'bg-blue-600' : 'bg-slate-300'
-                }`}
+                className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${incluirTransporte ? 'bg-blue-600' : 'bg-slate-300'
+                  }`}
                 role="switch"
                 aria-checked={incluirTransporte}
               >
                 <span
-                  className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${
-                    incluirTransporte ? 'translate-x-7' : 'translate-x-0'
-                  }`}
+                  className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow-md ring-0 transition duration-200 ease-in-out ${incluirTransporte ? 'translate-x-7' : 'translate-x-0'
+                    }`}
                 />
               </button>
             </div>

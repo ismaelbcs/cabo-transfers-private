@@ -2,3 +2,4 @@
 import BajaTherapyYachtPage from '../yachts/baja-therapy/page';
 
 export default BajaTherapyYachtPage;
+

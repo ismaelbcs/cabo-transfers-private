@@ -142,3 +142,4 @@ export default async function BajaTherapyYachtLayout({ children, params }) {
     </>
   );
 }
+
