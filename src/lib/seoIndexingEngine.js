@@ -204,6 +204,12 @@ const YACHT_PRIMARY_ROUTES = {
     nameEs: 'Yate Privado 57ft "La Dolce Vita" en Cabo San Lucas con Barra Libre y Snorkel',
     descEn: 'Enjoy a VIP experience aboard the 57-foot yacht "La Dolce Vita" in Cabo San Lucas. Private charters for 2, 4, or 8 hours starting at $1,999 USD for up to 12 guests with captain, fuel, snorkeling gear, and paddleboards.',
     descEs: 'Disfruta una experiencia VIP a bordo del yate privado de 57 pies "La Dolce Vita" en Cabo San Lucas. Chárters privados de 2, 4 y 8 horas desde $1,999 USD para hasta 12 invitados con capitán, combustible, esnórquel y paddleboards.'
+  },
+  '/yachts/neoprene': {
+    nameEn: '108ft Mangusta Superyacht "Neoprene" Charter Cabo San Lucas | Up to 30 Guests',
+    nameEs: 'Renta de Superyate 108 FT Mangusta "Neoprene" en Cabo San Lucas | Hasta 30 Invitados',
+    descEn: 'Charter the iconic matte-black 108ft Mangusta Superyacht "Neoprene" in Cabo San Lucas. All-inclusive private yacht charters starting at $6,700 USD (3h) for up to 10 base guests (30 max day charter) with Private Chef Christian, personal bartender, top-shelf open bar, Seabob, kayaks & paddleboards.',
+    descEs: 'Reserva el exclusivo superyate negro mate Mangusta 108 "Neoprene" en Cabo San Lucas. Chárters privados todo incluido desde $6,700 USD (3h) para 10 invitados base (máx. 30 en chárter de día) con Chef privado Christian, bartender personal, barra libre premium, Seabob, kayaks y paddleboards.'
   }
 };
 
@@ -223,7 +229,9 @@ const YACHT_ALIAS_MAP = {
   '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80': '/yachts/papillon-9',
   '/luxury-sportfishing-yacht-charter-cabo-papillon-9': '/yachts/papillon-9',
   '/cabo-yacht-charters-la-dolce-vita': '/yachts/la-dolce-vita',
-  '/luxury-yacht-charter-cabo-san-lucas-la-dolce-vita': '/yachts/la-dolce-vita'
+  '/luxury-yacht-charter-cabo-san-lucas-la-dolce-vita': '/yachts/la-dolce-vita',
+  '/cabo-yacht-charters-neoprene': '/yachts/neoprene',
+  '/luxury-yacht-charter-cabo-san-lucas-neoprene': '/yachts/neoprene'
 };
 
 // Las 6 rutas SJD con cuerpo editorial 100% único vs las 20 que comparten plantilla base

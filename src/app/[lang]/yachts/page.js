@@ -1956,7 +1956,33 @@ export default function YachtsPage({ params }) {
             {isEs ? 'Barcos Similares' : 'Similar Boats'}
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+            {/* Yate: 108 ft Neoprene */}
+            <Link
+              href={`/${lang}/yachts/neoprene`}
+              className="group block text-center"
+            >
+              <div className="aspect-square w-full max-w-[260px] mx-auto rounded-3xl overflow-hidden shadow-md border border-slate-200/80 mb-4 bg-slate-100">
+                <img
+                  src="/yachts/neopreno/neoprene-gallery-02.jpg"
+                  alt="108 ft Matte-Black Mangusta Superyacht Neoprene Cabo Charter"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-lg sm:text-xl leading-snug">
+                <span className="text-slate-600 font-normal">108 ft </span>
+                <span className="font-extrabold text-[#003865] group-hover:text-blue-700 transition-colors">
+                  Neoprene
+                </span>
+              </div>
+              <div className="text-base sm:text-lg font-extrabold text-slate-600 mt-0.5">
+                Mangusta 108
+              </div>
+              <div className="text-sm sm:text-base italic text-slate-500 mt-1">
+                {isEs ? 'Desde $6,700' : 'Starting at $6,700'}
+              </div>
+            </Link>
+
             {/* Yate: 57 ft La Dolce Vita */}
             <Link
               href={`/${lang}/yachts/la-dolce-vita`}

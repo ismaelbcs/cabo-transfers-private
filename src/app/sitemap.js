@@ -27,6 +27,7 @@ export default function sitemap() {
     '/yachts/aquaholic', // Yate de lujo Aquaholic 110ft Horizon
     '/yachts/papillon-9', // Yate Negro 80ft Sunseeker Manhattan Papillon 9
     '/yachts/la-dolce-vita', // Yate 57ft La Dolce Vita con Barra Libre y Snorkel
+    '/yachts/neoprene', // Superyate 108ft Mangusta Negro Mate Neoprene
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
