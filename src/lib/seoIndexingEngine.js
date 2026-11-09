@@ -198,6 +198,12 @@ const YACHT_PRIMARY_ROUTES = {
     nameEs: 'Yate Negro en Cabo – Renta de Sunseeker Manhattan 80ft "Papillon 9" en Cabo San Lucas',
     descEn: 'Explore Cabo aboard the iconic 80ft Black Yacht Sunseeker Manhattan "Papillon 9". 4 bedrooms (2 Master Suites), 4 bathrooms, hydraulic swim platform, stabilizers, chef on board, open bar & fishing gear for up to 30 guests.',
     descEs: 'Explora Los Cabos a bordo del icónico Yate Negro Sunseeker Manhattan de 80 pies "Papillon 9". 4 recámaras (2 Master Suites), 4 baños, plataforma hidráulica, estabilizadores, chef a bordo, barra libre premium y equipo de pesca hasta 30 personas.'
+  },
+  '/yachts/la-dolce-vita': {
+    nameEn: 'Cabo San Lucas Private 57ft Yacht "La Dolce Vita" with Open Bar & Snorkel (Up to 12 Guests)',
+    nameEs: 'Yate Privado 57ft "La Dolce Vita" en Cabo San Lucas con Barra Libre y Snorkel',
+    descEn: 'Enjoy a VIP experience aboard the 57-foot yacht "La Dolce Vita" in Cabo San Lucas. Private charters for 2, 4, or 8 hours starting at $1,999 USD for up to 12 guests with captain, fuel, snorkeling gear, and paddleboards.',
+    descEs: 'Disfruta una experiencia VIP a bordo del yate privado de 57 pies "La Dolce Vita" en Cabo San Lucas. Chárters privados de 2, 4 y 8 horas desde $1,999 USD para hasta 12 invitados con capitán, combustible, esnórquel y paddleboards.'
   }
 };
 
@@ -215,7 +221,9 @@ const YACHT_ALIAS_MAP = {
   '/luxury-yacht-charter-cabo-san-lucas-aquaholic': '/yachts/aquaholic',
   '/cabo-yacht-charters-papillon-9': '/yachts/papillon-9',
   '/luxury-yacht-charter-cabo-san-lucas-black-yacht-sunseeker-80': '/yachts/papillon-9',
-  '/luxury-sportfishing-yacht-charter-cabo-papillon-9': '/yachts/papillon-9'
+  '/luxury-sportfishing-yacht-charter-cabo-papillon-9': '/yachts/papillon-9',
+  '/cabo-yacht-charters-la-dolce-vita': '/yachts/la-dolce-vita',
+  '/luxury-yacht-charter-cabo-san-lucas-la-dolce-vita': '/yachts/la-dolce-vita'
 };
 
 // Las 6 rutas SJD con cuerpo editorial 100% único vs las 20 que comparten plantilla base

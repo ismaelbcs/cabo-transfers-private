@@ -26,6 +26,7 @@ export default function sitemap() {
     '/yachts/sovereign', // Superyate Sovereign 130ft
     '/yachts/aquaholic', // Yate de lujo Aquaholic 110ft Horizon
     '/yachts/papillon-9', // Yate Negro 80ft Sunseeker Manhattan Papillon 9
+    '/yachts/la-dolce-vita', // Yate 57ft La Dolce Vita con Barra Libre y Snorkel
     '/agencies', // Portal para agencias de viajes
     '/terms-and-conditions',
     '/privacy-policy',
@@ -98,7 +99,8 @@ export default function sitemap() {
     '/yachts/contessa',
     '/yachts/sovereign',
     '/yachts/aquaholic',
-    '/yachts/papillon-9'
+    '/yachts/papillon-9',
+    '/yachts/la-dolce-vita'
   ]);
 
   // Rutas legales / secundarias con menor prioridad
